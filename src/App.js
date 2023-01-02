@@ -1,18 +1,10 @@
-import KakaoLogin from "./components/socialLogin/KakaoLogin";
-import NaverLogin from "./components/socialLogin/NaverLogin";
+import Router from "./shares/Router";
+
 function App() {
   return (
-    <div
-      className="App"
-      style={{ display: "flex", flexDirection: "column", gap: "30px" }}
-    >
-      <div>
-        <KakaoLogin />
-      </div>
-      <div>
-        <NaverLogin />
-      </div>
-    </div>
+    <>
+      <Router />
+    </>
   );
 }
 
