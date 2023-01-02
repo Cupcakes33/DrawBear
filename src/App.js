@@ -1,9 +1,10 @@
+import Router from "./shares/Router";
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <>
+      <Router />
+    </>
   );
 }
 
