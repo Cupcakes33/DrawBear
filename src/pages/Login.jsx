@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -50,16 +49,16 @@ const TestForm = styled.form`
     color: red;
   }
   .pass:focus {
-    transition: box-shadow 0.4s;
     border: 1px solid green;
     box-shadow: 0 0 5px green;
     outline: none;
+    transition: box-shadow 0.4s;
   }
   .fail:focus {
-    transition: box-shadow 0.4s;
     border: 1px solid red;
     box-shadow: 0 0 5px red;
     outline: none;
+    transition: box-shadow 0.4s;
   }
 `;
 
