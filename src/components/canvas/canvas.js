@@ -1,38 +1,76 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
+import styled from "styled-components";
 import rough from "roughjs/bundled/rough.esm";
-
-const generator = rough.generator();
+import CanvasMenu from "./CanvasMenu";
 
 const Canvas = () => {
+  const contextRef = useRef(null);
+  const canvasRef = useRef(null);
   const [elements, setElements] = useState([]);
   const [drawing, setDrawing] = useState(false);
+  const [lineWidth, setLineWidth] = useState(5);
+  const [lineColor, setLineColor] = useState("black");
+  const [lineOpacity, setLineOpacity] = useState(0.1);
 
-  const handleMouseDown = (event) => {};
-  const handleMouseMove = (evnet) => {};
-  const handleMouseUp = (event) => {};
+  const handleMouseDown = (event) => {
+    setDrawing(true);
+    contextRef.current.beginPath();
+    contextRef.current.moveTo(
+      event.nativeEvent.offsetX,
+      event.nativeEvent.offsetY
+    );
+  };
+
+  const handleMouseMove = (event) => {
+    if (!drawing) return;
+    contextRef.current.lineTo(
+      event.nativeEvent.offsetX,
+      event.nativeEvent.offsetY
+    );
+    contextRef.current.stroke();
+  };
+
+  const handleMouseUp = () => {
+    setDrawing(false);
+    contextRef.current.closePath();
+  };
 
   useEffect(() => {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const roughCanvas = rough.canvas(canvas);
-    const rect = generator.rectangle(100, 100, 100, 100);
-    const line = generator.line(100, 100, 200, 200);
-    roughCanvas.draw(rect);
-    roughCanvas.draw(line);
-  });
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    context.lineCap = "round";
+    context.lineJoin = "round";
+    context.globalAlpha = lineOpacity;
+    context.strokeStyle = lineColor;
+    context.lineWidth = lineWidth;
+    contextRef.current = context;
+  }, [lineColor, lineWidth, lineOpacity]);
 
   return (
-    <canvas
-      id="canvas"
-      styled={{ backgroundColor: "blue" }}
-      width={window.innerWidth}
-      height={window.innerHeight}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    />
+    <Box>
+      <CanvasMenu
+        setLineColor={setLineColor}
+        setLineWidth={setLineWidth}
+        setLineOpacity={setLineOpacity}
+      />
+      <StCanvas
+        ref={canvasRef}
+        width={`1280px`}
+        height={`720px`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      ></StCanvas>
+    </Box>
   );
 };
 
 export default Canvas;
+
+const Box = styled.div`
+  width: 1280px;
+  height: 720px;
+  border: 1px solid black;
+  position: relative;
+`;
+const StCanvas = styled.canvas``;
