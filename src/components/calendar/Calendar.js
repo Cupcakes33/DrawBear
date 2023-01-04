@@ -10,6 +10,7 @@ const Calendar = () => {
   };
   const [selectedYear, setSelectedYear] = useState(today.year)
   const [selectedMonth, setSelectedMonth] = useState(today.month)
+  const [selectedDate, setSelectedDate] = useState("")
   const [toggle, setToggle] = useState(false)
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
