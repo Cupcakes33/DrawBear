@@ -58,8 +58,17 @@ const StHeader = styled.div`
 `
 
 const StWeek = styled.div`
-  width: calc(500px / 7);
-  text-align: center;
+  display: flex;
+  .weekday {
+    width: calc(500px / 7);
+    text-align: center;
+  }
+  .saturday {
+    color: blue;
+  }
+  .sunday {
+    color: red;
+  }
 `
 
 const StDate = styled.div`
