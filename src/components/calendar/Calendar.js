@@ -90,11 +90,34 @@ const StWeek = styled.div`
 `
 
 const StDate = styled.div`
-  float: left;
-  width: calc(500px / 7);
-  height: 50px;
   margin-top: 20px;
-  text-align: center;
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    :hover {
+      border: 1px solid black;
+      border-radius: 100%;
+    }
+    :focus {
+      border: 1px solid black;
+      border-radius: 100%;
+      background-color: black;
+      color: whitesmoke;
+    }
+  }
+  .weekday {
+    float: left;
+    width: calc(500px / 7);
+    height: 50px;
+    text-align: center;
+  }
+  .saturday {
+    color: blue;
+  }
+  .sunday {
+    color: red;
+  }
   `
 
 export default Calendar
