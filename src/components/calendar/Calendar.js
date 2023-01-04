@@ -57,7 +57,7 @@ const Calendar = () => {
         <div className="buttons">
           <div>
             <button>이전 달</button>
-            <button>다음 달</button>
+            <button onClick={() => nextMonth()}>다음 달</button>
           </div>
           <div>
             <button>x</button>
