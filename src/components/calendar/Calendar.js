@@ -59,8 +59,8 @@ const Calendar = () => {
 }
 
 const Container = styled.section`
-  width: 500px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
   padding: 20px 20px;
   border: 1px solid black;
   `
@@ -78,7 +78,7 @@ const StHeader = styled.div`
 const StWeek = styled.div`
   display: flex;
   .weekday {
-    width: calc(500px / 7);
+    width: calc(350px / 7);
   text-align: center;
   }
   .saturday {
@@ -108,7 +108,7 @@ const StDate = styled.div`
   }
   .weekday {
     float: left;
-    width: calc(500px / 7);
+    width: calc(350px / 7);
     height: 50px;
     text-align: center;
   }
