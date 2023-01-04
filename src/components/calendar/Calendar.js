@@ -28,13 +28,13 @@ const Calendar = () => {
     for (const today of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       if (week[day] === today) {
-        for (let i = 0; i < lastDay; i++) {
+        for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <button key={i + 1} className={new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 6 ?
+            <button key={i} className={new Date(selectedYear, selectedMonth - 1, i).getDay() === 6 ?
               "weekday saturday" :
-              (new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 0 ? "weekday sunday" : "weekday")}
-              onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i + 1}일`)} >
-              {i + 1}</ button>
+              (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 ? "weekday sunday" : "weekday")}
+              onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)} >
+              {i}</ button>
           )
         }
       }
