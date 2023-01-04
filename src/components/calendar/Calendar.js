@@ -20,6 +20,24 @@ const Calendar = () => {
     return weekArr
   }, [])
 
+  const returnDay = useCallback(() => {
+    let dayArr = []
+    for (const today of week) {
+      const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
+      if (week[day] === today) {
+        for (let i = 0; i < lastDay; i++) {
+          dayArr.push(
+            <button key={i + 1} className={new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 6 ?
+              "weekday saturday" :
+              (new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 0 ? "weekday sunday" : "weekday")} >
+              {i + 1}</ button>
+          )
+        }
+      }
+    }
+    return dayArr
+  }, [selectedYear, selectedMonth, lastDay])
+
   return (
     <Container>
       <StHeader>
@@ -35,7 +53,7 @@ const Calendar = () => {
         </div>
       </StHeader>
       <StWeek>{returnWeek()}</StWeek>
-      <StDate>1</StDate>
+      <StDate>{returnDay()}</StDate>
     </Container>
   )
 }
@@ -45,23 +63,23 @@ const Container = styled.section`
   height: 400px;
   padding: 20px 20px;
   border: 1px solid black;
-`
+  `
 
 const StHeader = styled.div`
   display: flex;
   justify-content: space-between;
   .buttons {
     display: flex;
-    align-items: center;
-    gap: 10px;
+  align-items: center;
+  gap: 10px;
   }
-`
+  `
 
 const StWeek = styled.div`
   display: flex;
   .weekday {
     width: calc(500px / 7);
-    text-align: center;
+  text-align: center;
   }
   .saturday {
     color: blue;
@@ -77,6 +95,6 @@ const StDate = styled.div`
   height: 50px;
   margin-top: 20px;
   text-align: center;
-`
+  `
 
 export default Calendar
