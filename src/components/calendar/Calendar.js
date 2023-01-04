@@ -21,6 +21,8 @@ const Calendar = () => {
     return weekArr
   }, [])
 
+  console.log(selectedDate)
+
   const returnDay = useCallback(() => {
     let dayArr = []
     for (const today of week) {
@@ -30,7 +32,8 @@ const Calendar = () => {
           dayArr.push(
             <button key={i + 1} className={new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 6 ?
               "weekday saturday" :
-              (new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 0 ? "weekday sunday" : "weekday")} >
+              (new Date(selectedYear, selectedMonth - 1, i + 1).getDay() === 0 ? "weekday sunday" : "weekday")}
+              onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i + 1}일`)} >
               {i + 1}</ button>
           )
         }
