@@ -16,6 +16,15 @@ const Calendar = () => {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
 
+  const nextMonth = useCallback(() => {
+    if (selectedMonth === 12) {
+      setSelectedMonth(1);
+      setSelectedYear(selectedYear + 1);
+    } else {
+      setSelectedMonth(selectedMonth + 1);
+    }
+  }, [selectedMonth]);
+
   const returnWeek = useCallback(() => {
     const weekArr = week.map((v, i) => <div key={i} className={v === "일" ? "weekday sunday" : (v === "토" ? "weekday saturday" : "weekday")}>{v}</div>)
     return weekArr
@@ -30,8 +39,8 @@ const Calendar = () => {
           dayArr.push(
             <button key={i}
               className={new Date(selectedYear, selectedMonth - 1, i).getDay() === 6 ?
-              "weekday saturday" :
-              (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 ? "weekday sunday" : "weekday")}
+                "weekday saturday" :
+                (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 ? "weekday sunday" : "weekday")}
               onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)} >
               {i}</ button>
           )
