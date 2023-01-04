@@ -62,7 +62,7 @@ const Calendar = () => {
   return (
     <Container>
       <StHeader>
-        <h3>2023년 1월</h3>
+        <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
         <div className="buttons">
           <div>
             <button onClick={() => prevMonth()}>이전 달</button>
