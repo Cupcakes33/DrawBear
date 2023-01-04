@@ -16,6 +16,15 @@ const Calendar = () => {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
 
+  const prevMonth = useCallback(() => {
+    if (selectedMonth === 1) {
+      setSelectedMonth(12);
+      setSelectedYear(selectedYear - 1);
+    } else {
+      setSelectedMonth(selectedMonth - 1);
+    }
+  }, [selectedMonth]);
+
   const nextMonth = useCallback(() => {
     if (selectedMonth === 12) {
       setSelectedMonth(1);
@@ -56,7 +65,7 @@ const Calendar = () => {
         <h3>2023년 1월</h3>
         <div className="buttons">
           <div>
-            <button>이전 달</button>
+            <button onClick={() => prevMonth()}>이전 달</button>
             <button onClick={() => nextMonth()}>다음 달</button>
           </div>
           <div>
