@@ -30,6 +30,11 @@ const Canvas = () => {
     contextRef.current.stroke();
   };
 
+  const handleMouseLeave = () => {
+    setDrawing(false);
+    contextRef.current.closePath();
+  };
+
   const handleMouseUp = () => {
     setDrawing(false);
     contextRef.current.closePath();
@@ -60,6 +65,7 @@ const Canvas = () => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
       ></StCanvas>
     </Box>
   );
