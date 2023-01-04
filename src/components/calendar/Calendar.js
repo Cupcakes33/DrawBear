@@ -6,6 +6,17 @@ const Calendar = () => {
   const [selectedMonth, setSelectedMonth] = useState(1)
   const [toggle, setToggle] = useState(false)
 
+  const today = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    date: new Date().getDate(),
+    day: new Date().getDay()
+  };
+  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
+
+
+
   return (
     <Container>
       <StHeader>
