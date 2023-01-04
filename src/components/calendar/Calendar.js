@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components"
 
 const Calendar = () => {
@@ -15,6 +15,11 @@ const Calendar = () => {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
 
+  const returnWeek = useCallback(() => {
+    const weekArr = week.map((v, i) => <div key={i} className={v === "일" ? "weekday sunday" : (v === "토" ? "weekday saturday" : "weekday")}>{v}</div>)
+    return weekArr
+  }, [])
+
   return (
     <Container>
       <StHeader>
@@ -29,8 +34,8 @@ const Calendar = () => {
           </div>
         </div>
       </StHeader>
-      <StWeek>주</StWeek>
-      <StDate>일</StDate>
+      <StWeek>{returnWeek()}</StWeek>
+      <StDate>1</StDate>
     </Container>
   )
 }
