@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import rough from "roughjs/bundled/rough.esm";
+
 import CanvasMenu from "./CanvasMenu";
 
 const Canvas = () => {
