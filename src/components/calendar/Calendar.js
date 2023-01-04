@@ -1,6 +1,11 @@
+import { useState } from "react";
 import styled from "styled-components"
 
 const Calendar = () => {
+  const [selectedYear, setSelectedYear] = useState(2023)
+  const [selectedMonth, setSelectedMonth] = useState(1)
+  const [toggle, setToggle] = useState(false)
+
   return (
     <Container>
       <StHeader>
