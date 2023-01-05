@@ -83,7 +83,7 @@ const Calendar = () => {
 
 const Container = styled.section`
   width: 350px;
-  height: 350px;
+  height: 400px;
   padding: 20px 20px;
   border: 1px solid black;
   `
@@ -93,8 +93,8 @@ const StHeader = styled.div`
   justify-content: space-between;
   .buttons {
     display: flex;
-  align-items: center;
-  gap: 10px;
+    align-items: center;
+    gap: 10px;
   }
   `
 
@@ -102,7 +102,7 @@ const StWeek = styled.div`
   display: flex;
   .weekday {
     width: calc(350px / 7);
-  text-align: center;
+    text-align: center;
   }
   .saturday {
     color: blue;
@@ -133,7 +133,6 @@ const StDate = styled.div`
     float: left;
     width: calc(350px / 7);
     height: 50px;
-    text-align: center;
   }
   .saturday {
     color: blue;
