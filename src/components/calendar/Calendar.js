@@ -54,6 +54,8 @@ const Calendar = () => {
               {i}</ button>
           )
         }
+      } else {
+        dayArr.push(<button key={today} className="weekday"></button>)
       }
     }
     return dayArr
