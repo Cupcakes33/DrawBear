@@ -62,7 +62,7 @@ const Calendar = () => {
       }
     }
     return dayArr
-  }, [selectedYear, selectedMonth, lastDay])
+  }, [selectedYear, selectedMonth, lastDay, holiday])
 
   useEffect(() => {
     dispatch(__holiday(selectedYear))

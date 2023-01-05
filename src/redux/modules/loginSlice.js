@@ -3,15 +3,7 @@ import axios from "axios";
 import { loginApi } from "../../apis/axios";
 
 const initialState = {
-  holiday: [
-    {
-      dateKind: "",
-      dateName: "",
-      isHoliday: "",
-      locdate: "",
-      seq: ""
-    }
-  ]
+  holiday: []
 };
 
 export const __login = createAsyncThunk(
@@ -62,7 +54,7 @@ const loginSlice = createSlice({
       })
       .addCase(__holiday.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.holiday = action.payload
+        state.holiday = action.payload.map(v => v.locdate)
       })
       .addCase(__holiday.rejected, (state, action) => {
         state.isLoading = false;
