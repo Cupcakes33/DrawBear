@@ -1,5 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components"
+import { __holiday } from "../../redux/modules/loginSlice";
 
 const Calendar = () => {
   const today = {
@@ -8,10 +10,12 @@ const Calendar = () => {
     date: new Date().getDate(),
     day: new Date().getDay()
   };
+  const dispatch = useDispatch()
   const [selectedYear, setSelectedYear] = useState(today.year)
   const [selectedMonth, setSelectedMonth] = useState(today.month)
   const [selectedDate, setSelectedDate] = useState("")
   const [toggle, setToggle] = useState(false)
+
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
@@ -35,8 +39,7 @@ const Calendar = () => {
   }, [selectedMonth]);
 
   const returnWeek = useCallback(() => {
-    const weekArr = week.map((v, i) => <div key={i} className={v === "일" ? "weekday sunday" : (v === "토" ? "weekday saturday" : "weekday")}>{v}</div>)
-    return weekArr
+    return week.map((v, i) => <div key={i} className={v === "일" ? "weekday sunday" : (v === "토" ? "weekday saturday" : "weekday")}>{v}</div>)
   }, [])
 
   const returnDay = useCallback(() => {
@@ -60,6 +63,10 @@ const Calendar = () => {
     }
     return dayArr
   }, [selectedYear, selectedMonth, lastDay])
+
+  useEffect(() => {
+    dispatch(__holiday(selectedYear))
+  }, [])
 
   return (
     <Container>

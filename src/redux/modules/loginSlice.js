@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { loginApi } from "../../apis/axios";
 
 const initialState = {
-
+  
 };
 
 export const __login = createAsyncThunk(
@@ -13,6 +14,19 @@ export const __login = createAsyncThunk(
       localStorage.setItem("token", data.token);
 
       return thunkAPI.fulfillWithValue(data)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message)
+    }
+  }
+)
+
+export const __holiday = createAsyncThunk(
+  "HOLIDAY_FINALE",
+  async (selectedYear, thunkAPI) => {
+    try {
+      const { data } = await axios.get(`http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}`)
+      console.log(data.response.body.items.item)
+      return thunkAPI.fulfillWithValue(data.response.body.items.item)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
     }
@@ -32,6 +46,17 @@ const loginSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(__login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(__holiday.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__holiday.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(__holiday.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
