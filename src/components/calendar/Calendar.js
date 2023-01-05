@@ -44,15 +44,18 @@ const Calendar = () => {
 
   const returnDay = useCallback(() => {
     let dayArr = []
+    let holidayMonth = holiday.filter(v => parseInt(String(v).substring(4, 6)) === selectedMonth)
+    let holidayDate = holidayMonth.map(v => parseInt(String(v).substring(6, 8)))
+
     for (const today of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
             <button key={i}
-              className={new Date(selectedYear, selectedMonth - 1, i).getDay() === 6 ?
-                "weekday saturday" :
-                (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 ? "weekday sunday" : "weekday")}
+              className={new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || i === holidayDate[i] ?
+                "weekday sunday" :
+                (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6 ? "weekday saturday" : "weekday")}
               onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)} >
               {i}</ button>
           )
