@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components"
 import { __holiday } from "../../redux/modules/loginSlice";
 
@@ -11,11 +11,11 @@ const Calendar = () => {
     day: new Date().getDay()
   };
   const dispatch = useDispatch()
+  const { holiday } = useSelector(state => state.loginSlice)
   const [selectedYear, setSelectedYear] = useState(today.year)
   const [selectedMonth, setSelectedMonth] = useState(today.month)
   const [selectedDate, setSelectedDate] = useState("")
   const [toggle, setToggle] = useState(false)
-
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();

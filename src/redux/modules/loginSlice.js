@@ -3,7 +3,15 @@ import axios from "axios";
 import { loginApi } from "../../apis/axios";
 
 const initialState = {
-  
+  holiday: [
+    {
+      dateKind: "",
+      dateName: "",
+      isHoliday: "",
+      locdate: "",
+      seq: ""
+    }
+  ]
 };
 
 export const __login = createAsyncThunk(
@@ -25,7 +33,6 @@ export const __holiday = createAsyncThunk(
   async (selectedYear, thunkAPI) => {
     try {
       const { data } = await axios.get(`http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}`)
-      console.log(data.response.body.items.item)
       return thunkAPI.fulfillWithValue(data.response.body.items.item)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
@@ -55,6 +62,7 @@ const loginSlice = createSlice({
       })
       .addCase(__holiday.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.holiday = action.payload
       })
       .addCase(__holiday.rejected, (state, action) => {
         state.isLoading = false;
