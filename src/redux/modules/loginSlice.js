@@ -32,7 +32,7 @@ export const __holiday = createAsyncThunk(
   "HOLIDAY_FINALE",
   async (selectedYear, thunkAPI) => {
     try {
-      const { data } = await axios.get(`http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}`)
+      const { data } = await axios.get(`http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`)
       return thunkAPI.fulfillWithValue(data.response.body.items.item)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
