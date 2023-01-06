@@ -74,7 +74,7 @@ const Calendar = () => {
 
   useEffect(() => {
     dispatch(__holiday(selectedYear))
-  }, [])
+  }, [selectedYear])
 
   return (
     <Container>
