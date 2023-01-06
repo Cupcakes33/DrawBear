@@ -3,84 +3,204 @@ import { fabric } from "fabric";
 import styled from "styled-components";
 
 const FabricCanvas = () => {
+  const [canvas, setCanvas] = useState("");
+  const [color, setColor] = useState("black");
+  const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
-  const fabricRef = useRef(null);
-  const [isDraw, setIsDraw] = useState(false);
+  const bgImgInput = useRef();
+  const productImgInput = useRef();
 
   useEffect(() => {
-    fabricRef.current = new fabric.Canvas(canvasRef.current);
-    fabricRef.current.selectable = true;
+    setCanvas(initCanvas());
   }, []);
 
-  const rect = () => {
-    const rect = new fabric.Rect({
-      top: 50,
-      left: 50,
-      width: 50,
-      height: 50,
-      fill: "red",
-      selectable: "true",
+  const deleteSelectedObjects = () => {
+    let selection = canvas.getActiveObject();
+
+    if (selection._objects) {
+      selection.forEachObject((obj) => {
+        console.log(obj);
+        canvas.remove(obj);
+      });
+    } else {
+      canvas.remove(selection);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Delete") {
+        deleteSelectedObjects();
+      }
     });
-    fabricRef.current.add(rect);
+    return () =>
+      window.removeEventListener("keydown", (e) => {
+        if (e.key === "Delete") {
+          deleteSelectedObjects();
+        }
+      });
+  }, [canvas]);
+
+  const initCanvas = () =>
+    new fabric.Canvas(canvasRef.current, {
+      height: 500,
+      width: 500,
+      backgroundColor: "white",
+      freeDrawingBrush: {
+        color: color,
+        width: width,
+      },
+    });
+
+  const freeDrawHandler = () => {
+    console.log(canvas.freeDrawingBrush.width, canvas.freeDrawingBrush.color);
+    canvas.isDrawingMode = !canvas.isDrawingMode;
   };
 
-  const draw = () => {
-    fabricRef.current.isDrawingMode = !fabricRef.current.isDrawingMode;
+  const drawColorHandler = (color) => {
+    canvas.freeDrawingBrush.color = color;
+  };
+  const drawWidthHandler = (width) => {
+    canvas.freeDrawingBrush.width = parseInt(width, 10);
+  };
+  const clearButtonHandler = () => {
+    canvas.clear();
   };
 
-  const setDrawColor = (color) => {
-    fabricRef.current.freeDrawingBrush.color = color;
+  const bgUpload = (e) => {
+    const { files } = e.target;
+    const urlFile = URL.createObjectURL(files[0]);
+
+    canvas.setBackgroundImage(urlFile, canvas.renderAll.bind(canvas), {
+      width: canvas.width,
+      height: canvas.height,
+      originX: "left",
+      originY: "top",
+    });
+
+    e.target.value = "";
   };
 
-  const setDrawWidth = (width) => {
-    fabricRef.current.freeDrawingBrush.width = width;
+  const imgUpload = (e) => {
+    const { files } = e.target;
+    const urlFile = URL.createObjectURL(files[0]);
+    new fabric.Image.fromURL(urlFile, (image) => {
+      canvas.add(image);
+      canvas.renderAll();
+    });
+    e.target.value = "";
   };
 
-  const circle = () => {
+  const drawRectHandler = (canvi) => {
+    const rect = new fabric.Rect({
+      width: 100,
+      height: 100,
+      fill: color,
+    });
+    canvi.add(rect);
+    canvi.renderAll();
+  };
+  const drawCircleHandler = (canvi) => {
     const circle = new fabric.Circle({
       radius: 50,
-      fill: "green",
-      selectable: "true",
+      fill: color,
     });
-    fabricRef.current.add(circle);
+    canvi.add(circle);
+    canvi.renderAll();
+  };
+
+  const drawTextBoxHandler = (canvi) => {
+    const text = new fabric.Textbox("Text", {
+      width: 100,
+      height: 100,
+      fill: color,
+    });
+    canvi.add(text);
+    canvi.renderAll();
   };
 
   return (
     <>
-      <div
-        style={{
-          width: "100px",
-          height: "700px",
-          border: "1px solid black",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-        }}
-      >
-        {/* <button onClick={move}>move</button> */}
+      <StMenu>
+        <button onClick={freeDrawHandler}>freedraw</button>
+        <input
+          type="color"
+          onChange={(e) => {
+            drawColorHandler(e.target.value);
+            setColor(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            drawRectHandler(canvas);
+          }}
+        >
+          rect
+        </button>
+        <button
+          onClick={() => {
+            drawCircleHandler(canvas);
+          }}
+        >
+          circle
+        </button>
+        <button
+          onClick={() => {
+            drawTextBoxHandler(canvas);
+          }}
+        >
+          Text Box
+        </button>
+        <input
+          type="range"
+          defaultValue="1"
+          min="1"
+          max="10"
+          onChange={(e) => {
+            drawWidthHandler(e.target.value);
+            setWidth(e.target.value);
+          }}
+        />
+        <button onClick={clearButtonHandler}>clear</button>
+        <input
+          style={{ display: "none" }}
+          accept="image/*"
+          id="files"
+          name="img_url"
+          type="file"
+          content_type="multipart/form-data"
+          ref={bgImgInput}
+          onChange={bgUpload}
+        />
+        <input
+          style={{ display: "none" }}
+          accept="image/*"
+          id="files"
+          name="img_url"
+          type="file"
+          content_type="multipart/form-data"
+          ref={productImgInput}
+          onChange={imgUpload}
+        />
         <div>
-          <button onClick={draw}>draw</button>
-          <input
-            type="color"
-            onChange={(e) => {
-              setDrawColor(e.target.value);
+          <button
+            onClick={() => {
+              bgImgInput.current.click();
             }}
-          />
-          <input
-            type="range"
-            min="1"
-            max="10"
-            defaultValue="1"
-            onChange={(e) => {
-              setDrawWidth(e.target.value);
+          >
+            배경
+          </button>
+          <button
+            onClick={() => {
+              productImgInput.current.click();
             }}
-          />
+          >
+            이미지
+          </button>
         </div>
-        <button onClick={rect}>rect</button>
-        <button onClick={circle}>circle</button>
-      </div>
+      </StMenu>
       <StDiv>
-        <canvas ref={canvasRef} width={400} height={400} />;
+        <canvas ref={canvasRef} />;
       </StDiv>
     </>
   );
@@ -89,8 +209,8 @@ const FabricCanvas = () => {
 export default FabricCanvas;
 
 const StDiv = styled.div`
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   border-radius: 15px;
   overflow: hidden;
   position: absolute;
@@ -98,4 +218,15 @@ const StDiv = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const StMenu = styled.div`
+  width: 100%;
+  height: 100px;
+  border-bottom: 2px solid black;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 `;
