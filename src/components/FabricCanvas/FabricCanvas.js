@@ -14,41 +14,32 @@ const FabricCanvas = () => {
     setCanvas(initCanvas());
   }, []);
 
-  // const removeItem = () => {
-  //   if (canvas.getActiveObject().length === 1) {
-  //     canvas.remove(canvas.getActiveObject());
-  //   } else {
-  //     canvas.getActiveObject().forEachObject(function (o) {
-  //       canvas.remove(o);
-  //     });
-  //   }
-  // };
+  const deleteSelectedObjects = () => {
+    let selection = canvas.getActiveObject();
+
+    if (selection._objects) {
+      selection.forEachObject((obj) => {
+        console.log(obj);
+        canvas.remove(obj);
+      });
+    } else {
+      canvas.remove(selection);
+    }
+  };
 
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
-        if (canvas.getActiveObject().length === 1) {
-          canvas.remove(canvas.getActiveObject());
-        } else {
-          canvas.getActiveObject().forEachObject(function (o) {
-            canvas.remove(o);
-          });
-        }
+        deleteSelectedObjects();
       }
     });
     return () =>
       window.removeEventListener("keydown", (e) => {
         if (e.key === "Delete") {
-          if (canvas.getActiveObject().length === 1) {
-            canvas.remove(canvas.getActiveObject());
-          } else {
-            canvas.getActiveObject().forEachObject(function (o) {
-              canvas.remove(o);
-            });
-          }
+          deleteSelectedObjects();
         }
       });
-  }, []);
+  }, [canvas]);
 
   const initCanvas = () =>
     new fabric.Canvas(canvasRef.current, {
