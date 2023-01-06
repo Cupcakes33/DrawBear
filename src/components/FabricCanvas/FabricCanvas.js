@@ -13,6 +13,20 @@ const FabricCanvas = () => {
     setCanvas(initCanvas());
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Delete") {
+        canvas.remove(canvas.getActiveObject());
+      }
+    });
+    return() => window.removeEventListener("keydown", (e) => {
+      if (e.key === "Delete") {
+        canvas.remove(canvas.getActiveObject());
+      }
+    }
+    )
+  }, [canvas]);
+
   const initCanvas = () =>
     new fabric.Canvas(canvasRef.current, {
       height: 500,
@@ -75,6 +89,17 @@ const FabricCanvas = () => {
     canvi.add(circle);
     canvi.renderAll();
   };
+
+  const drawTextBoxHandler = (canvi) => {
+    const text = new fabric.Textbox("Text", {
+      width: 100,
+      height: 100,
+      fill: color,
+    });
+    canvi.add(text);
+    canvi.renderAll();
+  };
+
   return (
     <>
       <StMenu>
@@ -99,6 +124,13 @@ const FabricCanvas = () => {
           }}
         >
           circle
+        </button>
+        <button
+          onClick={() => {
+            drawTextBoxHandler(canvas);
+          }}
+        >
+          Text Box
         </button>
         <input
           type="range"
