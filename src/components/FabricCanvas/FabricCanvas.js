@@ -16,10 +16,8 @@ const FabricCanvas = () => {
 
   const deleteSelectedObjects = () => {
     let selection = canvas.getActiveObject();
-
-    if (selection._objects) {
+    if (selection?._objects) {
       selection.forEachObject((obj) => {
-        console.log(obj);
         canvas.remove(obj);
       });
     } else {
@@ -28,6 +26,7 @@ const FabricCanvas = () => {
   };
 
   useEffect(() => {
+    if (!canvas) return;
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
         deleteSelectedObjects();
