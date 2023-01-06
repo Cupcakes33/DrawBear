@@ -5,6 +5,7 @@ import styled from "styled-components";
 const FabricCanvas = () => {
   const [canvas, setCanvas] = useState("");
   const [color, setColor] = useState("black");
+  const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
   const bgImgInput = useRef();
   const productImgInput = useRef();
@@ -13,28 +14,55 @@ const FabricCanvas = () => {
     setCanvas(initCanvas());
   }, []);
 
+  // const removeItem = () => {
+  //   if (canvas.getActiveObject().length === 1) {
+  //     canvas.remove(canvas.getActiveObject());
+  //   } else {
+  //     canvas.getActiveObject().forEachObject(function (o) {
+  //       canvas.remove(o);
+  //     });
+  //   }
+  // };
+
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
-        canvas.remove(canvas.getActiveObject());
+        if (canvas.getActiveObject().length === 1) {
+          canvas.remove(canvas.getActiveObject());
+        } else {
+          canvas.getActiveObject().forEachObject(function (o) {
+            canvas.remove(o);
+          });
+        }
       }
     });
-    return() => window.removeEventListener("keydown", (e) => {
-      if (e.key === "Delete") {
-        canvas.remove(canvas.getActiveObject());
-      }
-    }
-    )
-  }, [canvas]);
+    return () =>
+      window.removeEventListener("keydown", (e) => {
+        if (e.key === "Delete") {
+          if (canvas.getActiveObject().length === 1) {
+            canvas.remove(canvas.getActiveObject());
+          } else {
+            canvas.getActiveObject().forEachObject(function (o) {
+              canvas.remove(o);
+            });
+          }
+        }
+      });
+  }, []);
 
   const initCanvas = () =>
     new fabric.Canvas(canvasRef.current, {
       height: 500,
       width: 500,
       backgroundColor: "white",
+      freeDrawingBrush: {
+        color: color,
+        width: width,
+      },
     });
 
   const freeDrawHandler = () => {
+    console.log(canvas.freeDrawingBrush.width, canvas.freeDrawingBrush.color);
     canvas.isDrawingMode = !canvas.isDrawingMode;
   };
 
@@ -42,7 +70,7 @@ const FabricCanvas = () => {
     canvas.freeDrawingBrush.color = color;
   };
   const drawWidthHandler = (width) => {
-    canvas.freeDrawingBrush.width = width;
+    canvas.freeDrawingBrush.width = parseInt(width, 10);
   };
   const clearButtonHandler = () => {
     canvas.clear();
@@ -139,6 +167,7 @@ const FabricCanvas = () => {
           max="10"
           onChange={(e) => {
             drawWidthHandler(e.target.value);
+            setWidth(e.target.value);
           }}
         />
         <button onClick={clearButtonHandler}>clear</button>
