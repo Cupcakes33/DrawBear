@@ -42,10 +42,18 @@ const Calendar = () => {
     return week.map((v, i) => <div key={i} className={v === "일" ? "weekday sunday" : (v === "토" ? "weekday saturday" : "weekday")}>{v}</div>)
   }, [])
 
+
+
   const returnDay = useCallback(() => {
     let dayArr = []
     let holidayMonth = holiday.filter(v => parseInt(String(v).substring(4, 6)) === selectedMonth)
     let holidayDate = holidayMonth.map(v => parseInt(String(v).substring(6, 8)))
+
+    const compare = (i) => {
+      for (let h = 0; h <= holidayDate.length; h++) {
+        if (holidayDate[h] === i) return true
+      }
+    }
 
     for (const today of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
@@ -53,11 +61,11 @@ const Calendar = () => {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
             <button key={i}
-              className={new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || i === holidayDate[i] ?
+              className={new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || compare(i) ?
                 "weekday sunday" :
                 (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6 ? "weekday saturday" : "weekday")}
               onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)} >
-              {i}</ button>
+              {i}</ button >
           )
         }
       } else {
