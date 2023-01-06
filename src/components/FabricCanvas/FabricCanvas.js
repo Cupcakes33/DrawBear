@@ -122,13 +122,6 @@ const FabricCanvas = () => {
     <>
       <StMenu>
         <button onClick={freeDrawHandler}>freedraw</button>
-        <input
-          type="color"
-          onChange={(e) => {
-            drawColorHandler(e.target.value);
-            setColor(e.target.value);
-          }}
-        />
         <button
           onClick={() => {
             drawRectHandler(canvas);
@@ -151,6 +144,13 @@ const FabricCanvas = () => {
           Text Box
         </button>
         <input
+          type="color"
+          onChange={(e) => {
+            drawColorHandler(e.target.value);
+            setColor(e.target.value);
+          }}
+        />
+        <input
           type="range"
           defaultValue="1"
           min="1"
@@ -160,6 +160,7 @@ const FabricCanvas = () => {
             setWidth(e.target.value);
           }}
         />
+
         <button onClick={clearButtonHandler}>clear</button>
         <input
           style={{ display: "none" }}
