@@ -3,84 +3,57 @@ import { fabric } from "fabric";
 import styled from "styled-components";
 
 const FabricCanvas = () => {
+  const [canvas, setCanvas] = useState("");
   const canvasRef = useRef(null);
-  const fabricRef = useRef(null);
-  const [isDraw, setIsDraw] = useState(false);
 
   useEffect(() => {
-    fabricRef.current = new fabric.Canvas(canvasRef.current);
-    fabricRef.current.selectable = true;
+    setCanvas(initCanvas());
   }, []);
 
-  const rect = () => {
-    const rect = new fabric.Rect({
-      top: 50,
-      left: 50,
-      width: 50,
-      height: 50,
-      fill: "red",
-      selectable: "true",
+  const initCanvas = () =>
+    new fabric.Canvas(canvasRef.current, {
+      height: 500,
+      width: 500,
+      backgroundColor: "gray",
+      zoom: 0.5,
     });
-    fabricRef.current.add(rect);
+
+  const freeDrawHandler = () => {
+    canvas.isDrawingMode = !canvas.isDrawingMode;
   };
 
-  const draw = () => {
-    fabricRef.current.isDrawingMode = !fabricRef.current.isDrawingMode;
+  const drawColorHandler = (color) => {
+    canvas.freeDrawingBrush.color = color;
   };
-
-  const setDrawColor = (color) => {
-    fabricRef.current.freeDrawingBrush.color = color;
+  const drawWidthHandler = (width) => {
+    canvas.freeDrawingBrush.width = width;
   };
-
-  const setDrawWidth = (width) => {
-    fabricRef.current.freeDrawingBrush.width = width;
+  const clearButtonHandler = () => {
+    canvas.clear();
   };
-
-  const circle = () => {
-    const circle = new fabric.Circle({
-      radius: 50,
-      fill: "green",
-      selectable: "true",
-    });
-    fabricRef.current.add(circle);
-  };
-
   return (
     <>
-      <div
-        style={{
-          width: "100px",
-          height: "700px",
-          border: "1px solid black",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-        }}
-      >
-        {/* <button onClick={move}>move</button> */}
-        <div>
-          <button onClick={draw}>draw</button>
-          <input
-            type="color"
-            onChange={(e) => {
-              setDrawColor(e.target.value);
-            }}
-          />
-          <input
-            type="range"
-            min="1"
-            max="10"
-            defaultValue="1"
-            onChange={(e) => {
-              setDrawWidth(e.target.value);
-            }}
-          />
-        </div>
-        <button onClick={rect}>rect</button>
-        <button onClick={circle}>circle</button>
-      </div>
+      <StMenu>
+        <button onClick={freeDrawHandler}>freedraw</button>
+        <input
+          type="color"
+          onChange={(e) => {
+            drawColorHandler(e.target.value);
+          }}
+        />
+        <input
+          type="range"
+          defaultValue="1"
+          min="1"
+          max="10"
+          onChange={(e) => {
+            drawWidthHandler(e.target.value);
+          }}
+        />
+        <button onClick={clearButtonHandler}>clear</button>
+      </StMenu>
       <StDiv>
-        <canvas ref={canvasRef} width={400} height={400} />;
+        <canvas ref={canvasRef} />;
       </StDiv>
     </>
   );
@@ -89,8 +62,8 @@ const FabricCanvas = () => {
 export default FabricCanvas;
 
 const StDiv = styled.div`
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   border-radius: 15px;
   overflow: hidden;
   position: absolute;
@@ -98,4 +71,15 @@ const StDiv = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const StMenu = styled.div`
+  width: 100%;
+  height: 100px;
+  border-bottom: 2px solid black;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 `;
