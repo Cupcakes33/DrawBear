@@ -8,7 +8,6 @@ const Calendar = () => {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
-    day: new Date().getDay()
   };
   const dispatch = useDispatch()
   const { holiday } = useSelector(state => state.loginSlice)
@@ -41,8 +40,6 @@ const Calendar = () => {
   const returnWeek = useCallback(() => {
     return week.map((v, i) => <div key={i} className={v === "일" ? "weekday sunday" : (v === "토" ? "weekday saturday" : "weekday")}>{v}</div>)
   }, [])
-
-
 
   const returnDay = useCallback(() => {
     let dayArr = []
