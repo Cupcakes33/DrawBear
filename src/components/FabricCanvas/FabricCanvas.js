@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const FabricCanvas = () => {
   const [canvas, setCanvas] = useState("");
+  const [color, setColor] = useState("black");
   const canvasRef = useRef(null);
   const bgImgInput = useRef();
   const productImgInput = useRef();
@@ -56,6 +57,24 @@ const FabricCanvas = () => {
     });
     e.target.value = "";
   };
+
+  const drawRectHandler = (canvi) => {
+    const rect = new fabric.Rect({
+      width: 100,
+      height: 100,
+      fill: color,
+    });
+    canvi.add(rect);
+    canvi.renderAll();
+  };
+  const drawCircleHandler = (canvi) => {
+    const circle = new fabric.Circle({
+      radius: 50,
+      fill: color,
+    });
+    canvi.add(circle);
+    canvi.renderAll();
+  };
   return (
     <>
       <StMenu>
@@ -64,8 +83,23 @@ const FabricCanvas = () => {
           type="color"
           onChange={(e) => {
             drawColorHandler(e.target.value);
+            setColor(e.target.value);
           }}
         />
+        <button
+          onClick={() => {
+            drawRectHandler(canvas);
+          }}
+        >
+          rect
+        </button>
+        <button
+          onClick={() => {
+            drawCircleHandler(canvas);
+          }}
+        >
+          circle
+        </button>
         <input
           type="range"
           defaultValue="1"
