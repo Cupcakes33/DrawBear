@@ -66,7 +66,7 @@ const Calendar = () => {
           )
         }
       } else {
-        dayArr.push(<button key={today} className="weekday"></button>)
+        dayArr.push(<div key={today} className="weekday"></div>)
       }
     }
     return dayArr
