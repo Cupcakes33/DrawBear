@@ -69,6 +69,12 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
   align-items: center;
   overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   div {
     text-align: center;
   }

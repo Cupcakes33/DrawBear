@@ -2,9 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
+import Footer from "../components/common/Footer";
 
 const Main = () => {
-  const [isDiaryData, setIsDiaryData] = useState(true);
+  const [isDiaryData, setIsDiaryData] = useState(false);
   return (
     <Container>
       <Header>
@@ -40,13 +41,4 @@ const Section = styled.section`
   height: calc(100% - 132px);
   background-color: white;
   overflow-x: scroll;
-`;
-
-const Footer = styled.footer`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 72px;
-  background-color: #f8f8f8;
 `;
