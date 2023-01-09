@@ -27,7 +27,6 @@ const Login = () => {
               {...register("email", { required: true, pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ })}
               aria-invalid={errors.email ? "true" : "false"}
             />
-            {errors.email?.type && <span role="alert">⚠ 이메일 형식에 맞지 않습니다.</span>}
           </div>
           <div>
             <label htmlFor="password">비밀번호</label>
@@ -39,16 +38,19 @@ const Login = () => {
               {...register("password", { required: true, pattern: /^[a-z0-9_-]{4,16}$/ })}
               aria-invalid={errors?.password ? "true" : "false"}
             />
-            {errors?.password && <span role="alert">⚠ 4~16자 이내로 적어주세요</span>}
           </div>
-          <div>
-            <StBtn>로그인</StBtn>
-          </div>
+          <StBtn>로그인</StBtn>
         </StForm>
         <div>
           아직 계정이 없으세요? <Link to="/singup">회원가입 {`>`} </Link>
         </div>
       </StContainer>
+      <StLine>
+        <hr />
+        <span>간편로그인</span>
+        <hr />
+      </StLine>
+      {/* <소셜></소셜> */}
     </CommonContainer>
   );
 };
@@ -57,12 +59,11 @@ export default Login;
 
 const StContainer = styled.div`
   width: 27rem;
-  margin: auto;
-  background-color: pink;
-
+  margin: 20% auto 20% auto;
   label {
     display: block;
     font-size: 1.8rem;
+    margin-bottom: 1rem;
   }
   input {
     width: 26.2rem;
@@ -71,8 +72,8 @@ const StContainer = styled.div`
 `;
 
 const StForm = styled.form`
-  span {
-    color: red;
+  div {
+    margin-top: 20%;
   }
   .pass:focus {
     border: 1px solid green;
@@ -91,4 +92,20 @@ const StForm = styled.form`
 const StBtn = styled.button`
   width: 27rem;
   height: 4.5rem;
+  margin: 5% 0px;
+`;
+
+const StLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    margin: auto -2rem;
+  }
+  hr {
+    width: 9rem;
+    height: 0.1rem;
+    border: 0;
+    background-color: gray;
+  }
 `;
