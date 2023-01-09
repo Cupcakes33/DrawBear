@@ -6,11 +6,11 @@ const CreateDiaryModal = ({ onClose }) => {
     <Modal onClose={onClose}>
       <Wrapper>
         <Box>
-          <DiaryIcon />
+          <DiaryIcon>그림</DiaryIcon>
           <span>혼자써요 !</span>
         </Box>
         <Box>
-          <DiaryIcon />
+          <DiaryIcon>그림</DiaryIcon>
           <span>같이써요 !</span>
         </Box>
       </Wrapper>

@@ -8,7 +8,7 @@ const Main = () => {
   return (
     <Container>
       <Header>
-        <h1>Finale</h1>
+        <h1>LOGO</h1>
       </Header>
       <Section>{!isDiaryData ? <NoDiary /> : <DiaryList />}</Section>
       <Footer></Footer>
