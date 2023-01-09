@@ -4,7 +4,7 @@ import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 
 const Main = () => {
-  const [isDiaryData, setIsDiaryData] = useState(false);
+  const [isDiaryData, setIsDiaryData] = useState(true);
   return (
     <Container>
       <Header>
@@ -39,6 +39,7 @@ const Section = styled.section`
   width: 100%;
   height: calc(100% - 132px);
   background-color: white;
+  overflow-x: scroll;
 `;
 
 const Footer = styled.footer`
