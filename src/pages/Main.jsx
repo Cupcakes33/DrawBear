@@ -5,7 +5,7 @@ import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 
 const Main = () => {
-  const [isDiaryData, setIsDiaryData] = useState(false);
+  const [isDiaryData, setIsDiaryData] = useState(true);
   return (
     <Container>
       <Header>

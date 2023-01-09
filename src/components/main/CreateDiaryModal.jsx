@@ -1,16 +1,31 @@
 import Modal from "../common/modal/Modal";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const CreateDiaryModal = ({ onClose }) => {
+  const navigate = useNavigate();
+
   return (
     <Modal onClose={onClose}>
       <Wrapper>
         <Box>
-          <DiaryIcon>그림</DiaryIcon>
+          <DiaryIcon
+            onClick={() => {
+              navigate("/new");
+            }}
+          >
+            그림
+          </DiaryIcon>
           <span>혼자써요 !</span>
         </Box>
         <Box>
-          <DiaryIcon>그림</DiaryIcon>
+          <DiaryIcon
+            onClick={() => {
+              navigate("/new");
+            }}
+          >
+            그림
+          </DiaryIcon>
           <span>같이써요 !</span>
         </Box>
       </Wrapper>

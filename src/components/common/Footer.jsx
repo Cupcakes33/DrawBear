@@ -3,10 +3,10 @@ import styled from "styled-components";
 const Footer = () => {
   return (
     <Container>
-      <FooterButton></FooterButton>
-      <FooterButton></FooterButton>
-      <FooterButton></FooterButton>
-      <FooterButton></FooterButton>
+      <FooterButton>혼자</FooterButton>
+      <FooterButton>같이</FooterButton>
+      <FooterButton>책갈피</FooterButton>
+      <FooterButton>마이</FooterButton>
     </Container>
   );
 };

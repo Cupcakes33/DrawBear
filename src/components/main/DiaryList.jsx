@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Diary from "./Diary";
 
@@ -23,6 +24,7 @@ const DiaryData = [
 ];
 
 const DiaryList = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Wrapper>
@@ -35,7 +37,11 @@ const DiaryList = () => {
           );
         })}
       </Wrapper>
-      <Button />
+      <Button
+        onClick={() => {
+          navigate("/new");
+        }}
+      />
     </Container>
   );
 };

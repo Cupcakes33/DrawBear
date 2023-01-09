@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const color = [
@@ -9,15 +10,28 @@ const color = [
   "#0f0f0d",
 ];
 const CreateDiary = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Header>
         <div>
-          <button>이전</button>
+          <button
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            이전
+          </button>
           <h1>다이어리 생성</h1>
           {/* 다이어리 생성 페이지에서 혼자쓰고 함께쓰는 옵션을 바꾸어 줄 수 있는데 모달로 들어가는게 부자연스럽게 느껴진다. */}
         </div>
-        <button>생성</button>
+        <button
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          생성
+        </button>
       </Header>
       <Section>
         <h3>다이어리 제목</h3>
