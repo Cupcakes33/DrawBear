@@ -9,13 +9,16 @@ import styled from "styled-components";
 
 const Header = () => {
   return (
-    <Head>
-      <LeftDiv>
-        {"<"}
-        <span>일기 쓰기</span>
-      </LeftDiv>
-      <RightDiv></RightDiv>
-    </Head>
+    <>
+      <Head>
+        <LeftDiv>
+          {"<"}
+          <span>일기 쓰기</span>
+        </LeftDiv>
+        <RightDiv></RightDiv>
+      </Head>
+      <DummyDiv />
+    </>
   );
 };
 
@@ -40,6 +43,10 @@ const LeftDiv = styled.div`
   span {
     margin-left: 1rem;
   }
+`;
+
+const DummyDiv = styled.div`
+  height: 6rem;
 `;
 
 const RightDiv = styled.div``;
