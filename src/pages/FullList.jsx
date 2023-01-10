@@ -16,6 +16,7 @@ const DiaryList = () => {
         <DiaryCard />
         <DiaryCard />
       </Wrapper>
+      <Add>글쓰기</Add>
     </CommonContainer>
   );
 };
@@ -32,4 +33,19 @@ const Filter = styled.div`
   margin-top: 4.6rem;
   margin-right: 4.8rem;
   font-size: 1.3rem;
+`;
+
+const Add = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  right: calc(50% - 15.5rem);
+  top: 90%;
+  width: 6.9rem;
+  height: 6.9rem;
+  background-color: #d9d9d9;
+  border: 0;
+  border-radius: 100%;
+  box-shadow: 0 1px 2px;
 `;
