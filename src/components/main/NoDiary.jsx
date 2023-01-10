@@ -1,6 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Modal from "../common/modal/Modal";
 import CreateDiaryModal from "./CreateDiaryModal";
 
 const NoDiary = () => {
@@ -8,8 +7,8 @@ const NoDiary = () => {
   return (
     <>
       {isModal && <CreateDiaryModal onClose={setIsModal}></CreateDiaryModal>}
-      <Container>
-        <Wrapper>
+      <StContainer>
+        <StWrapper>
           <h3>아직 다이어리가 없어요</h3>
           <DiaryIcon
             onClick={() => {
@@ -19,15 +18,15 @@ const NoDiary = () => {
             그림
           </DiaryIcon>
           <span>여기를 눌러 첫 다이어리를 만들어보세요</span>
-        </Wrapper>
-      </Container>
+        </StWrapper>
+      </StContainer>
     </>
   );
 };
 
 export default NoDiary;
 
-const Container = styled.div`
+const StContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -35,7 +34,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Wrapper = styled.div`
+const StWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
