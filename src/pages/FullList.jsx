@@ -11,6 +11,10 @@ const DiaryList = () => {
         <Header />
         <Filter>최신순</Filter>
         <DiaryCard />
+        <DiaryCard />
+        <DiaryCard />
+        <DiaryCard />
+        <DiaryCard />
       </Wrapper>
     </CommonContainer>
   );
