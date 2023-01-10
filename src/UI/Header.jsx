@@ -12,7 +12,7 @@ const Header = () => {
     <>
       <Head>
         <LeftDiv>
-          {"<"}
+          <button>{"<"}</button>
           <span>일기 쓰기</span>
         </LeftDiv>
         <RightDiv></RightDiv>
@@ -38,7 +38,11 @@ const Head = styled.header`
 
 const LeftDiv = styled.div`
   font-weight: 700;
-  margin-left: 1rem;
+  button {
+    border: 0;
+    padding: 2rem;
+    cursor: pointer;
+  }
   span {
     margin-left: 1rem;
   }
