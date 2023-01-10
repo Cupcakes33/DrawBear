@@ -9,7 +9,6 @@ const DiaryList = () => {
     <CommonContainer>
       <Header />
       <Filter>최신순</Filter>
-      <Date>2022년 12월 31일</Date>
       <DiaryCard />
     </CommonContainer>
   );
@@ -17,10 +16,8 @@ const DiaryList = () => {
 
 export default DiaryList;
 
-const Date = styled.h2`
-  height;
-`;
-
 const Filter = styled.div`
   float: right;
+  margin-top: 4.6rem;
+  margin-right: 4.8rem;
 `;
