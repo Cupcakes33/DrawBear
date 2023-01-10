@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 // useEffect의 결과에 따라 실행해서 Header로 값 리턴
@@ -8,11 +9,12 @@ import styled from "styled-components";
 // useEffect(() => {}, [주소]);
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Head>
         <LeftDiv>
-          <button>{"<"}</button>
+          <button onClick={() => navigate(-1)}>{"<"}</button>
           <span>일기 쓰기</span>
         </LeftDiv>
         <RightDiv></RightDiv>
