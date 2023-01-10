@@ -5,7 +5,7 @@ import Login from "../pages/Login";
 import FabricCanvas from "../components/FabricCanvas/FabricCanvas";
 import Main from "../pages/Main";
 import CreateDiary from "../pages/CreateDiary";
-import ReadList from "../pages/ReadList";
+import ReadList from "../pages/FullList";
 
 const Router = () => {
   return (
