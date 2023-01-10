@@ -69,6 +69,9 @@ const StContainer = styled.div`
     width: 26.2rem;
     height: 4.5rem;
   }
+  a {
+    font-weight: 700;
+  }
 `;
 
 const StForm = styled.form`

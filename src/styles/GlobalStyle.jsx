@@ -1,7 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-
   html {
     font-size: 62.5%;
   }
@@ -13,7 +12,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    font-weight: 700;
     text-decoration:none;
     color: inherit;
   }
