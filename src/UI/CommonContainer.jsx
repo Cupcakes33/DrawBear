@@ -8,9 +8,7 @@ const CommonContainer = ({ children }) => {
 export default CommonContainer;
 
 const Container = styled.div`
-  max-width: 36rem;
-  width: 95%;
+  width: 36rem;
   min-height: 100vh;
-  margin: auto;
   border: 1px solid black;
 `;
