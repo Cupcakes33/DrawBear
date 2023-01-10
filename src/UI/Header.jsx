@@ -26,7 +26,7 @@ const Head = styled.header`
   align-items: center;
   max-width: 36rem;
   width: 95%;
-  height: 5vh;
+  height: 6rem;
   background-color: #eeeeee;
   border: 1px solid gray;
   position: fixed;

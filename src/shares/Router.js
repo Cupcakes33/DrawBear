@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import FabricCanvas from "../components/FabricCanvas/FabricCanvas";
 import Main from "../pages/Main";
 import CreateDiary from "../pages/CreateDiary";
+import ReadList from "../pages/ReadList";
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
         {/* <Route path="/" element={<Canvas />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/list" element={<ReadList />} />
 
       </Routes>
     </BrowserRouter>
