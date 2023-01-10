@@ -27,8 +27,7 @@ export default Header;
 const Head = styled.header`
   display: flex;
   align-items: center;
-  max-width: 36rem;
-  width: 95%;
+  width: 36rem;
   height: 6rem;
   background-color: #eeeeee;
   border: 1px solid gray;
