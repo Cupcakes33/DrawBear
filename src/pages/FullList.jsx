@@ -7,17 +7,25 @@ import Header from "../UI/Header";
 const DiaryList = () => {
   return (
     <CommonContainer>
-      <Header />
-      <Filter>최신순</Filter>
-      <DiaryCard />
+      <Wrapper>
+        <Header />
+        <Filter>최신순</Filter>
+        <DiaryCard />
+      </Wrapper>
     </CommonContainer>
   );
 };
 
 export default DiaryList;
 
+const Wrapper = styled.div`
+  width: 31.2rem;
+  margin: auto;
+`;
+
 const Filter = styled.div`
   float: right;
   margin-top: 4.6rem;
   margin-right: 4.8rem;
+  font-size: 1.3rem;
 `;

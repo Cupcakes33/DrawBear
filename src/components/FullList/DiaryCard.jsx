@@ -18,7 +18,7 @@ const StContainer = styled.section`
   margin-bottom: 5.9rem;
 `;
 
-const Date = styled.h2`
+const Date = styled.h3`
   margin-top: 1.8rem;
   margin-bottom: 2.9rem;
   display: block;
