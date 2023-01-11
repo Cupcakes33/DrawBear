@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import ModalPortal from "./ModalPotal";
 
-const Modal = ({ onClose, children }) => {
+const Modal = ({ onClose, children, modalWidth, modalHeight }) => {
   const modalRef = useRef(null);
   const closeModalHander = () => {
     onClose?.();
@@ -21,7 +21,11 @@ const Modal = ({ onClose, children }) => {
   return (
     <ModalPortal>
       <StModalOverlay>
-        <StModalWrapper ref={modalRef}>
+        <StModalWrapper
+          ref={modalRef}
+          modalWidth={modalWidth}
+          modalHeight={modalHeight}
+        >
           <StModalCloseBtn onClick={closeModalHander} />
           {children}
         </StModalWrapper>
@@ -42,17 +46,17 @@ const StModalOverlay = styled.div`
 `;
 
 const StModalWrapper = styled.div`
-  width: 300px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 15px;
-  background-color: white;
+  display: flex;
+  flex-direction: row;
   position: absolute;
   top: 50%;
   left: 50%;
+  width: ${(props) => props.modalWidth || "300px"};
+  height: ${(props) => props.modalHeight || "200px"};
+  border-radius: 15px;
+  background-color: white;
+  overflow: hidden;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: row;
 `;
 
 const StModalCloseBtn = styled.button`
@@ -61,6 +65,7 @@ const StModalCloseBtn = styled.button`
   right: 22px;
   background: none;
   border: none;
+  cursor: pointer;
   &::before {
     content: "X";
   }
