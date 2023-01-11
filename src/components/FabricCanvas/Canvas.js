@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 
-const FabricCanvas = () => {
+const Canvas = () => {
   const [canvas, setCanvas] = useState("");
   const [color, setColor] = useState("black");
   const [width, setWidth] = useState(5);
@@ -42,8 +42,8 @@ const FabricCanvas = () => {
 
   const initCanvas = () =>
     new fabric.Canvas(canvasRef.current, {
-      height: 500,
-      width: 500,
+      height: 350,
+      width: 350,
       backgroundColor: "white",
       freeDrawingBrush: {
         color: color,
@@ -92,8 +92,8 @@ const FabricCanvas = () => {
 
   const drawRectHandler = (canvi) => {
     const rect = new fabric.Rect({
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       fill: color,
     });
     canvi.add(rect);
@@ -101,7 +101,7 @@ const FabricCanvas = () => {
   };
   const drawCircleHandler = (canvi) => {
     const circle = new fabric.Circle({
-      radius: 50,
+      radius: 25,
       fill: color,
     });
     canvi.add(circle);
@@ -110,8 +110,8 @@ const FabricCanvas = () => {
 
   const drawTextBoxHandler = (canvi) => {
     const text = new fabric.Textbox("Text", {
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       fill: color,
     });
     canvi.add(text);
@@ -119,7 +119,17 @@ const FabricCanvas = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "min-content",
+      }}
+    >
+      <StDiv>
+        <canvas ref={canvasRef} />;
+      </StDiv>
       <StMenu>
         <button onClick={freeDrawHandler}>freedraw</button>
         <button
@@ -199,34 +209,31 @@ const FabricCanvas = () => {
           </button>
         </div>
       </StMenu>
-      <StDiv>
-        <canvas ref={canvasRef} />;
-      </StDiv>
-    </>
+    </div>
   );
 };
 
-export default FabricCanvas;
+export default Canvas;
 
 const StDiv = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 350px;
+  height: 350px;
   border-radius: 15px;
   overflow: hidden;
-  position: absolute;
-  border: 1px solid black;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border: 1px solid #d9d9d9;
+  /* top: 50%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  position: relative;
 `;
 
 const StMenu = styled.div`
   width: 100%;
   height: 100px;
-  border-bottom: 2px solid black;
-  position: fixed;
+
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
 `;

@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import CommonContainer from "../UI/CommonContainer";
 import Header from "../UI/Header";
 
 const DiaryList = () => {
+  const navigate = useNavigate();
   return (
     <CommonContainer>
       <Wrapper>
@@ -15,7 +17,13 @@ const DiaryList = () => {
         <DiaryCard />
         <DiaryCard />
       </Wrapper>
-      <Add>글쓰기</Add>
+      <Add
+        onClick={() => {
+          navigate("/write");
+        }}
+      >
+        글쓰기
+      </Add>
     </CommonContainer>
   );
 };
