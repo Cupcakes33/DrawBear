@@ -6,8 +6,8 @@ import Canvas from "../components/FabricCanvas/Canvas";
 import Main from "../pages/Main";
 import CreateDiary from "../pages/CreateDiary";
 import FullList from "../pages/FullList";
-import Header from "../UI/Header";
 import Invite from "../pages/Invite";
+import Mypage from "../pages/Mypage";
 
 const Router = () => {
   return (
@@ -22,6 +22,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/list" element={<FullList />} />
         <Route path="/invite" element={<Invite />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );
