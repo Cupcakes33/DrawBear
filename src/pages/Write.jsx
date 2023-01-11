@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import { useRef } from "react";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { StContainer, StHeader, StSection } from "../UI/common";
+import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Canvas from "../components/FabricCanvas/Canvas";
 
 const Write = () => {
   const swiperNextRef = useRef(null);
@@ -15,7 +17,7 @@ const Write = () => {
 
   return (
     <StContainer>
-      <StHeader>
+      <StHeader flexCenter>
         <StPrevButton invisible={prevInvisible} ref={swiperPrevRef}>
           이전
         </StPrevButton>
@@ -47,10 +49,12 @@ const Write = () => {
           }}
           touchRatio={0}
           slidesPerView={1}
-          pagination={{ clickable: false }}
+          // pagination={{ clickable: false }}
         >
           <SwiperSlide>
-            <div>Slide 1</div>
+            <StWrapper>
+              <Canvas />
+            </StWrapper>
           </SwiperSlide>
           <SwiperSlide>
             <div>Slide 2</div>
@@ -63,39 +67,17 @@ const Write = () => {
 
 export default Write;
 
-const StContainer = styled.div`
-  width: 360px;
-  height: 100vh;
-  border: 1px solid black;
-  background-color: white;
-  position: relative;
-`;
-
-const StHeader = styled.header`
-  width: 100%;
-  height: 60px;
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 10px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StSection = styled.section`
-  width: 100%;
-  height: calc(100% - 132px);
-  background-color: white;
-  overflow-x: scroll;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const StSwiper = styled(Swiper)`
   width: 100%;
   height: 100%;
+`;
+
+const StWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
 `;
 
 const StButton = styled.button`
