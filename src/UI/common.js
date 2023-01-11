@@ -12,6 +12,7 @@ export const StHeader = styled.header`
   width: 100%;
   height: 60px;
   background-color: #f5f5f5;
+  position: relative;
   ${(props) =>
     props.flexCenter &&
     css`
@@ -25,6 +26,7 @@ export const StSection = styled.section`
   width: 100%;
   height: calc(100% - 132px);
   background-color: white;
+  position: relative;
   overflow-x: scroll;
 `;
 
