@@ -89,7 +89,7 @@ const Calendar = ({ onClose }) => {
   }, [selectedYear]);
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} modalWidth="360px" modalHeight="400px">
       <Container>
         <StHeader>
           <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
@@ -97,9 +97,6 @@ const Calendar = ({ onClose }) => {
             <div>
               <button onClick={() => prevMonth()}>이전 달</button>
               <button onClick={() => nextMonth()}>다음 달</button>
-            </div>
-            <div>
-              <button>x</button>
             </div>
           </div>
         </StHeader>
@@ -111,7 +108,7 @@ const Calendar = ({ onClose }) => {
 };
 
 const Container = styled.section`
-  width: 350px;
+  width: 360px;
   height: 400px;
   padding: 20px 20px;
   border: 1px solid black;
@@ -130,7 +127,7 @@ const StHeader = styled.div`
 const StWeek = styled.div`
   display: flex;
   .weekday {
-    width: calc(350px / 7);
+    width: calc(360px / 7);
     text-align: center;
   }
   .saturday {
@@ -160,7 +157,7 @@ const StDate = styled.div`
   }
   .weekday {
     float: left;
-    width: calc(350px / 7);
+    width: calc(360px / 7);
     height: 50px;
   }
   .saturday {

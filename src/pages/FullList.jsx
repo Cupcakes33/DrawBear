@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import styled from "styled-components";
+import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
 import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
@@ -8,6 +9,7 @@ import CommonContainer from "../UI/CommonContainer";
 
 const DiaryList = () => {
   const [changeHeader, setChangeHeader] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const defaultHeader = useCallback(() => {
     return (
@@ -32,7 +34,7 @@ const DiaryList = () => {
           <StInput placeholder="일기 검색..." />
         </div>
         <div>
-          <button>달력</button>
+          <button onClick={() => setIsModal(true)}>달력</button>
           <button onClick={() => setChangeHeader(false)}>취소</button>
         </div>
       </>
@@ -40,21 +42,24 @@ const DiaryList = () => {
   }, []);
 
   return (
-    <CommonContainer>
-      <StHeader flexBetween>
-        {!changeHeader && defaultHeader()}
-        {changeHeader && SearchHeader()}
-      </StHeader>
-      <StWrapper>
-        <Filter>최신순</Filter>
-        <DiaryCard />
-        <DiaryCard />
-        <DiaryCard />
-        <DiaryCard />
-        <DiaryCard />
-      </StWrapper>
-      <Add>글쓰기</Add>
-    </CommonContainer>
+    <>
+      {isModal && <Calendar onClose={setIsModal} />}
+      <CommonContainer>
+        <StHeader flexBetween>
+          {!changeHeader && defaultHeader()}
+          {changeHeader && SearchHeader()}
+        </StHeader>
+        <StWrapper>
+          <Filter>최신순</Filter>
+          <DiaryCard />
+          <DiaryCard />
+          <DiaryCard />
+          <DiaryCard />
+          <DiaryCard />
+        </StWrapper>
+        <Add>글쓰기</Add>
+      </CommonContainer>
+    </>
   );
 };
 
