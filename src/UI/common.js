@@ -8,6 +8,11 @@ export const StContainer = styled.div`
   background-color: white;
 `;
 
+export const StWrapper = styled.div`
+  width: 31.2rem;
+  margin: 1.8rem auto;
+`;
+
 export const StHeader = styled.header`
   width: 100%;
   height: 60px;

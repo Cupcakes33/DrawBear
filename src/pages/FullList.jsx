@@ -1,31 +1,28 @@
 import React from "react";
 import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
+import { StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 import Header from "../UI/Header";
 
 const DiaryList = () => {
   return (
     <CommonContainer>
-      <Wrapper>
+      <StHeader />
+      <StWrapper>
         <Filter>최신순</Filter>
         <DiaryCard />
         <DiaryCard />
         <DiaryCard />
         <DiaryCard />
         <DiaryCard />
-      </Wrapper>
+      </StWrapper>
       <Add>글쓰기</Add>
     </CommonContainer>
   );
 };
 
 export default DiaryList;
-
-const Wrapper = styled.div`
-  width: 31.2rem;
-  margin: auto;
-`;
 
 const Filter = styled.div`
   float: right;
