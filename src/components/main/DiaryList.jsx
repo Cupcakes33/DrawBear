@@ -32,7 +32,9 @@ const DiaryList = () => {
           return (
             <div>
               <span>{el.title}</span>
-              <DiaryIcon bgColor={el.color}>그림</DiaryIcon>
+              <DiaryIcon bgColor={el.color} onClick={() => navigate("/list")}>
+                그림
+              </DiaryIcon>
             </div>
           );
         })}
