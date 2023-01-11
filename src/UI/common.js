@@ -23,6 +23,8 @@ export const StHeader = styled.header`
   justify-content: ${(props) => props.flexCenter && "center"};
   justify-content: ${(props) => props.flexBetween && "space-between"};
   align-items: center;
+  position: sticky;
+  top: 0;
   div {
     display: flex;
     justify-content: center;
