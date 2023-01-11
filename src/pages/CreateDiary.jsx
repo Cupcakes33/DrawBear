@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import Back from "../components/header/Back";
+import HeaderBtn from "../components/header/HeaderBtn";
 import HeaderText from "../components/header/HeaderText";
 import { StHeader } from "../UI/common";
 
@@ -7,13 +8,13 @@ const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"]
 const CreateDiary = () => {
   return (
     <Container>
-      <StHeader>
+      <StHeader flexBetween>
         <div>
           <Back />
           <HeaderText>다이어리 생성</HeaderText>
         </div>
         <div>
-          
+          <HeaderBtn>완성</HeaderBtn>
         </div>
       </StHeader>
       <Section>
