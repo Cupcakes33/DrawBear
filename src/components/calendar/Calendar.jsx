@@ -140,6 +140,7 @@ const StWeek = styled.div`
 
 const StDate = styled.div`
   margin-top: 20px;
+  background-color: pink;
   button {
     border: none;
     background-color: transparent;
@@ -158,6 +159,8 @@ const StDate = styled.div`
   .weekday {
     float: left;
     width: calc(360px / 7);
+    margin-left: -0.3rem;
+    margin-right: -0.3rem;
     height: 50px;
   }
   .saturday {
