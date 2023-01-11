@@ -18,19 +18,13 @@ export const StHeader = styled.header`
   width: 100%;
   height: 60px;
   background-color: #EEEEEE;
-  justify-content: ${(props) => props.justifyContent};
+  justify-content: ${(props) => props.flexCenter && "center"};
+  justify-content: ${(props) => props.flexBetween && "space-between"};
   align-items: center;
   div {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* ${(props) =>
-    props.flexCenter &&
-    css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `} */
   }
 `;
 
