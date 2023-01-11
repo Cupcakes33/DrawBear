@@ -20,13 +20,18 @@ export const StHeader = styled.header`
   background-color: #EEEEEE;
   justify-content: ${(props) => props.justifyContent};
   align-items: center;
-  /* ${(props) =>
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* ${(props) =>
     props.flexCenter &&
     css`
       display: flex;
       justify-content: center;
       align-items: center;
     `} */
+  }
 `;
 
 export const StSection = styled.section`

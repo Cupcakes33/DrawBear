@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import Back from "../components/header/Back";
+import HeaderText from "../components/header/HeaderText";
 import { StHeader } from "../UI/common";
 
 const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
@@ -7,7 +8,13 @@ const CreateDiary = () => {
   return (
     <Container>
       <StHeader>
-        <Back />
+        <div>
+          <Back />
+          <HeaderText>다이어리 생성</HeaderText>
+        </div>
+        <div>
+          
+        </div>
       </StHeader>
       <Section>
         <h3>다이어리 제목</h3>
