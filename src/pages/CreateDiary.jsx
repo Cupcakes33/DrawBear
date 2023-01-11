@@ -1,38 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
+import Back from "../components/header/Back";
+import { StHeader } from "../UI/common";
 
-const color = [
-  "#E76020",
-  "#ee892f",
-  "#e0bb76",
-  "#63896a",
-  "#325434",
-  "#0f0f0d",
-];
+const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
 const CreateDiary = () => {
-  const navigate = useNavigate();
   return (
     <Container>
-      <Header>
-        <div>
-          <button
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            이전
-          </button>
-          <h1>다이어리 생성</h1>
-          {/* 다이어리 생성 페이지에서 혼자쓰고 함께쓰는 옵션을 바꾸어 줄 수 있는데 모달로 들어가는게 부자연스럽게 느껴진다. */}
-        </div>
-        <button
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          생성
-        </button>
-      </Header>
+      <StHeader>
+        <Back />
+      </StHeader>
       <Section>
         <h3>다이어리 제목</h3>
         <DiaryIcon>그림</DiaryIcon>
@@ -54,21 +30,6 @@ const Container = styled.div`
   border: 1px solid black;
   background-color: white;
   position: relative;
-`;
-
-const Header = styled.header`
-  width: 100%;
-  height: 60px;
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 10px;
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 const Section = styled.section`
