@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Comment from "../components/detail/Comment";
 import { StContainer, StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
@@ -56,6 +57,13 @@ const Detail = () => {
         </Buttonbox>
         <CommentBox>
           <h3>코멘트 1</h3>
+          <Comment />
+          <Comment />
+          <Comment />
+          <div className="input-box">
+            <input placeholder="댓글 작성하기" />
+            <button>등록</button>
+          </div>
         </CommentBox>
       </StWrapper>
     </CommonContainer>
@@ -105,4 +113,17 @@ const Buttonbox = styled.div`
   margin-bottom: 1rem;
 `;
 
-const CommentBox = styled.div``;
+const CommentBox = styled.div`
+  .input-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      width: 85%;
+      height: 3.4rem;
+      ::placeholder {
+        padding-left: 1rem;
+      }
+    }
+  }
+`;
