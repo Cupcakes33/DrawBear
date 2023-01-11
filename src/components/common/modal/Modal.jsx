@@ -3,7 +3,17 @@ import styled from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import ModalPortal from "./ModalPotal";
 
-const Modal = ({ onClose, children, modalWidth, modalHeight }) => {
+const Modal = ({
+  onClose,
+  children,
+  modalWidth = "300px",
+  modalHeight = "200px",
+  top = "50%",
+  bottom,
+  left = "50%",
+  right,
+  translate = "-50%, -50%",
+}) => {
   const modalRef = useRef(null);
   const closeModalHander = () => {
     onClose?.();
@@ -25,6 +35,11 @@ const Modal = ({ onClose, children, modalWidth, modalHeight }) => {
           ref={modalRef}
           modalWidth={modalWidth}
           modalHeight={modalHeight}
+          top={top}
+          bottom={bottom}
+          right={right}
+          left={left}
+          translate={translate}
         >
           <StModalCloseBtn onClick={closeModalHander} />
           {children}
@@ -40,7 +55,6 @@ const StModalOverlay = styled.div`
   min-height: 100vh;
   position: fixed;
   top: 0;
-  border: 0;
   background: rgba(0, 0, 0, 0.1);
   z-index: 9999;
 `;
@@ -49,14 +63,16 @@ const StModalWrapper = styled.div`
   display: flex;
   flex-direction: row;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: ${(props) => props.modalWidth || "300px"};
-  height: ${(props) => props.modalHeight || "200px"};
+  top: ${(props) => props.top};
+  bottom: ${(props) => props.bottom};
+  left: ${(props) => props.left};
+  right: ${(props) => props.right};
+  width: ${(props) => props.modalWidth};
+  height: ${(props) => props.modalHeight};
   border-radius: 15px;
   background-color: white;
   overflow: hidden;
-  transform: translate(-50%, -50%);
+  transform: translate(${(props) => props.translate});
 `;
 
 const StModalCloseBtn = styled.button`

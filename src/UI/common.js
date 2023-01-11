@@ -1,11 +1,25 @@
 import styled, { css } from "styled-components";
 
+const flexProps = css`
+  ${(props) =>
+    props.flex &&
+    css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `}
+  flex-direction: ${(props) => props.derection};
+  justify-content: ${(props) => props.justify};
+  align-items: ${(props) => props.align};
+`;
+
 export const StContainer = styled.div`
   position: relative;
   width: 360px;
   height: 100vh;
   border: 1px solid black;
   background-color: white;
+  ${flexProps}
 `;
 
 export const StWrapper = styled.div`
@@ -37,7 +51,10 @@ export const StSection = styled.section`
   width: 100%;
   height: calc(100% - 132px);
   background-color: white;
+  position: relative;
   overflow-x: scroll;
+  padding: 20px;
+  ${flexProps}
 `;
 
 export const StFooter = styled.div`

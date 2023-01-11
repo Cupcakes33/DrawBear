@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
@@ -8,6 +9,7 @@ import { StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
 const DiaryList = () => {
+  const navigate = useNavigate();
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
@@ -57,7 +59,13 @@ const DiaryList = () => {
           <DiaryCard />
           <DiaryCard />
         </StWrapper>
-        <Add>글쓰기</Add>
+        <Add
+          onClick={() => {
+            navigate("/write");
+          }}
+        >
+          글쓰기
+        </Add>
       </CommonContainer>
     </>
   );
