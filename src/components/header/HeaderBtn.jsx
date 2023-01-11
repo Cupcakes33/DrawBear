@@ -10,6 +10,5 @@ export default HeaderBtn;
 
 const Stbutton = styled.button`
   border: 0;
-  padding: 2rem;
   cursor: pointer;
 `;

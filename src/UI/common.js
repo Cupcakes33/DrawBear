@@ -17,6 +17,7 @@ export const StHeader = styled.header`
   display: flex;
   width: 100%;
   height: 60px;
+  padding-right: 2rem;
   background-color: #EEEEEE;
   justify-content: ${(props) => props.flexCenter && "center"};
   justify-content: ${(props) => props.flexBetween && "space-between"};
@@ -25,6 +26,7 @@ export const StHeader = styled.header`
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
   }
 `;
 

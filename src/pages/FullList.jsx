@@ -1,13 +1,36 @@
-import React from "react";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
+import Back from "../components/header/Back";
+import HeaderText from "../components/header/HeaderText";
 import { StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
 const DiaryList = () => {
+  const [changeHeader, setChangeHeader] = useState(false);
+
+  const defaultHeader = useCallback(() => {
+    return (
+      <>
+        <div>
+          <Back />
+          <HeaderText>다이어리 제목</HeaderText>
+        </div>
+        <div>
+          <button onClick={() => setChangeHeader(true)}>검색</button>
+          <button>설정</button>
+        </div>
+      </>
+    );
+  }, []);
+
+  const SearchHeader = useCallback(() => {
+    return <></>;
+  }, []);
+
   return (
     <CommonContainer>
-      <StHeader />
+      <StHeader flexBetween>{!changeHeader && defaultHeader()}</StHeader>
       <StWrapper>
         <Filter>최신순</Filter>
         <DiaryCard />
