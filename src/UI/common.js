@@ -28,6 +28,7 @@ export const StSection = styled.section`
   background-color: white;
   position: relative;
   overflow-x: scroll;
+  padding: 20px;
 `;
 
 export const StFooter = styled.div`
