@@ -89,7 +89,7 @@ const Calendar = ({ onClose }) => {
   }, [selectedYear]);
 
   return (
-    <Modal onClose={onClose} modalWidth="360px" modalHeight="400px">
+    <Modal onClose={onClose} modalWidth="36rem" modalHeight="40rem" top="80%">
       <Container>
         <StHeader>
           <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
@@ -108,27 +108,31 @@ const Calendar = ({ onClose }) => {
 };
 
 const Container = styled.section`
-  width: 360px;
-  height: 400px;
-  padding: 20px 20px;
+  width: 36rem;
+  height: 40rem;
+  padding: 2rem 2rem;
   border: 1px solid black;
+  background-color: #383838;
 `;
 
 const StHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  color: whitesmoke;
+  margin-bottom: 2rem;
   .buttons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
   }
 `;
 
 const StWeek = styled.div`
   display: flex;
   .weekday {
-    width: calc(360px / 7);
+    width: calc(36rem / 7);
     text-align: center;
+    color: whitesmoke;
   }
   .saturday {
     color: blue;
@@ -139,8 +143,7 @@ const StWeek = styled.div`
 `;
 
 const StDate = styled.div`
-  margin-top: 20px;
-  background-color: pink;
+  margin-top: 2rem;
   button {
     border: none;
     background-color: transparent;
@@ -158,10 +161,11 @@ const StDate = styled.div`
   }
   .weekday {
     float: left;
-    width: calc(360px / 7);
+    width: calc(36rem / 7);
     margin-left: -0.3rem;
     margin-right: -0.3rem;
     height: 50px;
+    color: whitesmoke;
   }
   .saturday {
     color: blue;
