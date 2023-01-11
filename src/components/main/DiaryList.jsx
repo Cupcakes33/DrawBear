@@ -26,8 +26,8 @@ const DiaryData = [
 const DiaryList = () => {
   const navigate = useNavigate();
   return (
-    <Container>
-      <Wrapper>
+    <StContainer>
+      <StWrapper>
         {DiaryData.map((el) => {
           return (
             <div>
@@ -38,13 +38,13 @@ const DiaryList = () => {
             </div>
           );
         })}
-      </Wrapper>
-      <Button
+      </StWrapper>
+      <StButton
         onClick={() => {
           navigate("/new");
         }}
       />
-    </Container>
+    </StContainer>
   );
 };
 
@@ -60,7 +60,7 @@ const DiaryIcon = styled.div`
   background-color: ${(props) => props.bgColor};
 `;
 
-const Container = styled.div`
+const StContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -68,7 +68,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Wrapper = styled.div`
+const StWrapper = styled.div`
   width: 300%;
   height: 100%;
   display: flex;
@@ -88,7 +88,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Button = styled.button`
+const StButton = styled.button`
   width: 48px;
   height: 48px;
   border-radius: 50%;
