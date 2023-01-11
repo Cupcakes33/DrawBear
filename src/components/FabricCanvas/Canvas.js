@@ -92,8 +92,8 @@ const Canvas = () => {
 
   const drawRectHandler = (canvi) => {
     const rect = new fabric.Rect({
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       fill: color,
     });
     canvi.add(rect);
@@ -101,7 +101,7 @@ const Canvas = () => {
   };
   const drawCircleHandler = (canvi) => {
     const circle = new fabric.Circle({
-      radius: 50,
+      radius: 25,
       fill: color,
     });
     canvi.add(circle);
@@ -110,8 +110,8 @@ const Canvas = () => {
 
   const drawTextBoxHandler = (canvi) => {
     const text = new fabric.Textbox("Text", {
-      width: 100,
-      height: 100,
+      width: 50,
+      height: 50,
       fill: color,
     });
     canvi.add(text);
@@ -119,7 +119,17 @@ const Canvas = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "min-content",
+      }}
+    >
+      <StDiv>
+        <canvas ref={canvasRef} />;
+      </StDiv>
       <StMenu>
         <button onClick={freeDrawHandler}>freedraw</button>
         <button
@@ -199,9 +209,6 @@ const Canvas = () => {
           </button>
         </div>
       </StMenu>
-      <StDiv>
-        <canvas ref={canvasRef} />;
-      </StDiv>
     </div>
   );
 };
@@ -213,8 +220,7 @@ const StDiv = styled.div`
   height: 350px;
   border-radius: 15px;
   overflow: hidden;
-  /* position: absolute; */
-  border: 1px solid black;
+  border: 1px solid #d9d9d9;
   /* top: 50%;
   left: 50%; */
   /* transform: translate(-50%, -50%); */
@@ -224,7 +230,6 @@ const StDiv = styled.div`
 const StMenu = styled.div`
   width: 100%;
   height: 100px;
-  
 
   display: flex;
   flex-direction: row;

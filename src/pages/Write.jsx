@@ -2,98 +2,77 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import { useRef } from "react";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+
 import Canvas from "../components/FabricCanvas/Canvas";
 
 const Write = () => {
-  const swiperNextRef = useRef(null);
-  const swiperPrevRef = useRef(null);
-  const [prevInvisible, setPrevInvisible] = useState(true);
-  const [nextInvisible, setNextInvisible] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(true);
 
   return (
     <StContainer>
       <StHeader flexCenter>
-        <StPrevButton invisible={prevInvisible} ref={swiperPrevRef}>
-          이전
-        </StPrevButton>
         <h1>LOGO</h1>
-        <StNextButton invisible={nextInvisible} ref={swiperNextRef}>
-          다음
-        </StNextButton>
+        <button onClick={() => setIsDrawing(!isDrawing)}>
+          {isDrawing ? "그림" : "제목"}
+        </button>
       </StHeader>
-      <StSection>
-        <StSwiper
-          modules={[Navigation, Pagination]}
-          navigation={{
-            prevEl: swiperPrevRef.current,
-            nextEl: swiperNextRef.current,
-          }}
-          onInit={(swiper) => {
-            swiper.params.navigation.prevEl = swiperPrevRef.current;
-            swiper.params.navigation.nextEl = swiperNextRef.current;
-            swiper.navigation.init();
-            swiper.navigation.update();
-          }}
-          onReachEnd={() => {
-            setPrevInvisible(false);
-            setNextInvisible(true);
-          }}
-          onReachBeginning={() => {
-            setPrevInvisible(true);
-            setNextInvisible(false);
-          }}
-          touchRatio={0}
-          slidesPerView={1}
-          // pagination={{ clickable: false }}
-        >
-          <SwiperSlide>
-            <StWrapper>
-              <Canvas />
-            </StWrapper>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div>Slide 2</div>
-          </SwiperSlide>
-        </StSwiper>
-      </StSection>
+      <StCanvasSection drawing={isDrawing}>
+        <Canvas />
+        <textarea></textarea>
+      </StCanvasSection>
+      <StTitleSection drawing={isDrawing}>
+        <div>
+          <span>제목 : </span>
+          <input type="text" placeholder="제목을 입력해주세요" />
+        </div>
+        <div>
+          <span>날짜 : </span>
+          <input type="date" placeholder="2023.01.01" />
+        </div>
+        <div>
+          <span>태그 : </span>
+          <input type="text" placeholder="태그를 입력해주세요" />
+        </div>
+      </StTitleSection>
     </StContainer>
   );
 };
 
 export default Write;
 
-const StSwiper = styled(Swiper)`
-  width: 100%;
-  height: 100%;
-`;
-
-const StWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+const StCanvasSection = styled(StSection)`
   display: flex;
-  justify-content: center;
-  /* align-items: center; */
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+
+  ${(props) =>
+    !props.drawing &&
+    css`
+      display: none;
+    `}
+
+  textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    resize: none;
+  }
 `;
 
-const StButton = styled.button`
-  width: 60px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: #d9d9d9;
-  border: none;
-  cursor: pointer;
+const StTitleSection = styled(StSection)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
   ${(props) =>
-    props.invisible &&
+    props.drawing &&
     css`
-      visibility: hidden;
+      display: none;
     `}
 `;
-
-const StNextButton = styled(StButton)``;
-
-const StPrevButton = styled(StButton)``;
