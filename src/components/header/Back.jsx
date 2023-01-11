@@ -10,6 +10,6 @@ export default Back;
 
 const Stbutton = styled.button`
   border: 0;
-  padding: 2rem 1rem 2rem 2rem;
+  padding: 2rem 1rem 2rem 0;
   cursor: pointer;
 `;

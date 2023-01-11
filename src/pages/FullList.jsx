@@ -25,12 +25,26 @@ const DiaryList = () => {
   }, []);
 
   const SearchHeader = useCallback(() => {
-    return <></>;
+    return (
+      <>
+        <div>
+          <button>검색</button>
+          <StInput placeholder="일기 검색..." />
+        </div>
+        <div>
+          <button>달력</button>
+          <button onClick={() => setChangeHeader(false)}>취소</button>
+        </div>
+      </>
+    );
   }, []);
 
   return (
     <CommonContainer>
-      <StHeader flexBetween>{!changeHeader && defaultHeader()}</StHeader>
+      <StHeader flexBetween>
+        {!changeHeader && defaultHeader()}
+        {changeHeader && SearchHeader()}
+      </StHeader>
       <StWrapper>
         <Filter>최신순</Filter>
         <DiaryCard />
@@ -66,4 +80,17 @@ const Add = styled.button`
   border: 0;
   border-radius: 100%;
   box-shadow: 0 1px 2px;
+`;
+
+const StInput = styled.input`
+  width: 20rem;
+  font-size: 1.7rem;
+  border: 0;
+  outline: none;
+  background-color: inherit;
+  padding: 1rem 0.3rem 1rem 0;
+  :focus {
+    border: 0;
+    border-bottom: 1px solid black;
+  }
 `;

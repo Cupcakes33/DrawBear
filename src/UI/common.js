@@ -17,6 +17,7 @@ export const StHeader = styled.header`
   display: flex;
   width: 100%;
   height: 60px;
+  padding-left: 2rem;
   padding-right: 2rem;
   background-color: #EEEEEE;
   justify-content: ${(props) => props.flexCenter && "center"};
