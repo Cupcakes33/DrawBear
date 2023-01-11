@@ -14,16 +14,19 @@ export const StWrapper = styled.div`
 `;
 
 export const StHeader = styled.header`
+  display: flex;
   width: 100%;
   height: 60px;
-  background-color: #f5f5f5;
-  ${(props) =>
+  background-color: #EEEEEE;
+  justify-content: ${(props) => props.justifyContent};
+  align-items: center;
+  /* ${(props) =>
     props.flexCenter &&
     css`
       display: flex;
       justify-content: center;
       align-items: center;
-    `}
+    `} */
 `;
 
 export const StSection = styled.section`
