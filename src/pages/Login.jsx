@@ -42,7 +42,7 @@ const Login = () => {
           <StBtn>로그인</StBtn>
         </StForm>
         <div>
-          아직 계정이 없으세요? <Link to="/singup">회원가입 {`>`} </Link>
+          아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
         </div>
       </StContainer>
       <StLine>
@@ -66,7 +66,7 @@ const StContainer = styled.div`
     margin-bottom: 1rem;
   }
   input {
-    width: 26.2rem;
+    width: 27rem;
     height: 4.5rem;
   }
   a {
@@ -106,9 +106,10 @@ const StLine = styled.div`
     margin: auto -2rem;
   }
   hr {
-    width: 9rem;
+    width: 8rem;
     height: 0.1rem;
     border: 0;
     background-color: gray;
+    margin: auto;
   }
 `;

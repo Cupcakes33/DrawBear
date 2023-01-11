@@ -5,18 +5,23 @@ import Write from "../pages/Write";
 import FabricCanvas from "../components/FabricCanvas/FabricCanvas";
 import Main from "../pages/Main";
 import CreateDiary from "../pages/CreateDiary";
+import FullList from "../pages/FullList";
+import Header from "../UI/Header";
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/new" element={<CreateDiary />} />
         {/* <Route path="/" element={<Canvas />} /> */}
+
         <Route path="/write" element={<Write />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/list" element={<FullList />} />
+
       </Routes>
     </BrowserRouter>
   );
