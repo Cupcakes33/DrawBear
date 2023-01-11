@@ -58,8 +58,6 @@ const Title = styled.div`
     font-size: 0.9rem;
     margin-top: auto;
   }
-  .user {
-  }
   span {
     font-size: 1.4rem;
     margin-left: 0.8rem;

@@ -8,7 +8,6 @@ const DiaryList = () => {
   return (
     <CommonContainer>
       <Wrapper>
-        <Header />
         <Filter>최신순</Filter>
         <DiaryCard />
         <DiaryCard />
@@ -30,8 +29,8 @@ const Wrapper = styled.div`
 
 const Filter = styled.div`
   float: right;
-  margin-top: 4.6rem;
-  margin-right: 4.8rem;
+  margin-top: 3rem;
+  margin-right: 4rem;
   font-size: 1.3rem;
 `;
 

@@ -20,7 +20,7 @@ const StContainer = styled.section`
 
 const Date = styled.h3`
   margin-top: 1.8rem;
-  margin-bottom: 2.9rem;
+  margin-bottom: 3.2rem;
   display: block;
   align-items: center;
 `;
