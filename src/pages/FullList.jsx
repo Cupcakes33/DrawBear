@@ -3,7 +3,6 @@ import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import { StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
-import Header from "../UI/Header";
 
 const DiaryList = () => {
   return (
