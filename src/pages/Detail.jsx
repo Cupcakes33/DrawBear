@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
+import Back from "../components/header/Back";
+import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
@@ -34,7 +36,10 @@ const posts = {
 const Detail = () => {
   return (
     <CommonContainer>
-      <StHeader />
+      <StHeader>
+        <Back />
+        <HeaderText>일기 제목</HeaderText>
+      </StHeader>
       <StWrapper>
         <InfoBox>
           <h5>다이어리 제목</h5>
