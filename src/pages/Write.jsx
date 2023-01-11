@@ -12,7 +12,7 @@ const Write = () => {
 
   return (
     <StContainer>
-      <StHeader flexCenter>
+      <StHeader flex>
         <button
           onClick={() => {
             navigate(-1);
