@@ -2,20 +2,29 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import { useRef } from "react";
 import { StContainer, StHeader, StSection } from "../UI/common";
+import { useNavigate } from "react-router-dom";
 
 import Canvas from "../components/FabricCanvas/Canvas";
 
 const Write = () => {
   const [isDrawing, setIsDrawing] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <StContainer>
       <StHeader flexCenter>
-        <h1>LOGO</h1>
-        <button onClick={() => setIsDrawing(!isDrawing)}>
-          {isDrawing ? "그림" : "제목"}
+        <button
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          이전
         </button>
+        <h1>LOGO</h1>
       </StHeader>
+      <button onClick={() => setIsDrawing(!isDrawing)}>
+        {isDrawing ? "그림" : "제목"}
+      </button>
       <StCanvasSection drawing={isDrawing}>
         <Canvas />
         <textarea></textarea>
@@ -23,15 +32,15 @@ const Write = () => {
       <StTitleSection drawing={isDrawing}>
         <div>
           <span>제목 :</span>
-          <input type="text" placeholder="제목을 입력해주세요" />
+          <input type="text" name="title" placeholder="제목을 입력해주세요" />
         </div>
         <div>
           <span>날짜 :</span>
-          <input type="date" placeholder="2023.01.01" />
+          <input type="date" name="date" placeholder="2023.01.01" />
         </div>
         <div>
           <span>태그 :</span>
-          <input type="text" placeholder="태그를 입력해주세요" />
+          <input type="text" name="tag" placeholder="태그를 입력해주세요" />
         </div>
         <button>일기 작성하기</button>
       </StTitleSection>

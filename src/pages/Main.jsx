@@ -5,7 +5,7 @@ import Footer from "../components/common/Footer";
 import { StContainer, StHeader, StSection } from "../UI/common";
 
 const Main = () => {
-  const [isDiaryData, setIsDiaryData] = useState(false);
+  const [isDiaryData, setIsDiaryData] = useState(true);
   return (
     <StContainer>
       <StHeader flexCenter>
