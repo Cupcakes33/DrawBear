@@ -11,7 +11,7 @@ import Header from "../UI/Header";
 const Router = () => {
   return (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/new" element={<CreateDiary />} />
