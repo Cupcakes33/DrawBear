@@ -4,7 +4,6 @@ import HookForm from "../components/login/HookForm";
 import CommonContainer from "../UI/CommonContainer";
 
 const Login = () => {
-  // const onSubmit = (data) => console.log(data); // console.log 대신 디스패치 들어가면 됨
 
   return (
     <CommonContainer>
