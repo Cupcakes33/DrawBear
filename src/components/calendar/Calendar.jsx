@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __holiday } from "../../redux/modules/loginSlice";
+import { __holiday } from "../../redux/modules/diarySlice";
 import Modal from "../common/modal/Modal";
 
 const Calendar = ({ onClose }) => {
