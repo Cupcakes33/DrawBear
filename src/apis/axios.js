@@ -5,6 +5,6 @@ export const instance = axios.create({
 });
 
 export const loginApi = {
-  login: (payload) => instance.post("/api/login", { username: payload.email, password: payload.password }),
-  signup: (payload) => instance.post("/api/signup", { username: "", nickname: "", password: "", profileImg: "" }),
+  login: async (payload) => await instance.post("/api/auth/login", { username: payload.email, password: payload.password }),
+  signup: async (payload) => await instance.post("/api/auth/signup", { username: "", nickname: "", password: "", profileImg: "" }),
 };
