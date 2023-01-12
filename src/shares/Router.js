@@ -8,6 +8,7 @@ import CreateDiary from "../pages/CreateDiary";
 import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
 import Mypage from "../pages/Mypage";
+import Detail from "../pages/Detail";
 
 const Router = () => {
   return (
@@ -22,7 +23,8 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/list" element={<FullList />} />
         <Route path="/invite" element={<Invite />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage" element={<Mypage />} />        <Route path="/detail" element={<Detail />} />
+
       </Routes>
     </BrowserRouter>
   );

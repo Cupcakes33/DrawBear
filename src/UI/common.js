@@ -22,13 +22,29 @@ export const StContainer = styled.div`
   ${flexProps}
 `;
 
+export const StWrapper = styled.div`
+  width: 31.2rem;
+  margin: 1.8rem auto;
+`;
+
 export const StHeader = styled.header`
+  display: flex;
   width: 100%;
   height: 60px;
-  background-color: #f5f5f5;
-  position: relative;
-  padding: 20px;
-  ${flexProps}
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: #EEEEEE;
+  justify-content: ${(props) => props.flexCenter && "center"};
+  justify-content: ${(props) => props.flexBetween && "space-between"};
+  align-items: center;
+  position: sticky;
+  top: 0;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
 `;
 
 export const StSection = styled.section`
