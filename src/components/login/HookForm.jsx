@@ -1,9 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { loginApi } from "../../apis/axios";
+import { __login } from "../../redux/modules/diarySlice";
 
 const HookForm = () => {
+  const dispatch = useDispatch();
+  const { result } = useSelector((state) => state.diarySlice);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,7 +22,22 @@ const HookForm = () => {
 
   const onSubmit = (loginData) => {
     return mutate(loginData);
+    // dispatch(__login(loginData));
+    // axios
+    //   .post(`${process.env.REACT_APP_MY_API}/api/auth/login`, { email: loginData.email, password: loginData.password })
+    //   .then((response) => {
+    //     localStorage.setItem("token", response.data.token);
+    //     axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+    //     navigate("/");
+    //   });
   };
+
+  useEffect(() => {
+    if (data?.result) {
+      alert("로그인 성공!");
+      return navigate("/");
+    } else if (isError) alert("로그인 실패!");
+  }, [data, isError, navigate]);
 
   return (
     <StForm onSubmit={handleSubmit(onSubmit)}>

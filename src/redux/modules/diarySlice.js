@@ -3,7 +3,10 @@ import axios from "axios";
 import { instance } from "../../apis/axios";
 
 const initialState = {
-  holiday: []
+  holiday: [],
+  diaires: [],
+  result: "",
+  isLoading: ""
 };
 
 export const __holiday = createAsyncThunk(
@@ -14,6 +17,39 @@ export const __holiday = createAsyncThunk(
       return thunkAPI.fulfillWithValue(data.response.body.items.item)
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
+    }
+  }
+)
+
+export const __login = createAsyncThunk(
+  "LOGIN_FINALE",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await instance.post("api/auth/login", { email: payload.email, password: payload.password })
+      localStorage.setItem("token", data.token)
+      axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+      return thunkAPI.fulfillWithValue(data.result)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.result)
+    }
+  }
+)
+
+export const __main = createAsyncThunk(
+  "MAIN_FINALE",
+  async (payload, thunkAPI) => {
+    try {
+      const { data } = await instance.get("/api/diary"
+      // , {
+      //   headers: {
+      //     authorization: `Bearer ${localStorage.getItem("token")}`,
+      //   }
+      // }
+      )
+
+      return thunkAPI.fulfillWithValue(data)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.result)
     }
   }
 )
@@ -34,6 +70,30 @@ const loginSlice = createSlice({
       .addCase(__holiday.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+
+      .addCase(__login.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.result = action.payload
+      })
+      .addCase(__login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.result = action.payload;
+      })
+
+      .addCase(__main.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(__main.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.diaires = action.payload;
+      })
+      .addCase(__main.rejected, (state, action) => {
+        state.isLoading = false;
+        state.result = action.payload;
       })
   }
 })
