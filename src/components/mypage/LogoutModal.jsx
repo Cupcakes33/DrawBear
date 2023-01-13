@@ -37,6 +37,17 @@ const StWrapper = styled.div`
       height: 30px;
       border-radius: 5px;
       border: none;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      &:hover {
+        transform: scale(1.05);
+        &:first-child {
+          background: #ef476f;
+        }
+        &:last-child {
+          background: #06d6a0;
+        }
+      }
     }
   }
 `;
