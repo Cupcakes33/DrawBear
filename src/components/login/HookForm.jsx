@@ -7,14 +7,14 @@ import { loginApi } from "../../apis/axios";
 
 const HookForm = () => {
   const navigate = useNavigate();
+  
+  const { data, mutate, error, isError } = useMutation(["user"], (v) => loginApi.login(v));
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const { data, mutate, error, isError } = useMutation(["user"], (v) => loginApi.login(v));
 
   const onSubmit = (loginData) => {
     return mutate(loginData);
