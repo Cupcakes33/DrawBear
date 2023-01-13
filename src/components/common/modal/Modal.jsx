@@ -13,6 +13,7 @@ const Modal = ({
   left = "50%",
   right,
   translate = "-50%, -50%",
+  isCloseBtn
 }) => {
   const modalRef = useRef(null);
   const closeModalHander = () => {
@@ -41,7 +42,7 @@ const Modal = ({
           left={left}
           translate={translate}
         >
-          <StModalCloseBtn onClick={closeModalHander} />
+          {isCloseBtn ? <StModalCloseBtn onClick={closeModalHander} /> : null}
           {children}
         </StModalWrapper>
       </StModalOverlay>

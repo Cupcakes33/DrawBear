@@ -32,7 +32,7 @@ const Mypage = () => {
           </div>
           <div>
             개인정보 설정
-            <NavigateBtn link={""} />
+            <NavigateBtn link={"/profile"} />
           </div>
           <div>
             암호 잠금 설정
