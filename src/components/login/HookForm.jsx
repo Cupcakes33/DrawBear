@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { loginApi } from "../../apis/axios";
+import Alert from "../common/modal/Alert";
 
 const HookForm = () => {
   const navigate = useNavigate();
@@ -32,33 +33,36 @@ const HookForm = () => {
   }, [data, isError, navigate, error?.response.request.status]);
 
   return (
-    <StForm onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">이메일</label>
-        <input
-          className={errors.email?.type === undefined ? "pass" : "fail"}
-          type="text"
-          id="email"
-          name="email"
-          placeholder="example@email.com"
-          {...register("email", { required: true, pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ })}
-          aria-invalid={errors.email ? "true" : "false"}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">비밀번호</label>
-        <input
-          className={errors.password?.type === undefined ? "pass" : "fail"}
-          type="password"
-          id="password"
-          name="password"
-          placeholder="영문, 숫자 조합 8자리 이상"
-          {...register("password", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
-          aria-invalid={errors?.password ? "true" : "false"}
-        />
-      </div>
-      <StBtn>로그인</StBtn>
-    </StForm>
+    <>
+      <Alert>이메일 또는 패스워드를 확인해주세요.</Alert>
+      <StForm onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="email">이메일</label>
+          <input
+            className={errors.email?.type === undefined ? "pass" : "fail"}
+            type="text"
+            id="email"
+            name="email"
+            placeholder="example@email.com"
+            {...register("email", { required: true, pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ })}
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">비밀번호</label>
+          <input
+            className={errors.password?.type === undefined ? "pass" : "fail"}
+            type="password"
+            id="password"
+            name="password"
+            placeholder="영문, 숫자 조합 8자리 이상"
+            {...register("password", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
+            aria-invalid={errors?.password ? "true" : "false"}
+          />
+        </div>
+        <StBtn>로그인</StBtn>
+      </StForm>
+    </>
   );
 };
 
@@ -94,7 +98,7 @@ const StBtn = styled.button`
   width: 27rem;
   height: 4.5rem;
   margin: 10% 0px;
-  color: #ffffff;
+  color: white;
   background-color: #3cc7a6;
   border: none;
   border-radius: 10px;
