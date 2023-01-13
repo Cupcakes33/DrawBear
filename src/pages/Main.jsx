@@ -11,8 +11,6 @@ const Main = () => {
 
   const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
 
-  console.log(data);
-
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
     if (status === 401) return <h2>로그인 후 이용 가능한 기능입니다.</h2>;
@@ -35,7 +33,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          <StSection>{!isDiaryData ? <NoDiary /> : <DiaryList />}</StSection>
+          <StSection>{!isDiaryData ? <NoDiary /> : <DiaryList diaryData={data?.diaries} />}</StSection>
           <Footer></Footer>
         </StContainer>
       )}
