@@ -2,6 +2,8 @@ import { StContainer, StSection, StHeader, StFooter } from "../UI/common";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
+import ToggleBtn from "../components/common/ToggleBtn";
+import { useState } from "react";
 
 const myProfileData = {
   id: 1,
@@ -11,6 +13,7 @@ const myProfileData = {
 };
 
 const Mypage = () => {
+  const [lock, setLock] = useState(false);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -23,7 +26,16 @@ const Mypage = () => {
           <span>{myProfileData.email}</span>
         </div>
         <div className="configOptionWrapper">
-          <div>알림설정</div>
+          <div>
+            알림설정{" "}
+            <ToggleBtn
+              isChecked={lock}
+              ToggleBtnChangehandler={() => {
+                setLock(!lock);
+                console.log(lock);
+              }}
+            />
+          </div>
           <div>암호 잠금 설정</div>
         </div>
         <div className="inquireOptionWrapper"></div>
