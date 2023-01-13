@@ -12,7 +12,7 @@ const Profile = () => {
       <StContainer>
         <StHeader flex justify="flex-start">
           <NavigateBtn prev sizeType="header" />
-          <h3>개인정보 수정</h3>
+          <h3>개인정보 설정</h3>
         </StHeader>
         <StEditProfileSection flex derection="column" justify="flex-start">
           <div className="editProfileWrapper">
@@ -33,7 +33,10 @@ const Profile = () => {
             </div>
 
             <div></div>
-            <div>회원 탈퇴</div>
+            <div>
+              회원 탈퇴
+              <NavigateBtn link={""} />
+            </div>
           </div>
         </StEditProfileSection>
       </StContainer>
