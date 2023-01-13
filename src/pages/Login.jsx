@@ -4,7 +4,6 @@ import HookForm from "../components/login/HookForm";
 import CommonContainer from "../UI/CommonContainer";
 
 const Login = () => {
-
   return (
     <CommonContainer>
       <StContainer>
@@ -28,7 +27,7 @@ export default Login;
 
 const StContainer = styled.div`
   width: 27rem;
-  margin: 20% auto 20% auto;
+  margin: 25% auto 20% auto;
   label {
     display: block;
     font-size: 1.8rem;

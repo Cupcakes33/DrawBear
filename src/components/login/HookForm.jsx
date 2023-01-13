@@ -37,9 +37,10 @@ const HookForm = () => {
         <label htmlFor="email">이메일</label>
         <input
           className={errors.email?.type === undefined ? "pass" : "fail"}
-          type="email"
+          type="text"
           id="email"
           name="email"
+          placeholder="example@email.com"
           {...register("email", { required: true, pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ })}
           aria-invalid={errors.email ? "true" : "false"}
         />
@@ -51,6 +52,7 @@ const HookForm = () => {
           type="password"
           id="password"
           name="password"
+          placeholder="영문, 숫자 조합 8자리 이상"
           {...register("password", { required: true, pattern: /^[a-z0-9_-]{4,16}$/ })}
           aria-invalid={errors?.password ? "true" : "false"}
         />
@@ -66,15 +68,23 @@ const StForm = styled.form`
   div {
     margin-top: 20%;
   }
+  input {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    ::placeholder {
+      color: #dedede;
+    }
+  }
   .pass:focus {
-    border: 1px solid green;
-    box-shadow: 0 0 5px green;
+    border: 1px solid #3cc7a5;
+    box-shadow: 0 0 5px #3cc7a5;
     outline: none;
     transition: box-shadow 0.4s;
   }
   .fail:focus {
-    border: 1px solid red;
-    box-shadow: 0 0 5px red;
+    border: 1px solid #ff5656;
+    box-shadow: 0 0 5px #ff5656;
     outline: none;
     transition: box-shadow 0.4s;
   }
@@ -83,5 +93,9 @@ const StForm = styled.form`
 const StBtn = styled.button`
   width: 27rem;
   height: 4.5rem;
-  margin: 5% 0px;
+  margin: 10% 0px;
+  color: #ffffff;
+  background-color: #3cc7a6;
+  border: none;
+  border-radius: 10px;
 `;
