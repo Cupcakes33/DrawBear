@@ -1,11 +1,15 @@
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { showModal } from "../../../redux/modules/interfaceSlice";
 
 const Alert = ({ children }) => {
+  const dispatch = useDispatch();
+
   return (
     <StBox>
       <div>{children}</div>
       <hr />
-      <button>확인</button>
+      <button onClick={dispatch(showModal(false))}>확인</button>
     </StBox>
   );
 };
