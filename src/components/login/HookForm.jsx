@@ -7,8 +7,8 @@ import { loginApi } from "../../apis/axios";
 
 const HookForm = () => {
   const navigate = useNavigate();
-  
-  const { data, mutate, error, isError } = useMutation(["user"], (v) => loginApi.login(v));
+
+  const { data, mutate, error, isError } = useMutation(["user"], (inputData) => loginApi.login(inputData));
 
   const {
     register,
@@ -16,17 +16,19 @@ const HookForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (loginData) => {
-    return mutate(loginData);
+  const onSubmit = (inputData) => {
+    return mutate(inputData);
   };
 
   useEffect(() => {
-    const { status } = error.response.request;
+    const { status } = error?.response.request;
     if (data?.result) {
       alert("로그인 성공!");
       return navigate("/");
-    } else if (isError) alert("로그인 실패!");
-  }, [data, isError, navigate]);
+    } else if (status === 412) alert("이메일 또는 패스워드를 확인해주세요.");
+    else if (status === 400) alert("해당 아이디는 소셜로그인으로 시도해주세요");
+    else alert("로그인에 실패하였습니다.");
+  }, [data, isError, navigate, error?.response.request]);
 
   return (
     <StForm onSubmit={handleSubmit(onSubmit)}>
