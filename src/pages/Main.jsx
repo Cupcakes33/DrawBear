@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
@@ -8,8 +8,10 @@ import { mainApi } from "../apis/axios";
 
 const Main = () => {
   const [isDiaryData, setIsDiaryData] = useState(false);
-  
+
   const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
+
+  console.log(data);
 
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
@@ -17,6 +19,10 @@ const Main = () => {
     else if (status === 404) return <h2>일기장이 존재하지 않습니다.</h2>;
     else return <h2>일기장 조회에 실패했습니다.</h2>;
   }, [error]);
+
+  useEffect(() => {
+    if (data) return setIsDiaryData(true);
+  }, [data]);
 
   return (
     <>
