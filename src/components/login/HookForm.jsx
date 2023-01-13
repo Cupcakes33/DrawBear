@@ -21,14 +21,14 @@ const HookForm = () => {
   };
 
   useEffect(() => {
-    const { status } = error?.response.request;
-    if (data?.result) {
+    const status = error?.response.request.status;
+    if (status === 200) {
       alert("로그인 성공!");
       return navigate("/");
     } else if (status === 412) alert("이메일 또는 패스워드를 확인해주세요.");
     else if (status === 400) alert("해당 아이디는 소셜로그인으로 시도해주세요");
-    else alert("로그인에 실패하였습니다.");
-  }, [data, isError, navigate, error?.response.request]);
+    else if (status === 500) alert("로그인에 실패하였습니다.");
+  }, [data, isError, navigate, error?.response.request.status]);
 
   return (
     <StForm onSubmit={handleSubmit(onSubmit)}>
