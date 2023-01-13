@@ -10,7 +10,11 @@ instance.interceptors.request.use((config) => {
 });
 
 export const loginApi = {
-  login: async (payload) => { const { data } = await instance.post("/api/auth/login", { email: payload.email, password: payload.password }); localStorage.setItem("token", data.token); return data },
+  login: async (payload) => {
+    const { data } = await instance.post("/api/auth/login", { email: payload.email, password: payload.password });
+    localStorage.setItem("token", data.token);
+    return data
+  },
   signup: async (payload) => await instance.post("/api/auth/signup", { username: "", nickname: "", password: "", profileImg: "" }),
 };
 
