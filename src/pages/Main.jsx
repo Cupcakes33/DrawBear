@@ -1,29 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import { useDispatch } from "react-redux";
-import { __main } from "../redux/modules/diarySlice";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { mainApi } from "../apis/axios";
 
 const Main = () => {
   const [isDiaryData, setIsDiaryData] = useState(false);
-  const dispatch = useDispatch();
 
   const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
 
-  // useEffect(() => {
-  //   // dispatch(__main());
-  // axios.get(`${process.env.REACT_APP_MY_API}/api/diary`).then((response) => {
-  //   console.log(response);
-  // });
-  // }, []);
-
   const errorHandler = useCallback(() => {
-    const { status } = error.response.request;
+    const { status } = error?.response.request;
     if (status === 401) return <h2>로그인 후 이용 가능한 기능입니다.</h2>;
     else if (status === 404) return <h2>일기장이 존재하지 않습니다.</h2>;
     else return <h2>일기장 조회에 실패했습니다.</h2>;
