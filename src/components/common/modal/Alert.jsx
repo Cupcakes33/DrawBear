@@ -1,15 +1,16 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { showModal } from "../../../redux/modules/interfaceSlice";
 
-const Alert = ({ children }) => {
+const Alert = () => {
   const dispatch = useDispatch();
+  const { content } = useSelector((state) => state.interfaceSlice);
 
   return (
     <StBox>
-      <div>{children}</div>
+      <div>{content}</div>
       <hr />
-      <button onClick={dispatch(showModal(false))}>확인</button>
+      <button onClick={() => dispatch(showModal(false))}>확인</button>
     </StBox>
   );
 };

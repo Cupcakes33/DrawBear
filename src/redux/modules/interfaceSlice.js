@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isModal: false
+  isModal: false,
+  content: ""
 };
 
 const interfaceSlice = createSlice({
@@ -9,7 +10,9 @@ const interfaceSlice = createSlice({
   initialState,
   reducers: {
     showModal: (state, action) => {
-      state.isModal = action.payload
+      console.log(action.payload)
+      state.isModal = action.payload.isModal
+      state.content = action.payload.content
     },
   }
 })
