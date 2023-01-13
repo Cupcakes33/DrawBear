@@ -11,7 +11,6 @@ const myProfileData = {
 };
 
 const Mypage = () => {
-  const navigate = useNavigate();
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -27,6 +26,7 @@ const Mypage = () => {
           <div>알림설정</div>
           <div>암호 잠금 설정</div>
         </div>
+        <div className="inquireOptionWrapper"></div>
       </StMypageSection>
 
       <Footer />
