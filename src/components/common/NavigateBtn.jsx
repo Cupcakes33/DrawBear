@@ -6,9 +6,10 @@ const NavigateBtn = ({ prev, link, sizeType }) => {
   const navigate = useNavigate();
 
   return (
-    <Button sizeType={sizeType}>
+    <StNavigateBtnContainer sizeType={sizeType}>
       {prev ? (
         <GrPrevious
+          style={{ marginRight: "10px" }}
           onClick={() => {
             navigate(-1);
           }}
@@ -16,11 +17,11 @@ const NavigateBtn = ({ prev, link, sizeType }) => {
       ) : (
         <GrNext
           onClick={() => {
-            navigate(`/${link}`);
+            navigate(`${link}`);
           }}
         />
       )}
-    </Button>
+    </StNavigateBtnContainer>
   );
 };
 
@@ -28,20 +29,22 @@ export default NavigateBtn;
 
 const sizeTypes = {
   header: {
-    type: "24px",
+    size: "24px",
   },
   section: {
-    type: "18px",
+    size: "18px",
   },
 };
 
 const sizeStyle = css`
   ${({ sizeType }) => css`
-    font-size: ${sizeTypes[sizeType].type};
+    font-size: ${sizeTypes[sizeType]?.size};
   `}
 `;
 
-const Button = styled.div`
+const StNavigateBtnContainer = styled.span`
   cursor: pointer;
   ${sizeStyle}
 `;
+
+// 네비게이션 버튼에 아이콘 모양을 바꾸는 기능도 필요하면 추가하겠습니다.

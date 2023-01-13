@@ -1,9 +1,9 @@
 import { StContainer, StSection, StHeader } from "../UI/common";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
 import ToggleBtn from "../components/common/ToggleBtn";
-import { useState } from "react";
+import NavigateBtn from "../components/common/NavigateBtn";
 
 const myProfileData = {
   id: 1,
@@ -26,8 +26,14 @@ const Mypage = () => {
           <span>{myProfileData.email}</span>
         </div>
         <div className="configOptionWrapper">
-          <div>알림 설정</div>
-          <div>개인정보 설정</div>
+          <div>
+            알림 설정
+            <NavigateBtn link={""} />
+          </div>
+          <div>
+            개인정보 설정
+            <NavigateBtn link={""} />
+          </div>
           <div>
             암호 잠금 설정
             <ToggleBtn
@@ -37,9 +43,15 @@ const Mypage = () => {
               }}
             />
           </div>
-
-          <div>공지사항</div>
-          <div>문의하기</div>
+          <div></div>
+          <div>
+            공지사항
+            <NavigateBtn link={""} />
+          </div>
+          <div>
+            문의하기
+            <NavigateBtn link={""} />
+          </div>
         </div>
       </StMypageSection>
 

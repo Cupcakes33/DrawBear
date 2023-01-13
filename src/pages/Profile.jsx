@@ -11,8 +11,14 @@ const Profile = () => {
       </StHeader>
       <StEditProfileSection flex derection="column" justify="flex-start">
         <div className="editProfileWrapper">
-          <div>내 프로필 관리</div>
-          <div>비밀번호 변경</div>
+          <div>
+            내 프로필 관리
+            <NavigateBtn link={""} />
+          </div>
+          <div>
+            비밀번호 변경
+            <NavigateBtn link={""} />
+          </div>
           <div>로그아웃</div>
 
           <div></div>
@@ -30,7 +36,11 @@ const StEditProfileSection = styled(StSection)`
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 20px;
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 `;
