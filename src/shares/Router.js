@@ -9,6 +9,7 @@ import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
 import Mypage from "../pages/Mypage";
 import Detail from "../pages/Detail";
+import Profile from "../pages/Profile";
 
 const Router = () => {
   return (
@@ -23,8 +24,9 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/list" element={<FullList />} />
         <Route path="/invite" element={<Invite />} />
-        <Route path="/mypage" element={<Mypage />} />        <Route path="/detail" element={<Detail />} />
-
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/detail" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );
