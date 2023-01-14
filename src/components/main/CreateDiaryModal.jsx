@@ -41,12 +41,12 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 36px;
+  gap: 3.6rem;
 `;
 
 const DiaryIcon = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 8rem;
+  height: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +60,7 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   span {
-    font-size: 8px;
-    margin-top: 14px;
+    font-size: 0.8rem;
+    margin-top: 1.4rem;
   }
 `;

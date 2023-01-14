@@ -18,7 +18,7 @@ const Container = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 72px;
+  height: 7.2rem;
   background-color: #f8f8f8;
   display: flex;
   justify-content: space-evenly;
@@ -26,8 +26,8 @@ const Container = styled.div`
 `;
 
 const FooterButton = styled.button`
-  width: 48px;
-  height: 48px;
+  width: 4.8rem;
+  height: 4.8rem;
   border-radius: 50%;
   background-color: #d9d9d9;
   border: none;

@@ -9,7 +9,7 @@ const NavigateBtn = ({ prev, link, sizeType }) => {
     <StNavigateBtnContainer sizeType={sizeType}>
       {prev ? (
         <GrPrevious
-          style={{ marginRight: "10px" }}
+          style={{ marginRight: "1rem" }}
           onClick={() => {
             navigate(-1);
           }}
@@ -29,10 +29,10 @@ export default NavigateBtn;
 
 const sizeTypes = {
   header: {
-    size: "24px",
+    size: "2.4rem",
   },
   section: {
-    size: "18px",
+    size: "1.8rem",
   },
 };
 

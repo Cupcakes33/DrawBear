@@ -47,8 +47,8 @@ const Signup = () => {
       >
         <div
           style={{
-            width: "360px",
-            height: "1000px",
+            width: "36rem",
+            height: "100rem",
             backgroundColor: "green",
             position: "relative",
           }}
@@ -58,14 +58,14 @@ const Signup = () => {
             <span
               style={{
                 position: "absolute",
-                width: "42px",
-                height: "22px",
-                left: "42px",
-                top: "185px",
+                width: "4.2rem",
+                height: "2.2rem",
+                left: "4.2rem",
+                top: "18.5rem",
                 fontStyle: "normal",
                 fontWeight: "700",
-                fontSize: "15px",
-                lineHeight: "22px",
+                fontSize: "1.5rem",
+                lineHeight: "2.2rem",
                 color: "#000000",
               }}
             >
@@ -93,15 +93,15 @@ const Signup = () => {
             <span
               style={{
                 position: "absolute",
-                width: "56px",
-                height: "22px",
-                left: "42px",
-                top: "292px",
+                width: "5.6rem",
+                height: "2.2rem",
+                left: "4.2rem",
+                top: "29.2rem",
                 fontFamily: "Noto Sans KR",
                 fontStyle: "normal",
                 fontWeight: "700",
-                fontSize: "15px",
-                lineHeight: "22px",
+                fontSize: "1.5rem",
+                lineHeight: "2.2rem",
                 color: "#000000",
               }}
             >
@@ -122,7 +122,7 @@ const Signup = () => {
                   message: "4자리 이상 비밀번호를 입력해주세요",
                 },
               })}
-              style={{ top: "330px" }}
+              style={{ top: "33rem" }}
             />
             {errors.password && (
               <small role="alert">{errors.password.message}</small>
@@ -144,7 +144,7 @@ const Signup = () => {
                   message: "4자리 이상 비밀번호를 입력해주세요",
                 },
               })}
-              style={{ top: "385px" }}
+              style={{ top: "38.5rem" }}
             />
             {errors.passwordComfile && (
               <small role="alert">{errors.passwordComfile.message}</small>
@@ -174,22 +174,22 @@ const Signup = () => {
                 src={image.preview_URL}
                 alt="profileImg"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "10rem",
+                  height: "10rem",
                   borderRadius: "100%",
                   position: "absolute",
-                  left: "130px",
-                  top: "207px",
+                  left: "13rem",
+                  top: "20.7rem",
                 }}
                 onClick={() => inputRef.click()}
               />
               <div
                 style={{
                   position: "absolute",
-                  width: "37px",
-                  height: "37px",
-                  left: "193px",
-                  top: "270px",
+                  width: "3.7rem",
+                  height: "3.7rem",
+                  left: "19.3rem",
+                  top: "27rem",
                   borderRadius: "100%",
                   background: "#888888",
                 }}
@@ -202,14 +202,14 @@ const Signup = () => {
               htmlFor="nickname"
               style={{
                 position: "absolute",
-                width: "42px",
-                height: "22px",
-                left: "42px",
-                top: "325px",
+                width: "4.2rem",
+                height: "2.2rem",
+                left: "4.2rem",
+                top: "32.5rem",
                 fontStyle: "normal",
                 fontWeight: "700",
-                fontSize: "15px",
-                lineHeight: "22px",
+                fontSize: "1.5rem",
+                lineHeight: "2.2rem",
                 color: "#000000",
               }}
             >
@@ -232,10 +232,10 @@ const Signup = () => {
               })}
               style={{
                 position: "absolute",
-                width: "270px",
-                height: "45px",
-                left: "42px",
-                top: "363px",
+                width: "27rem",
+                height: "4.5rem",
+                left: "4.2rem",
+                top: "36.3rem",
                 background: "#D9D9D9",
                 border: "0",
               }}
@@ -257,53 +257,53 @@ const Signup = () => {
 export default Signup;
 
 const StSginupForm = styled.form`
-  width: 720px;
-  height: 1000px;
+  width: 72rem;
+  height: 100rem;
   background-color: gray;
   display: flex;
 `;
 const StSignupTitle = styled.span`
   position: absolute;
-  width: 81px;
-  height: 32px;
-  top: 106px;
-  left: 42px;
+  width: 8.1rem;
+  height: 3.2rem;
+  top: 10.6rem;
+  left: 4.2rem;
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
-  font-size: 22px;
-  line-height: 32px;
+  font-size: 2.2rem;
+  line-height: 3.2rem;
   color: #000000;
 `;
 const StProfilitle = styled.span`
   position: absolute;
-  width: 147px;
-  height: 64px;
-  top: 106px;
-  left: 42px;
+  width: 14.7rem;
+  height: 6.4rem;
+  top: 10.6rem;
+  left: 4.2rem;
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
-  font-size: 22px;
-  line-height: 32px;
+  font-size: 2.2rem;
+  line-height: 3.2rem;
 
   color: #000000;
 `;
 const StSignupInput = styled.input`
   position: absolute;
-  width: 270px;
-  height: 45px;
-  left: 42px;
-  top: 223px;
-  border: 0px;
+  width: 27rem;
+  height: 4.5rem;
+  left: 4.2rem;
+  top: 22.3rem;
+  border: none;
   background: #d9d9d9;
 `;
 const StButton = styled.button`
   position: absolute;
-  width: 360px;
-  height: 55px;
-  left: 0px;
-  bottom: 0px;
+  width: 36rem;
+  height: 5.5rem;
+  left: none;
+  bottom: 0;
 
   background: #d9d9d9;
 `;
