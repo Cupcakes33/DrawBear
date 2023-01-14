@@ -2,13 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 
-const Canvas = () => {
+const Canvas = ({ getCanvasImgUrl }) => {
   const [canvas, setCanvas] = useState("");
   const [color, setColor] = useState("black");
   const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
   const bgImgInput = useRef();
   const productImgInput = useRef();
+
+  const imgUrlConvertBlob = () => {
+    if (!canvas) return;
+    const canvasUrl = canvas.toDataURL();
+    const image = atob(canvasUrl.split(",")[1]);
+    const arraybuffer = new ArrayBuffer(image.length);
+    const view = new Uint8Array(arraybuffer);
+
+    for (let i = 0; i < image.length; i++) {
+      view[i] = image.charCodeAt(i) & 0xff;
+    }
+    const blob = new Blob([arraybuffer], { type: "image/png" });
+    return URL.createObjectURL(blob);
+  };
+
+  getCanvasImgUrl(imgUrlConvertBlob());
 
   useEffect(() => {
     setCanvas(initCanvas());
@@ -53,6 +69,7 @@ const Canvas = () => {
 
   const freeDrawHandler = () => {
     canvas.isDrawingMode = !canvas.isDrawingMode;
+    canvas.freeDrawingBrush.inverted = false;
   };
 
   const drawColorHandler = (color) => {
