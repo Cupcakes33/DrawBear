@@ -6,8 +6,8 @@ import ModalPortal from "./ModalPotal";
 const Modal = ({
   onClose,
   children,
-  modalWidth = "300px",
-  modalHeight = "200px",
+  modalWidth = "30rem",
+  modalHeight = "20rem",
   top = "50%",
   bottom,
   left = "50%",
@@ -51,7 +51,7 @@ const Modal = ({
 };
 
 const StModalOverlay = styled.div`
-  width: 360px;
+  width: 36rem;
   height: 100%;
   min-height: 100vh;
   position: fixed;
@@ -78,8 +78,8 @@ const StModalWrapper = styled.div`
 
 const StModalCloseBtn = styled.button`
   position: absolute;
-  top: 22px;
-  right: 22px;
+  top: 2.2rem;
+  right: 2.2rem;
   background: none;
   border: none;
   cursor: pointer;

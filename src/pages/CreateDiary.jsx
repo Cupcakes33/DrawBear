@@ -33,7 +33,7 @@ const CreateDiary = () => {
 export default CreateDiary;
 
 const Container = styled.div`
-  width: 360px;
+  width: 36rem;
   height: 100vh;
   border: 1px solid black;
   background-color: white;
@@ -42,14 +42,14 @@ const Container = styled.div`
 
 const Section = styled.section`
   width: 100%;
-  height: calc(100% - 132px);
+  height: calc(100% - 13rem);
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   h3 {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -58,7 +58,7 @@ const Footer = styled.footer`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 72px;
+  height: 7.2rem;
   background-color: white;
   display: flex;
   justify-content: space-evenly;
@@ -66,8 +66,8 @@ const Footer = styled.footer`
 `;
 
 const ColorPicker = styled.button`
-  width: 40px;
-  height: 40px;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -79,8 +79,8 @@ const ColorPicker = styled.button`
 `;
 
 const DiaryIcon = styled.div`
-  width: 200px;
-  height: 280px;
+  width: 20rem;
+  height: 28rem;
   display: flex;
   justify-content: center;
   align-items: center;

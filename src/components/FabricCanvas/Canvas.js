@@ -216,8 +216,8 @@ const Canvas = () => {
 export default Canvas;
 
 const StDiv = styled.div`
-  width: 350px;
-  height: 350px;
+  width: 35rem;
+  height: 35rem;
   border-radius: 15px;
   overflow: hidden;
   border: 1px solid #d9d9d9;
@@ -229,7 +229,7 @@ const StDiv = styled.div`
 
 const StMenu = styled.div`
   width: 100%;
-  height: 100px;
+  height: 10rem;
 
   display: flex;
   flex-direction: row;

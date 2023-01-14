@@ -67,18 +67,18 @@ const StMypageSection = styled(StSection)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
     img {
-      width: 72px;
-      height: 72px;
+      width: 7.2rem;
+      height: 7.2rem;
       border-radius: 50%;
     }
     span {
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: 600;
       &:last-child {
-        font-size: 12px;
+        font-size: 1.2rem;
         font-weight: 400;
         color: #d9d9d9;
       }
@@ -89,7 +89,7 @@ const StMypageSection = styled(StSection)`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
+    gap: 2rem;
 
     div {
       display: flex;

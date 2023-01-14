@@ -15,7 +15,7 @@ const flexProps = css`
 
 export const StContainer = styled.div`
   position: relative;
-  width: 360px;
+  width: 36rem;
   height: 100vh;
   border: 1px solid black;
   background-color: white;
@@ -30,7 +30,7 @@ export const StWrapper = styled.div`
 export const StHeader = styled.header`
   display: flex;
   width: 100%;
-  height: 60px;
+  height: 6rem;
   padding-left: 2rem;
   padding-right: 2rem;
   background-color: #EEEEEE;
@@ -49,11 +49,11 @@ export const StHeader = styled.header`
 
 export const StSection = styled.section`
   width: 100%;
-  height: calc(100% - 132px);
+  height: calc(100% - 13.2rem);
   background-color: white;
   position: relative;
   overflow-x: scroll;
-  padding: 20px;
+  padding: 2rem;
   ${flexProps}
 `;
 
@@ -65,6 +65,6 @@ export const StFooter = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 72px;
+  height: 7.2rem;
   background-color: #f8f8f8;
 `;

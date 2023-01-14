@@ -51,7 +51,7 @@ const StEditProfileSection = styled(StSection)`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 2rem;
     div {
       display: flex;
       justify-content: space-between;

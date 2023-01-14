@@ -114,7 +114,7 @@ const StBtn = styled.button.attrs((props) => ({
 }))`
   width: 27rem;
   height: 4.5rem;
-  margin: 10% 0px;
+  margin: 10% 0;
   color: white;
   background-color: #3cc7a6;
   border: none;
