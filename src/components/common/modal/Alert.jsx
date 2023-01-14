@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { showModal } from "../../../redux/modules/interfaceSlice";
+import { showModal } from "../../../redux/modules/UISlice";
 
 const Alert = () => {
   const dispatch = useDispatch();
-  const { content } = useSelector((state) => state.interfaceSlice);
+  const { content } = useSelector((state) => state.UISlice);
 
   return (
     <StBox>

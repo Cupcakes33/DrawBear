@@ -7,6 +7,7 @@ const DiaryList = ({ diaryData }) => {
   const navigate = useNavigate();
   return (
     <StContainer>
+      <div>안녕</div>
       <Add
         page="main"
         onClick={() => {

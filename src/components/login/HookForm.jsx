@@ -6,12 +6,12 @@ import styled from "styled-components";
 import { loginApi } from "../../apis/axios";
 import Alert from "../common/modal/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../../redux/modules/interfaceSlice";
+import { showModal } from "../../redux/modules/UISlice";
 
 const HookForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isModal } = useSelector((state) => state.interfaceSlice);
+  const { isModal } = useSelector((state) => state.UISlice);
 
   const { data, mutate, error, isError } = useMutation(["user"], (inputData) => loginApi.login(inputData));
 
@@ -61,19 +61,17 @@ const HookForm = () => {
             id="password"
             name="password"
             placeholder="영문, 숫자 조합 8자리 이상"
-            {...register("password", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
+            {...register("password")}
             aria-invalid={errors?.password ? "true" : "false"}
           />
         </div>
-        <StBtn disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}>
-          로그인
-        </StBtn>
+        <StBtn>로그인</StBtn>
       </StForm>
     </>
   );
 };
-
-//
+// , { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ }
+// disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}
 
 export default HookForm;
 
@@ -108,7 +106,7 @@ const StBtn = styled.button.attrs((props) => ({
 }))`
   width: 27rem;
   height: 4.5rem;
-  margin: 10% 0;
+  margin: 10% 0px;
   color: white;
   background-color: #3cc7a6;
   border: none;

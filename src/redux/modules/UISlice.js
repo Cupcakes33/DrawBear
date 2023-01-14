@@ -5,17 +5,16 @@ const initialState = {
   content: ""
 };
 
-const interfaceSlice = createSlice({
+const UISlice = createSlice({
   name: "INTERFACE",
   initialState,
   reducers: {
     showModal: (state, action) => {
-      console.log(action.payload)
       state.isModal = action.payload.isModal
       state.content = action.payload.content
     },
   }
 })
 
-export const { showModal } = interfaceSlice.actions
-export default interfaceSlice.reducer
+export const { showModal } = UISlice.actions
+export default UISlice.reducer
