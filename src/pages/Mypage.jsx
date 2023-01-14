@@ -1,7 +1,9 @@
-import { StContainer, StSection, StHeader, StFooter } from "../UI/common";
-import { useNavigate } from "react-router-dom";
+import { StContainer, StSection, StHeader } from "../UI/common";
+import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
+import ToggleBtn from "../components/common/ToggleBtn";
+import NavigateBtn from "../components/common/NavigateBtn";
 
 const myProfileData = {
   id: 1,
@@ -11,6 +13,7 @@ const myProfileData = {
 };
 
 const Mypage = () => {
+  const [isLock, setisLock] = useState(false);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -23,10 +26,33 @@ const Mypage = () => {
           <span>{myProfileData.email}</span>
         </div>
         <div className="configOptionWrapper">
-          <div>알림설정</div>
-          <div>암호 잠금 설정</div>
+          <div>
+            알림 설정
+            <NavigateBtn link={""} />
+          </div>
+          <div>
+            개인정보 설정
+            <NavigateBtn link={"/profile"} />
+          </div>
+          <div>
+            암호 잠금 설정
+            <ToggleBtn
+              isChecked={isLock}
+              ToggleBtnChangehandler={() => {
+                setisLock(!isLock);
+              }}
+            />
+          </div>
+          <div></div>
+          <div>
+            공지사항
+            <NavigateBtn link={""} />
+          </div>
+          <div>
+            문의하기
+            <NavigateBtn link={""} />
+          </div>
         </div>
-        <div className="inquireOptionWrapper"></div>
       </StMypageSection>
 
       <Footer />
@@ -64,5 +90,11 @@ const StMypageSection = styled(StSection)`
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 `;
