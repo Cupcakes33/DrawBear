@@ -3,7 +3,7 @@ import Modal from "../common/modal/Modal";
 
 const LogoutModal = ({ onClose }) => {
   return (
-    <Modal modalHeight="150px" onClose={onClose}>
+    <Modal modalHeight="15rem" onClose={onClose}>
       <StWrapper>
         <h4>로그아웃 하시겠어요 ?</h4>
         <div>
@@ -24,17 +24,17 @@ const StWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 36px;
+  gap: 3.6rem;
 
   div {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
-    gap: 10px;
-    padding: 0px 20px;
+    gap: 1rem;
+    padding: 0 2rem;
     button {
       width: 100%;
-      height: 30px;
+      height: 3rem;
       border-radius: 5px;
       border: none;
       cursor: pointer;

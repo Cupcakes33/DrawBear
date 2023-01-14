@@ -1,14 +1,14 @@
 const margin = {
-  sm: "4px"
+  sm: "0.4rem"
 };
 
 const padding = {
-  base: "22px"
+  base: "2.2rem"
 };
 
 const font = {
-  base: "22px",
-  header: "34px"
+  base: "2.2rem",
+  header: "3.4rem"
 };
 
 const fontWeight = {

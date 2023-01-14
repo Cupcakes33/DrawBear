@@ -70,13 +70,13 @@ const StSearchInputWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 5rem;
   input {
     width: 100%;
     height: 100%;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
-    padding: 10px;
+    padding: 1rem;
     &:focus {
       outline: none;
       box-shadow: 0 0 0 2px palevioletred;
@@ -87,10 +87,10 @@ const StSearchInputWrapper = styled.div`
 
 const StSearchBtn = styled(BsSearch)`
   position: absolute;
-  right: 10px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 1.8rem;
   cursor: pointer;
 `;
 
@@ -100,8 +100,8 @@ const StSearchUserInfoWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 1rem;
+  margin-top: 2rem;
 `;
 
 const StSearchUserInfo = styled.div`
@@ -109,15 +109,15 @@ const StSearchUserInfo = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
-  padding: 0 10px;
+  height: 5rem;
+  padding: 0 1rem;
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   img {
-    width: 30px;
-    height: 30px;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 1rem;
   }
   div {
     display: flex;
@@ -127,18 +127,18 @@ const StSearchUserInfo = styled.div`
     width: 100%;
     height: 100%;
     span {
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: 600;
       &:last-child {
-        font-size: 12px;
+        font-size: 1.2rem;
         font-weight: 400;
         color: #d9d9d9;
       }
     }
   }
   button {
-    width: 50px;
-    height: 30px;
+    width: 5rem;
+    height: 3rem;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     background-color: #fff;

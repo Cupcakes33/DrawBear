@@ -51,8 +51,8 @@ const DiaryList = ({diaryData}) => {
 export default DiaryList;
 
 const DiaryIcon = styled.div`
-  width: 300px;
-  height: 400px;
+  width: 30rem;
+  height: 40rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,8 +89,8 @@ const StWrapper = styled.div`
 `;
 
 const StButton = styled.button`
-  width: 48px;
-  height: 48px;
+  width: 4.8rem;
+  height: 4.8rem;
   border-radius: 50%;
   background-color: #d9d9d9;
   border: none;
@@ -102,7 +102,7 @@ const StButton = styled.button`
 
   &::after {
     content: "+";
-    font-size: 30px;
+    font-size: 3rem;
     font-weight: 700;
     color: white;
   }

@@ -40,18 +40,18 @@ const StWrapper = styled.div`
   justify-content: center;
   align-items: center;
   h3 {
-    font-size: 16px;
-    margin-bottom: 16px;
+    font-size: 1.6rem;
+    margin-bottom: 1.6rem;
   }
   span {
-    font-size: 8px;
-    margin-top: 14px;
+    font-size: 0.8rem;
+    margin-top: 1.4rem;
   }
 `;
 
 const DiaryIcon = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 10rem;
+  height: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;

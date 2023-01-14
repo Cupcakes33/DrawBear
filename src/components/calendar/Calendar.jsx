@@ -164,7 +164,7 @@ const StDate = styled.div`
     width: calc(36rem / 7);
     margin-left: -0.3rem;
     margin-right: -0.3rem;
-    height: 50px;
+    height: 5rem;
     color: whitesmoke;
   }
   .saturday {

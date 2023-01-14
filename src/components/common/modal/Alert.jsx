@@ -39,7 +39,7 @@ const StBox = styled.div`
     font-weight: 700;
   }
   hr {
-    height: 1px;
+    height: 0.1rem;
     border: 0;
     background-color: #d7d7d7;
   }

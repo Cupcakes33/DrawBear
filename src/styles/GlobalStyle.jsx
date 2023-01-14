@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'ZigleTTF';
   src: url(${ZigleTTF}) format('truetype')
 }
+
   html {
     font-size: 62.5%;
   }
