@@ -1,37 +1,38 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const DiaryData = [
+const diaryData = [
   {
-    id: 1,
-    title: "첫번째 일기",
+    diaryId: 1,
+    diaryName: "첫번째 일기",
     content: "첫번째 일기 내용",
     color: "#E76020",
   },
   {
-    id: 2,
-    title: "두번째 일기",
+    diaryId: 2,
+    diaryName: "두번째 일기",
     content: "두번째 일기 내용",
     color: "#e0bb76",
   },
   {
-    id: 3,
-    title: "세번째 일기",
+    diaryId: 3,
+    diaryName: "세번째 일기",
     content: "세번째 일기 내용",
     color: "#325434",
   },
 ];
 
-const DiaryList = () => {
+const DiaryList = ({diaryData}) => {
+  console.log(diaryData);
   const navigate = useNavigate();
   return (
     <StContainer>
       <StWrapper>
-        {DiaryData.map((el) => {
+        {diaryData?.map((el) => {
           return (
-            <div>
-              <span>{el.title}</span>
-              <DiaryIcon bgColor={el.color} onClick={() => navigate("/list")}>
+            <div key={el.diaryId}>
+              <span>{el.diaryName}</span>
+              <DiaryIcon bgColor={"teal"} onClick={() => navigate("/list")}>
                 그림
               </DiaryIcon>
             </div>
