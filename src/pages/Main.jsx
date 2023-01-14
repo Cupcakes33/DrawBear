@@ -33,7 +33,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          <StSection>{!isDiaryData ? <NoDiary /> : <DiaryList diaryData={data?.diaries} />}</StSection>
+          <>{!isDiaryData ? <NoDiary /> : <DiaryList diaryData={data?.diaries} />}</>
           <Footer></Footer>
         </StContainer>
       )}
