@@ -11,6 +11,7 @@ import Mypage from "../pages/Mypage";
 import Detail from "../pages/Detail";
 import Profile from "../pages/Profile";
 
+
 const Router = () => {
   return (
     <BrowserRouter>
