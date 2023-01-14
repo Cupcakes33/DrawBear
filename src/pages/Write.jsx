@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { useRef } from "react";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useNavigate } from "react-router-dom";
 
@@ -9,12 +8,34 @@ import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 
 const Write = () => {
+  const [getCanvas, setGetCanvas] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
+  const writeFormRef = useRef(null);
 
-  const writeSubmitHandler = (event) => {
-    event.preventDefault();
+  const writeSubmitHandler = () => {
+    setGetCanvas((prev) => !prev);
   };
 
+  const getCanvasImgUrl = (url) => {
+    if (!url) return;
+    console.log(url);
+  };
+
+  useEffect(() => {
+    writeFormRef.current.addEventListener("keydown", (event) => {
+      if (event.code === "Enter") {
+        event.preventDefault();
+      }
+    });
+    return () =>
+      writeFormRef.current.removeEventListener("keydown", (event) => {
+        if (event.code === "Enter") {
+          event.preventDefault();
+        }
+      });
+  }, []);
+
+  const writeFormSubmitHandler = () => {};
   return (
     <StContainer>
       <StHeader flex>
@@ -24,9 +45,9 @@ const Write = () => {
       <button onClick={() => setIsDrawing(!isDrawing)}>
         {isDrawing ? "그림" : "제목"}
       </button>
-      
+      <form ref={writeFormRef} onSubmit={writeFormSubmitHandler}>
         <StCanvasSection drawing={isDrawing}>
-          <Canvas />
+          <Canvas getCanvasImgUrl={getCanvas ? getCanvasImgUrl : () => {}} />
           <textarea></textarea>
         </StCanvasSection>
         <StTitleSection drawing={isDrawing}>
@@ -42,8 +63,9 @@ const Write = () => {
             <span>태그 :</span>
             <HashTagInput />
           </div>
-          <button>일기 작성하기</button>
+          <button onClick={writeSubmitHandler}>일기 작성하기</button>
         </StTitleSection>
+      </form>
     </StContainer>
   );
 };
