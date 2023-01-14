@@ -25,10 +25,6 @@ const HookForm = () => {
     return mutate(inputData);
   };
 
-  // const disable = () => {
-  //   errors.email?.type && errors.password?.type?
-  // }
-
   useEffect(() => {
     const status = error?.response.request.status;
     if (data?.result) {
@@ -41,8 +37,6 @@ const HookForm = () => {
     else dispatch(showModal({ isModal: true, content: "로그인에 실패하였습니다." }));
   }, [data, isError, navigate, error?.response.request.status, dispatch]);
 
-  console.log(errors.email?.type);
-  console.log(errors.password?.type);
   return (
     <>
       {isModal && <Alert />}
