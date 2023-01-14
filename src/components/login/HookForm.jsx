@@ -25,6 +25,10 @@ const HookForm = () => {
     return mutate(inputData);
   };
 
+  // const disable = () => {
+  //   errors.email?.type && errors.password?.type?
+  // }
+
   useEffect(() => {
     const status = error?.response.request.status;
     if (data?.result) {
@@ -37,6 +41,8 @@ const HookForm = () => {
     else dispatch(showModal({ isModal: true, content: "로그인에 실패하였습니다." }));
   }, [data, isError, navigate, error?.response.request.status, dispatch]);
 
+  console.log(errors.email?.type);
+  console.log(errors.password?.type);
   return (
     <>
       {isModal && <Alert />}
@@ -65,11 +71,15 @@ const HookForm = () => {
             aria-invalid={errors?.password ? "true" : "false"}
           />
         </div>
-        <StBtn>로그인</StBtn>
+        <StBtn disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}>
+          로그인
+        </StBtn>
       </StForm>
     </>
   );
 };
+
+//
 
 export default HookForm;
 
@@ -99,7 +109,9 @@ const StForm = styled.form`
   }
 `;
 
-const StBtn = styled.button`
+const StBtn = styled.button.attrs((props) => ({
+  disabled: props.disabled,
+}))`
   width: 27rem;
   height: 4.5rem;
   margin: 10% 0px;
@@ -107,4 +119,9 @@ const StBtn = styled.button`
   background-color: #3cc7a6;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
+  :disabled {
+    background-color: #b3e9dc;
+    cursor: default;
+  }
 `;
