@@ -14,6 +14,17 @@ const Canvas = () => {
     setCanvas(initCanvas());
   }, []);
 
+  const initCanvas = () =>
+    new fabric.Canvas(canvasRef.current, {
+      height: 350,
+      width: 350,
+      backgroundColor: "white",
+      freeDrawingBrush: {
+        color: color,
+        width: width,
+      },
+    });
+
   const deleteSelectedObjects = () => {
     let selection = canvas.getActiveObject();
     if (selection?._objects) {
@@ -40,28 +51,18 @@ const Canvas = () => {
       });
   }, [canvas]);
 
-  const initCanvas = () =>
-    new fabric.Canvas(canvasRef.current, {
-      height: 350,
-      width: 350,
-      backgroundColor: "white",
-      freeDrawingBrush: {
-        color: color,
-        width: width,
-      },
-    });
-
   const freeDrawHandler = () => {
-    console.log(canvas.freeDrawingBrush.width, canvas.freeDrawingBrush.color);
     canvas.isDrawingMode = !canvas.isDrawingMode;
   };
 
   const drawColorHandler = (color) => {
     canvas.freeDrawingBrush.color = color;
   };
+
   const drawWidthHandler = (width) => {
     canvas.freeDrawingBrush.width = parseInt(width, 10);
   };
+
   const clearButtonHandler = () => {
     canvas.clear();
   };
@@ -172,6 +173,7 @@ const Canvas = () => {
         />
 
         <button onClick={clearButtonHandler}>clear</button>
+
         <input
           style={{ display: "none" }}
           accept="image/*"
@@ -182,6 +184,7 @@ const Canvas = () => {
           ref={bgImgInput}
           onChange={bgUpload}
         />
+
         <input
           style={{ display: "none" }}
           accept="image/*"
@@ -192,6 +195,7 @@ const Canvas = () => {
           ref={productImgInput}
           onChange={imgUpload}
         />
+
         <div>
           <button
             onClick={() => {

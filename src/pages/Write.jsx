@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 import Canvas from "../components/FabricCanvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
+import NavigateBtn from "../components/common/NavigateBtn";
 
 const Write = () => {
-  const [isDrawing, setIsDrawing] = useState(true);
-  const navigate = useNavigate();
+  const [isDrawing, setIsDrawing] = useState(false);
 
   const writeSubmitHandler = (event) => {
     event.preventDefault();
@@ -18,19 +18,13 @@ const Write = () => {
   return (
     <StContainer>
       <StHeader flex>
-        <button
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          이전
-        </button>
-        <h1>LOGO</h1>
+        <NavigateBtn prev />
+        <h3>LOGO</h3>
       </StHeader>
       <button onClick={() => setIsDrawing(!isDrawing)}>
         {isDrawing ? "그림" : "제목"}
       </button>
-      <form onSubmit={writeSubmitHandler}>
+      
         <StCanvasSection drawing={isDrawing}>
           <Canvas />
           <textarea></textarea>
@@ -46,12 +40,10 @@ const Write = () => {
           </div>
           <div>
             <span>태그 :</span>
-            {/* <input type="text" name="tag" placeholder="태그를 입력해주세요" /> */}
             <HashTagInput />
           </div>
           <button>일기 작성하기</button>
         </StTitleSection>
-      </form>
     </StContainer>
   );
 };
