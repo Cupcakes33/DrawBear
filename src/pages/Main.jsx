@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { StContainer, StHeader } from "../UI/common";
 import { mainApi } from "../apis/axios";
 
 const Main = () => {

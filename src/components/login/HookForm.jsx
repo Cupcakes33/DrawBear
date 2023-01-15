@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -10,7 +8,6 @@ import { showModal } from "../../redux/modules/UISlice";
 
 const HookForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { isModal } = useSelector((state) => state.UISlice);
 
   const { mutate } = useMutation(["user"], (inputData) => loginApi.login(inputData), {
