@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Add } from "../../UI/common";
+import diaries from "./Diaries";
 
 const DiaryList = ({ diaryData }) => {
-  console.log(diaryData);
   const navigate = useNavigate();
   return (
     <StContainer>
-      <div>안녕</div>
+      {diaries(diaryData)}
       <Add
         page="main"
         onClick={() => {
