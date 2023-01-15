@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isModal: false,
-  content: ""
+  content: "",
+  move: ""
 };
 
 const UISlice = createSlice({
@@ -12,6 +13,7 @@ const UISlice = createSlice({
     showModal: (state, action) => {
       state.isModal = action.payload.isModal
       state.content = action.payload.content
+      state.move = action.payload.move
     },
   }
 })
