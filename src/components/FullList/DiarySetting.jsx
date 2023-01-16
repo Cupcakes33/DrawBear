@@ -1,14 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { mainApi } from "../../apis/axios";
 import { showModal } from "../../redux/modules/UISlice";
+import Alert from "../common/modal/Alert";
 import Modal from "../common/modal/Modal";
 
 const DiarySetting = ({ onClose }) => {
   const dispatch = useDispatch();
+  const { isModal } = useSelector((state) => state.UISlice);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data, mutate } = useMutation(["diary"], (id) => mainApi.delete(id), {
     onError: (error) => {
@@ -17,23 +20,25 @@ const DiarySetting = ({ onClose }) => {
       else if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
       else if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 삭제에 실패하였습니다." }));
     },
-    onSuccess: (data) => {
-      if (data?.result) {
-        dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
-      }
+    onSuccess: () => {
+      // dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
+      navigate("/");
     },
   });
 
   console.log(data);
 
   return (
-    <Modal onClose={onClose} modalWidth="36rem" top="94%">
-      <DiarySettingModal>
-        <div>같이 쓰는 멤버 초대</div>
-        <div>다이어리 수정</div>
-        <div onClick={mutate(id)}>다이어리 삭제</div>
-      </DiarySettingModal>
-    </Modal>
+    <>
+      <Modal onClose={onClose} modalWidth="36rem" top="94%">
+        <DiarySettingModal>
+          <div>같이 쓰는 멤버 초대</div>
+          <div>다이어리 수정</div>
+          <div onClick={() => mutate(id)}>다이어리 삭제</div>
+        </DiarySettingModal>
+      </Modal>
+      {isModal && <Alert />}
+    </>
   );
 };
 
