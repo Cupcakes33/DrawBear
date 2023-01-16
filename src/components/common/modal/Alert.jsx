@@ -1,16 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { showModal } from "../../../redux/modules/interfaceSlice";
+import { showModal } from "../../../redux/modules/UISlice";
 
 const Alert = () => {
   const dispatch = useDispatch();
-  const { content } = useSelector((state) => state.interfaceSlice);
+  const navigate = useNavigate();
+  const { content } = useSelector((state) => state.UISlice);
+  const { move } = useSelector((state) => state.UISlice);
+
+  const ModalReactController = () => {
+    dispatch(showModal(false));
+    navigate(move);
+  };
 
   return (
     <StBox>
       <div>{content}</div>
       <hr />
-      <button onClick={() => dispatch(showModal(false))}>확인</button>
+      <button onClick={ModalReactController}>확인</button>
     </StBox>
   );
 };
@@ -48,5 +56,6 @@ const StBox = styled.div`
     color: #3cc7a6;
     border: none;
     background-color: white;
+    cursor: pointer;
   }
 `;

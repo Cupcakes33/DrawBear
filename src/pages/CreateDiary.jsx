@@ -42,7 +42,7 @@ const Container = styled.div`
 
 const Section = styled.section`
   width: 100%;
-  height: calc(100% - 13rem);
+  height: calc(100% - 13.2rem);
   background-color: white;
   display: flex;
   flex-direction: column;

@@ -11,7 +11,7 @@ const Calendar = ({ onClose }) => {
     date: new Date().getDate(),
   };
   const dispatch = useDispatch();
-  const { holiday } = useSelector((state) => state.loginSlice);
+  const { holiday } = useSelector((state) => state.diarySlice);
   const [selectedYear, setSelectedYear] = useState(today.year);
   const [selectedMonth, setSelectedMonth] = useState(today.month);
   const [selectedDate, setSelectedDate] = useState("");
@@ -19,6 +19,7 @@ const Calendar = ({ onClose }) => {
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
+  console.log(holiday)
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {

@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import diarySlice from '../modules/diarySlice'
-import interfaceSlice from '../modules/interfaceSlice'
+import UISlice from '../modules/UISlice'
 
 const store = configureStore({
-  reducer: { diarySlice, interfaceSlice },
+  reducer: { diarySlice, UISlice },
 });
 
 export default store;
