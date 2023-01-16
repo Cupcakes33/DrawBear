@@ -27,11 +27,9 @@ const NoDiary = () => {
 export default NoDiary;
 
 const StContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  top: 40%;
+  left: calc(50% - 5rem);
 `;
 
 const StWrapper = styled.div`
