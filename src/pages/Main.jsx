@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
@@ -11,7 +11,7 @@ const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const queryClient = useQueryClient();
 
-  const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
+  const { isError, isLoading, error } = useQuery(["main"], () => mainApi.read());
 
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
@@ -22,7 +22,6 @@ const Main = () => {
   const diaryType = useCallback(() => {
     if (diaryTypes.couple === 0) {
       const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 0);
-      console.log(soloDiary);
       return soloDiary;
     } else if (diaryTypes.couple === 1) {
       const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 1);
@@ -32,8 +31,6 @@ const Main = () => {
       return favoriteDiary;
     }
   }, [diaryTypes, queryClient]);
-
-  console.log(diaryType());
 
   return (
     <>

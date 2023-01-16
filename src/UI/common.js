@@ -19,7 +19,7 @@ export const StContainer = styled.div`
   height: 100vh;
   border: 1px solid black;
   background-color: white;
-  overflow: hidden;
+  overflow-x: hidden;
   ${flexProps}
 `;
 
