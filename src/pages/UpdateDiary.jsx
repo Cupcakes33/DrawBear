@@ -12,19 +12,13 @@ import { StHeader } from "../UI/common";
 
 const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
 const UpdateDiary = () => {
-  const [selectedColor, setSelectedColor] = useState("");
-  const { isModal } = useSelector((state) => state.UISlice);
-  const { id } = useParams();
   const dispatch = useDispatch();
-
-  const queryClient = useQueryClient();
-
-  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
-
-  console.log(updateDiaryData);
-
-  const diaryTitleInputRef = useRef();
+  const [selectedColor, setSelectedColor] = useState("");
   const { couple } = useSelector((state) => state.diarySlice);
+  const { isModal } = useSelector((state) => state.UISlice);
+  const diaryTitleInputRef = useRef();
+  const { id } = useParams();
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation(["diary"], (updateData) => mainApi.update(updateData), {
     onError: (error) => {
@@ -37,6 +31,8 @@ const UpdateDiary = () => {
       dispatch(showModal({ isModal: true, content: "다이어리 수정 성공!", move: "/" }));
     },
   });
+
+  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
 
   const onAddDiaryHandler = () => {
     const diaryName = diaryTitleInputRef.current.value;
@@ -54,14 +50,14 @@ const UpdateDiary = () => {
         <StHeader flexBetween>
           <div>
             <Back />
-            <HeaderText>다이어리 생성</HeaderText>
+            <HeaderText>다이어리 수정</HeaderText>
           </div>
           <div>
             <HeaderBtn onClick={onAddDiaryHandler}>완성</HeaderBtn>
           </div>
         </StHeader>
         <Section>
-          <input type="text" ref={diaryTitleInputRef} value={updateDiaryData.diaryName}></input>
+          <input type="text" ref={diaryTitleInputRef} value={updateDiaryData[0].diaryName}></input>
           <DiaryIcon>그림</DiaryIcon>
         </Section>
         <Footer>
