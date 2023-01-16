@@ -33,7 +33,7 @@ const Main = () => {
     }
   }, [diaryTypes, queryClient]);
 
-  console.log(data);
+  console.log(diaryType());
 
   return (
     <>

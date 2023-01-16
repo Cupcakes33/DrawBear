@@ -17,7 +17,7 @@ export default function Diaries(diaryData) {
       <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]} className="mySwiper">
         {diaryData.map((data) => {
           return (
-            <SwiperSlide key={data.diaryId} onClick={() => navigate("/list")}>
+            <SwiperSlide key={data.diaryId} onClick={() => navigate(`/list/${data.diaryId}`)}>
               <Diary bgColor={data.outsideColor}>
                 <label>{data.diaryName}</label>
               </Diary>

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const flexProps = css`
+export const flexProps = css`
   ${(props) =>
     props.flex &&
     css`
