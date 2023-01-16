@@ -23,10 +23,8 @@ const CreateDiary = () => {
       const status = error?.response.request.status;
       if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 생성에 실패하였습니다." }));
     },
-    onSuccess: (data) => {
-      if (data?.result) {
-        dispatch(showModal({ isModal: true, content: "다이어리 생성 성공!", move: "/" }));
-      }
+    onSuccess: () => {
+      dispatch(showModal({ isModal: true, content: "다이어리 생성 성공!", move: "/" }));
     },
   });
 

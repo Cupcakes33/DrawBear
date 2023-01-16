@@ -19,10 +19,8 @@ const HookForm = () => {
         dispatch(showModal({ isModal: true, content: "해당 아이디는 소셜로그인으로 시도해주세요." }));
       else dispatch(showModal({ isModal: true, content: "로그인에 실패하였습니다." }));
     },
-    onSuccess: (data) => {
-      if (data?.result) {
-        dispatch(showModal({ isModal: true, content: "로그인 성공!", move: "/" }));
-      }
+    onSuccess: () => {
+      dispatch(showModal({ isModal: true, content: "로그인 성공!", move: "/" }));
     },
   });
 
