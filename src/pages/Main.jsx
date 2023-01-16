@@ -11,7 +11,9 @@ const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const queryClient = useQueryClient();
 
-  const { isError, isLoading, error } = useQuery(["main"], () => mainApi.read());
+  const diaryData = queryClient?.getQueryData(["main"])?.diaries;
+
+  const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
 
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
@@ -19,18 +21,21 @@ const Main = () => {
     else if (status === 400) return <h2>일기장 조회에 실패했습니다.</h2>;
   }, [error]);
 
-  const diaryType = useCallback(() => {
-    if (diaryTypes.couple === 0) {
-      const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 0);
-      return soloDiary;
-    } else if (diaryTypes.couple === 1) {
-      const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 1);
-      return coupleDiary;
-    } else if (diaryTypes.bookmark === 1) {
-      const favoriteDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.bookmark === 1);
-      return favoriteDiary;
-    }
-  }, [diaryTypes, queryClient]);
+  const diaryType = useCallback(
+    (diaryData) => {
+      if (diaryTypes.couple === 0) {
+        const soloDiary = diaryData.filter((diary) => diary.couple === 0);
+        return soloDiary;
+      } else if (diaryTypes.couple === 1) {
+        const coupleDiary = diaryData.filter((diary) => diary.couple === 1);
+        return coupleDiary;
+      } else if (diaryTypes.bookmark === 1) {
+        const favoriteDiary = diaryData.filter((diary) => diary.bookmark === 1);
+        return favoriteDiary;
+      }
+    },
+    [diaryTypes, diaryData]
+  );
 
   return (
     <>
@@ -43,7 +48,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          <>{diaryType() === [] ? <NoDiary /> : <DiaryList diaryData={diaryType()} />}</>
+          <>{diaryType(diaryData) === [] ? <NoDiary /> : <DiaryList diaryData={diaryType(diaryData)} />}</>
           <Footer></Footer>
         </StContainer>
       )}
