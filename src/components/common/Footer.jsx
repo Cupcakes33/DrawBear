@@ -1,11 +1,32 @@
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { diaryType } from "../../redux/modules/diarySlice";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const changeSoloView = () => {
+    dispatch(diaryType({ couple: 0, bookmark: 0 }));
+    navigate("/");
+  };
+
+  const changeCoupleView = () => {
+    dispatch(diaryType({ couple: 1, bookmark: 0 }));
+    navigate("/");
+  };
+
+  const changeFavoriteView = () => {
+    dispatch(diaryType({ couple: 0, bookmark: 1 }));
+    navigate("/");
+  };
+
   return (
     <Container>
-      <FooterButton>혼자</FooterButton>
-      <FooterButton>같이</FooterButton>
-      <FooterButton>책갈피</FooterButton>
+      <FooterButton onClick={changeSoloView}>혼자</FooterButton>
+      <FooterButton onClick={changeCoupleView}>같이</FooterButton>
+      <FooterButton onClick={changeFavoriteView}>책갈피</FooterButton>
       <FooterButton>마이</FooterButton>
     </Container>
   );

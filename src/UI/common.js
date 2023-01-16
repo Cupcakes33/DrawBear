@@ -78,6 +78,7 @@ export const Add = styled.button`
   border: 0;
   border-radius: 100%;
   box-shadow: 0 1px 2px;
+  cursor: pointer;
   ${({ page }) => {
     switch (page) {
       case "main":

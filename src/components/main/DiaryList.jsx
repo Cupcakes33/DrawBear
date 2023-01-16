@@ -1,22 +1,26 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import styled from "styled-components";
 import { Add } from "../../UI/common";
+import CreateDiaryModal from "./CreateDiaryModal";
 import diaries from "./Diaries";
 
 const DiaryList = ({ diaryData }) => {
-  const navigate = useNavigate();
+  const [isModal, setIsModal] = useState(false);
   return (
-    <StContainer>
-      {diaries(diaryData)}
-      <Add
-        page="main"
-        onClick={() => {
-          navigate("/new");
-        }}
-      >
-        +
-      </Add>
-    </StContainer>
+    <>
+      <StContainer>
+        {diaries(diaryData)}
+        <Add
+          page="main"
+          onClick={() => {
+            setIsModal(true);
+          }}
+        >
+          +
+        </Add>
+      </StContainer>
+      {isModal && <CreateDiaryModal onClose={setIsModal}></CreateDiaryModal>}
+    </>
   );
 };
 

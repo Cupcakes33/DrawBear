@@ -3,7 +3,11 @@ import axios from "axios";
 
 const initialState = {
   holiday: [],
-  diaires: [],
+  diaryTypes: {
+    couple: 0,
+    bookmark: 0
+  },
+  couple: 0,
   result: "",
   isLoading: ""
 };
@@ -20,10 +24,19 @@ export const __holiday = createAsyncThunk(
   }
 )
 
-const loginSlice = createSlice({
-  name: "login",
+const diarySlice = createSlice({
+  name: "DIARY",
   initialState,
-  reducers: {},
+  reducers: {
+    diaryType: (state, action) => {
+      state.diaryTypes.solo = action.payload.solo
+      state.diaryTypes.couple = action.payload.couple
+      state.diaryTypes.bookmark = action.payload.bookmark
+    },
+    addDiary: (state, action) => {
+      state.couple = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(__holiday.pending, (state) => {
@@ -40,4 +53,5 @@ const loginSlice = createSlice({
   }
 })
 
-export default loginSlice.reducer;
+export const { diaryType, addDiary } = diarySlice.actions
+export default diarySlice.reducer;

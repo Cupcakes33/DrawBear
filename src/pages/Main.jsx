@@ -1,26 +1,39 @@
 import { useCallback, useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import { StContainer, StHeader } from "../UI/common";
 import { mainApi } from "../apis/axios";
+import { useSelector } from "react-redux";
 
 const Main = () => {
-  const [isDiaryData, setIsDiaryData] = useState(false);
+  const { diaryTypes } = useSelector((state) => state.diarySlice);
+  const queryClient = useQueryClient();
 
   const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
 
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
     if (status === 401) return <h2>로그인 후 이용 가능한 기능입니다.</h2>;
-    else if (status === 404) return <h2>일기장이 존재하지 않습니다.</h2>;
-    else return <h2>일기장 조회에 실패했습니다.</h2>;
+    else if (status === 400) return <h2>일기장 조회에 실패했습니다.</h2>;
   }, [error]);
 
-  useEffect(() => {
-    if (data) return setIsDiaryData(true);
-  }, [data]);
+  const diaryType = useCallback(() => {
+    if (diaryTypes.couple === 0) {
+      const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 0);
+      console.log(soloDiary);
+      return soloDiary;
+    } else if (diaryTypes.couple === 1) {
+      const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 1);
+      return coupleDiary;
+    } else if (diaryTypes.bookmark === 1) {
+      const favoriteDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.bookmark === 1);
+      return favoriteDiary;
+    }
+  }, [diaryTypes, queryClient]);
+
+  console.log(data);
 
   return (
     <>
@@ -33,7 +46,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          <>{!isDiaryData ? <NoDiary /> : <DiaryList diaryData={data?.diaries} />}</>
+          <>{diaryType() === [] ? <NoDiary /> : <DiaryList diaryData={diaryType()} />}</>
           <Footer></Footer>
         </StContainer>
       )}
