@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import Back from "../components/header/Back";
-import HeaderBtn from "../components/header/HeaderBtn";
 import HeaderText from "../components/header/HeaderText";
 import { StHeader } from "../UI/common";
 
 const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
 const CreateDiary = () => {
   const [selectedColor, setSelectedColor] = useState("");
+  const diaryTitleInputRef = useRef();
+  const { addDiaryType } = useSelector((state) => state.diarySlice);
   console.log(selectedColor);
+  console.log(addDiaryType);
 
-  // const onAddDiaryHandler = () => {
-  //   return mutate(inputData);
-  // }
+  const { mutate } = useMutation(["diary"],);
 
-  // const onSubmit = (inputData) => {
-    
-  // };
+  const onAddDiaryHandler = () => {
+    const diaryTitle = diaryTitleInputRef.current.value;
+    return mutate(diaryTitle, selectedColor, addDiaryType);
+  };
 
-  // onClick={onAddDiaryHandler}
   return (
     <Container>
       <StHeader flexBetween>
@@ -27,11 +29,11 @@ const CreateDiary = () => {
           <HeaderText>다이어리 생성</HeaderText>
         </div>
         <div>
-          <HeaderBtn >완성</HeaderBtn>
+          <HeaderBtn onClick={onAddDiaryHandler}>완성</HeaderBtn>
         </div>
       </StHeader>
       <Section>
-        <h3>다이어리 제목</h3>
+        <input type="text" ref={diaryTitleInputRef}></input>
         <DiaryIcon>그림</DiaryIcon>
       </Section>
       <Footer>
@@ -99,4 +101,9 @@ const DiaryIcon = styled.div`
   align-items: center;
   cursor: pointer;
   background-color: #d9d9d9;
+`;
+
+const HeaderBtn = styled.button`
+  border: 0;
+  cursor: pointer;
 `;

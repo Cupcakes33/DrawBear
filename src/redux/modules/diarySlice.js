@@ -7,6 +7,7 @@ const initialState = {
     couple: 0,
     bookmark: 0
   },
+  addDiaryType: 0,
   result: "",
   isLoading: ""
 };
@@ -24,13 +25,16 @@ export const __holiday = createAsyncThunk(
 )
 
 const diarySlice = createSlice({
-  name: "login",
+  name: "DIARY",
   initialState,
   reducers: {
     diaryType: (state, action) => {
       state.diaryTypes.solo = action.payload.solo
       state.diaryTypes.couple = action.payload.couple
       state.diaryTypes.bookmark = action.payload.bookmark
+    },
+    addDiary: (state, action) => {
+      state.addDiaryType = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -49,5 +53,5 @@ const diarySlice = createSlice({
   }
 })
 
-export const { diaryType } = diarySlice.actions
+export const { diaryType, addDiary } = diarySlice.actions
 export default diarySlice.reducer;
