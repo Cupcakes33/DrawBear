@@ -8,34 +8,30 @@ import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 
 const Write = () => {
-  const [getCanvas, setGetCanvas] = useState(false);
+  const [canvas, setCanvas] = useState("");
   const [isDrawing, setIsDrawing] = useState(false);
+
   const writeFormRef = useRef(null);
 
-  const writeSubmitHandler = () => {
-    setGetCanvas((prev) => !prev);
+  const writeFormSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(canvas.toDataURL());
   };
 
-  const getCanvasImgUrl = (url) => {
-    if (!url) return;
-    console.log(url);
-  };
+  // useEffect(() => {
+  //   writeFormRef.current.addEventListener("keydown", (event) => {
+  //     if (event.code === "Enter") {
+  //       event.preventDefault();
+  //     }
+  //   });
+  //   return () =>
+  //     writeFormRef.current.removeEventListener("keydown", (event) => {
+  //       if (event.code === "Enter") {
+  //         event.preventDefault();
+  //       }
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    writeFormRef.current.addEventListener("keydown", (event) => {
-      if (event.code === "Enter") {
-        event.preventDefault();
-      }
-    });
-    return () =>
-      writeFormRef.current.removeEventListener("keydown", (event) => {
-        if (event.code === "Enter") {
-          event.preventDefault();
-        }
-      });
-  }, []);
-
-  const writeFormSubmitHandler = () => {};
   return (
     <StContainer>
       <StHeader flex>
@@ -45,12 +41,13 @@ const Write = () => {
       <button onClick={() => setIsDrawing(!isDrawing)}>
         {isDrawing ? "그림" : "제목"}
       </button>
-      <form ref={writeFormRef} onSubmit={writeFormSubmitHandler}>
-        <StCanvasSection drawing={isDrawing}>
-          <Canvas getCanvasImgUrl={getCanvas ? getCanvasImgUrl : () => {}} />
-          <textarea></textarea>
-        </StCanvasSection>
-        <StTitleSection drawing={isDrawing}>
+
+      <StCanvasSection drawing={isDrawing}>
+        <Canvas canvas={canvas} setCanvas={setCanvas} />
+        <textarea></textarea>
+      </StCanvasSection>
+      <StTitleSection drawing={isDrawing}>
+        <form ref={writeFormRef} onSubmit={writeFormSubmitHandler}>
           <div>
             <span>제목 :</span>
             <input type="text" name="title" placeholder="제목을 입력해주세요" />
@@ -63,9 +60,9 @@ const Write = () => {
             <span>태그 :</span>
             <HashTagInput />
           </div>
-          <button onClick={writeSubmitHandler}>일기 작성하기</button>
-        </StTitleSection>
-      </form>
+          <button>일기 작성하기</button>
+        </form>
+      </StTitleSection>
     </StContainer>
   );
 };

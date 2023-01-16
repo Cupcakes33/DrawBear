@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 
-const Canvas = ({ getCanvasImgUrl }) => {
-  const [canvas, setCanvas] = useState("");
+const Canvas = ({ canvas, setCanvas }) => {
+  // const [canvas, setCanvas] = useState("");
   const [color, setColor] = useState("black");
   const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
@@ -23,8 +23,6 @@ const Canvas = ({ getCanvasImgUrl }) => {
     const blob = new Blob([arraybuffer], { type: "image/png" });
     return URL.createObjectURL(blob);
   };
-
-  getCanvasImgUrl(imgUrlConvertBlob());
 
   useEffect(() => {
     setCanvas(initCanvas());

@@ -10,13 +10,14 @@ import Invite from "../pages/Invite";
 import Mypage from "../pages/Mypage";
 import Detail from "../pages/Detail";
 import Profile from "../pages/Profile";
-
+import HashTagInput from "../components/common/HashTagInput";
 
 const Router = () => {
   return (
     <BrowserRouter>
       {/* <Header /> */}
       <Routes>
+        <Route path="/test" element={<HashTagInput />} />
         <Route path="/" element={<Main />} />
         <Route path="/new" element={<CreateDiary />} />
         <Route path="/canvas" element={<Canvas />} />
