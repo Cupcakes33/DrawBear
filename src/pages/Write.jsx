@@ -14,8 +14,8 @@ const Write = () => {
   const [tags, setTags] = useState([]);
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
-  const { mutate, isSuccess, isError, error, isLoading } = useMutation(() =>
-    diaryApi.post()
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
+    diaryApi.post
   );
 
   const imgUrlConvertBlob = (canvas) => {
@@ -47,7 +47,7 @@ const Write = () => {
     formData.append("weather", "눈");
     formData.append("tag", tags);
 
-    mutate(formData, 10);
+    mutate({ formData: formData, diaryId: 10 });
   };
 
   return (
