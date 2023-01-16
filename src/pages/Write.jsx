@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
+import { useMutation } from "@tanstack/react-query";
+import { postDiaryApi } from "../apis/axios";
 
 import Canvas from "../components/FabricCanvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
@@ -10,10 +12,53 @@ const Write = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
+    postDiaryApi.post
+  );
+
+  const imgUrlConvertBlob = (canvas) => {
+    if (!canvas) return;
+    const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
+    const splitDataUrl = canvasUrl.split(",");
+    const byteString =
+      splitDataUrl[0].indexOf("base64") >= 0
+        ? atob(splitDataUrl[1])
+        : decodeURI(splitDataUrl[1]);
+    const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
+    const ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], { type: mimeString });
+  };
 
   const writeFormSubmitHandler = (event) => {
     event.preventDefault();
-    console.log(canvas.toDataURL());
+    let blob = imgUrlConvertBlob(canvas);
+    let formData = new FormData(event.target);
+    console.log(blob);
+
+    let title = formData.get("title");
+    let createdAt = formData.get("createdAt");
+    formData.append("diaryId", 1);
+    // formData.append("title", title);
+    formData.append("image", blob, "img.file");
+    formData.append("content", "test");
+    // formData.append("date", date);
+    formData.append("weather", "눈");
+    formData.append("tag", tags);
+
+    const data = {
+      diaryId: 1,
+      title: title,
+      image: blob,
+      content: "test",
+      createdAt: createdAt,
+      weather: "snow",
+      tag: tags,
+    };
+    // mutate(data);
+    mutate(formData);
   };
 
   return (
@@ -31,7 +76,7 @@ const Write = () => {
           <textarea></textarea>
         </StCanvasSection>
         <StTitleSection>
-          <form onSubmit={writeFormSubmitHandler}>
+          <form onSubmit={writeFormSubmitHandler} encType="multipart/form-data">
             <div>
               <span>제목 :</span>
               <input
@@ -42,13 +87,14 @@ const Write = () => {
             </div>
             <div>
               <span>날짜 :</span>
-              <input type="date" name="date" placeholder="2023.01.01" />
+              <input type="date" name="createdAt" placeholder="2023.01.01" />
             </div>
+
             <div>
               <span>태그 :</span>
-              <HashTagInput tags={tags} setTags={setTags}/>
+              <HashTagInput tags={tags} setTags={setTags} />
             </div>
-            <button>일기 작성하기</button>
+            <button type="submit">일기 작성하기</button>
           </form>
         </StTitleSection>
       </StSlideWrapper>
