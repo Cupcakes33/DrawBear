@@ -2,18 +2,20 @@ import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
-import { postDiaryApi } from "../apis/axios";
+import { diaryApi } from "../apis/axios";
 
 import Canvas from "../components/FabricCanvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
+import TextEditor from "../components/common/TextEditor";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
+  const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
-  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
-    postDiaryApi.post
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(() =>
+    diaryApi.post()
   );
 
   const imgUrlConvertBlob = (canvas) => {
@@ -38,27 +40,14 @@ const Write = () => {
     let formData = new FormData(event.target);
     console.log(blob);
 
-    let title = formData.get("title");
-    let createdAt = formData.get("createdAt");
-    formData.append("diaryId", 1);
-    // formData.append("title", title);
+    formData.get("title");
+    formData.get("createdAt");
     formData.append("image", blob, "img.file");
     formData.append("content", "test");
-    // formData.append("date", date);
     formData.append("weather", "눈");
     formData.append("tag", tags);
 
-    const data = {
-      diaryId: 1,
-      title: title,
-      image: blob,
-      content: "test",
-      createdAt: createdAt,
-      weather: "snow",
-      tag: tags,
-    };
-    // mutate(data);
-    mutate(formData);
+    mutate(formData, 10);
   };
 
   return (
@@ -73,7 +62,7 @@ const Write = () => {
       <StSlideWrapper isDrawingEnd={isDrawingEnd}>
         <StCanvasSection>
           <Canvas canvas={canvas} setCanvas={setCanvas} />
-          <textarea></textarea>
+          <TextEditor contents={contents} setContents={setContents} />
         </StCanvasSection>
         <StTitleSection>
           <form onSubmit={writeFormSubmitHandler} encType="multipart/form-data">

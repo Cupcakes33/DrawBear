@@ -11,19 +11,15 @@ instance.interceptors.request.use((config) => {
 });
 
 export const loginApi = {
-
-  login: async (payload) => {
-    const { data } = await instance.post("/api/auth/login", {
-      email: payload.email,
-      password: payload.password,
-    });
-
   login: async (inputData) => {
-    const { data } = await instance.post("/api/auth/login", { email: inputData.email, password: inputData.password });
-
+    const { data } = await instance.post("/api/auth/login", {
+      email: inputData.email,
+      password: inputData.password,
+    });
     localStorage.setItem("token", data.token);
     return data;
   },
+
   signup: async (payload) =>
     await instance.post("/api/auth/signup", {
       username: "",
@@ -34,24 +30,23 @@ export const loginApi = {
 };
 
 export const mainApi = {
-
-  read: async (payload) => {
+  read: async () => {
     const { data } = await instance.get("/api/diary");
     return data;
   },
-};
-
-export const postDiaryApi = {
-  post: async (formData) => {
-    const data = await instance.post("api/post/10", formData);
+  create: async (addData) => {
+    const { data } = await instance.post("/api/diary", {
+      couple: addData.couple,
+      diaryName: addData.diaryName,
+      outsideColor: addData.selectedColor,
+    });
     return data;
   },
 };
 
-  read: async () => { const { data } = await instance.get("/api/diary"); return data },
-  create: async (addData) => {
-    const { data } = await instance.post("/api/diary", { couple: addData.couple, diaryName: addData.diaryName, outsideColor: addData.selectedColor });
-    return data
+export const diaryApi = {
+  post: async (formData, diaryId) => {
+    console.log(formData);
+    await instance.post(`api/post/${diaryId}`, formData);
   },
-}
-
+};

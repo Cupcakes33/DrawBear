@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const flexProps = css`
+export const flexProps = css`
   ${(props) =>
     props.flex &&
     css`
@@ -19,7 +19,7 @@ export const StContainer = styled.div`
   height: 100vh;
   border: 1px solid black;
   background-color: white;
-  overflow: hidden;
+  overflow-x: hidden;
   ${flexProps}
 `;
 
