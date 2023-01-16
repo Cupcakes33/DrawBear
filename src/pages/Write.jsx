@@ -7,13 +7,15 @@ import { diaryApi } from "../apis/axios";
 import Canvas from "../components/FabricCanvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
+import TextEditor from "../components/common/TextEditor";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
+  const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
-  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
-    diaryApi.post
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(() =>
+    diaryApi.post()
   );
 
   const imgUrlConvertBlob = (canvas) => {
@@ -40,13 +42,12 @@ const Write = () => {
 
     formData.get("title");
     formData.get("createdAt");
-    // formData.append("diaryId", 2);
     formData.append("image", blob, "img.file");
     formData.append("content", "test");
     formData.append("weather", "눈");
     formData.append("tag", tags);
 
-    mutate(formData);
+    mutate(formData, 10);
   };
 
   return (
@@ -61,7 +62,7 @@ const Write = () => {
       <StSlideWrapper isDrawingEnd={isDrawingEnd}>
         <StCanvasSection>
           <Canvas canvas={canvas} setCanvas={setCanvas} />
-          <textarea></textarea>
+          <TextEditor contents={contents} setContents={setContents} />
         </StCanvasSection>
         <StTitleSection>
           <form onSubmit={writeFormSubmitHandler} encType="multipart/form-data">

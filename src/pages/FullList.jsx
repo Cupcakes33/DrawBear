@@ -5,7 +5,7 @@ import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
 import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StWrapper } from "../UI/common";
+import { StHeader, StSection, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
 const DiaryList = () => {
@@ -51,14 +51,14 @@ const DiaryList = () => {
           {!changeHeader && defaultHeader()}
           {changeHeader && SearchHeader()}
         </StHeader>
-        <StWrapper>
+        <StSection>
           <Filter>최신순</Filter>
           <DiaryCard />
           <DiaryCard />
           <DiaryCard />
           <DiaryCard />
           <DiaryCard />
-        </StWrapper>
+        </StSection>
         <Add
           onClick={() => {
             navigate("/write");

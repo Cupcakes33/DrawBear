@@ -45,8 +45,8 @@ export const mainApi = {
 };
 
 export const diaryApi = {
-  post: async (formData) => {
-    const data = await instance.post("api/post/10", formData);
-    return data;
+  post: async (formData, diaryId) => {
+    console.log(formData);
+    await instance.post(`api/post/${diaryId}`, formData);
   },
 };
