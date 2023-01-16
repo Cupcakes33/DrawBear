@@ -57,7 +57,7 @@ const StModalOverlay = styled.div`
   position: fixed;
   top: 0;
   background: rgba(0, 0, 0, 0.1);
-  z-index: 9999;
+  z-index: 50;
 `;
 
 const StModalWrapper = styled.div`
