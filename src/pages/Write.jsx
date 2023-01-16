@@ -11,43 +11,27 @@ const Write = () => {
   const [canvas, setCanvas] = useState("");
   const [isDrawing, setIsDrawing] = useState(false);
 
-  const writeFormRef = useRef(null);
-
   const writeFormSubmitHandler = (event) => {
     event.preventDefault();
     console.log(canvas.toDataURL());
   };
 
-  // useEffect(() => {
-  //   writeFormRef.current.addEventListener("keydown", (event) => {
-  //     if (event.code === "Enter") {
-  //       event.preventDefault();
-  //     }
-  //   });
-  //   return () =>
-  //     writeFormRef.current.removeEventListener("keydown", (event) => {
-  //       if (event.code === "Enter") {
-  //         event.preventDefault();
-  //       }
-  //     });
-  // }, []);
-
   return (
     <StContainer>
-      <StHeader flex>
+      <StHeader flex justify="space-between">
         <NavigateBtn prev />
         <h3>LOGO</h3>
+        <button onClick={() => setIsDrawing(!isDrawing)}>
+          {isDrawing ? "그림" : "제목"}
+        </button>
       </StHeader>
-      <button onClick={() => setIsDrawing(!isDrawing)}>
-        {isDrawing ? "그림" : "제목"}
-      </button>
 
       <StCanvasSection drawing={isDrawing}>
         <Canvas canvas={canvas} setCanvas={setCanvas} />
         <textarea></textarea>
       </StCanvasSection>
       <StTitleSection drawing={isDrawing}>
-        <form ref={writeFormRef} onSubmit={writeFormSubmitHandler}>
+        <form onSubmit={writeFormSubmitHandler}>
           <div>
             <span>제목 :</span>
             <input type="text" name="title" placeholder="제목을 입력해주세요" />
