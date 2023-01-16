@@ -12,7 +12,6 @@ const Main = () => {
   const queryClient = useQueryClient();
 
   const diaryData = queryClient?.getQueryData(["main"])?.diaries;
-
   const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
 
   const errorHandler = useCallback(() => {
@@ -34,7 +33,7 @@ const Main = () => {
         return favoriteDiary;
       }
     },
-    [diaryTypes, diaryData]
+    [diaryTypes]
   );
 
   return (
