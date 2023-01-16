@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  // baseURL: process.env.REACT_APP_MY_API,
-  baseURL: "https://mylee.site",
+  baseURL: process.env.REACT_APP_MY_API,
 });
 
 instance.interceptors.request.use((config) => {
@@ -11,16 +10,8 @@ instance.interceptors.request.use((config) => {
 });
 
 export const loginApi = {
-
-  login: async (payload) => {
-    const { data } = await instance.post("/api/auth/login", {
-      email: payload.email,
-      password: payload.password,
-    });
-
   login: async (inputData) => {
     const { data } = await instance.post("/api/auth/login", { email: inputData.email, password: inputData.password });
-
     localStorage.setItem("token", data.token);
     return data;
   },
@@ -34,12 +25,12 @@ export const loginApi = {
 };
 
 export const mainApi = {
-
-  read: async (payload) => {
-    const { data } = await instance.get("/api/diary");
-    return data;
+  read: async () => { const { data } = await instance.get("/api/diary"); return data },
+  create: async (addData) => {
+    const { data } = await instance.post("/api/diary", { couple: addData.couple, diaryName: addData.diaryName, outsideColor: addData.selectedColor });
+    return data
   },
-};
+}
 
 export const postDiaryApi = {
   post: async (formData) => {
@@ -48,10 +39,5 @@ export const postDiaryApi = {
   },
 };
 
-  read: async () => { const { data } = await instance.get("/api/diary"); return data },
-  create: async (addData) => {
-    const { data } = await instance.post("/api/diary", { couple: addData.couple, diaryName: addData.diaryName, outsideColor: addData.selectedColor });
-    return data
-  },
-}
+
 
