@@ -8,17 +8,17 @@ const Footer = () => {
   const dispatch = useDispatch();
 
   const changeSoloView = () => {
-    dispatch(diaryType({ couple: false, bookmark: false }));
+    dispatch(diaryType({ couple: 0, bookmark: 0 }));
     navigate("/");
   };
 
   const changeCoupleView = () => {
-    dispatch(diaryType({ couple: true, bookmark: false }));
+    dispatch(diaryType({ couple: 1, bookmark: 0 }));
     navigate("/");
   };
 
   const changeFavoriteView = () => {
-    dispatch(diaryType({ couple: false, bookmark: true }));
+    dispatch(diaryType({ couple: 0, bookmark: 1 }));
     navigate("/");
   };
 

@@ -4,8 +4,8 @@ import axios from "axios";
 const initialState = {
   holiday: [],
   diaryTypes: {
-    couple: false,
-    bookmark: false
+    couple: 0,
+    bookmark: 0
   },
   result: "",
   isLoading: ""

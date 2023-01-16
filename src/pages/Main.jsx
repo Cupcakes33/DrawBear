@@ -20,20 +20,20 @@ const Main = () => {
   }, [error]);
 
   const diaryType = useCallback(() => {
-    if (diaryTypes.couple === false) {
-      const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === false);
+    if (diaryTypes.couple === 0) {
+      const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 0);
       console.log(soloDiary);
       return soloDiary;
-    } else if (diaryTypes.couple) {
-      const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === true);
-      console.log(coupleDiary);
+    } else if (diaryTypes.couple === 1) {
+      const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === 1);
       return coupleDiary;
-    } else if (diaryTypes.bookmark) {
-      const favoriteDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.bookmark === true);
-      console.log(favoriteDiary);
+    } else if (diaryTypes.bookmark === 1) {
+      const favoriteDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.bookmark === 1);
       return favoriteDiary;
     }
   }, [diaryTypes, queryClient]);
+
+  console.log(data);
 
   return (
     <>
