@@ -20,4 +20,8 @@ export const loginApi = {
 
 export const mainApi = {
   read: async () => { const { data } = await instance.get("/api/diary"); return data },
+  create: async (addData) => {
+    const { data } = await instance.post("/api/diary", { couple: addData.couple, diaryName: addData.diaryName, outsideColor: addData.selectedColor });
+    return data
+  },
 }

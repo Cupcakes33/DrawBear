@@ -7,7 +7,7 @@ const initialState = {
     couple: 0,
     bookmark: 0
   },
-  addDiaryType: 0,
+  couple: 0,
   result: "",
   isLoading: ""
 };
@@ -34,7 +34,7 @@ const diarySlice = createSlice({
       state.diaryTypes.bookmark = action.payload.bookmark
     },
     addDiary: (state, action) => {
-      state.addDiaryType = action.payload
+      state.couple = action.payload
     },
   },
   extraReducers: (builder) => {
