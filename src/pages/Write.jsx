@@ -43,7 +43,7 @@ const Write = () => {
     formData.get("title");
     formData.get("createdAt");
     formData.append("image", blob, "img.file");
-    formData.append("content", "test");
+    formData.append("content", contents);
     formData.append("weather", "눈");
     formData.append("tag", tags);
 
@@ -94,26 +94,11 @@ const Write = () => {
 export default Write;
 
 const StCanvasSection = styled(StSection)`
+  height: calc(100% - 6rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-
-  /* ${(props) =>
-    !props.drawing &&
-    css`
-      display: none;
-    `} */
-
-  textarea {
-    width: 100%;
-    height: 10rem;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    padding: 1rem;
-    margin-top: 1rem;
-    resize: none;
-  }
 `;
 
 const StTitleSection = styled(StSection)`
@@ -153,6 +138,7 @@ const StTitleSection = styled(StSection)`
 
 const StSlideWrapper = styled.div`
   width: 200%;
+  height: 100%;
   display: flex;
   transition: transform 0.4s ease-in-out;
   ${(props) =>

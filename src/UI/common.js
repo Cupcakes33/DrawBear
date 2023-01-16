@@ -16,7 +16,8 @@ export const flexProps = css`
 export const StContainer = styled.div`
   position: relative;
   width: 36rem;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   border: 1px solid black;
   background-color: white;
   overflow-x: hidden;
@@ -41,7 +42,7 @@ export const StHeader = styled.header`
 
 export const StSection = styled.section`
   width: 100%;
-  height: calc(100% - 13.2rem);
+  height: calc(100vh - 13.2rem);
   background-color: white;
   position: relative;
   overflow-x: scroll;
