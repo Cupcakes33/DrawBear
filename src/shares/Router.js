@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "../pages/Signup";
+import Test from "../pages/Test";
 import Login from "../pages/Login";
 import Write from "../pages/Write";
 import Canvas from "../components/FabricCanvas/Canvas";
@@ -23,6 +24,7 @@ const Router = () => {
         <Route path="/canvas" element={<Canvas />} />
         <Route path="/write" element={<Write />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/t" element={<Test />} />
         <Route path="/login" element={<Login />} />
         <Route path="/list" element={<FullList />} />
         <Route path="/invite" element={<Invite />} />

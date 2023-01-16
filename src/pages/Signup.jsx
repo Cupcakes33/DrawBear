@@ -25,26 +25,37 @@ const Signup = () => {
   const [isEnable, setIsEnable] = useState(true); //버튼 비활성화
   const [signUpClassName, setsignUpClassName] = useState("active-form-slide");
   const [profilIsClassName, setprofilIsClassName] = useState("form-slide");
-  const [pageShow, setPageShow] = useState(false);
-  const emailCheck = !isDirty ? undefined : errors.email ? "true" : false;
-  const passwordCheck = !isDirty ? undefined : errors.password ? "true" : false;
+
+  const emailCheck = !isDirty ? undefined : errors.email ? false : true;
+  let passwordCheck = !isDirty ? undefined : errors.password ? false : true;
   const passwordComfileCheck = !isDirty
     ? undefined
     : errors.passwordComfile
-    ? "true"
-    : false;
-  const changeNextBtnClassName = () => {
+    ? false
+    : true;
+
+  useEffect(() => {
+    if (emailCheck) {
+      if (passwordCheck) {
+        if (passwordComfileCheck) {
+          setIsEnable(false);
+        }
+      }
+    } else {
+      console.log("ggg");
+    }
     // if (
-    //   emailCheck === false &&
-    //   passwordCheck === false &&
-    //   passwordComfileCheck === false
+    //   emailCheck === true &&
+    //   passwordCheck === true &&
+    //   passwordComfileCheck === true
     // ) {
     //   setIsEnable(false);
+    // }
+  }, [emailCheck, passwordCheck, passwordComfileCheck]);
+
+  const changeNextBtnClassName = () => {
     setsignUpClassName("left-form-slide");
     setprofilIsClassName("active-form-slide");
-    // } else {
-    //   setIsEnable(true);
-    // }
   };
   const changeBeforeBtnClassName = () => {
     setsignUpClassName("active-form-slide");
@@ -114,7 +125,7 @@ const Signup = () => {
                 name="email"
                 placeholder="이메일을 입력해주세요"
                 aria-invalid={
-                  !isDirty ? undefined : errors.email ? "true" : false
+                  !isDirty ? undefined : errors.email ? false : true
                 }
                 {...register("email", {
                   required: "이메일은 필수 입력 값입니다.",
@@ -152,7 +163,7 @@ const Signup = () => {
                 name="password"
                 placeholder="*영문,숫자 조합 8자리 이상"
                 aria-invalid={
-                  !isDirty ? undefined : errors.password ? "true" : "false"
+                  !isDirty ? undefined : errors.password ? false : true
                 }
                 {...register("password", {
                   required: "비밀번호는 필수 입력 입니다.",
@@ -172,11 +183,7 @@ const Signup = () => {
                 name="passwordComfile"
                 placeholder="비밀번호재입력"
                 aria-invalid={
-                  !isDirty
-                    ? undefined
-                    : errors.passwordComfile
-                    ? "true"
-                    : "false"
+                  !isDirty ? undefined : errors.passwordComfile ? false : true
                 }
                 {...register("passwordComfile", {
                   required: true,
@@ -196,13 +203,7 @@ const Signup = () => {
               onClick={() => {
                 changeNextBtnClassName();
               }}
-              disabled={
-                emailCheck === false &&
-                passwordCheck === false &&
-                passwordComfileCheck === false
-                  ? false
-                  : true
-              }
+              disabled={isEnable}
             >
               다음
             </StSignUpBtn>
