@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import Back from "../components/header/Back";
 import HeaderBtn from "../components/header/HeaderBtn";
@@ -6,6 +7,18 @@ import { StHeader } from "../UI/common";
 
 const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
 const CreateDiary = () => {
+  const [selectedColor, setSelectedColor] = useState("");
+  console.log(selectedColor);
+
+  // const onAddDiaryHandler = () => {
+  //   return mutate(inputData);
+  // }
+
+  // const onSubmit = (inputData) => {
+    
+  // };
+
+  // onClick={onAddDiaryHandler}
   return (
     <Container>
       <StHeader flexBetween>
@@ -14,7 +27,7 @@ const CreateDiary = () => {
           <HeaderText>다이어리 생성</HeaderText>
         </div>
         <div>
-          <HeaderBtn>완성</HeaderBtn>
+          <HeaderBtn >완성</HeaderBtn>
         </div>
       </StHeader>
       <Section>
@@ -22,8 +35,8 @@ const CreateDiary = () => {
         <DiaryIcon>그림</DiaryIcon>
       </Section>
       <Footer>
-        {color.map((color) => {
-          return <ColorPicker color={color}></ColorPicker>;
+        {color.map((color, i) => {
+          return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
         })}
       </Footer>
     </Container>

@@ -1,9 +1,12 @@
 import Modal from "../common/modal/Modal";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addDiary } from "../../redux/modules/diarySlice";
 
 const CreateDiaryModal = ({ onClose }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <Modal onClose={onClose}>
@@ -11,6 +14,7 @@ const CreateDiaryModal = ({ onClose }) => {
         <Box>
           <DiaryIcon
             onClick={() => {
+              dispatch(addDiary(0));
               navigate("/new");
             }}
           >
@@ -21,6 +25,7 @@ const CreateDiaryModal = ({ onClose }) => {
         <Box>
           <DiaryIcon
             onClick={() => {
+              dispatch(addDiary(1));
               navigate("/new");
             }}
           >
