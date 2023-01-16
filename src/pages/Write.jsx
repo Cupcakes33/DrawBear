@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import { useNavigate } from "react-router-dom";
 
 import Canvas from "../components/FabricCanvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
@@ -9,7 +8,8 @@ import NavigateBtn from "../components/common/NavigateBtn";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
-  const [isDrawing, setIsDrawing] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [isDrawingEnd, setIsDrawingEnd] = useState(false);
 
   const writeFormSubmitHandler = (event) => {
     event.preventDefault();
@@ -21,32 +21,37 @@ const Write = () => {
       <StHeader flex justify="space-between">
         <NavigateBtn prev />
         <h3>LOGO</h3>
-        <button onClick={() => setIsDrawing(!isDrawing)}>
-          {isDrawing ? "그림" : "제목"}
-        </button>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
+          {isDrawingEnd ? "다 그렸어요 !" : "덜 그렸어요"}
+        </span>
       </StHeader>
-
-      <StCanvasSection drawing={isDrawing}>
-        <Canvas canvas={canvas} setCanvas={setCanvas} />
-        <textarea></textarea>
-      </StCanvasSection>
-      <StTitleSection drawing={isDrawing}>
-        <form onSubmit={writeFormSubmitHandler}>
-          <div>
-            <span>제목 :</span>
-            <input type="text" name="title" placeholder="제목을 입력해주세요" />
-          </div>
-          <div>
-            <span>날짜 :</span>
-            <input type="date" name="date" placeholder="2023.01.01" />
-          </div>
-          <div>
-            <span>태그 :</span>
-            <HashTagInput />
-          </div>
-          <button>일기 작성하기</button>
-        </form>
-      </StTitleSection>
+      <StSlideWrapper isDrawingEnd={isDrawingEnd}>
+        <StCanvasSection>
+          <Canvas canvas={canvas} setCanvas={setCanvas} />
+          <textarea></textarea>
+        </StCanvasSection>
+        <StTitleSection>
+          <form onSubmit={writeFormSubmitHandler}>
+            <div>
+              <span>제목 :</span>
+              <input
+                type="text"
+                name="title"
+                placeholder="제목을 입력해주세요"
+              />
+            </div>
+            <div>
+              <span>날짜 :</span>
+              <input type="date" name="date" placeholder="2023.01.01" />
+            </div>
+            <div>
+              <span>태그 :</span>
+              <HashTagInput tags={tags} setTags={setTags}/>
+            </div>
+            <button>일기 작성하기</button>
+          </form>
+        </StTitleSection>
+      </StSlideWrapper>
     </StContainer>
   );
 };
@@ -59,11 +64,11 @@ const StCanvasSection = styled(StSection)`
   align-items: center;
   padding: 1rem;
 
-  ${(props) =>
+  /* ${(props) =>
     !props.drawing &&
     css`
       display: none;
-    `}
+    `} */
 
   textarea {
     width: 100%;
@@ -82,11 +87,11 @@ const StTitleSection = styled(StSection)`
   align-items: center;
   gap: 2rem;
   padding: 1rem;
-  ${(props) =>
+  /* ${(props) =>
     props.drawing &&
     css`
       display: none;
-    `}
+    `} */
   div {
     width: 100%;
     display: flex;
@@ -109,4 +114,15 @@ const StTitleSection = styled(StSection)`
     border-radius: 5px;
     cursor: pointer;
   }
+`;
+
+const StSlideWrapper = styled.div`
+  width: 200%;
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  ${(props) =>
+    props.isDrawingEnd &&
+    css`
+      transform: translateX(-50%);
+    `}
 `;

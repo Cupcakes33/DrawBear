@@ -19,12 +19,13 @@ export const StContainer = styled.div`
   height: 100vh;
   border: 1px solid black;
   background-color: white;
+  overflow: hidden;
   ${flexProps}
 `;
 
 export const StWrapper = styled.div`
   width: 31.2rem;
-  margin: 1.8rem auto;
+  /* margin: 1.8rem auto; */
 `;
 
 export const StHeader = styled.header`
