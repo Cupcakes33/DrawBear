@@ -10,8 +10,8 @@ instance.interceptors.request.use((config) => {
 });
 
 export const loginApi = {
-  login: async (payload) => {
-    const { data } = await instance.post("/api/auth/login", { email: payload.email, password: payload.password });
+  login: async (inputData) => {
+    const { data } = await instance.post("/api/auth/login", { email: inputData.email, password: inputData.password });
     localStorage.setItem("token", data.token);
     return data
   },
@@ -19,5 +19,5 @@ export const loginApi = {
 };
 
 export const mainApi = {
-  read: async (payload) => { const { data } = await instance.get("/api/diary"); return data },
+  read: async () => { const { data } = await instance.get("/api/diary"); return data },
 }
