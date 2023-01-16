@@ -9,7 +9,7 @@ const HashTagInput = ({tags, setTags}) => {
     if (event.key !== "Enter") return;
     const { value } = event.target;
     if (!value.trim()) return;
-    setTags((prev) => [...prev, value]);
+    setTags((prev) => [...prev, `#${value}`]);
     event.target.value = "";
     console.log(tags);
   };
