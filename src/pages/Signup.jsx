@@ -6,50 +6,50 @@ import { StHeader } from "../UI/common";
 const Signup = () => {
   const {
     register,
+    setValue,
     handleSubmit,
+    setError,
     watch,
     formState: { isSubmitting, isDirty, errors },
   } = useForm({ mode: "onChange" });
 
-  const [image, setImage] = useState({
-    image_file: "",
-    preview_URL: defaultImg,
-  });
-
+  //이미지 미리보기
+  const [imagePreview, setImagePreview] = useState(defaultImg);
+  const image = watch("image");
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      setImagePreview(URL.createObjectURL(file));
+    }
+  }, [image]);
+  const [isEnable, setIsEnable] = useState(true); //버튼 비활성화
   const [signUpClassName, setsignUpClassName] = useState("active-form-slide");
   const [profilIsClassName, setprofilIsClassName] = useState("form-slide");
   const [pageShow, setPageShow] = useState(false);
-
-  const { email } = watch();
+  const emailCheck = !isDirty ? undefined : errors.email ? "true" : false;
+  const passwordCheck = !isDirty ? undefined : errors.password ? "true" : false;
+  const passwordComfileCheck = !isDirty
+    ? undefined
+    : errors.passwordComfile
+    ? "true"
+    : false;
   const changeNextBtnClassName = () => {
-    console.log(email);
+    // if (
+    //   emailCheck === false &&
+    //   passwordCheck === false &&
+    //   passwordComfileCheck === false
+    // ) {
+    //   setIsEnable(false);
     setsignUpClassName("left-form-slide");
     setprofilIsClassName("active-form-slide");
+    // } else {
+    //   setIsEnable(true);
+    // }
   };
   const changeBeforeBtnClassName = () => {
     setsignUpClassName("active-form-slide");
     setprofilIsClassName("form-slide");
   };
-  let inputRef;
-
-  useEffect(() => {
-    return () => {
-      URL.revokeObjectURL(image.preview_URL);
-    };
-  }, []);
-
-  const imgOnChnageHandler = (e) => {
-    e.preventDefault();
-    if (e.target.files[0]) {
-      URL.revokeObjectURL(image.preview_URL);
-      const preview_URL = URL.createObjectURL(e.target.files[0]);
-      setImage(() => ({
-        image_file: e.target.files[0],
-        preview_URL: preview_URL,
-      }));
-    }
-  };
-
   return (
     <>
       <div
@@ -166,8 +166,6 @@ const Signup = () => {
               {errors.password && (
                 <small role="alert">{errors.password.message}</small>
               )}
-            </div>
-            <div>
               <StSignupInput
                 id="passwordComfile"
                 type="password"
@@ -181,68 +179,62 @@ const Signup = () => {
                     : "false"
                 }
                 {...register("passwordComfile", {
-                  required: "비밀번호는 필수 입력 입니다.",
-                  minLength: {
-                    value: 4,
-                    message: "4자리 이상 비밀번호를 입력해주세요",
+                  required: true,
+                  validate: (val) => {
+                    if (watch("password") != val) {
+                      return "비밀번호가 다릅니다.";
+                    }
                   },
                 })}
-                style={{ top: "38.5rem" }}
+                style={{ top: "33rem" }}
               />
               {errors.passwordComfile && (
                 <small role="alert">{errors.passwordComfile.message}</small>
               )}
             </div>
-
             <StSignUpBtn
               onClick={() => {
                 changeNextBtnClassName();
               }}
+              disabled={
+                emailCheck === false &&
+                passwordCheck === false &&
+                passwordComfileCheck === false
+                  ? false
+                  : true
+              }
             >
               다음
             </StSignUpBtn>
           </div>
           <div className={profilIsClassName}>
             <StProfilitle>당신의 프로필을 꾸며주세요 :)</StProfilitle>
-            <div className="uploader-wrapper">
+            <div>
+              <img
+                style={{
+                  width: "10rem",
+                  height: "10rem",
+                  borderRadius: "100%",
+                  position: "absolute",
+                  left: "13rem",
+                  top: "20.7rem",
+                }}
+                src={imagePreview}
+              />
               <input
+                {...register("image")}
                 id="profileImg"
                 type="file"
-                accept="images/*"
-                onChange={imgOnChnageHandler}
-                onClick={(e) => (e.target.value = null)}
-                ref={(refParam) => (inputRef = refParam)}
-                name="profileImg"
-                placeholder="이미지를 선택해주세요"
-                style={{ display: "none" }}
+                style={{
+                  position: "absolute",
+                  width: "3.7rem",
+                  height: "3.7rem",
+                  left: "19.3rem",
+                  top: "27rem",
+                  borderRadius: "100%",
+                  background: "#888888",
+                }}
               />
-              <div className="img-wrapper">
-                <img
-                  src={image.preview_URL}
-                  alt="profileImg"
-                  style={{
-                    width: "10rem",
-                    height: "10rem",
-                    borderRadius: "100%",
-                    position: "absolute",
-                    left: "13rem",
-                    top: "20.7rem",
-                  }}
-                  onClick={() => inputRef.click()}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "3.7rem",
-                    height: "3.7rem",
-                    left: "19.3rem",
-                    top: "27rem",
-                    borderRadius: "100%",
-                    background: "#888888",
-                  }}
-                  onClick={() => inputRef.click()}
-                ></div>
-              </div>
             </div>
             <div>
               <label
