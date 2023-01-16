@@ -2,17 +2,42 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 
-const Canvas = () => {
-  const [canvas, setCanvas] = useState("");
+const Canvas = ({ canvas, setCanvas }) => {
+  // const [canvas, setCanvas] = useState("");
   const [color, setColor] = useState("black");
   const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
   const bgImgInput = useRef();
   const productImgInput = useRef();
 
+  const imgUrlConvertBlob = () => {
+    if (!canvas) return;
+    const canvasUrl = canvas.toDataURL();
+    const image = atob(canvasUrl.split(",")[1]);
+    const arraybuffer = new ArrayBuffer(image.length);
+    const view = new Uint8Array(arraybuffer);
+
+    for (let i = 0; i < image.length; i++) {
+      view[i] = image.charCodeAt(i) & 0xff;
+    }
+    const blob = new Blob([arraybuffer], { type: "image/png" });
+    return URL.createObjectURL(blob);
+  };
+
   useEffect(() => {
     setCanvas(initCanvas());
   }, []);
+
+  const initCanvas = () =>
+    new fabric.Canvas(canvasRef.current, {
+      height: 350,
+      width: 350,
+      backgroundColor: "white",
+      freeDrawingBrush: {
+        color: color,
+        width: width,
+      },
+    });
 
   const deleteSelectedObjects = () => {
     let selection = canvas.getActiveObject();
@@ -40,28 +65,19 @@ const Canvas = () => {
       });
   }, [canvas]);
 
-  const initCanvas = () =>
-    new fabric.Canvas(canvasRef.current, {
-      height: 350,
-      width: 350,
-      backgroundColor: "white",
-      freeDrawingBrush: {
-        color: color,
-        width: width,
-      },
-    });
-
   const freeDrawHandler = () => {
-    console.log(canvas.freeDrawingBrush.width, canvas.freeDrawingBrush.color);
     canvas.isDrawingMode = !canvas.isDrawingMode;
+    canvas.freeDrawingBrush.inverted = false;
   };
 
   const drawColorHandler = (color) => {
     canvas.freeDrawingBrush.color = color;
   };
+
   const drawWidthHandler = (width) => {
     canvas.freeDrawingBrush.width = parseInt(width, 10);
   };
+
   const clearButtonHandler = () => {
     canvas.clear();
   };
@@ -172,6 +188,7 @@ const Canvas = () => {
         />
 
         <button onClick={clearButtonHandler}>clear</button>
+
         <input
           style={{ display: "none" }}
           accept="image/*"
@@ -182,6 +199,7 @@ const Canvas = () => {
           ref={bgImgInput}
           onChange={bgUpload}
         />
+
         <input
           style={{ display: "none" }}
           accept="image/*"
@@ -192,6 +210,7 @@ const Canvas = () => {
           ref={productImgInput}
           onChange={imgUpload}
         />
+
         <div>
           <button
             onClick={() => {
