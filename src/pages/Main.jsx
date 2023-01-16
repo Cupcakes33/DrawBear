@@ -8,7 +8,6 @@ import { mainApi } from "../apis/axios";
 import { useSelector } from "react-redux";
 
 const Main = () => {
-  const [isDiaryData, setIsDiaryData] = useState(false);
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const queryClient = useQueryClient();
 
@@ -21,21 +20,20 @@ const Main = () => {
   }, [error]);
 
   const diaryType = useCallback(() => {
-    if (diaryTypes.solo) {
-      const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((v) => v.couple === false);
-      return <DiaryList diaryData={soloDiary} />;
+    if (diaryTypes.couple === false) {
+      const soloDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === false);
+      console.log(soloDiary);
+      return soloDiary;
     } else if (diaryTypes.couple) {
-      const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((v) => v.couple === true);
-      return <DiaryList diaryData={coupleDiary} />;
-    } else if (diaryTypes.favorite) {
-      const favoriteDiary = queryClient.getQueryData(["main"])?.diaries.filter((v) => v.couple === true);
-      return <DiaryList diaryData={favoriteDiary} />;
+      const coupleDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.couple === true);
+      console.log(coupleDiary);
+      return coupleDiary;
+    } else if (diaryTypes.bookmark) {
+      const favoriteDiary = queryClient.getQueryData(["main"])?.diaries.filter((diary) => diary.bookmark === true);
+      console.log(favoriteDiary);
+      return favoriteDiary;
     }
-  }, [diaryTypes]);
-
-  useEffect(() => {
-    if (data) return setIsDiaryData(true);
-  }, [data]);
+  }, [diaryTypes, queryClient]);
 
   return (
     <>
@@ -48,7 +46,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          <>{!isDiaryData ? <NoDiary /> : diaryType()}</>
+          <>{diaryType() === [] ? <NoDiary /> : <DiaryList diaryData={diaryType()} />}</>
           <Footer></Footer>
         </StContainer>
       )}
