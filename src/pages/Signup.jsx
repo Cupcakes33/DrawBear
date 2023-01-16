@@ -6,23 +6,36 @@ import { StHeader } from "../UI/common";
 const Signup = () => {
   const {
     register,
+    setValue,
     handleSubmit,
+    setError,
     watch,
     formState: { isSubmitting, isDirty, errors },
   } = useForm({ mode: "onChange" });
 
-  const [image, setImage] = useState({
-    image_file: "",
-    preview_URL: defaultImg,
-  });
+  //이미지 미리보기
+  const [imagePreview, setImagePreview] = useState(defaultImg);
+  const image = watch("image");
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      setImagePreview(URL.createObjectURL(file));
+    }
+  }, [image]);
+
+  // const [image, setImage] = useState({
+  //   image_file: "",
+  //   preview_URL: defaultImg,
+  // });
 
   const [signUpClassName, setsignUpClassName] = useState("active-form-slide");
   const [profilIsClassName, setprofilIsClassName] = useState("form-slide");
   const [pageShow, setPageShow] = useState(false);
 
-  const { email } = watch();
   const changeNextBtnClassName = () => {
-    console.log(email);
+    console.log(watch());
+    console.log({ isSubmitting });
+
     setsignUpClassName("left-form-slide");
     setprofilIsClassName("active-form-slide");
   };
@@ -32,23 +45,23 @@ const Signup = () => {
   };
   let inputRef;
 
-  useEffect(() => {
-    return () => {
-      URL.revokeObjectURL(image.preview_URL);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     URL.revokeObjectURL(image.preview_URL);
+  //   };
+  // }, []);
 
-  const imgOnChnageHandler = (e) => {
-    e.preventDefault();
-    if (e.target.files[0]) {
-      URL.revokeObjectURL(image.preview_URL);
-      const preview_URL = URL.createObjectURL(e.target.files[0]);
-      setImage(() => ({
-        image_file: e.target.files[0],
-        preview_URL: preview_URL,
-      }));
-    }
-  };
+  // const imgOnChnageHandler = (e) => {
+  //   e.preventDefault();
+  //   if (e.target.files[0]) {
+  //     URL.revokeObjectURL(image.preview_URL);
+  //     const preview_URL = URL.createObjectURL(e.target.files[0]);
+  //     setImage(() => ({
+  //       image_file: e.target.files[0],
+  //       preview_URL: preview_URL,
+  //     }));
+  //   }
+  // };
 
   return (
     <>
@@ -163,31 +176,23 @@ const Signup = () => {
                 })}
                 style={{ top: "33rem" }}
               />
-              {errors.password && (
-                <small role="alert">{errors.password.message}</small>
-              )}
-            </div>
-            <div>
               <StSignupInput
                 id="passwordComfile"
                 type="password"
                 name="passwordComfile"
                 placeholder="비밀번호재입력"
                 aria-invalid={
-                  !isDirty
-                    ? undefined
-                    : errors.passwordComfile
-                    ? "true"
-                    : "false"
+                  !isDirty ? undefined : errors.password ? "true" : "false"
                 }
                 {...register("passwordComfile", {
-                  required: "비밀번호는 필수 입력 입니다.",
-                  minLength: {
-                    value: 4,
-                    message: "4자리 이상 비밀번호를 입력해주세요",
+                  required: true,
+                  validate: (val) => {
+                    if (watch("password") != val) {
+                      return "Your passwords do no match";
+                    }
                   },
                 })}
-                style={{ top: "38.5rem" }}
+                style={{ top: "33rem" }}
               />
               {errors.passwordComfile && (
                 <small role="alert">{errors.passwordComfile.message}</small>
@@ -204,9 +209,38 @@ const Signup = () => {
           </div>
           <div className={profilIsClassName}>
             <StProfilitle>당신의 프로필을 꾸며주세요 :)</StProfilitle>
-            <div className="uploader-wrapper">
+            <div>
+              <img
+                style={{
+                  width: "10rem",
+                  height: "10rem",
+                  borderRadius: "100%",
+                  position: "absolute",
+                  left: "13rem",
+                  top: "20.7rem",
+                }}
+                src={imagePreview}
+              />
               <input
+                {...register("image")}
                 id="profileImg"
+                type="file"
+                style={{
+                  position: "absolute",
+                  width: "3.7rem",
+                  height: "3.7rem",
+                  left: "19.3rem",
+                  top: "27rem",
+                  borderRadius: "100%",
+                  background: "#888888",
+                }}
+              />
+            </div>
+
+            {/* <div className="uploader-wrapper">
+              <input
+                {...register("image")}
+                id=""
                 type="file"
                 accept="images/*"
                 onChange={imgOnChnageHandler}
@@ -219,7 +253,6 @@ const Signup = () => {
               <div className="img-wrapper">
                 <img
                   src={image.preview_URL}
-                  alt="profileImg"
                   style={{
                     width: "10rem",
                     height: "10rem",
@@ -243,7 +276,7 @@ const Signup = () => {
                   onClick={() => inputRef.click()}
                 ></div>
               </div>
-            </div>
+            </div> */}
             <div>
               <label
                 htmlFor="nickname"
