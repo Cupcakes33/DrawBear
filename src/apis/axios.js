@@ -41,6 +41,14 @@ export const mainApi = {
     });
     return data;
   },
+  update: async (updateData) => {
+    const { data } = await instance.patch(`/api/diary/${updateData.id}`, {
+      couple: updateData.couple,
+      diaryName: updateData.diaryName,
+      outsideColor: updateData.selectedColor,
+    });
+    return data;
+  },
   delete: async (id) => {
     const { data } = await instance.delete(`/api/diary/${id}`);
     return data;

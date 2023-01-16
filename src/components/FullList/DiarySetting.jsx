@@ -33,7 +33,7 @@ const DiarySetting = ({ onClose }) => {
       <Modal onClose={onClose} modalWidth="36rem" top="94%">
         <DiarySettingModal>
           <div>같이 쓰는 멤버 초대</div>
-          <div>다이어리 수정</div>
+          <div onClick={() => navigate(`/update/${id}`)}>다이어리 수정</div>
           <div onClick={() => mutate(id)}>다이어리 삭제</div>
         </DiarySettingModal>
       </Modal>
