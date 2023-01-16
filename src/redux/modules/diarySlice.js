@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   holiday: [],
-  diaryType: {
+  diaryTypes: {
     solo: true,
     couple: false,
     favorite: false
@@ -29,9 +29,9 @@ const diarySlice = createSlice({
   initialState,
   reducers: {
     diaryType: (state, action) => {
-      state.diaryType.solo = action.payload.solo
-      state.diaryType.couple = action.payload.couple
-      state.diaryType.favorite = action.payload.favorite
+      state.diaryTypes.solo = action.payload.solo
+      state.diaryTypes.couple = action.payload.couple
+      state.diaryTypes.favorite = action.payload.favorite
     },
   },
   extraReducers: (builder) => {
