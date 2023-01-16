@@ -19,32 +19,24 @@ export const StContainer = styled.div`
   height: 100vh;
   border: 1px solid black;
   background-color: white;
+  overflow: hidden;
   ${flexProps}
 `;
 
 export const StWrapper = styled.div`
   width: 31.2rem;
-  margin: 1.8rem auto;
+  /* margin: 1.8rem auto; */
 `;
 
 export const StHeader = styled.header`
   display: flex;
   width: 100%;
   height: 6rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  background-color: #EEEEEE;
-  justify-content: ${(props) => props.flexCenter && "center"};
-  justify-content: ${(props) => props.flexBetween && "space-between"};
-  align-items: center;
+  padding: 2rem;
+  background-color: #eeeeee;
   position: sticky;
   top: 0;
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-  }
+  ${flexProps}
 `;
 
 export const StSection = styled.section`
@@ -83,23 +75,23 @@ export const Add = styled.button`
     switch (page) {
       case "main":
         return css`
-        width: 4.8rem;
-        height: 4.8rem;
-        top: 80%;
-        left: calc(50% - 2.5rem);
+          width: 4.8rem;
+          height: 4.8rem;
+          top: 80%;
+          left: calc(50% - 2.5rem);
         `;
       case "list":
         return css`
-        width: 6.9rem;
-        height: 6.9rem;
-        top: 90%;
-        right: calc(50% - 15.5rem);
+          width: 6.9rem;
+          height: 6.9rem;
+          top: 90%;
+          right: calc(50% - 15.5rem);
         `;
       default:
         return css`
           width: 6.9rem;
           height: 6.9rem;
-          `
+        `;
     }
   }}
 `;

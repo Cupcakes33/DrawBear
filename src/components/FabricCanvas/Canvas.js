@@ -10,20 +10,6 @@ const Canvas = ({ canvas, setCanvas }) => {
   const bgImgInput = useRef();
   const productImgInput = useRef();
 
-  const imgUrlConvertBlob = () => {
-    if (!canvas) return;
-    const canvasUrl = canvas.toDataURL();
-    const image = atob(canvasUrl.split(",")[1]);
-    const arraybuffer = new ArrayBuffer(image.length);
-    const view = new Uint8Array(arraybuffer);
-
-    for (let i = 0; i < image.length; i++) {
-      view[i] = image.charCodeAt(i) & 0xff;
-    }
-    const blob = new Blob([arraybuffer], { type: "image/png" });
-    return URL.createObjectURL(blob);
-  };
-
   useEffect(() => {
     setCanvas(initCanvas());
   }, []);

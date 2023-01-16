@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { postDiaryApi } from "../apis/axios";
 
 import Canvas from "../components/FabricCanvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
@@ -9,60 +10,94 @@ import NavigateBtn from "../components/common/NavigateBtn";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
-  const [isDrawing, setIsDrawing] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [isDrawingEnd, setIsDrawingEnd] = useState(false);
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
+    postDiaryApi.post
+  );
 
-  const writeFormRef = useRef(null);
+  const imgUrlConvertBlob = (canvas) => {
+    if (!canvas) return;
+    const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
+    const splitDataUrl = canvasUrl.split(",");
+    const byteString =
+      splitDataUrl[0].indexOf("base64") >= 0
+        ? atob(splitDataUrl[1])
+        : decodeURI(splitDataUrl[1]);
+    const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
+    const ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], { type: mimeString });
+  };
 
   const writeFormSubmitHandler = (event) => {
     event.preventDefault();
-    console.log(canvas.toDataURL());
-  };
+    let blob = imgUrlConvertBlob(canvas);
+    let formData = new FormData(event.target);
+    console.log(blob);
 
-  // useEffect(() => {
-  //   writeFormRef.current.addEventListener("keydown", (event) => {
-  //     if (event.code === "Enter") {
-  //       event.preventDefault();
-  //     }
-  //   });
-  //   return () =>
-  //     writeFormRef.current.removeEventListener("keydown", (event) => {
-  //       if (event.code === "Enter") {
-  //         event.preventDefault();
-  //       }
-  //     });
-  // }, []);
+    let title = formData.get("title");
+    let createdAt = formData.get("createdAt");
+    formData.append("diaryId", 1);
+    // formData.append("title", title);
+    formData.append("image", blob, "img.file");
+    formData.append("content", "test");
+    // formData.append("date", date);
+    formData.append("weather", "눈");
+    formData.append("tag", tags);
+
+    const data = {
+      diaryId: 1,
+      title: title,
+      image: blob,
+      content: "test",
+      createdAt: createdAt,
+      weather: "snow",
+      tag: tags,
+    };
+    // mutate(data);
+    mutate(formData);
+  };
 
   return (
     <StContainer>
-      <StHeader flex>
+      <StHeader flex justify="space-between">
         <NavigateBtn prev />
         <h3>LOGO</h3>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
+          {isDrawingEnd ? "다 그렸어요 !" : "덜 그렸어요"}
+        </span>
       </StHeader>
-      <button onClick={() => setIsDrawing(!isDrawing)}>
-        {isDrawing ? "그림" : "제목"}
-      </button>
+      <StSlideWrapper isDrawingEnd={isDrawingEnd}>
+        <StCanvasSection>
+          <Canvas canvas={canvas} setCanvas={setCanvas} />
+          <textarea></textarea>
+        </StCanvasSection>
+        <StTitleSection>
+          <form onSubmit={writeFormSubmitHandler} encType="multipart/form-data">
+            <div>
+              <span>제목 :</span>
+              <input
+                type="text"
+                name="title"
+                placeholder="제목을 입력해주세요"
+              />
+            </div>
+            <div>
+              <span>날짜 :</span>
+              <input type="date" name="createdAt" placeholder="2023.01.01" />
+            </div>
 
-      <StCanvasSection drawing={isDrawing}>
-        <Canvas canvas={canvas} setCanvas={setCanvas} />
-        <textarea></textarea>
-      </StCanvasSection>
-      <StTitleSection drawing={isDrawing}>
-        <form ref={writeFormRef} onSubmit={writeFormSubmitHandler}>
-          <div>
-            <span>제목 :</span>
-            <input type="text" name="title" placeholder="제목을 입력해주세요" />
-          </div>
-          <div>
-            <span>날짜 :</span>
-            <input type="date" name="date" placeholder="2023.01.01" />
-          </div>
-          <div>
-            <span>태그 :</span>
-            <HashTagInput />
-          </div>
-          <button>일기 작성하기</button>
-        </form>
-      </StTitleSection>
+            <div>
+              <span>태그 :</span>
+              <HashTagInput tags={tags} setTags={setTags} />
+            </div>
+            <button type="submit">일기 작성하기</button>
+          </form>
+        </StTitleSection>
+      </StSlideWrapper>
     </StContainer>
   );
 };
@@ -75,11 +110,11 @@ const StCanvasSection = styled(StSection)`
   align-items: center;
   padding: 1rem;
 
-  ${(props) =>
+  /* ${(props) =>
     !props.drawing &&
     css`
       display: none;
-    `}
+    `} */
 
   textarea {
     width: 100%;
@@ -98,11 +133,11 @@ const StTitleSection = styled(StSection)`
   align-items: center;
   gap: 2rem;
   padding: 1rem;
-  ${(props) =>
+  /* ${(props) =>
     props.drawing &&
     css`
       display: none;
-    `}
+    `} */
   div {
     width: 100%;
     display: flex;
@@ -125,4 +160,15 @@ const StTitleSection = styled(StSection)`
     border-radius: 5px;
     cursor: pointer;
   }
+`;
+
+const StSlideWrapper = styled.div`
+  width: 200%;
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  ${(props) =>
+    props.isDrawingEnd &&
+    css`
+      transform: translateX(-50%);
+    `}
 `;

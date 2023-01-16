@@ -2,8 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { TiDelete } from "react-icons/ti";
 
-const HashTagInput = () => {
-  const [tags, setTags] = useState([]);
+const HashTagInput = ({tags, setTags}) => {
+  // const [tags, setTags] = useState([]);
 
   const HashTagInputKeyDownHandler = (event) => {
     if (event.key !== "Enter") return;
