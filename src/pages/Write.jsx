@@ -9,6 +9,7 @@ import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
+import HorizontalDatePicker from "../components/write/HorizontalDatePicker";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -51,8 +52,8 @@ const Write = () => {
     formData.append("content", contents);
     formData.append("weather", "눈");
     formData.append("tag", tags);
-
-    mutate({ formData: formData, diaryId: 10 });
+    mutate({ formData: formData, diaryId: 10 })
+    
   };
 
   return (
@@ -78,7 +79,8 @@ const Write = () => {
           >
             <div className="dateInputBox">
               <span>날짜 :</span>
-              <input type="date" name="createdAt" />
+              <HorizontalDatePicker/>
+              {/* <input type="date" name="createdAt" /> */}
             </div>
             <div className="titleInputBox">
               <input

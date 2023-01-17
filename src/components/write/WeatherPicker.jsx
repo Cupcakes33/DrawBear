@@ -60,7 +60,7 @@ const weatherTypesMini = (type) => {
 
 const StWeatherPickerContainer = styled.div`
   width: 100%;
-  height: 150px;
+  
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
