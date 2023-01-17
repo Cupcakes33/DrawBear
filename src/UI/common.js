@@ -13,6 +13,13 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
+// display: flex;
+// flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
+// justify-content: ${({ justify = "center" }) => justify};
+// align-items: ${({ align = "center" }) => align};
+// gap: ${({ gap }) => `${gap}px`};
+// `;
+
 export const StContainer = styled.div`
   position: relative;
   width: 36rem;
