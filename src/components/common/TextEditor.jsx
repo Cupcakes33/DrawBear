@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -18,20 +18,19 @@ const TextEditor = ({ contents, setContents }) => {
   );
 
   return (
-    <StBox>
-      <ReactQuill
-        value={contents}
-        onChange={setContents}
-        modules={modules}
-        theme="snow"
-        placeholder="내용을 입력해주세요."
-      />
-    </StBox>
+    <StReactQuill
+      value={contents}
+      onChange={setContents}
+      modules={modules}
+      theme="snow"
+      placeholder="내용을 입력해주세요."
+    />
   );
 };
 
 export default TextEditor;
 
-const StBox = styled.div`
+const StReactQuill = styled(ReactQuill)`
   width: 100%;
+  height: 36rem;
 `;

@@ -49,11 +49,12 @@ export const StHeader = styled.header`
 
 export const StSection = styled.section`
   width: 100%;
-  height: calc(100vh - 13.2rem);
+  height: 100%;
+  min-height: calc(100vh - 13.2rem);
   background-color: white;
   position: relative;
   overflow-x: scroll;
-  padding: 2rem;
+  padding: 1rem;
   ${flexProps}
 `;
 

@@ -68,6 +68,7 @@ const Write = () => {
           <Canvas canvas={canvas} setCanvas={setCanvas} />
           <TextEditor contents={contents} setContents={setContents} />
         </StCanvasSection>
+
         <StTitleSection flex justify="flex-start" derection="column">
           <form
             onSubmit={writeFormSubmitHandler}
@@ -101,11 +102,16 @@ const Write = () => {
 
 export default Write;
 
-const StCanvasSection = styled(StSection)``;
+const StCanvasSection = styled(StSection)`
+  min-height: calc(100vh - 6rem);
+`;
 
-const StTitleSection = styled(StSection)``;
+const StTitleSection = styled(StSection)`
+  min-height: calc(100vh - 6rem);
+`;
 
 const StSlideWrapper = styled.div`
+  position: relative;
   width: 200%;
   height: 100%;
   min-height: calc(100vh - 6rem);
