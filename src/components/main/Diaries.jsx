@@ -42,16 +42,14 @@ export default function Diaries(diaryData) {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {diaryData.map((data) => {
+        {diaryData.map((data, i) => {
           return (
-            <>
-              <SwiperSlide key={data.diaryId}>
+              <SwiperSlide key={i}>
                 <Diary bgColor={data.outsideColor}>
                   <button onClick={() => mutate(data.diaryId)}>북마크</button>
                   <label onClick={() => navigate(`/list/${data.diaryId}`)}>{data.diaryName}</label>
                 </Diary>
               </SwiperSlide>
-            </>
           );
         })}
       </Swiper>
