@@ -18,7 +18,7 @@ const Profile = () => {
           <div className="editProfileWrapper">
             <div>
               내 프로필 관리
-              <NavigateBtn link={""} />
+              <NavigateBtn link={"/profile/update"} />
             </div>
             <div>
               비밀번호 변경

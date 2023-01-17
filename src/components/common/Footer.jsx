@@ -22,12 +22,16 @@ const Footer = () => {
     navigate("/");
   };
 
+  const changeToMypage = () => {
+    navigate("/mypage");
+  };
+
   return (
     <Container>
       <FooterButton onClick={changeSoloView}>혼자</FooterButton>
       <FooterButton onClick={changeCoupleView}>같이</FooterButton>
       <FooterButton onClick={changeFavoriteView}>책갈피</FooterButton>
-      <FooterButton>마이</FooterButton>
+      <FooterButton onClick={changeToMypage}>마이</FooterButton>
     </Container>
   );
 };
