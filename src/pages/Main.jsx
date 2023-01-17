@@ -5,10 +5,14 @@ import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import { StContainer, StHeader } from "../UI/common";
 import { mainApi } from "../apis/axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "../redux/modules/UISlice";
+import Alert from "../components/common/modal/Alert";
 
 const Main = () => {
+  const dispatch = useDispatch();
   const { diaryTypes } = useSelector((state) => state.diarySlice);
+  const { isModal } = useSelector((state) => state.UISlice);
   const queryClient = useQueryClient();
 
   const diaryData = queryClient?.getQueryData(["main"])?.diaries;
@@ -16,8 +20,9 @@ const Main = () => {
 
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
-    if (status === 401) return <h2>로그인 후 이용 가능한 기능입니다.</h2>;
-    else if (status === 400) return <h2>일기장 조회에 실패했습니다.</h2>;
+    if (status === 401) {
+      dispatch(showModal({ isModal: true, content: "로그인이 만료되었습니다.", move: "/login" }));
+    } else if (status === 400) return <h2>일기장 조회에 실패했습니다.</h2>;
   }, [error]);
 
   const diaryType = useCallback(
@@ -36,8 +41,11 @@ const Main = () => {
     [diaryTypes]
   );
 
+  console.log(diaryType(diaryData));
+
   return (
     <>
+      {isModal && <Alert />}
       {isLoading ? (
         <h2>로딩 중...</h2>
       ) : isError ? (
