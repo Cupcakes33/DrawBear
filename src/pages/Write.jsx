@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
@@ -76,28 +76,23 @@ const Write = () => {
             onKeyDown={formEnterKeyPrevent}
             encType="multipart/form-data"
           >
-            <div>
-              <span>제목 :</span>
+            <div className="dateInputBox">
+              <span>날짜 :</span>
+              <input type="date" name="createdAt" />
+            </div>
+            <div className="titleInputBox">
               <input
                 type="text"
                 name="title"
                 placeholder="제목을 입력해주세요"
               />
             </div>
-            <div>
-              <span>날짜 :</span>
-              <input type="date" name="createdAt" />
-            </div>
-            <div>
+            
+            <div className="weatherPickerBox">
               <span>날씨 :</span>
-              {/* <input
-                type="text"
-                name="weather"
-                placeholder="오늘의 기분은 어떤 날씨인가요 ?"
-              /> */}
               <WeatherPicker />
             </div>
-            <div>
+            <div className="HashTagInputBox">
               <span>태그 :</span>
               <HashTagInput tags={tags} setTags={setTags} />
             </div>
@@ -131,4 +126,12 @@ const StSlideWrapper = styled.div`
     css`
       transform: translateX(-50%);
     `}
+`;
+
+// 리팩토링 시 하나로 묶으면 좋을 것 같습니다.
+
+const StBoxdesign = css`
+  width: 100%;
+  height: 3rem;
+  border-radius: 10px;
 `;
