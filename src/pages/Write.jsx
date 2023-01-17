@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
 import { diaryApi } from "../apis/axios";
 
-import Canvas from "../components/FabricCanvas/Canvas";
+import Canvas from "../components/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
+import WeatherPicker from "../components/write/WeatherPicker";
+import HorizontalDatePicker from "../components/write/HorizontalDatePicker";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
-  const { mutate, isSuccess, isError, error, isLoading } = useMutation(() =>
-    diaryApi.post()
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
+    diaryApi.post
   );
 
   const imgUrlConvertBlob = (canvas) => {
@@ -34,6 +36,10 @@ const Write = () => {
     return new Blob([ia], { type: mimeString });
   };
 
+  const formEnterKeyPrevent = (event) => {
+    event.key === "Enter" && event.preventDefault();
+  };
+
   const writeFormSubmitHandler = (event) => {
     event.preventDefault();
     let blob = imgUrlConvertBlob(canvas);
@@ -43,11 +49,11 @@ const Write = () => {
     formData.get("title");
     formData.get("createdAt");
     formData.append("image", blob, "img.file");
-    formData.append("content", "test");
+    formData.append("content", contents);
     formData.append("weather", "눈");
     formData.append("tag", tags);
-
-    mutate(formData, 10);
+    mutate({ formData: formData, diaryId: 10 })
+    
   };
 
   return (
@@ -56,30 +62,39 @@ const Write = () => {
         <NavigateBtn prev />
         <h3>LOGO</h3>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
-          {isDrawingEnd ? "다 그렸어요 !" : "덜 그렸어요"}
+          {isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}
         </span>
       </StHeader>
       <StSlideWrapper isDrawingEnd={isDrawingEnd}>
-        <StCanvasSection>
+        <StCanvasSection flex justify="flex-start" derection="column">
           <Canvas canvas={canvas} setCanvas={setCanvas} />
           <TextEditor contents={contents} setContents={setContents} />
         </StCanvasSection>
-        <StTitleSection>
-          <form onSubmit={writeFormSubmitHandler} encType="multipart/form-data">
-            <div>
-              <span>제목 :</span>
+
+        <StTitleSection flex justify="flex-start" derection="column">
+          <form
+            onSubmit={writeFormSubmitHandler}
+            onKeyDown={formEnterKeyPrevent}
+            encType="multipart/form-data"
+          >
+            <div className="dateInputBox">
+              <span>날짜 :</span>
+              <HorizontalDatePicker/>
+              {/* <input type="date" name="createdAt" /> */}
+            </div>
+            <div className="titleInputBox">
               <input
                 type="text"
                 name="title"
                 placeholder="제목을 입력해주세요"
               />
             </div>
-            <div>
-              <span>날짜 :</span>
-              <input type="date" name="createdAt" placeholder="2023.01.01" />
+            
+            <div className="weatherPickerBox">
+              <span>날씨 :</span>
+              <WeatherPicker />
             </div>
-
-            <div>
+            <div className="HashTagInputBox">
               <span>태그 :</span>
               <HashTagInput tags={tags} setTags={setTags} />
             </div>
@@ -94,65 +109,18 @@ const Write = () => {
 export default Write;
 
 const StCanvasSection = styled(StSection)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-
-  /* ${(props) =>
-    !props.drawing &&
-    css`
-      display: none;
-    `} */
-
-  textarea {
-    width: 100%;
-    height: 10rem;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    padding: 1rem;
-    margin-top: 1rem;
-    resize: none;
-  }
+  min-height: calc(100vh - 6rem);
 `;
 
 const StTitleSection = styled(StSection)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem;
-  /* ${(props) =>
-    props.drawing &&
-    css`
-      display: none;
-    `} */
-  div {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
-  input {
-    width: 80%;
-    height: 3rem;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    padding: 1rem;
-  }
-  button {
-    width: 100%;
-    height: 3rem;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+  min-height: calc(100vh - 6rem);
 `;
 
 const StSlideWrapper = styled.div`
+  position: relative;
   width: 200%;
+  height: 100%;
+  min-height: calc(100vh - 6rem);
   display: flex;
   transition: transform 0.4s ease-in-out;
   ${(props) =>
@@ -160,4 +128,12 @@ const StSlideWrapper = styled.div`
     css`
       transform: translateX(-50%);
     `}
+`;
+
+// 리팩토링 시 하나로 묶으면 좋을 것 같습니다.
+
+const StBoxdesign = css`
+  width: 100%;
+  height: 3rem;
+  border-radius: 10px;
 `;

@@ -64,8 +64,7 @@ export const mainApi = {
 };
 
 export const diaryApi = {
-  post: async (formData, diaryId) => {
-    console.log(formData);
+  post: async ({ formData, diaryId }) => {
     await instance.post(`api/post/${diaryId}`, formData);
   },
   holiday: async (selectedYear) => {
