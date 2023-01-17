@@ -49,11 +49,14 @@ export const mainApi = {
     });
     return data;
   },
-  delete: async (id) => {
-    const { data } = await instance.delete(`/api/diary/${id}`);
+  delete: async (diaryId) => {
+    const { data } = await instance.delete(`/api/diary/${diaryId}`);
     return data;
   },
-
+  bookmark: async (diaryId) => {
+    const { data } = await instance.patch(`/api/bookmark/post/${diaryId}`);
+    return data;
+  },
 };
 
 export const diaryApi = {
