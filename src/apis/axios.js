@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  // baseURL: process.env.REACT_APP_MY_API,
-  baseURL: "https://mylee.site",
+  baseURL: process.env.REACT_APP_MY_API,
 });
 
 instance.interceptors.request.use((config) => {
@@ -17,6 +16,9 @@ export const loginApi = {
       password: inputData.password,
     });
     localStorage.setItem("token", data.token);
+    setTimeout(() => {
+      localStorage.removeItem("token");
+    }, 3600000);
     return data;
   },
 
@@ -42,10 +44,31 @@ export const mainApi = {
     });
     return data;
   },
+  update: async (updateData) => {
+    const { data } = await instance.patch(`/api/diary/${updateData.id}`, {
+      couple: updateData.couple,
+      diaryName: updateData.diaryName,
+      outsideColor: updateData.selectedColor,
+    });
+    return data;
+  },
+  delete: async (diaryId) => {
+    const { data } = await instance.delete(`/api/diary/${diaryId}`);
+    return data;
+  },
+  bookmark: async (diaryId) => {
+    console.log(diaryId)
+    const { data } = await instance.post(`/api/bookmark/diary/${diaryId}`);
+    return data;
+  },
 };
 
 export const diaryApi = {
   post: async ({ formData, diaryId }) => {
     await instance.post(`api/post/${diaryId}`, formData);
+  },
+  holiday: async (selectedYear) => {
+    const { data } = await axios.get(`http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`);
+    return data.response.body.items.item;
   },
 };

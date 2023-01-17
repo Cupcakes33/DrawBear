@@ -32,7 +32,7 @@ const StBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
+  z-index: 100;
   border-radius: 12px;
   box-shadow: 0 1px 4px #d7d7d7;
   background-color: white;

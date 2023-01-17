@@ -1,9 +1,17 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import HookForm from "../components/login/HookForm";
 import CommonContainer from "../UI/CommonContainer";
 
 const Login = () => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.clear();
+  }, []);
+
   return (
     <CommonContainer>
       <StContainer>

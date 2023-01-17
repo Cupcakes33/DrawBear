@@ -20,12 +20,18 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-size: 1.6rem;
+    color: ${(props) => props.theme.color.font_main}
     /* -ms-overflow-style: none;
     scrollbar-width: none;
     ::-webkit-scrollbar {
       display:none;
     } */
   }
+/* 
+  input {
+    font-family: 
+  } */
+
   a {
     text-decoration:none;
     color: inherit;
