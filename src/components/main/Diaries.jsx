@@ -9,9 +9,27 @@ import "./styles.css";
 import { Pagination } from "swiper";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { mainApi } from "../../apis/axios";
+import { showModal } from "../../redux/modules/UISlice";
+import { useDispatch } from "react-redux";
 
 export default function Diaries(diaryData) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
+    onError: (error) => {
+      const status = error?.response.request.status;
+      if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+      else if (status === 404) dispatch(showModal({ isModal: true, content: "존재하지 않는 다이어리입니다." }));
+      else if (status === 500) dispatch(showModal({ isModal: true, content: "북마크 저장 및 삭제에 실패했습니다." }));
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries(["main"]);
+    },
+  });
+
   return (
     <>
       <Swiper
@@ -26,15 +44,17 @@ export default function Diaries(diaryData) {
       >
         {diaryData.map((data) => {
           return (
-            <SwiperSlide>
-              <Diary bgColor={data.outsideColor} onClick={() => navigate(`/list/${data.diaryId}`)}>
-                <label>{data.diaryName}</label>
-              </Diary>
-            </SwiperSlide>
+            <>
+              <SwiperSlide key={data.diaryId}>
+                <Diary bgColor={data.outsideColor}>
+                  <button onClick={() => mutate(data.diaryId)}>북마크</button>
+                  <label onClick={() => navigate(`/list/${data.diaryId}`)}>{data.diaryName}</label>
+                </Diary>
+              </SwiperSlide>
+            </>
           );
         })}
       </Swiper>
-      <button>북마크</button>
     </>
   );
 }
