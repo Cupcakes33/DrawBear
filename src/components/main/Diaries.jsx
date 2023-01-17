@@ -10,7 +10,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 
 export default function Diaries(diaryData) {
-  console.log(diaryData);
   const navigate = useNavigate();
   return (
     <SwiperContainer>

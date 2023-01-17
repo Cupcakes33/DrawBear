@@ -26,8 +26,6 @@ const DiarySetting = ({ onClose }) => {
     },
   });
 
-  console.log(data);
-
   return (
     <>
       <Modal onClose={onClose} modalWidth="36rem" top="94%">

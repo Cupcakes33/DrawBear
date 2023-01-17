@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled, { css } from "styled-components";
 import { mainApi } from "../apis/axios";
 import Alert from "../components/common/modal/Alert";
@@ -19,6 +19,7 @@ const UpdateDiary = () => {
   const diaryTitleInputRef = useRef();
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate } = useMutation(["diary"], (updateData) => mainApi.update(updateData), {
     onError: (error) => {
@@ -44,28 +45,39 @@ const UpdateDiary = () => {
     }
   };
 
+  useEffect(() => {
+    if (updateDiaryData === undefined)
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+  }, [updateDiaryData, navigate]);
+
   return (
     <>
-      <Container>
-        <StHeader flexBetween>
-          <div>
-            <Back />
-            <HeaderText>다이어리 수정</HeaderText>
-          </div>
-          <div>
-            <HeaderBtn onClick={onAddDiaryHandler}>완성</HeaderBtn>
-          </div>
-        </StHeader>
-        <Section>
-          <input type="text" ref={diaryTitleInputRef} value={updateDiaryData[0].diaryName}></input>
-          <DiaryIcon>그림</DiaryIcon>
-        </Section>
-        <Footer>
-          {color.map((color, i) => {
-            return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
-          })}
-        </Footer>
-      </Container>
+      {updateDiaryData === undefined ? (
+        <h1>알 수 없는 에러! 3초 뒤 메인화면으로 이동합니다...</h1>
+      ) : (
+        <Container>
+          <StHeader flexBetween>
+            <div>
+              <Back />
+              <HeaderText>다이어리 수정</HeaderText>
+            </div>
+            <div>
+              <HeaderBtn onClick={onAddDiaryHandler}>완성</HeaderBtn>
+            </div>
+          </StHeader>
+          <Section>
+            <input type="text" ref={diaryTitleInputRef} defaultValue={updateDiaryData[0].diaryName}></input>
+            <DiaryIcon>그림</DiaryIcon>
+          </Section>
+          <Footer>
+            {color.map((color, i) => {
+              return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
+            })}
+          </Footer>
+        </Container>
+      )}
       {isModal && <Alert />}
     </>
   );
