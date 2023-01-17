@@ -4,10 +4,11 @@ import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
 import { diaryApi } from "../apis/axios";
 
-import Canvas from "../components/FabricCanvas/Canvas";
+import Canvas from "../components/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
+import WeatherPicker from "../components/write/WeatherPicker";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -87,7 +88,15 @@ const Write = () => {
               <span>날짜 :</span>
               <input type="date" name="createdAt" />
             </div>
-
+            <div>
+              <span>날씨 :</span>
+              {/* <input
+                type="text"
+                name="weather"
+                placeholder="오늘의 기분은 어떤 날씨인가요 ?"
+              /> */}
+              <WeatherPicker />
+            </div>
             <div>
               <span>태그 :</span>
               <HashTagInput tags={tags} setTags={setTags} />
