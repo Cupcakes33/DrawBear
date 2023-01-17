@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
+import DiarySetting from "../components/FullList/DiarySetting";
 import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StSection, StWrapper } from "../UI/common";
+import { StHeader, StSection } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
 const DiaryList = () => {
   const navigate = useNavigate();
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [isSettingModal, setIsSettingModal] = useState(false);
 
   const defaultHeader = useCallback(() => {
     return (
@@ -22,7 +24,7 @@ const DiaryList = () => {
         </div>
         <div>
           <button onClick={() => setChangeHeader(true)}>검색</button>
-          <button>설정</button>
+          <button onClick={() => setIsSettingModal(true)}>설정</button>
         </div>
       </>
     );
@@ -46,6 +48,7 @@ const DiaryList = () => {
   return (
     <>
       {isModal && <Calendar onClose={setIsModal} />}
+      {isSettingModal && <DiarySetting onClose={setIsSettingModal} />}
       <CommonContainer>
         <StHeader flexBetween>
           {!changeHeader && defaultHeader()}

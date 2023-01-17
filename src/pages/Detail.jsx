@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Comment from "../components/detail/Comment";
 import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
-import { StContainer, StHeader, StWrapper } from "../UI/common";
+import { StHeader, StWrapper } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 
 const posts = {
