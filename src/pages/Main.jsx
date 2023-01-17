@@ -15,8 +15,8 @@ const Main = () => {
   const { isModal } = useSelector((state) => state.UISlice);
   const queryClient = useQueryClient();
 
-  const diaryData = queryClient?.getQueryData(["main"])?.diaries;
-  const { data, isError, isLoading, error } = useQuery(["main"], mainApi.read);
+  const { data = [], isError, isLoading, error } = useQuery(["main"], mainApi.read);
+  const { diaries } = data;
 
   const errorHandler = useCallback(() => {
     const { status } = error?.response.request;
@@ -26,22 +26,20 @@ const Main = () => {
   }, [error]);
 
   const diaryType = useCallback(
-    (diaryData) => {
+    (diaries) => {
       if (diaryTypes.couple === 0) {
-        const soloDiary = diaryData?.filter((diary) => diary.couple === 0);
+        const soloDiary = diaries?.filter((diary) => diary.couple === 0);
         return soloDiary;
       } else if (diaryTypes.couple === 1) {
-        const coupleDiary = diaryData?.filter((diary) => diary.couple === 1);
+        const coupleDiary = diaries?.filter((diary) => diary.couple === 1);
         return coupleDiary;
       } else if (diaryTypes.bookmark === 1) {
-        const favoriteDiary = diaryData?.filter((diary) => diary.bookmark === 1);
+        const favoriteDiary = diaries?.filter((diary) => diary.bookmark === 1);
         return favoriteDiary;
       }
     },
     [diaryTypes]
   );
-
-  console.log(diaryType(diaryData));
 
   return (
     <>
@@ -55,7 +53,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          {diaryType(diaryData)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaryData)} />}
+          {diaryType(diaries)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaries)} />}
           <Footer></Footer>
         </StContainer>
       )}
