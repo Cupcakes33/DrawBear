@@ -22,7 +22,7 @@ const Profile = () => {
             </div>
             <div>
               비밀번호 변경
-              <NavigateBtn link={""} />
+              <NavigateBtn link={"/profile/password"} />
             </div>
             <div
               onClick={() => {
@@ -35,7 +35,7 @@ const Profile = () => {
             <div></div>
             <div>
               회원 탈퇴
-              <NavigateBtn link={""} />
+              <NavigateBtn link={"/profile/delete"} />
             </div>
           </div>
         </StEditProfileSection>

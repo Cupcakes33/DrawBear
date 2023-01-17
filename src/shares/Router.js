@@ -12,6 +12,8 @@ import Profile from "../pages/Profile";
 import HashTagInput from "../components/common/HashTagInput";
 import UpdateDiary from "../pages/UpdateDiary";
 import ProfileUpdate from "../pages/ProfileUpdate";
+import ProfilePassword from "../pages/ProfilePassword";
+import ProfileDelete from "../pages/ProfileDelete";
 
 const Router = () => {
   return (
@@ -37,6 +39,8 @@ const Router = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/profile/update" element={<ProfileUpdate />} />
+        <Route path="/profile/password" element={<ProfilePassword />} />
+        <Route path="/profile/delete" element={<ProfileDelete />} />
       </Routes>
     </BrowserRouter>
   );

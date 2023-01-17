@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Footer from "../components/common/Footer";
 import ToggleBtn from "../components/common/ToggleBtn";
 import NavigateBtn from "../components/common/NavigateBtn";
+import Back from "../components/header/Back";
 
 const myProfileData = {
   id: 1,
@@ -16,8 +17,14 @@ const ProfileUpdate = () => {
   const [isLock, setisLock] = useState(false);
   return (
     <StContainer>
-      <StHeader flex justify="flex-start">
-        <h3>마이페이지</h3>
+      <StHeader flex justify="space-between">
+        <div>
+          <Back />
+          <h3>프로필 관리</h3>
+        </div>
+        <div>
+          <h3>완료</h3>
+        </div>
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
