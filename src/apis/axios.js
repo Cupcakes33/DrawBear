@@ -16,6 +16,9 @@ export const loginApi = {
       password: inputData.password,
     });
     localStorage.setItem("token", data.token);
+    setTimeout(() => {
+      localStorage.removeItem("token");
+    }, 3600000);
     return data;
   },
 
@@ -54,7 +57,8 @@ export const mainApi = {
     return data;
   },
   bookmark: async (diaryId) => {
-    const { data } = await instance.patch(`/api/bookmark/post/${diaryId}`);
+    console.log(diaryId)
+    const { data } = await instance.post(`/api/bookmark/diary/${diaryId}`);
     return data;
   },
 };
