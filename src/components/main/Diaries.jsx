@@ -2,29 +2,40 @@ import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import "swiper/css/effect-cards";
+import "swiper/css/pagination";
+
 import "./styles.css";
 
-import { EffectCards } from "swiper";
+import { Pagination } from "swiper";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 
 export default function Diaries(diaryData) {
   const navigate = useNavigate();
   return (
-    <SwiperContainer>
-      <Swiper effect={"cards"} grabCursor={true} modules={[EffectCards]} className="mySwiper">
+    <>
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={30}
+        centeredSlides={false}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
         {diaryData.map((data) => {
           return (
-            <SwiperSlide key={data.diaryId} onClick={() => navigate(`/list/${data.diaryId}`)}>
-              <Diary bgColor={data.outsideColor}>
+            <SwiperSlide>
+              <Diary bgColor={data.outsideColor} onClick={() => navigate(`/list/${data.diaryId}`)}>
                 <label>{data.diaryName}</label>
               </Diary>
             </SwiperSlide>
           );
         })}
       </Swiper>
-    </SwiperContainer>
+      <button>북마크</button>
+    </>
   );
 }
 
@@ -41,4 +52,5 @@ const Diary = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
