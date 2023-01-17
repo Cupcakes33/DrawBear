@@ -29,7 +29,6 @@ const diarySlice = createSlice({
   initialState,
   reducers: {
     diaryType: (state, action) => {
-      state.diaryTypes.solo = action.payload.solo
       state.diaryTypes.couple = action.payload.couple
       state.diaryTypes.bookmark = action.payload.bookmark
     },
