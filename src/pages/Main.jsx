@@ -23,13 +23,13 @@ const Main = () => {
   const diaryType = useCallback(
     (diaryData) => {
       if (diaryTypes.couple === 0) {
-        const soloDiary = diaryData.filter((diary) => diary.couple === 0);
+        const soloDiary = diaryData?.filter((diary) => diary.couple === 0);
         return soloDiary;
       } else if (diaryTypes.couple === 1) {
-        const coupleDiary = diaryData.filter((diary) => diary.couple === 1);
+        const coupleDiary = diaryData?.filter((diary) => diary.couple === 1);
         return coupleDiary;
       } else if (diaryTypes.bookmark === 1) {
-        const favoriteDiary = diaryData.filter((diary) => diary.bookmark === 1);
+        const favoriteDiary = diaryData?.filter((diary) => diary.bookmark === 1);
         return favoriteDiary;
       }
     },
@@ -47,7 +47,7 @@ const Main = () => {
           <StHeader flexCenter>
             <h1>LOGO</h1>
           </StHeader>
-          <>{diaryType(diaryData) === [] ? <NoDiary /> : <DiaryList diaryData={diaryType(diaryData)} />}</>
+          {diaryType(diaryData)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaryData)} />}
           <Footer></Footer>
         </StContainer>
       )}
