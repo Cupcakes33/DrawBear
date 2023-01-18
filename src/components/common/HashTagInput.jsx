@@ -4,16 +4,17 @@ import { TiDelete } from "react-icons/ti";
 
 const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
+  const HashTagInputOnchangeHandler = (event) => {
+    const { value } = event.target;
+    if (value.length > 6) {
+      event.target.value = value.substr(0, 6);
+    }
+  };
 
   const HashTagInputKeyDownHandler = (event) => {
     const { value } = event.target;
-    if (value.length > 6) {
-      event.target.value = event.target.value.substr(0, 6);
-    }
 
     if (event.key !== "Enter") return;
-
-    // 길이가 6글자 이상이면 자르기
 
     // 공백시 리턴
     if (!value.trim()) return;
@@ -44,6 +45,7 @@ const HashTagInput = ({ tags, setTags }) => {
         </StHashTagItem>
       ))}
       <StHashTagInput
+        onChange={HashTagInputOnchangeHandler}
         onKeyUp={HashTagInputKeyDownHandler}
         type="text"
         placeholder="태그는 3개까지 입력이 가능해요 !"
