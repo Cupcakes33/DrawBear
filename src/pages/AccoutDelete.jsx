@@ -1,10 +1,9 @@
 import { StContainer, StSection, StHeader } from "../UI/common";
-import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
-import ToggleBtn from "../components/common/ToggleBtn";
 import NavigateBtn from "../components/common/NavigateBtn";
-import Back from "../components/header/Back";
+import AccountDeleteBear from "../assets/images/account_delete_bear.webp";
+import Button from "../components/common/Button";
 
 const myProfileData = {
   id: 1,
@@ -14,7 +13,6 @@ const myProfileData = {
 };
 
 const AccoutDelete = () => {
-  const [isLock, setisLock] = useState(false);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -23,18 +21,19 @@ const AccoutDelete = () => {
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
-          <img src={myProfileData.profile} alt="myProfileImg" />
+          <img src={AccountDeleteBear} alt="탈퇴곰돌이" />
         </div>
         <div className="warning">
-          <h3>{myProfileData.name}님</h3>
-          <h3>정말 떠나시겠어요? {": ("}</h3>
-          <h5>내 프로필 사진, 댓글, 다이어리, 내용 등 모든 활동 정보가 삭제되며, 삭제된 데이터는 복구할 수 없어요.</h5>
+          <h2>{myProfileData.name}님</h2>
+          <h2>정말 떠나시겠어요? {": ("}</h2>
+          <h4>내 프로필 사진, 댓글, 다이어리, 내용 등 모든 활동 정보가 삭제되며, 삭제된 데이터는 복구할 수 없어요.</h4>
         </div>
         <div className="delete-button">
-          <button>네, 탈퇴할래요.</button>
+          <Button fullWidth color="button_alart">
+            네, 탈퇴할래요.
+          </Button>
         </div>
       </StMypageSection>
-      <Footer />
     </StContainer>
   );
 };
@@ -43,6 +42,7 @@ export default AccoutDelete;
 
 const StMypageSection = styled(StSection)`
   padding-top: 20%;
+  overflow-x: hidden;
   .myProfileInfoWrapper {
     display: flex;
     flex-direction: column;
@@ -60,8 +60,12 @@ const StMypageSection = styled(StSection)`
     width: 80%;
     word-break: keep-all;
   }
+  h4 {
+    margin-top: 1rem;
+  }
   .delete-button {
-    padding-top: 100%;
+    position: absolute;
+    top: 90%;
     width: 80%;
     button {
       width: 100%;
