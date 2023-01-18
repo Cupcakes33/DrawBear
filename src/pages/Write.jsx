@@ -138,7 +138,6 @@ const Write = () => {
             </form>
           </StTitleSection>
         </StSlideWrapper>
-        
       </StContainer>
     </>
   );
