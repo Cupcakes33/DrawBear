@@ -6,6 +6,7 @@ const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
   const HashTagInputOnchangeHandler = (event) => {
     const { value } = event.target;
+    // 6글자 이상이면 자르기
     if (value.length > 6) {
       event.target.value = value.substr(0, 6);
     }
@@ -15,14 +16,15 @@ const HashTagInput = ({ tags, setTags }) => {
     const { value } = event.target;
 
     if (event.key !== "Enter") return;
-
-    // 공백시 리턴
     if (!value.trim()) return;
+
+    // 중복 제거
+    if (tags.includes(`# ${value}`)) return;
 
     // 태그가 2개 이상일 경우 filter
     if (tags.length > 2) {
-      const filtedTags = tags.filter((tag) => tag !== tags[0]);
-      setTags([...filtedTags, `# ${value}`]);
+      const sliceTags = tags.slice(1);
+      setTags([...sliceTags, `# ${value}`]);
     } else {
       setTags((prev) => [...prev, `# ${value}`]);
     }
@@ -40,7 +42,7 @@ const HashTagInput = ({ tags, setTags }) => {
     <StHashTagContainer>
       {tags.map((tag, index) => (
         <StHashTagItem key={`HashTagItem${index}`}>
-          <span className="text">{tag}</span>
+          <p className="text">{tag}</p>
           <TiDelete className="remove" onClick={() => removeHashTag(index)} />
         </StHashTagItem>
       ))}
@@ -68,6 +70,8 @@ const StHashTagContainer = styled.div`
 `;
 
 const StHashTagItem = styled.div`
+  width: min-content;
+  height: min-content;
   padding: 0.25rem 0.75rem;
   border-radius: 5px;
   background: #e9e9e9;
