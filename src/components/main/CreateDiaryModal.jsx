@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addDiary } from "../../redux/modules/diarySlice";
+import soloDiaryBear from "../../assets/images/soloDiaryBear.webp";
+import coupleDiaryBear from "../../assets/images/coupleDiaryBear.webp";
+import { AiOutlineClose } from "react-icons/ai";
 
 const CreateDiaryModal = ({ onClose }) => {
   const navigate = useNavigate();
@@ -10,27 +13,28 @@ const CreateDiaryModal = ({ onClose }) => {
 
   return (
     <Modal onClose={onClose}>
+      <AiOutlineClose onClose />
       <Wrapper>
         <Box>
-          <DiaryIcon
+          <img
+            src={soloDiaryBear}
+            alt="솔로 다이어리 곰돌이 그림"
             onClick={() => {
               dispatch(addDiary(0));
               navigate("/new");
             }}
-          >
-            그림
-          </DiaryIcon>
+          />
           <span>혼자써요 !</span>
         </Box>
         <Box>
-          <DiaryIcon
+          <img
+            src={coupleDiaryBear}
+            alt="커플 다이어리 곰돌이 그림"
             onClick={() => {
               dispatch(addDiary(1));
               navigate("/new");
             }}
-          >
-            그림
-          </DiaryIcon>
+          />
           <span>같이써요 !</span>
         </Box>
       </Wrapper>
@@ -49,23 +53,21 @@ const Wrapper = styled.div`
   gap: 3.6rem;
 `;
 
-const DiaryIcon = styled.div`
-  width: 8rem;
-  height: 8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background-color: #d9d9d9;
-`;
-
 const Box = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  img {
+    width: 6.5rem;
+    height: 7.3rem;
+    :last-child {
+      width: 7.4rem;
+      height: 7.3rem;
+    }
+  }
   span {
-    font-size: 0.8rem;
+    font-size: 1.4rem;
     margin-top: 1.4rem;
   }
 `;

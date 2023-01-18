@@ -52,13 +52,3 @@ const StWrapper = styled.div`
     color: #c1c1c1;
   }
 `;
-
-const DiaryIcon = styled.div`
-  width: 10rem;
-  height: 10rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background-color: #d9d9d9;
-`;
