@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import defaultImg from "../assets/images/default_image.png";
 import { StHeader } from "../UI/common";
+import Button from "../components/common/Button";
+import { AiOutlineSetting } from "react-icons/ai";
 const Signup = () => {
   const {
     register,
@@ -39,10 +41,6 @@ const Signup = () => {
     setsignUpClassName("left-form-slide");
     setprofilIsClassName("active-form-slide");
   };
-  const changeBeforeBtnClassName = () => {
-    setsignUpClassName("active-form-slide");
-    setprofilIsClassName("form-slide");
-  };
   return (
     <>
       <SignupContainer>
@@ -55,7 +53,7 @@ const Signup = () => {
         >
           <div className={signUpClassName}>
             <SignupTitle>회원가입</SignupTitle>
-            <SginupText>
+            <SginupInputContainer>
               <span className="email_txt">이메일</span>
               <div className="email_container">
                 <input
@@ -78,8 +76,8 @@ const Signup = () => {
                   <small role="alert">{errors.email.message}</small>
                 )}
               </div>
-            </SginupText>
-            <SginupText>
+            </SginupInputContainer>
+            <SginupInputContainer>
               <span className="password_txt">비밀번호</span>
               <div className="password_container">
                 <input
@@ -126,28 +124,35 @@ const Signup = () => {
                   <small role="alert">{errors.passwordCheck.message}</small>
                 )}
               </div>
-            </SginupText>
-            {isDirty &&
-              watch("email") !== "" &&
-              watch("password") !== "" &&
-              watch("passwordCheck") !== "" &&
-              !errors.email &&
-              !errors.password &&
-              !errors.passwordCheck && (
-                <SignUpNextBtn
-                  onClick={() => {
-                    changeNextBtnClassName();
-                  }}
-                  type="button"
-                >
-                  다음
-                </SignUpNextBtn>
-              )}
+            </SginupInputContainer>
+            <div>
+              {isDirty &&
+                watch("email") !== "" &&
+                watch("password") !== "" &&
+                watch("passwordCheck") !== "" &&
+                !errors.email &&
+                !errors.password &&
+                !errors.passwordCheck && (
+                  <div className="button_next_container">
+                    <Button
+                      fullWidth
+                      color="button_primary"
+                      onClick={() => {
+                        changeNextBtnClassName();
+                      }}
+                    >
+                      다음
+                    </Button>
+                  </div>
+                )}
+            </div>
           </div>
           <div className={profilIsClassName}>
-            <SignupTitle>당신의 프로필을 꾸며주세요 :)</SignupTitle>
+            <SignupTitle>
+              나를 표현할 <br></br> 프로필을 꾸며보세요 :)
+            </SignupTitle>
             <div>
-              <input
+              <SginupProfilImg
                 {...register("image")}
                 id="profileImg"
                 type="file"
@@ -155,17 +160,7 @@ const Signup = () => {
                 onChange={imgOnChnageHandler}
                 onClick={(e) => (e.target.value = null)}
                 ref={(refParam) => (inputRef = refParam)}
-                style={{
-                  position: "absolute",
-                  width: "3.7rem",
-                  height: "3.7rem",
-                  left: "19.3rem",
-                  top: "27rem",
-                  borderRadius: "100%",
-                  background: "#888888",
-                  display: "none",
-                }}
-              />
+              ></SginupProfilImg>
               <div className="img-wrapper">
                 <img
                   src={image.preview_URL}
@@ -179,7 +174,14 @@ const Signup = () => {
                   }}
                   onClick={() => inputRef.click()}
                 />
-                <div
+                <Button
+                  onClick={() => inputRef.click()}
+                  icon={<AiOutlineSetting />}
+                  round
+                >
+                  파일
+                </Button>
+                {/* <div
                   style={{
                     position: "absolute",
                     width: "3.7rem",
@@ -190,68 +192,42 @@ const Signup = () => {
                     background: "#888888",
                   }}
                   onClick={() => inputRef.click()}
-                ></div>
+                ></div> */}
               </div>
             </div>
-            <div></div>
-            <div>
-              <label
-                htmlFor="nickname"
-                style={{
-                  position: "absolute",
-                  width: "4.2rem",
-                  height: "2.2rem",
-                  left: "4.2rem",
-                  top: "32.5rem",
-                  fontStyle: "normal",
-                  fontWeight: "700",
-                  fontSize: "1.5rem",
-                  lineHeight: "2.2rem",
-                  color: "#000000",
-                }}
+            <SginupInputContainer>
+              <span className="nickName_txt">닉네임</span>
+              <div className="nickName_container">
+                <input
+                  id="nickname"
+                  type="text"
+                  name="nickname"
+                  placeholder="닉네임을 입력해주세요"
+                  aria-invalid={
+                    !isDirty ? undefined : errors.nickname ? "true" : "false"
+                  }
+                  {...register("nickname", {
+                    required: "닉네임은 필수 입력 입니다.",
+                    minLength: {
+                      value: 2,
+                      message: "2자리 이상 닉네임을 사용하세요.",
+                    },
+                  })}
+                />
+                {errors.nickname && (
+                  <small role="alert">{errors.nickname.message}</small>
+                )}
+              </div>
+            </SginupInputContainer>
+            <div className="button_join_container">
+              <Button
+                size="large"
+                color="button_primary"
+                type="submit"
+                disabled={isSubmitting}
               >
-                닉네임
-              </label>
-              <input
-                id="nickname"
-                type="text"
-                name="nickname"
-                placeholder="닉네임을 입력해주세요"
-                aria-invalid={
-                  !isDirty ? undefined : errors.nickname ? "true" : "false"
-                }
-                {...register("nickname", {
-                  required: "닉네임은 필수 입력 입니다.",
-                  minLength: {
-                    value: 2,
-                    message: "2자리 이상 닉네임을 사용하세요.",
-                  },
-                })}
-                style={{
-                  position: "absolute",
-                  width: "27rem",
-                  height: "4.5rem",
-                  left: "4.2rem",
-                  top: "36.3rem",
-                  background: "#D9D9D9",
-                  border: "0",
-                }}
-              />
-              {errors.nickname && (
-                <small role="alert">{errors.nickname.message}</small>
-              )}
-            </div>
-            <div>
-              <SignUpNextBtn
-                onClick={() => {
-                  changeBeforeBtnClassName();
-                }}
-              >
-                이전
-              </SignUpNextBtn>
-              <SignUpNextBtn type="submit" disabled={isSubmitting}>
                 회원가입
-              </SignUpNextBtn>
+              </Button>
             </div>
           </div>
         </SginupForm>
@@ -264,6 +240,7 @@ const SignupContainer = styled.div`
   width: 36rem;
   height: 100rem;
   background-color: #eef3e3;
+  padding: 2rem;
   margin: 0 auto;
   overflow: hidden;
 `;
@@ -300,12 +277,21 @@ const SginupForm = styled.form`
     position: absolute;
     transform: translateX(-150%);
   }
+  .button_next_container {
+    position: absolute;
+    top: 56rem;
+    width: 100%;
+  }
+  .button_join_container {
+    position: absolute;
+    top: 56.4rem;
+    width: 100%;
+  }
 `;
-const SignupTitle = styled.span`
+const SignupTitle = styled.p`
   position: absolute;
-  width: 9.3rem;
+  width: 100%;
   height: 3.9rem;
-  left: 2.2rem;
   top: 8.2rem;
 
   font-family: "UhBee ZIGLE";
@@ -315,11 +301,10 @@ const SignupTitle = styled.span`
   line-height: 3.9rem;
   color: #5f4c36;
 `;
-const SginupText = styled.div`
+const SginupInputContainer = styled.div`
   position: absolute;
 
   height: 2.7rem;
-  left: 2.2rem;
   font-family: "UhBee ZIGLE";
   font-style: normal;
   font-weight: 400;
@@ -336,6 +321,11 @@ const SginupText = styled.div`
     position: absolute;
     width: 5.1rem;
     top: 27.6rem;
+  }
+  .nickName_txt {
+    position: absolute;
+    width: 5.1rem;
+    top: 32rem;
   }
   & input {
     width: 31.6rem;
@@ -366,18 +356,40 @@ const SginupText = styled.div`
       color: red;
     }
   }
+  & .nickName_container {
+    position: absolute;
+    top: 35.1rem;
+    small {
+      color: red;
+    }
+  }
+  .nextButton {
+    position: absolute;
+    top: 56rem;
+    width: 100%;
+  }
 `;
-const SignUpNextBtn = styled.button`
+const SginupProfilImg = styled.input`
   position: absolute;
-  width: 31.6rem;
-  height: 4.9rem;
-  left: 2.2rem;
-  top: 56rem;
-  /* button */
-  border: 0;
-  background: #3cc7a6;
-  border-radius: 1rem;
+  width: 3.7rem;
+  height: 3.7rem;
+  left: 19.3rem;
+  top: 27rem;
+  border-radius: 100%;
+  background: #e6e6e6;
+  display: none;
 `;
+// const SignUpNextBtn = styled.button`
+//   position: absolute;
+//   width: 31.6rem;
+//   height: 4.9rem;
+//   left: 2.2rem;
+//   top: 56rem;
+//   /* button */
+//   border: 0;
+//   background: #3cc7a6;
+//   border-radius: 1rem;
+// `;
 const StProfilitle = styled.span`
   /* position: absolute;
   width: 14.7rem;
