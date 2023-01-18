@@ -18,18 +18,15 @@ export const loginApi = {
     });
     localStorage.setItem("token", data.token);
     setTimeout(() => {
-      localStorage.clear()
+      localStorage.clear();
     }, 3600000);
     return data;
   },
 
-  signup: async (payload) =>
-    await instance.post("/api/auth/signup", {
-      username: "",
-      nickname: "",
-      password: "",
-      profileImg: "",
-    }),
+  signup: async (formData) => {
+    console.log(formData);
+    await instance.post("/api/auth/signup", formData);
+  },
 };
 
 export const mainApi = {

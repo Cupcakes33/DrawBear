@@ -5,6 +5,10 @@ import defaultImg from "../assets/images/default_image.png";
 import { StHeader } from "../UI/common";
 import Button from "../components/common/Button";
 import { AiOutlineSetting } from "react-icons/ai";
+import { useMutation } from "@tanstack/react-query";
+import { loginApi } from "../apis/axios";
+import { useDispatch } from "react-redux";
+import { showModal } from "../redux/modules/UISlice";
 const Signup = () => {
   const {
     register,
@@ -15,13 +19,14 @@ const Signup = () => {
 
   const [signUpClassName, setsignUpClassName] = useState("active-form-slide");
   const [profilIsClassName, setprofilIsClassName] = useState("form-slide");
-
+  const dispatch = useDispatch();
   const [image, setImage] = useState({
     image_file: "",
     preview_URL: defaultImg,
   });
 
   let inputRef;
+
   const imgOnChnageHandler = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {
@@ -42,6 +47,13 @@ const Signup = () => {
     setsignUpClassName("left-form-slide");
     setprofilIsClassName("active-form-slide");
   };
+  const { mutate } = useMutation((formData) => loginApi.signup(formData), {
+    onSuccess: () => {
+      dispatch(
+        showModal({ isModal: true, content: "회원가입 성공!", move: "/" })
+      );
+    },
+  });
   return (
     <>
       <SignupContainer>
@@ -51,13 +63,14 @@ const Signup = () => {
             data.image = image.image_file;
             const formData = new FormData();
             formData.append("email", data.email);
-            formData.append("password", data.password);
             formData.append("nickname", data.nickname);
-            formData.append("profileImg", data.image);
-            let values = formData.values();
-            for (const pair of values) {
-              console.log(pair);
+            formData.append("password", data.password);
+            formData.append("image", data.image);
+            let entries = formData.entries();
+            for (const pair of entries) {
+              console.log(pair[0] + ", " + pair[1]);
             }
+            mutate(formData);
           })}
         >
           <div className={signUpClassName}>
@@ -165,6 +178,7 @@ const Signup = () => {
                 {...register("image")}
                 id="profileImg"
                 type="file"
+                name="profileImg"
                 accept="image/*"
                 onChange={imgOnChnageHandler}
                 onClick={(e) => (e.target.value = null)}
