@@ -174,25 +174,15 @@ const Signup = () => {
                   }}
                   onClick={() => inputRef.click()}
                 />
-                <Button
-                  onClick={() => inputRef.click()}
-                  icon={<AiOutlineSetting />}
-                  round
-                >
-                  파일
-                </Button>
-                {/* <div
-                  style={{
-                    position: "absolute",
-                    width: "3.7rem",
-                    height: "3.7rem",
-                    left: "19.3rem",
-                    top: "27rem",
-                    borderRadius: "100%",
-                    background: "#888888",
-                  }}
-                  onClick={() => inputRef.click()}
-                ></div> */}
+                <div className="profilImg_button">
+                  <Button
+                    onClick={() => inputRef.click()}
+                    icon={<AiOutlineSetting />}
+                    round
+                  >
+                    파일
+                  </Button>
+                </div>
               </div>
             </div>
             <SginupInputContainer>
@@ -225,6 +215,7 @@ const Signup = () => {
                 color="button_primary"
                 type="submit"
                 disabled={isSubmitting}
+                fullWidth
               >
                 회원가입
               </Button>
@@ -287,6 +278,14 @@ const SginupForm = styled.form`
     top: 56.4rem;
     width: 100%;
   }
+  .profilImg_button {
+    position: absolute;
+    width: 3.2rem;
+    height: 3.2rem;
+    height: 32px;
+    left: 19.8rem;
+    top: 27.4rem;
+  }
 `;
 const SignupTitle = styled.p`
   position: absolute;
@@ -303,7 +302,6 @@ const SignupTitle = styled.p`
 `;
 const SginupInputContainer = styled.div`
   position: absolute;
-
   height: 2.7rem;
   font-family: "UhBee ZIGLE";
   font-style: normal;
@@ -373,7 +371,7 @@ const SginupProfilImg = styled.input`
   position: absolute;
   width: 3.7rem;
   height: 3.7rem;
-  left: 19.3rem;
+  left: 11rem;
   top: 27rem;
   border-radius: 100%;
   background: #e6e6e6;

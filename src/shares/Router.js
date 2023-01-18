@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "../pages/Signup";
-import Test from "../pages/Test";
 import Login from "../pages/Login";
 import Write from "../pages/Write";
 import Main from "../pages/Main";
@@ -27,7 +26,6 @@ const Router = () => {
         </Route>
         <Route path="/write" element={<Write />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/t" element={<Test />} />
         <Route path="/login" element={<Login />} />
         <Route path="/list">
           <Route path=":id" element={<FullList />} />
