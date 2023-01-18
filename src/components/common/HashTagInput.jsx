@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { TiDelete } from "react-icons/ti";
 
-const HashTagInput = ({tags, setTags}) => {
+const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
 
   const HashTagInputKeyDownHandler = (event) => {
@@ -38,7 +38,7 @@ const StHashTagContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  width: 300px;
+  width: 100%;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
   padding: 0.5rem;

@@ -15,6 +15,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Alert from "../components/common/modal/Alert";
 import { useNavigate } from "react-router-dom";
 
+import Button from "../components/common/Button";
+
 const Write = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
@@ -27,7 +29,7 @@ const Write = () => {
 
   const { mutate } = useMutation(diaryApi.post, {
     onSuccess: () => {
-      navigate('/list/')
+      navigate("/list/");
     },
     onError: (error) => {
       const status = error?.response.request.status;
@@ -45,7 +47,7 @@ const Write = () => {
             content: "잘못된 접근입니다.",
           })
         );
-        status === 412 &&
+      status === 412 &&
         dispatch(
           showModal({
             isModal: true,
@@ -113,12 +115,16 @@ const Write = () => {
               onKeyDown={formEnterKeyPrevent}
               encType="multipart/form-data"
             >
-              <div className="dateInputBox">
-                <span>날짜 :</span>
-                
-                {/* <input type="date" name="createdAt" /> */}
+              <div className="box dateInputBox">
+                <span>날짜</span>
+                <input type="date" name="createdAt" />
               </div>
-              <div className="titleInputBox">
+              <div className="box HashTagInputBox">
+                <span>태그</span>
+                <HashTagInput tags={tags} setTags={setTags} />
+              </div>
+              <div className="box titleInputBox">
+                <span>제목</span>
                 <input
                   type="text"
                   name="title"
@@ -126,18 +132,16 @@ const Write = () => {
                 />
               </div>
 
-              <div className="weatherPickerBox">
+              <div className="box weatherPickerBox">
                 <span>날씨 :</span>
                 <WeatherPicker />
               </div>
-              <div className="HashTagInputBox">
-                <span>태그 :</span>
-                <HashTagInput tags={tags} setTags={setTags} />
-              </div>
+
               <button type="submit">일기 작성하기</button>
             </form>
           </StTitleSection>
         </StSlideWrapper>
+        
       </StContainer>
     </>
   );
@@ -151,6 +155,14 @@ const StCanvasSection = styled(StSection)`
 
 const StTitleSection = styled(StSection)`
   min-height: calc(100vh - 6rem);
+
+  .box {
+    width: 100%;
+    height: 6rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const StSlideWrapper = styled.div`
