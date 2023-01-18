@@ -20,6 +20,7 @@ const Signup = () => {
     image_file: "",
     preview_URL: defaultImg,
   });
+
   let inputRef;
   const imgOnChnageHandler = (e) => {
     e.preventDefault();
@@ -48,7 +49,15 @@ const Signup = () => {
           onSubmit={handleSubmit((data) => {
             console.log(image.image_file);
             data.image = image.image_file;
-            console.log(data);
+            const formData = new FormData();
+            formData.append("email", data.email);
+            formData.append("password", data.password);
+            formData.append("nickname", data.nickname);
+            formData.append("profileImg", data.image);
+            let values = formData.values();
+            for (const pair of values) {
+              console.log(pair);
+            }
           })}
         >
           <div className={signUpClassName}>
