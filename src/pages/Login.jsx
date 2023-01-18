@@ -10,6 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     queryClient.clear();
+    localStorage.clear();
   }, []);
 
   return (

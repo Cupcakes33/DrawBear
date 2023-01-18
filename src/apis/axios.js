@@ -17,7 +17,7 @@ export const loginApi = {
     });
     localStorage.setItem("token", data.token);
     setTimeout(() => {
-      localStorage.removeItem("token");
+      localStorage.clear()
     }, 3600000);
     return data;
   },
