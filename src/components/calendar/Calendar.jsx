@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
-import { __holiday } from "../../redux/modules/diarySlice";
+import { diaryApi } from "../../apis/axios";
 import Modal from "../common/modal/Modal";
 
 const Calendar = ({ onClose }) => {
@@ -10,16 +10,17 @@ const Calendar = ({ onClose }) => {
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
   };
-  const dispatch = useDispatch();
-  const { holiday } = useSelector((state) => state.diarySlice);
   const [selectedYear, setSelectedYear] = useState(today.year);
   const [selectedMonth, setSelectedMonth] = useState(today.month);
   const [selectedDate, setSelectedDate] = useState("");
-  const [toggle, setToggle] = useState(false);
+
+  const { data = [], isLoading, isError } = useQuery(["holiday"], () => diaryApi.holiday(selectedYear));
+
+  const holiday = data.map((v) => v.locdate);
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
-  console.log(holiday)
+  console.log(holiday);
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -85,24 +86,28 @@ const Calendar = ({ onClose }) => {
     return dayArr;
   }, [selectedYear, selectedMonth, lastDay, holiday]);
 
-  useEffect(() => {
-    dispatch(__holiday(selectedYear));
-  }, [selectedYear]);
-
   return (
     <Modal onClose={onClose} modalWidth="36rem" modalHeight="40rem" top="80%">
       <Container>
-        <StHeader>
-          <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
-          <div className="buttons">
-            <div>
-              <button onClick={() => prevMonth()}>이전 달</button>
-              <button onClick={() => nextMonth()}>다음 달</button>
-            </div>
-          </div>
-        </StHeader>
-        <StWeek>{returnWeek()}</StWeek>
-        <StDate>{returnDay()}</StDate>
+        {isLoading ? (
+          <h2>로딩 중...</h2>
+        ) : isError ? (
+          <h2>서버 연결 실패</h2>
+        ) : (
+          <>
+            <StHeader>
+              <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
+              <div className="buttons">
+                <div>
+                  <button onClick={() => prevMonth()}>이전 달</button>
+                  <button onClick={() => nextMonth()}>다음 달</button>
+                </div>
+              </div>
+            </StHeader>
+            <StWeek>{returnWeek()}</StWeek>
+            <StDate>{returnDay()}</StDate>
+          </>
+        )}
       </Container>
     </Modal>
   );

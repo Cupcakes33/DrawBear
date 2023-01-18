@@ -13,10 +13,18 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
+// display: flex;
+// flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
+// justify-content: ${({ justify = "center" }) => justify};
+// align-items: ${({ align = "center" }) => align};
+// gap: ${({ gap }) => `${gap}px`};
+// `;
+
 export const StContainer = styled.div`
   position: relative;
   width: 36rem;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   border: 1px solid black;
   background-color: white;
   overflow-x: hidden;
@@ -41,11 +49,12 @@ export const StHeader = styled.header`
 
 export const StSection = styled.section`
   width: 100%;
-  height: calc(100% - 13.2rem);
+  height: 100%;
+  min-height: calc(100vh - 13.2rem);
   background-color: white;
   position: relative;
   overflow-x: scroll;
-  padding: 2rem;
+  padding: 1rem;
   ${flexProps}
 `;
 

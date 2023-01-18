@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
+import { TbBrush, TbBrushOff } from "react-icons/tb";
+import { BiSquare, BiCircle, BiText } from "react-icons/bi";
+import { RiImageAddFill, RiDeleteBinLine } from "react-icons/ri";
 
 const Canvas = ({ canvas, setCanvas }) => {
   // const [canvas, setCanvas] = useState("");
+  const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("black");
   const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
@@ -38,6 +42,7 @@ const Canvas = ({ canvas, setCanvas }) => {
 
   useEffect(() => {
     if (!canvas) return;
+
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
         deleteSelectedObjects();
@@ -53,6 +58,7 @@ const Canvas = ({ canvas, setCanvas }) => {
 
   const freeDrawHandler = () => {
     canvas.isDrawingMode = !canvas.isDrawingMode;
+    setIsDrawing(!isDrawing);
     canvas.freeDrawingBrush.inverted = false;
   };
 
@@ -68,19 +74,18 @@ const Canvas = ({ canvas, setCanvas }) => {
     canvas.clear();
   };
 
-  const bgUpload = (e) => {
-    const { files } = e.target;
-    const urlFile = URL.createObjectURL(files[0]);
+  // const bgUpload = (e) => {
+  //   const { files } = e.target;
+  //   const urlFile = URL.createObjectURL(files[0]);
 
-    canvas.setBackgroundImage(urlFile, canvas.renderAll.bind(canvas), {
-      width: canvas.width,
-      height: canvas.height,
-      originX: "left",
-      originY: "top",
-    });
-
-    e.target.value = "";
-  };
+  //   canvas.setBackgroundImage(urlFile, canvas.renderAll.bind(canvas), {
+  //     width: canvas.width,
+  //     height: canvas.height,
+  //     originX: "left",
+  //     originY: "top",
+  //   });
+  //   e.target.value = "";
+  // };
 
   const imgUpload = (e) => {
     const { files } = e.target;
@@ -133,28 +138,28 @@ const Canvas = ({ canvas, setCanvas }) => {
         <canvas ref={canvasRef} />;
       </StDiv>
       <StMenu>
-        <button onClick={freeDrawHandler}>freedraw</button>
-        <button
+        {isDrawing ? (
+          <TbBrush onClick={freeDrawHandler} />
+        ) : (
+          <TbBrushOff onClick={freeDrawHandler} />
+        )}
+        <BiSquare
           onClick={() => {
             drawRectHandler(canvas);
           }}
-        >
-          rect
-        </button>
-        <button
+        />
+
+        <BiCircle
           onClick={() => {
             drawCircleHandler(canvas);
           }}
-        >
-          circle
-        </button>
-        <button
+        />
+
+        <BiText
           onClick={() => {
             drawTextBoxHandler(canvas);
           }}
-        >
-          Text Box
-        </button>
+        />
         <input
           type="color"
           onChange={(e) => {
@@ -173,9 +178,7 @@ const Canvas = ({ canvas, setCanvas }) => {
           }}
         />
 
-        <button onClick={clearButtonHandler}>clear</button>
-
-        <input
+        {/* <input
           style={{ display: "none" }}
           accept="image/*"
           id="files"
@@ -184,7 +187,7 @@ const Canvas = ({ canvas, setCanvas }) => {
           content_type="multipart/form-data"
           ref={bgImgInput}
           onChange={bgUpload}
-        />
+        /> */}
 
         <input
           style={{ display: "none" }}
@@ -198,21 +201,18 @@ const Canvas = ({ canvas, setCanvas }) => {
         />
 
         <div>
-          <button
+          {/* <BiImage
             onClick={() => {
               bgImgInput.current.click();
             }}
-          >
-            배경
-          </button>
-          <button
-            onClick={() => {
-              productImgInput.current.click();
-            }}
-          >
-            이미지
-          </button>
+          /> */}
         </div>
+        <RiImageAddFill
+          onClick={() => {
+            productImgInput.current.click();
+          }}
+        />
+        <RiDeleteBinLine onClick={clearButtonHandler} />
       </StMenu>
     </div>
   );
@@ -234,11 +234,12 @@ const StDiv = styled.div`
 
 const StMenu = styled.div`
   width: 100%;
-  height: 10rem;
-
+  height: 3rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  font-size: 2rem;
+  margin: 1rem 0;
 `;

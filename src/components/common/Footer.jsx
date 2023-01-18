@@ -18,7 +18,7 @@ const Footer = () => {
   };
 
   const changeFavoriteView = () => {
-    dispatch(diaryType({ couple: 0, bookmark: 1 }));
+    dispatch(diaryType({ couple: 2, bookmark: 1 }));
     navigate("/");
   };
 
