@@ -1,4 +1,4 @@
-import { StContainer, StSection, StHeader, PrevPageInfo } from "../UI/common";
+import { StContainer, StSection, StHeader, DisplayDiv } from "../UI/common";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
 import NavigateBtn from "../components/common/NavigateBtn";
@@ -15,10 +15,10 @@ const MyProfileEdit = () => {
   return (
     <StContainer>
       <StHeader flex justify="space-between">
-        <PrevPageInfo flex>
+        <DisplayDiv  flex>
           <NavigateBtn prev sizeType="header" />
           <h3>프로필 수정</h3>
-        </PrevPageInfo>
+        </DisplayDiv>
         <div>
           <span>수정</span>
         </div>

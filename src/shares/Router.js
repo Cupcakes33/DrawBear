@@ -15,6 +15,7 @@ import ButtonPreview from "../pages/ButtonPreview";
 import MyProfileEdit from "../pages/MyProfileEdit";
 import MyPassword from "../pages/MyPassword";
 import AccoutDelete from "../pages/AccoutDelete";
+import DiaryManage from "../pages/DiaryManage";
 
 const Router = () => {
   return (
@@ -37,6 +38,7 @@ const Router = () => {
         <Route path="/detail" element={<Detail />} />
         <Route path="/buttonpreview" element={<ButtonPreview />} />
         <Route path="/setting" element={<Setting />} />
+        <Route path="/setting/diaryManage" element={<DiaryManage />} />
         <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
         <Route path="/setting/infoEdit" element={<InfoEdit />} />
         <Route path="/setting/password" element={<MyPassword />} />

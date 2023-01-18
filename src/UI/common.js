@@ -104,6 +104,6 @@ export const Add = styled.button`
   }}
 `;
 
-export const PrevPageInfo = styled.div`
+export const DisplayDiv = styled.div`
   ${flexProps}
 `

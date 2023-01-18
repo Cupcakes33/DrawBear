@@ -1,4 +1,4 @@
-import { StContainer, StSection, StHeader, PrevPageInfo } from "../UI/common";
+import { StContainer, StSection, StHeader, DisplayDiv } from "../UI/common";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
 import NavigateBtn from "../components/common/NavigateBtn";
@@ -17,10 +17,10 @@ const MyPassword = () => {
   return (
     <StContainer>
       <StHeader flex justify="space-between">
-        <PrevPageInfo flex>
+        <DisplayDiv flex>
           <NavigateBtn prev sizeType="header" />
           <h3>비밀번호 변경</h3>
-        </PrevPageInfo>
+        </DisplayDiv>
         <div>
           <h3 onClick={handleSubmit(onSubmit)}>완료</h3>
         </div>

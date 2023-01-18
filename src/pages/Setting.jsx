@@ -37,7 +37,7 @@ const Setting = () => {
         <ConfigOptionWrapper>
           <div>
             일기 설정
-            <NavigateBtn link={""} />
+            <NavigateBtn link={"/setting/diaryManage"} />
           </div>
           <div>
             개인정보 수정
