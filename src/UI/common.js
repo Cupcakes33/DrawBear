@@ -41,7 +41,6 @@ export const StHeader = styled.header`
   width: 100%;
   height: 6rem;
   padding: 2rem;
-  background-color: #eeeeee;
   position: sticky;
   top: 0;
   ${flexProps}

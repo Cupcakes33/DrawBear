@@ -1,9 +1,8 @@
 import { StContainer, StSection, StHeader } from "../UI/common";
-import { useState } from "react";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
-import ToggleBtn from "../components/common/ToggleBtn";
 import NavigateBtn from "../components/common/NavigateBtn";
+import { VscBell } from "react-icons/vsc";
 
 const myProfileData = {
   id: 1,
@@ -13,11 +12,11 @@ const myProfileData = {
 };
 
 const Mypage = () => {
-  const [isLock, setisLock] = useState(false);
   return (
     <StContainer>
-      <StHeader flex justify="flex-start">
-        <h3>마이페이지</h3>
+      <StHeader flex justify="space-between">
+        <h3>설정</h3>
+        <VscBell fontSize="1.4em" />
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
@@ -27,21 +26,12 @@ const Mypage = () => {
         </div>
         <div className="configOptionWrapper">
           <div>
-            알림 설정
+            일기 설정
             <NavigateBtn link={""} />
           </div>
           <div>
-            개인정보 설정
+            개인정보 수정
             <NavigateBtn link={"/profile"} />
-          </div>
-          <div>
-            암호 잠금 설정
-            <ToggleBtn
-              isChecked={isLock}
-              ToggleBtnChangehandler={() => {
-                setisLock(!isLock);
-              }}
-            />
           </div>
           <div></div>
           <div>
@@ -54,7 +44,6 @@ const Mypage = () => {
           </div>
         </div>
       </StMypageSection>
-
       <Footer />
     </StContainer>
   );
@@ -63,6 +52,8 @@ const Mypage = () => {
 export default Mypage;
 
 const StMypageSection = styled(StSection)`
+  padding-top: 20%;
+  overflow-x: hidden;
   .myProfileInfoWrapper {
     display: flex;
     flex-direction: column;
@@ -70,17 +61,17 @@ const StMypageSection = styled(StSection)`
     gap: 1rem;
     margin-bottom: 2rem;
     img {
-      width: 7.2rem;
-      height: 7.2rem;
+      width: 10rem;
+      height: 10rem;
       border-radius: 50%;
     }
     span {
-      font-size: 1.4rem;
+      font-size: 2.8rem;
       font-weight: 600;
       &:last-child {
-        font-size: 1.2rem;
+        font-size: 1.7rem;
         font-weight: 400;
-        color: #d9d9d9;
+        color: #8c8c8c;
       }
     }
   }
@@ -90,8 +81,9 @@ const StMypageSection = styled(StSection)`
     flex-direction: column;
     justify-content: space-between;
     gap: 2rem;
-
     div {
+      font-size: 1.7rem;
+      font-weight: 700;
       display: flex;
       justify-content: space-between;
       align-items: center;
