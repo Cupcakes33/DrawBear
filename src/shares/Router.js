@@ -20,12 +20,9 @@ const Router = () => {
         <Route path="/test" element={<HashTagInput />} />
         <Route path="/" element={<Main />} />
         <Route path="/new" element={<CreateDiary />} />
-
         <Route path="/update">
           <Route path=":id" element={<UpdateDiary />} />
         </Route>
-        <Route path="/canvas" element={<Canvas />} />
-
         <Route path="/write" element={<Write />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
