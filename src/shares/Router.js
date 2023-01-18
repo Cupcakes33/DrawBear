@@ -18,7 +18,6 @@ import AccoutDelete from "../pages/Setting/AccoutDelete";
 import Alarm from "../pages/Setting/Alarm";
 import InfoEdit from "../pages/Setting/InfoEdit";
 
-
 const Router = () => {
   return (
     <BrowserRouter>

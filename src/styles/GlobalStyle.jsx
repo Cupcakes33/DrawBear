@@ -37,7 +37,8 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
   * {
-  font-family: 'ZigleTTF' !important;
+  /* font-family: 'ZigleTTF' !important; */
+  font-family: 'Noto Sans KR', sans-serif;
   }
 
 `;
