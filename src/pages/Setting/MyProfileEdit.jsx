@@ -3,19 +3,24 @@ import styled from "styled-components";
 import Footer from "../../components/common/Footer";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import { TiPencil } from "react-icons/ti";
-
-const myProfileData = {
-  id: 1,
-  name: "김철수",
-  email: "abc@naver.com",
-  profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-};
+import { useQuery } from "@tanstack/react-query";
+import { mypageApi } from "../../apis/axios";
+import { useEffect, useState } from "react";
 
 const MyProfileEdit = () => {
+  const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
+  const [nick, setNick] = useState("");
+  const nickChangeHandle = (e) => {
+    setNick(e.target.value);
+  };
+  useEffect(() => {
+    setNick(data?.userInfo.nickname);
+  }, [isLoading]);
+
   return (
     <StContainer>
       <StHeader flex justify="space-between">
-        <DisplayDiv  flex>
+        <DisplayDiv flex>
           <NavigateBtn prev sizeType="header" />
           <h3>프로필 수정</h3>
         </DisplayDiv>
@@ -25,7 +30,7 @@ const MyProfileEdit = () => {
       </StHeader>
       <MyProfileSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
-          <img src={myProfileData.profile} alt="myProfileImg" />
+          <img src={data?.userInfo.profileImg} alt="myProfileImg" />
           <div className="pencilIcon-box">
             <TiPencil />
           </div>
@@ -33,11 +38,11 @@ const MyProfileEdit = () => {
         <AccountInfoBox>
           <div>
             <label>이메일</label>
-            <span>{myProfileData.email}</span>
+            <span>{data?.userInfo.email}</span>
           </div>
           <div>
             <label>닉네임</label>
-            <input />
+            <input value={nick || ""} onChange={nickChangeHandle} />
           </div>
         </AccountInfoBox>
       </MyProfileSection>
