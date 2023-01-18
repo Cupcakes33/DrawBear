@@ -103,7 +103,7 @@ const StMypageSection = styled(StSection)`
 `;
 
 const ConfigOptionWrapper = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
