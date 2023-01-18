@@ -1,9 +1,8 @@
-import { StContainer, StSection, StHeader } from "../UI/common";
+import { StContainer, StSection, StHeader } from "../../UI/common";
 import styled from "styled-components";
-import Footer from "../components/common/Footer";
-import NavigateBtn from "../components/common/NavigateBtn";
-import AccountDeleteBear from "../assets/images/account_delete_bear.webp";
-import Button from "../components/common/Button";
+import NavigateBtn from "../../components/common/NavigateBtn";
+import AccountDeleteBear from "../../assets/images/account_delete_bear.webp";
+import Button from "../../components/common/Button";
 
 const myProfileData = {
   id: 1,

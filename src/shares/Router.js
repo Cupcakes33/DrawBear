@@ -6,17 +6,18 @@ import Main from "../pages/Main";
 import CreateDiary from "../pages/CreateDiary";
 import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
-import Setting from "../pages/Setting";
 import Detail from "../pages/Detail";
-import InfoEdit from "../pages/InfoEdit";
 import HashTagInput from "../components/common/HashTagInput";
 import UpdateDiary from "../pages/UpdateDiary";
 import ButtonPreview from "../pages/ButtonPreview";
-import MyProfileEdit from "../pages/MyProfileEdit";
-import MyPassword from "../pages/MyPassword";
-import AccoutDelete from "../pages/AccoutDelete";
-import DiaryManage from "../pages/DiaryManage";
-import Alarm from "../pages/Alarm";
+import Setting from "../pages/Setting/Setting";
+import DiaryManage from "../pages/Setting/DiaryManage";
+import MyProfileEdit from "../pages/Setting/MyProfileEdit";
+import MyPassword from "../pages/Setting/MyPassword";
+import AccoutDelete from "../pages/Setting/AccoutDelete";
+import Alarm from "../pages/Setting/Alarm";
+import InfoEdit from "../pages/Setting/InfoEdit";
+
 
 const Router = () => {
   return (

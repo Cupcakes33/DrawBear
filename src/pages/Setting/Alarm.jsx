@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import NavigateBtn from "../components/common/NavigateBtn";
-import { DisplayDiv, StContainer, StHeader, StSection } from "../UI/common";
+import NavigateBtn from "../../components/common/NavigateBtn";
+import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
 
 const Alarm = () => {
   return (

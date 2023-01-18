@@ -1,7 +1,7 @@
-import { StContainer, StSection, StHeader, DisplayDiv } from "../UI/common";
+import { StContainer, StSection, StHeader, DisplayDiv } from "../../UI/common";
 import styled from "styled-components";
-import Footer from "../components/common/Footer";
-import NavigateBtn from "../components/common/NavigateBtn";
+import Footer from "../../components/common/Footer";
+import NavigateBtn from "../../components/common/NavigateBtn";
 import { useForm } from "react-hook-form";
 
 const MyPassword = () => {

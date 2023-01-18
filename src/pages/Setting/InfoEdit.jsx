@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import NavigateBtn from "../components/common/NavigateBtn";
-import { StContainer, StHeader, StSection } from "../UI/common";
-import LogoutModal from "../components/mypage/LogoutModal";
+import NavigateBtn from "../../components/common/NavigateBtn";
+import { StContainer, StHeader, StSection } from "../../UI/common";
+import LogoutModal from "../../components/mypage/LogoutModal";
 import { useNavigate } from "react-router-dom";
 
 const InfoEdit = () => {
