@@ -18,7 +18,7 @@ const CreateDiary = () => {
   const diaryTitleInputRef = useRef();
   const { couple } = useSelector((state) => state.diarySlice);
 
-  const { mutate } = useMutation(["diary"], (addData) => mainApi.create(addData), {
+  const { mutate } = useMutation((addData) => mainApi.create(addData), {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 생성에 실패하였습니다." }));

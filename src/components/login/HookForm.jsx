@@ -10,7 +10,7 @@ const HookForm = () => {
   const dispatch = useDispatch();
   const { isModal } = useSelector((state) => state.UISlice);
 
-  const { mutate } = useMutation(["user"], (inputData) => loginApi.login(inputData), {
+  const { mutate } = useMutation((inputData) => loginApi.login(inputData), {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === undefined || null) return;

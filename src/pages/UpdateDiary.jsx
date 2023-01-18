@@ -21,7 +21,7 @@ const UpdateDiary = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate } = useMutation(["diary"], (updateData) => mainApi.update(updateData), {
+  const { mutate } = useMutation((updateData) => mainApi.update(updateData), {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 생성에 실패하였습니다." }));

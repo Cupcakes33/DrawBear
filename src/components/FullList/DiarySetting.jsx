@@ -13,7 +13,7 @@ const DiarySetting = ({ onClose }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data, mutate } = useMutation(["diary"], (id) => mainApi.delete(id), {
+  const { data, mutate } = useMutation((id) => mainApi.delete(id), {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === 404) dispatch(showModal({ isModal: true, content: "다이어리가 존재하지 않습니다." }));

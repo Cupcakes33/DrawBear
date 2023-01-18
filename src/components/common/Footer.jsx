@@ -2,32 +2,60 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { diaryType } from "../../redux/modules/diarySlice";
+import { BsFillPersonFill } from "react-icons/bs";
+import { MdPeopleAlt } from "react-icons/md";
+import { IoIosSettings, IoMdBookmark } from "react-icons/io";
 
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const footerIconState = localStorage.getItem("footerIcons");
+  const diaryViewState = (state) => {
+    dispatch(diaryType(state));
+  };
+
   const changeSoloView = () => {
-    dispatch(diaryType({ couple: 0, bookmark: 0 }));
+    localStorage.setItem("footerIcons", "solo");
+    diaryViewState({ couple: 0, bookmark: 0 });
     navigate("/");
   };
 
   const changeCoupleView = () => {
-    dispatch(diaryType({ couple: 1, bookmark: 0 }));
+    localStorage.setItem("footerIcons", "couple");
+    diaryViewState({ couple: 1, bookmark: 0 });
     navigate("/");
   };
 
   const changeFavoriteView = () => {
-    dispatch(diaryType({ couple: 2, bookmark: 1 }));
+    localStorage.setItem("footerIcons", "bookmark");
+    diaryViewState({ couple: 2, bookmark: 1 });
     navigate("/");
+  };
+
+  const changeToMypage = () => {
+    localStorage.setItem("footerIcons", "setting");
+    navigate("/setting");
   };
 
   return (
     <Container>
-      <FooterButton onClick={changeSoloView}>혼자</FooterButton>
-      <FooterButton onClick={changeCoupleView}>같이</FooterButton>
-      <FooterButton onClick={changeFavoriteView}>책갈피</FooterButton>
-      <FooterButton>마이</FooterButton>
+      <button onClick={changeSoloView}>
+        <BsFillPersonFill className={footerIconState === "solo" ? "icons selected" : "icons"} />
+        <span>혼자 써요</span>
+      </button>
+      <button onClick={changeCoupleView}>
+        <MdPeopleAlt className={footerIconState === "couple" ? "icons selected" : "icons"} />
+        <span>같이 써요</span>
+      </button>
+      <button onClick={changeFavoriteView}>
+        <IoMdBookmark className={footerIconState === "bookmark" ? "icons selected" : "icons"} />
+        <span className="bookmark-text">책갈피</span>
+      </button>
+      <button onClick={changeToMypage}>
+        <IoIosSettings className={footerIconState === "setting" ? "icons selected" : "icons"} />
+        <span>설정</span>
+      </button>
     </Container>
   );
 };
@@ -40,17 +68,29 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   height: 7.2rem;
-  background-color: #f8f8f8;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-`;
-
-const FooterButton = styled.button`
-  width: 4.8rem;
-  height: 4.8rem;
-  border-radius: 50%;
-  background-color: #d9d9d9;
-  border: none;
-  cursor: pointer;
+  background-color: white;
+  border-radius: 20px 20px 0px 0px;
+  button {
+    display: grid;
+    color: #cccccc;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    :focus {
+      color: #3cc7a6;
+    }
+  }
+  .selected {
+    color: #3cc7a6;
+  }
+  span {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  .icons {
+    font-size: 4rem;
+  }
 `;

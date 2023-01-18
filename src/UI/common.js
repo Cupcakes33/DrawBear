@@ -26,7 +26,7 @@ export const StContainer = styled.div`
   height: 100%;
   min-height: 100vh;
   border: 1px solid black;
-  background-color: white;
+  background-color: ${(props) => props.bgColor};
   overflow-x: hidden;
   ${flexProps}
 `;
@@ -41,7 +41,6 @@ export const StHeader = styled.header`
   width: 100%;
   height: 6rem;
   padding: 2rem;
-  background-color: #eeeeee;
   position: sticky;
   top: 0;
   ${flexProps}
@@ -104,3 +103,7 @@ export const Add = styled.button`
     }
   }}
 `;
+
+export const DisplayDiv = styled.div`
+  ${flexProps}
+`

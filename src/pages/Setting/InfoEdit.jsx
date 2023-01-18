@@ -1,28 +1,26 @@
 import { useState } from "react";
 import styled from "styled-components";
-import NavigateBtn from "../components/common/NavigateBtn";
-import { StContainer, StHeader, StSection } from "../UI/common";
-import LogoutModal from "../components/mypage/LogoutModal";
+import NavigateBtn from "../../components/common/NavigateBtn";
+import { StContainer, StHeader, StSection } from "../../UI/common";
+import LogoutModal from "../../components/mypage/LogoutModal";
+import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const InfoEdit = () => {
   const [isModal, setIsModal] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       {isModal && <LogoutModal onClose={setIsModal} />}
       <StContainer>
         <StHeader flex justify="flex-start">
           <NavigateBtn prev sizeType="header" />
-          <h3>개인정보 설정</h3>
+          <h3>개인정보 수정</h3>
         </StHeader>
-        <StEditProfileSection flex derection="column" justify="flex-start">
+        <EditProfileSection flex derection="column" justify="flex-start">
           <div className="editProfileWrapper">
-            <div>
-              내 프로필 관리
-              <NavigateBtn link={""} />
-            </div>
-            <div>
+            <div onClick={() => navigate("/setting/password")}>
               비밀번호 변경
-              <NavigateBtn link={""} />
+              <NavigateBtn />
             </div>
             <div
               onClick={() => {
@@ -31,31 +29,35 @@ const Profile = () => {
             >
               로그아웃
             </div>
-
-            <div></div>
-            <div>
-              회원 탈퇴
-              <NavigateBtn link={""} />
+            <div onClick={() => navigate("/setting/delete")}>
+              <span>회원 탈퇴</span>
             </div>
           </div>
-        </StEditProfileSection>
+        </EditProfileSection>
       </StContainer>
     </>
   );
 };
 
-export default Profile;
+export default InfoEdit;
 
-const StEditProfileSection = styled(StSection)`
+const EditProfileSection = styled(StSection)`
+  overflow-x: hidden;
   .editProfileWrapper {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    font-size: 1.7rem;
+    font-weight: 700;
     div {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      cursor: pointer;
+    }
+    span {
+      color: #ff5f5f;
     }
   }
 `;

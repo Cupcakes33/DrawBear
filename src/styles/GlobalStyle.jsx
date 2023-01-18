@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'ZigleTTFBold';
   src: url(${ZigleTTFBold}) format('truetype')
 }
- 
+
 @font-face {
   font-family: 'ZigleTTF';
   src: url(${ZigleTTF}) format('truetype')
@@ -20,12 +20,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-size: 1.6rem;
-    color: ${(props) => props.theme.color.font_main}
-    /* -ms-overflow-style: none;
+    color: ${(props) => props.theme.color.font_main};
+    -ms-overflow-style: none;
     scrollbar-width: none;
     ::-webkit-scrollbar {
       display:none;
-    } */
+    }
   }
 /* 
   input {
@@ -37,7 +37,8 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
   * {
-  font-family: 'ZigleTTF' !important;
+  /* font-family: 'ZigleTTF' !important; */
+  font-family: 'Noto Sans KR', sans-serif;
   }
 
 `;
