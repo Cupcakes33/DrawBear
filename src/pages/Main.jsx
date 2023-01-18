@@ -52,11 +52,11 @@ const Main = () => {
         errorHandler()
       ) : (
         <StContainer bgColor="#F8F8F8">
-          <StHeader flexCenter>
+          <StHeader flex>
             <h1>LOGO</h1>
           </StHeader>
           {diaryType(diaries)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaries)} />}
-          <Footer></Footer>
+          <Footer />
         </StContainer>
       )}
     </>
