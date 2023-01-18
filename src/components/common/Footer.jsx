@@ -35,7 +35,7 @@ const Footer = () => {
 
   const changeToMypage = () => {
     localStorage.setItem("footerIcons", "setting");
-    navigate("/mypage");
+    navigate("/setting");
   };
 
   return (

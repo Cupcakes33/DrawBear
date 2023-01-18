@@ -13,27 +13,28 @@ const myProfileData = {
   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
 };
 
-const ProfilePassword = () => {
+const MyProfileEdit = () => {
   const [isLock, setisLock] = useState(false);
   return (
     <StContainer>
       <StHeader flex justify="space-between">
         <div>
           <Back />
-          <h3>비밀번호 변경</h3>
+          <h3>프로필 관리</h3>
         </div>
         <div>
           <h3>완료</h3>
         </div>
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
-        <div className="PW-box current">
-          <span>기존 비밀번호</span>
-          <input />
+        <div className="myProfileInfoWrapper">
+          <img src={myProfileData.profile} alt="myProfileImg" />
         </div>
-        <div className="PW-box changing">
-          <span>새로 변경할 비밀번호</span>
-          <input />
+        <div>
+          <span>{myProfileData.email}</span>
+        </div>
+        <div className="nickName-box">
+          <span>닉네임</span>
           <input />
         </div>
       </StMypageSection>
@@ -42,7 +43,7 @@ const ProfilePassword = () => {
   );
 };
 
-export default ProfilePassword;
+export default MyProfileEdit;
 
 const StMypageSection = styled(StSection)`
   padding-top: 20%;
@@ -53,19 +54,17 @@ const StMypageSection = styled(StSection)`
     gap: 1rem;
     margin-bottom: 2rem;
   }
-  .PW-box {
+  .nickName-box {
+    padding: 10%;
     display: grid;
     width: 90%;
     gap: 1rem;
   }
-  .current {
-    padding: 10%;
+  img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
   }
-  .changing {
-    padding: 10%;
-    margin-top: -4rem;
-  }
-
   span {
     font-size: 1.7rem;
     font-weight: 700;

@@ -6,14 +6,14 @@ import Main from "../pages/Main";
 import CreateDiary from "../pages/CreateDiary";
 import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
-import Mypage from "../pages/Mypage";
+import Setting from "../pages/Setting";
 import Detail from "../pages/Detail";
-import Profile from "../pages/Profile";
+import InfoEdit from "../pages/InfoEdit";
 import HashTagInput from "../components/common/HashTagInput";
 import UpdateDiary from "../pages/UpdateDiary";
-import ProfileUpdate from "../pages/ProfileUpdate";
-import ProfilePassword from "../pages/ProfilePassword";
-import ProfileDelete from "../pages/ProfileDelete";
+import MyProfileEdit from "../pages/MyProfileEdit";
+import MyPassword from "../pages/MyPassword";
+import AccoutDelete from "../pages/AccoutDelete";
 
 const Router = () => {
   return (
@@ -35,12 +35,12 @@ const Router = () => {
           <Route path=":id" element={<FullList />} />
         </Route>
         <Route path="/invite" element={<Invite />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/profile/update" element={<ProfileUpdate />} />
-        <Route path="/profile/password" element={<ProfilePassword />} />
-        <Route path="/profile/delete" element={<ProfileDelete />} />
+        <Route path="/setting" element={<Setting />} />
+        <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
+        <Route path="/setting/infoEdit" element={<InfoEdit />} />
+        <Route path="/setting/password" element={<MyPassword />} />
+        <Route path="/setting/delete" element={<AccoutDelete />} />
       </Routes>
     </BrowserRouter>
   );

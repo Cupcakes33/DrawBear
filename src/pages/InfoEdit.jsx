@@ -5,7 +5,7 @@ import { StContainer, StHeader, StSection } from "../UI/common";
 import LogoutModal from "../components/mypage/LogoutModal";
 import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const InfoEdit = () => {
   const [isModal, setIsModal] = useState(false);
   const navigate = useNavigate();
   return (
@@ -18,7 +18,7 @@ const Profile = () => {
         </StHeader>
         <StEditProfileSection flex derection="column" justify="flex-start">
           <div className="editProfileWrapper">
-            <div onClick={() => navigate("/profile/password")}>
+            <div onClick={() => navigate("/setting/password")}>
               비밀번호 변경
               <NavigateBtn />
             </div>
@@ -29,7 +29,7 @@ const Profile = () => {
             >
               로그아웃
             </div>
-            <div onClick={() => navigate("/profile/delete")}>
+            <div onClick={() => navigate("/setting/delete")}>
               <span>회원 탈퇴</span>
             </div>
           </div>
@@ -39,7 +39,7 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default InfoEdit;
 
 const StEditProfileSection = styled(StSection)`
   overflow-x: hidden;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Footer from "../components/common/Footer";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { VscBell } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
 const myProfileData = {
   id: 1,
@@ -11,7 +12,9 @@ const myProfileData = {
   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
 };
 
-const Mypage = () => {
+const Setting = () => {
+  const navigate = useNavigate();
+
   return (
     <StContainer>
       <StHeader flex justify="space-between">
@@ -20,7 +23,10 @@ const Mypage = () => {
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
-          <img src={myProfileData.profile} alt="myProfileImg" />
+          <div onClick={() => navigate("/setting/profileEdit")}>
+            <img src={myProfileData.profile} alt="myProfileImg" />
+            <div>안녕</div>
+          </div>
           <span>{myProfileData.name}</span>
           <span>{myProfileData.email}</span>
         </div>
@@ -31,7 +37,7 @@ const Mypage = () => {
           </div>
           <div>
             개인정보 수정
-            <NavigateBtn link={"/profile"} />
+            <NavigateBtn link={"/setting/infoEdit"} />
           </div>
           <div></div>
           <div>
@@ -49,7 +55,7 @@ const Mypage = () => {
   );
 };
 
-export default Mypage;
+export default Setting;
 
 const StMypageSection = styled(StSection)`
   padding-top: 20%;
