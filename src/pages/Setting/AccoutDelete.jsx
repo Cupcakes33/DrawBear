@@ -50,9 +50,8 @@ const StMypageSection = styled(StSection)`
     margin-bottom: 2rem;
   }
   img {
-    width: 10rem;
-    height: 10rem;
-    border-radius: 50%;
+    width: 13.5rem;
+    height: 11.3rem;
   }
   .warning {
     padding-top: 5%;
