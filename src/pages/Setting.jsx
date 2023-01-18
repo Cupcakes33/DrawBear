@@ -4,6 +4,7 @@ import Footer from "../components/common/Footer";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { VscBell } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
+import { TiPencil } from "react-icons/ti";
 
 const myProfileData = {
   id: 1,
@@ -25,12 +26,14 @@ const Setting = () => {
         <div className="myProfileInfoWrapper">
           <div onClick={() => navigate("/setting/profileEdit")}>
             <img src={myProfileData.profile} alt="myProfileImg" />
-            <div>안녕</div>
+            <div className="pencilIcon-box">
+              <TiPencil />
+            </div>
           </div>
           <span>{myProfileData.name}</span>
           <span>{myProfileData.email}</span>
         </div>
-        <div className="configOptionWrapper">
+        <ConfigOptionWrapper>
           <div>
             일기 설정
             <NavigateBtn link={""} />
@@ -48,7 +51,7 @@ const Setting = () => {
             문의하기
             <NavigateBtn link={""} />
           </div>
-        </div>
+        </ConfigOptionWrapper>
       </StMypageSection>
       <Footer />
     </StContainer>
@@ -71,6 +74,22 @@ const StMypageSection = styled(StSection)`
       height: 10rem;
       border-radius: 50%;
     }
+    .pencilIcon-box {
+      width: 3.4rem;
+      height: 3.4rem;
+      box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 17%;
+      left: 55%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    div {
+      cursor: pointer;
+    }
     span {
       font-size: 2.8rem;
       font-weight: 600;
@@ -81,18 +100,19 @@ const StMypageSection = styled(StSection)`
       }
     }
   }
-  .configOptionWrapper {
-    width: 100%;
+`;
+
+const ConfigOptionWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  div {
+    font-size: 1.7rem;
+    font-weight: 700;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    gap: 2rem;
-    div {
-      font-size: 1.7rem;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    align-items: center;
   }
 `;
