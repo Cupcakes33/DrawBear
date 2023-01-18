@@ -16,7 +16,7 @@ const InfoEdit = () => {
           <NavigateBtn prev sizeType="header" />
           <h3>개인정보 수정</h3>
         </StHeader>
-        <StEditProfileSection flex derection="column" justify="flex-start">
+        <EditProfileSection flex derection="column" justify="flex-start">
           <div className="editProfileWrapper">
             <div onClick={() => navigate("/setting/password")}>
               비밀번호 변경
@@ -33,7 +33,7 @@ const InfoEdit = () => {
               <span>회원 탈퇴</span>
             </div>
           </div>
-        </StEditProfileSection>
+        </EditProfileSection>
       </StContainer>
     </>
   );
@@ -41,10 +41,10 @@ const InfoEdit = () => {
 
 export default InfoEdit;
 
-const StEditProfileSection = styled(StSection)`
+const EditProfileSection = styled(StSection)`
   overflow-x: hidden;
   .editProfileWrapper {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     gap: 2rem;

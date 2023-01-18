@@ -5,6 +5,7 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import { VscBell } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { TiPencil } from "react-icons/ti";
+import Button from "../components/common/Button";
 
 const myProfileData = {
   id: 1,

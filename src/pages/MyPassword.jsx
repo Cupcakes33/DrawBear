@@ -1,42 +1,73 @@
-import { StContainer, StSection, StHeader } from "../UI/common";
-import { useState } from "react";
+import { StContainer, StSection, StHeader, PrevPageInfo } from "../UI/common";
 import styled from "styled-components";
 import Footer from "../components/common/Footer";
-import ToggleBtn from "../components/common/ToggleBtn";
 import NavigateBtn from "../components/common/NavigateBtn";
-import Back from "../components/header/Back";
-
-const myProfileData = {
-  id: 1,
-  name: "김철수",
-  email: "abc@naver.com",
-  profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-};
+import { useForm } from "react-hook-form";
 
 const MyPassword = () => {
-  const [isLock, setisLock] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (inputData) => {};
+
   return (
     <StContainer>
       <StHeader flex justify="space-between">
-        <div>
+        <PrevPageInfo flex>
           <NavigateBtn prev sizeType="header" />
           <h3>비밀번호 변경</h3>
-        </div>
+        </PrevPageInfo>
         <div>
-          <h3>완료</h3>
+          <h3 onClick={handleSubmit(onSubmit)}>완료</h3>
         </div>
       </StHeader>
-      <StMypageSection flex derection="column" justify="flex-start">
-        <div className="PW-box current">
-          <span>기존 비밀번호</span>
-          <input />
-        </div>
-        <div className="PW-box changing">
-          <span>새로 변경할 비밀번호</span>
-          <input />
-          <input />
-        </div>
-      </StMypageSection>
+      <form>
+        <MypageSection flex derection="column" justify="flex-start">
+          <div className="PW-box current">
+            <label>기존 비밀번호</label>
+            <input
+              className={errors.currentPW?.type === undefined ? "pass" : "fail"}
+              type="password"
+              id="currentPW"
+              name="currentPW"
+              placeholder="영문, 숫자 조합 8자리 이상"
+              {...register("currentPW", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
+              aria-invalid={errors?.currentPW ? "true" : "false"}
+            />
+            {errors?.currentPW && <span role="alert">비밀번호를 다시 한 번 확인해주세요.</span>}
+          </div>
+          <div className="PW-box changing">
+            <label>새로 변경할 비밀번호</label>
+            <input
+              className={errors.newPW?.type === undefined ? "pass" : "fail"}
+              type="password"
+              id="newPW"
+              name="newPW"
+              placeholder="영문, 숫자 조합 8자리 이상"
+              {...register("newPW", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
+              aria-invalid={errors?.newPW ? "true" : "false"}
+            />
+            {errors?.newPW && <span role="alert">영문, 숫자 조합 8자리 이상의 비밀번호를 입력해주세요.</span>}
+            <input
+              className={errors.PWreconfirmation?.type === undefined ? "pass" : "fail"}
+              type="password"
+              id="PWreconfirmation"
+              name="PWreconfirmation"
+              placeholder="비밀번호 재입력"
+              {...register("PWreconfirmation", {
+                required: true,
+                validate: (value) => value === watch("newPW"),
+              })}
+              aria-invalid={errors?.PWreconfirmation ? "true" : "false"}
+            />
+            {errors?.PWreconfirmation && <span role="alert">두 비밀번호가 달라요. 다시 한 번 확인해주세요.</span>}
+          </div>
+        </MypageSection>
+      </form>
       <Footer />
     </StContainer>
   );
@@ -44,18 +75,12 @@ const MyPassword = () => {
 
 export default MyPassword;
 
-const StMypageSection = styled(StSection)`
+const MypageSection = styled(StSection)`
   padding-top: 20%;
-  .myProfileInfoWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
+  overflow-x: hidden;
   .PW-box {
     display: grid;
-    width: 90%;
+    width: 100%;
     gap: 1rem;
   }
   .current {
@@ -65,13 +90,34 @@ const StMypageSection = styled(StSection)`
     padding: 10%;
     margin-top: -4rem;
   }
-
-  span {
-    font-size: 1.7rem;
+  label {
+    font-size: 2.6rem;
     font-weight: 700;
   }
+  span {
+    font-size: 1rem;
+    color: #ff5656;
+  }
   input {
-    height: 4.3rem;
+    height: 4.5rem;
     padding: 0 1rem;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border: none;
+    :last-child {
+      margin-top: 2rem;
+    }
+  }
+  .pass:focus {
+    border: 1px solid #3cc7a5;
+    box-shadow: 0 0 5px #3cc7a5;
+    outline: none;
+    transition: box-shadow 0.4s;
+  }
+  .fail:focus {
+    border: 1px solid #ff5656;
+    box-shadow: 0 0 5px #ff5656;
+    outline: none;
+    transition: box-shadow 0.4s;
   }
 `;
