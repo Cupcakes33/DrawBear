@@ -29,6 +29,13 @@ export const loginApi = {
   },
 };
 
+export const mypageApi = {
+  read: async () => {
+    const { data } = await instance.get("/api/userInfo");
+    return data;
+  },
+};
+
 export const mainApi = {
   read: async () => {
     const { data } = await instance.get("/api/diary");
