@@ -19,7 +19,7 @@ const MyPassword = () => {
     <StContainer>
       <StHeader flex justify="space-between">
         <div>
-          <Back />
+          <NavigateBtn prev sizeType="header" />
           <h3>비밀번호 변경</h3>
         </div>
         <div>

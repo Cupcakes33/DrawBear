@@ -18,7 +18,7 @@ const AccoutDelete = () => {
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
-        <Back />
+        <NavigateBtn prev sizeType="header" />
         <h3>회원 탈퇴</h3>
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">

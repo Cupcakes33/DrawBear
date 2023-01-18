@@ -103,3 +103,7 @@ export const Add = styled.button`
     }
   }}
 `;
+
+export const PrevPageInfo = styled.div`
+  ${flexProps}
+`
