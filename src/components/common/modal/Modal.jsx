@@ -29,6 +29,7 @@ const Modal = ({
       body.style.overflow = defaultStyle;
     };
   }, []);
+  
   return (
     <ModalPortal>
       <StModalOverlay>
