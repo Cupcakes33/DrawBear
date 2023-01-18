@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { DisplayDiv, StContainer, StHeader, StSection } from "../UI/common";
-import { useNavigate } from "react-router-dom";
 import Button from "../components/common/Button";
 
 const DiaryManage = () => {

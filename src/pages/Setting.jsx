@@ -21,7 +21,7 @@ const Setting = () => {
     <StContainer>
       <StHeader flex justify="space-between">
         <h3>설정</h3>
-        <VscBell fontSize="1.4em" />
+        <VscBell fontSize="1.4em" onClick={() => navigate("/setting/alarm")} />
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">

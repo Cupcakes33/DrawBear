@@ -16,6 +16,7 @@ import MyProfileEdit from "../pages/MyProfileEdit";
 import MyPassword from "../pages/MyPassword";
 import AccoutDelete from "../pages/AccoutDelete";
 import DiaryManage from "../pages/DiaryManage";
+import Alarm from "../pages/Alarm";
 
 const Router = () => {
   return (
@@ -43,6 +44,7 @@ const Router = () => {
         <Route path="/setting/infoEdit" element={<InfoEdit />} />
         <Route path="/setting/password" element={<MyPassword />} />
         <Route path="/setting/delete" element={<AccoutDelete />} />
+        <Route path="/setting/alarm" element={<Alarm />} />
       </Routes>
     </BrowserRouter>
   );
