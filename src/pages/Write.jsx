@@ -16,18 +16,13 @@ const Write = () => {
   const [tags, setTags] = useState([]);
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
-  const { mutate, isSuccess, isError, error, isLoading } = useMutation(
-    diaryApi.post
-  );
+  const { mutate, isSuccess, isError, error, isLoading } = useMutation(diaryApi.post);
 
   const imgUrlConvertBlob = (canvas) => {
     if (!canvas) return;
     const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
     const splitDataUrl = canvasUrl.split(",");
-    const byteString =
-      splitDataUrl[0].indexOf("base64") >= 0
-        ? atob(splitDataUrl[1])
-        : decodeURI(splitDataUrl[1]);
+    const byteString = splitDataUrl[0].indexOf("base64") >= 0 ? atob(splitDataUrl[1]) : decodeURI(splitDataUrl[1]);
     const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
     const ia = new Uint8Array(byteString.length);
     for (let i = 0; i < byteString.length; i++) {
@@ -52,8 +47,7 @@ const Write = () => {
     formData.append("content", contents);
     formData.append("weather", "눈");
     formData.append("tag", tags);
-    mutate({ formData: formData, diaryId: 10 })
-    
+    mutate({ formData: formData, diaryId: 10 });
   };
 
   return (
@@ -61,9 +55,7 @@ const Write = () => {
       <StHeader flex justify="space-between">
         <NavigateBtn prev />
         <h3>LOGO</h3>
-        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
-          {isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}
-        </span>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>{isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}</span>
       </StHeader>
       <StSlideWrapper isDrawingEnd={isDrawingEnd}>
         <StCanvasSection flex justify="flex-start" derection="column">
@@ -72,24 +64,16 @@ const Write = () => {
         </StCanvasSection>
 
         <StTitleSection flex justify="flex-start" derection="column">
-          <form
-            onSubmit={writeFormSubmitHandler}
-            onKeyDown={formEnterKeyPrevent}
-            encType="multipart/form-data"
-          >
+          <form onSubmit={writeFormSubmitHandler} onKeyDown={formEnterKeyPrevent} encType="multipart/form-data">
             <div className="dateInputBox">
               <span>날짜 :</span>
-              <HorizontalDatePicker/>
+              <HorizontalDatePicker />
               {/* <input type="date" name="createdAt" /> */}
             </div>
             <div className="titleInputBox">
-              <input
-                type="text"
-                name="title"
-                placeholder="제목을 입력해주세요"
-              />
+              <input type="text" name="title" placeholder="제목을 입력해주세요" />
             </div>
-            
+
             <div className="weatherPickerBox">
               <span>날씨 :</span>
               <WeatherPicker />

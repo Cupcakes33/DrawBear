@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
@@ -13,7 +13,6 @@ const Main = () => {
   const dispatch = useDispatch();
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const { isModal } = useSelector((state) => state.UISlice);
-  const queryClient = useQueryClient();
 
   const { data = [], isError, isLoading, error } = useQuery(["main"], mainApi.read);
   const { diaries } = data;

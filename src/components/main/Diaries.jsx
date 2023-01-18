@@ -18,7 +18,7 @@ export default function Diaries(diaryData) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
+  const { mutate } = useMutation((diaryId) => mainApi.bookmark(diaryId), {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
