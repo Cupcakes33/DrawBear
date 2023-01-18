@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: process.env.REACT_APP_MY_API,
+  // baseURL: process.env.REACT_APP_MY_API,
+  baseURL: "https://mylee.site",
 });
 
 instance.interceptors.request.use((config) => {
@@ -57,7 +58,7 @@ export const mainApi = {
     return data;
   },
   bookmark: async (diaryId) => {
-    console.log(diaryId)
+    console.log(diaryId);
     const { data } = await instance.post(`/api/bookmark/diary/${diaryId}`);
     return data;
   },
@@ -68,7 +69,9 @@ export const diaryApi = {
     await instance.post(`api/post/${diaryId}`, formData);
   },
   holiday: async (selectedYear) => {
-    const { data } = await axios.get(`http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`);
+    const { data } = await axios.get(
+      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`
+    );
     return data.response.body.items.item;
   },
 };

@@ -11,6 +11,7 @@ import Detail from "../pages/Detail";
 import InfoEdit from "../pages/InfoEdit";
 import HashTagInput from "../components/common/HashTagInput";
 import UpdateDiary from "../pages/UpdateDiary";
+import ButtonPreview from "../pages/ButtonPreview";
 import MyProfileEdit from "../pages/MyProfileEdit";
 import MyPassword from "../pages/MyPassword";
 import AccoutDelete from "../pages/AccoutDelete";
@@ -23,11 +24,9 @@ const Router = () => {
         <Route path="/test" element={<HashTagInput />} />
         <Route path="/" element={<Main />} />
         <Route path="/new" element={<CreateDiary />} />
-
         <Route path="/update">
           <Route path=":id" element={<UpdateDiary />} />
         </Route>
-
         <Route path="/write" element={<Write />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
@@ -36,6 +35,7 @@ const Router = () => {
         </Route>
         <Route path="/invite" element={<Invite />} />
         <Route path="/detail" element={<Detail />} />
+        <Route path="/buttonpreview" element={<ButtonPreview />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
         <Route path="/setting/infoEdit" element={<InfoEdit />} />
