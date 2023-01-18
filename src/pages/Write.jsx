@@ -179,10 +179,4 @@ const StSlideWrapper = styled.div`
     `}
 `;
 
-// 리팩토링 시 하나로 묶으면 좋을 것 같습니다.
 
-const StBoxdesign = css`
-  width: 100%;
-  height: 3rem;
-  border-radius: 10px;
-`;

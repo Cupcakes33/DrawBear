@@ -6,10 +6,27 @@ const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
 
   const HashTagInputKeyDownHandler = (event) => {
-    if (event.key !== "Enter") return;
     const { value } = event.target;
+    if (value.length > 6) {
+      event.target.value = event.target.value.substr(0, 6);
+    }
+
+    if (event.key !== "Enter") return;
+
+    // 길이가 6글자 이상이면 자르기
+
+    // 공백시 리턴
     if (!value.trim()) return;
-    setTags((prev) => [...prev, `#${value}`]);
+
+    // 태그가 2개 이상일 경우 filter
+    if (tags.length > 2) {
+      const filtedTags = tags.filter((tag) => tag !== tags[0]);
+      setTags([...filtedTags, `# ${value}`]);
+    } else {
+      setTags((prev) => [...prev, `# ${value}`]);
+    }
+
+    // 입력값 초기화
     event.target.value = "";
     console.log(tags);
   };
@@ -26,7 +43,11 @@ const HashTagInput = ({ tags, setTags }) => {
           <TiDelete className="remove" onClick={() => removeHashTag(index)} />
         </StHashTagItem>
       ))}
-      <StHashTagInput onKeyUp={HashTagInputKeyDownHandler} type="text" />
+      <StHashTagInput
+        onKeyUp={HashTagInputKeyDownHandler}
+        type="text"
+        placeholder="태그는 3개까지 입력이 가능해요 !"
+      />
     </StHashTagContainer>
   );
 };
