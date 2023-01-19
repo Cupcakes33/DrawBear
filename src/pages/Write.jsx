@@ -35,6 +35,7 @@ const Write = () => {
         showModal({
           isModal: true,
           content: "다이어리가 작성되었습니다.",
+          move: `/list/${diaryId}`,
         })
       );
       // navigate(`/list/${diaryId}`);
