@@ -30,15 +30,21 @@ export default NavigateBtn;
 const sizeTypes = {
   header: {
     size: "2.4rem",
+    width: "3rem",
+    height: "3rem",
   },
   section: {
     size: "1.8rem",
+    width: "2.2rem",
+    height: "2.2rem",
   },
 };
 
 const sizeStyle = css`
   ${({ sizeType }) => css`
     font-size: ${sizeTypes[sizeType]?.size};
+    width: ${sizeTypes[sizeType]?.width};
+    height: ${sizeTypes[sizeType]?.height};
   `}
 `;
 
