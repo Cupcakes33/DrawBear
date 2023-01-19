@@ -22,6 +22,7 @@ const Write = () => {
   const [tags, setTags] = useState([]);
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
+  const [weather, setWeather] = useState("");
 
   const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Write = () => {
 
   const { mutate } = useMutation(diaryApi.post, {
     onSuccess: () => {
-      navigate("/list/");
+      // navigate("/list/");
     },
     onError: (error) => {
       const status = error?.response.request.status;
@@ -88,7 +89,7 @@ const Write = () => {
     console.log(formData.get("radio"));
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
-    formData.append("weather", "눈");
+    formData.append("weather", weather || "sunny");
     formData.append("tag", tags);
     mutate({ formData: formData, diaryId: 10 }, {});
   };
@@ -130,7 +131,8 @@ const Write = () => {
               </div>
               <div className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
-                <WeatherPicker />
+                <WeatherPicker weather={weather} setWeather={setWeather} />
+                {/* <WeatherSelector /> */}
               </div>
               <div className="tagInputBox">
                 <span>태그</span>
