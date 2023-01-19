@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import ModalPortal from "./ModalPotal";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Modal = ({
   onClose,
@@ -13,7 +14,7 @@ const Modal = ({
   left = "50%",
   right,
   translate = "-50%, -50%",
-  isCloseBtn
+  isCloseBtn,
 }) => {
   const modalRef = useRef(null);
   const closeModalHander = () => {
@@ -29,7 +30,7 @@ const Modal = ({
       body.style.overflow = defaultStyle;
     };
   }, []);
-  
+
   return (
     <ModalPortal>
       <StModalOverlay>
@@ -43,7 +44,7 @@ const Modal = ({
           left={left}
           translate={translate}
         >
-          {isCloseBtn ? <StModalCloseBtn onClick={closeModalHander} /> : null}
+          {isCloseBtn ? <AiOutlineClose className="close-icon" onClick={closeModalHander} /> : null}
           {children}
         </StModalWrapper>
       </StModalOverlay>
@@ -75,17 +76,13 @@ const StModalWrapper = styled.div`
   background-color: white;
   overflow: hidden;
   transform: translate(${(props) => props.translate});
-`;
-
-const StModalCloseBtn = styled.button`
-  position: absolute;
-  top: 2.2rem;
-  right: 2.2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  &::before {
-    content: "X";
+  .close-icon {
+    position: absolute;
+    top: 2.2rem;
+    right: 2.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 `;
 

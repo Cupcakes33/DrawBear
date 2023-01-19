@@ -5,15 +5,13 @@ import { useDispatch } from "react-redux";
 import { addDiary } from "../../redux/modules/diarySlice";
 import soloDiaryBear from "../../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../../assets/images/coupleDiaryBear.webp";
-import { AiOutlineClose } from "react-icons/ai";
 
 const CreateDiaryModal = ({ onClose }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   return (
-    <Modal onClose={onClose}>
-      <AiOutlineClose onClose />
+    <Modal onClose={onClose} isCloseBtn>
       <Wrapper>
         <Box>
           <img
@@ -43,6 +41,10 @@ const CreateDiaryModal = ({ onClose }) => {
 };
 
 export default CreateDiaryModal;
+
+const CloseButton = styled.button`
+  /* float: right; */
+`;
 
 const Wrapper = styled.div`
   width: 100%;
