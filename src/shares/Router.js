@@ -39,7 +39,9 @@ const Router = () => {
           <Route path=":id" element={<FullList />} />
         </Route>
         <Route path="/invite" element={<Invite />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail">
+          <Route path=":id" element={<Detail />} />
+        </Route>
         <Route path="/buttonpreview" element={<ButtonPreview />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/setting/diaryManage" element={<DiaryManage />} />

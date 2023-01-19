@@ -85,9 +85,9 @@ const Diaries = ({ diaryData }) => {
                 <Diary
                   bgColor={data.outsideColor}
                   onClick={() => {
-                    navigate(`/list/${data.diaryId}`, {
-                      state: { diaryName: data.diaryName },
-                    });
+                    navigate(`/list/${data.diaryId}`);
+                    localStorage.removeItem("diaryName");
+                    localStorage.setItem("diaryName", data.diaryName);
                   }}
                 ></Diary>
               </DiaryShowContainer>

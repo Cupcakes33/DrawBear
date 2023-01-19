@@ -94,3 +94,10 @@ export const diaryApi = {
     return data.response.body.items.item;
   },
 };
+
+export const postsApi = {
+  get: async (diaryId) => {
+    const { data } = await instance.get(`/api/post/detail/${diaryId}`);
+    return data.posts;
+  },
+};

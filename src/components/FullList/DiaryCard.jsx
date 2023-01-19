@@ -16,17 +16,22 @@ const DiaryCard = ({ postData }) => {
     profileImg,
     commentsCount,
   } = postData;
+
+  const redirectDetailpage = () => {
+    naigate(`/detail/${postId}`);
+  };
+
   return (
     <StDiaryCardContainer>
       <StTitleWrapper>
-        <h4 onClick={() => naigate("/detail")}>{title}</h4>
+        <h4 onClick={redirectDetailpage}>{title}</h4>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />
           <span>{nickname}</span>
         </div>
       </StTitleWrapper>
       <StImageWrapper>
-        <img src={image} alt="그림" />
+        <img src={image} alt="그림" onClick={redirectDetailpage} />
       </StImageWrapper>
       <StConfigWrapper>
         <div>

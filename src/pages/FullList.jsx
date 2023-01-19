@@ -18,12 +18,12 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 
 const DiaryList = () => {
   const navigate = useNavigate();
-  const { diaryName } = useLocation().state;
+  const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
   const diaryId = useParams().id;
-  const { data, error, isError, isLoading } = useQuery(["posts"], () =>
+  const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
     diaryApi.get(diaryId)
   );
 

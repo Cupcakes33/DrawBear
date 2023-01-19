@@ -1,60 +1,64 @@
-import React from "react";
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
 import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StWrapper } from "../UI/common";
+import { StHeader, StWrapper, StContainer } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
-
-const posts = {
-  content: `안녕`,
-  tags: [
-    {
-      tag: "감성",
-    },
-    {
-      tag: "맑음",
-    },
-    {
-      tag: "우울함",
-    },
-    {
-      tag: "즐거움",
-    },
-    {
-      tag: "소풍",
-    },
-    {
-      tag: "즐거움",
-    },
-    {
-      tag: "즐거움",
-    },
-  ],
-};
+import { useQuery } from "@tanstack/react-query";
+import { postsApi } from "../apis/axios";
+import { useParams } from "react-router-dom";
+import NavigateBtn from "../components/common/NavigateBtn";
 
 const Detail = () => {
+  const diaryId = useParams().id;
+  const diaryName = localStorage.getItem("diaryName");
+
+  const {
+    data = {},
+    error,
+    isError,
+    isLoading,
+  } = useQuery(["posts"], () => postsApi.get(diaryId));
+
+  const { title, createdAt, content, image,  } = data;
+
+  console.log(data);
+  // const { title } = data;
+
+  const locailDate = (date) => {
+    if (!date) return;
+    const temp = date.createdAt.slice(0, 10);
+    return new Date(temp).toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  if (isLoading) return <div>로딩중</div>;
+  if (isError) return <div>{error.message}</div>;
+
   return (
-    <CommonContainer>
+    <StContainer>
       <StHeader>
-        <Back />
-        <HeaderText>일기 제목</HeaderText>
+        <NavigateBtn prev />
+        <HeaderText>{diaryName}</HeaderText>
       </StHeader>
       <StWrapper>
         <InfoBox>
-          <h5>다이어리 제목</h5>
-          <h3>2022년 12월 31일</h3>
+          {/* <h5>{title}</h5> */}
+          {/* <h3>{locailDate(createdAt)}</h3> */}
           <div className="tag-box">
-            {posts?.tags.map((v, i) => (
+            {/* {posts?.tags.map((v, i) => (
               <Tag key={i}>#{v.tag}</Tag>
-            ))}
+            ))} */}
           </div>
         </InfoBox>
         <ContentsBox>
           <div className="img-box">
             <img src="" alt="그림" />
           </div>
-          {posts?.content ? <pre>{posts?.content}</pre> : null}
+          {/* {posts?.content ? <pre>{posts?.content}</pre> : null} */}
         </ContentsBox>
         <Buttonbox>
           <button>수정</button>
@@ -71,7 +75,7 @@ const Detail = () => {
           </div>
         </CommentBox>
       </StWrapper>
-    </CommonContainer>
+    </StContainer>
   );
 };
 
