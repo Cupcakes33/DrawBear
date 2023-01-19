@@ -6,10 +6,17 @@ import { TiPencil } from "react-icons/ti";
 import { useQuery } from "@tanstack/react-query";
 import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
-
+import Button from "../../components/common/Button";
+import defaultImg from "../../assets/images/default_image.png";
+import { useForm } from "react-hook-form";
 const MyProfileEdit = () => {
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const [nick, setNick] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isDirty, errors },
+  } = useForm({ mode: "onChange" });
   const nickChangeHandle = (e) => {
     setNick(e.target.value);
   };
@@ -17,6 +24,25 @@ const MyProfileEdit = () => {
     setNick(data?.userInfo.nickname);
   }, [isLoading]);
 
+  const [image, setImage] = useState({
+    image_file: "",
+    preview_URL: data?.userInfo.profileImg,
+  });
+
+  let inputRef;
+
+  const imgOnChnageHandler = (e) => {
+    console.log("ggg");
+    e.preventDefault();
+    if (e.target.files[0]) {
+      URL.revokeObjectURL(image.preview_URL);
+      const preview_URL = URL.createObjectURL(e.target.files[0]);
+      setImage(() => ({
+        image_file: e.target.files[0],
+        preview_URL: preview_URL,
+      }));
+    }
+  };
   return (
     <StContainer>
       <StHeader flex justify="space-between">
@@ -28,7 +54,74 @@ const MyProfileEdit = () => {
           <span>수정</span>
         </div>
       </StHeader>
-      <MyProfileSection flex derection="column" justify="flex-start">
+      <form>
+        <div>
+          <input
+            {...register("image")}
+            id="profileImg"
+            type="file"
+            name="profileImg"
+            accept="image/*"
+            onChange={imgOnChnageHandler}
+            onClick={(e) => (e.target.value = null)}
+            ref={(refParam) => (inputRef = refParam)}
+          ></input>
+          <div className="img-wrapper">
+            <img
+              src={image.preview_URL}
+              style={{
+                width: "10rem",
+                height: "10rem",
+                borderRadius: "100%",
+                position: "absolute",
+                left: "13rem",
+                top: "20.7rem",
+              }}
+              onClick={() => inputRef.click()}
+            />
+            <div className="profilImg_button">
+              <Button
+                onClick={() => inputRef.click()}
+                icon={<TiPencil />}
+                round
+              >
+                파일
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label>이메일</label>
+          <span>{data?.userInfo.email}</span>
+        </div>
+        <div>
+          <span className="nickName_txt">닉네임</span>
+          <div className="nickName_container">
+            <input
+              id="nickname"
+              type="text"
+              name="nickname"
+              placeholder="닉네임을 입력해주세요"
+              value={nick || ""}
+              onChange={nickChangeHandle}
+              aria-invalid={
+                !isDirty ? undefined : errors.nickname ? "true" : "false"
+              }
+              {...register("nickname", {
+                required: "닉네임은 필수 입력 입니다.",
+                minLength: {
+                  value: 2,
+                  message: "2자리 이상 닉네임을 사용하세요.",
+                },
+              })}
+            />
+            {errors.nickname && (
+              <small role="alert">{errors.nickname.message}</small>
+            )}
+          </div>
+        </div>
+      </form>
+      {/* <MyProfileSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
           <img src={data?.userInfo.profileImg} alt="myProfileImg" />
           <div className="pencilIcon-box">
@@ -45,7 +138,7 @@ const MyProfileEdit = () => {
             <input value={nick || ""} onChange={nickChangeHandle} />
           </div>
         </AccountInfoBox>
-      </MyProfileSection>
+      </MyProfileSection> */}
       <Footer />
     </StContainer>
   );

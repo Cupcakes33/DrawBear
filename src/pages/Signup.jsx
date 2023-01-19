@@ -7,8 +7,9 @@ import Button from "../components/common/Button";
 import { AiOutlineSetting } from "react-icons/ai";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../apis/axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../redux/modules/UISlice";
+import Alert from "../components/common/modal/Alert";
 const Signup = () => {
   const {
     register,
@@ -26,6 +27,8 @@ const Signup = () => {
   });
 
   let inputRef;
+
+  const { isModal } = useSelector((state) => state.UISlice); //모달창을 사용하기 위한 값?
 
   const imgOnChnageHandler = (e) => {
     e.preventDefault();
@@ -50,12 +53,23 @@ const Signup = () => {
   const { mutate } = useMutation((formData) => loginApi.signup(formData), {
     onSuccess: () => {
       dispatch(
-        showModal({ isModal: true, content: "회원가입 성공!", move: "/" })
+        showModal({ isModal: true, content: "회원가입 성공!", move: "/" }) //모달창에 전달하는 데이터
       );
+    },
+    onError: (error) => {
+      console.log(error);
+      const msg = error.response.data.message;
+      const errorStatus = error.response.status;
+      console.log(errorStatus);
+      if (errorStatus === 409) {
+        console.log();
+        dispatch(showModal({ isModal: true, content: msg }));
+      }
     },
   });
   return (
     <>
+      {isModal && <Alert />}
       <SignupContainer>
         <SginupForm
           onSubmit={handleSubmit((data) => {
@@ -157,6 +171,7 @@ const Signup = () => {
                 !errors.passwordCheck && (
                   <div className="button_next_container">
                     <Button
+                      type="button"
                       fullWidth
                       color="button_primary"
                       onClick={() => {
@@ -199,6 +214,7 @@ const Signup = () => {
                 />
                 <div className="profilImg_button">
                   <Button
+                    type="button"
                     onClick={() => inputRef.click()}
                     icon={<AiOutlineSetting />}
                     round
