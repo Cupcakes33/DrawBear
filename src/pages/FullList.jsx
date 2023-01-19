@@ -11,6 +11,8 @@ import CommonContainer from "../UI/CommonContainer";
 import Button from "../components/common/Button";
 import { TiPencil } from "react-icons/ti";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { diaryApi } from "../apis/axios";
 
 const DiaryList = () => {
   const navigate = useNavigate();
@@ -19,6 +21,21 @@ const DiaryList = () => {
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
   const diaryId = useParams().id;
+  const { data, error, isError, isLoading } = useQuery(["posts"], () =>
+    diaryApi.get(diaryId)
+  );
+  let filtedPosts = {};
+
+  if (!isLoading) {
+    data.forEach((item) => {
+      const temp = item.createdAt.slice(0, 10);
+      if (filtedPosts[temp]) {
+        filtedPosts[temp].push(item);
+      } else {
+        filtedPosts[temp] = [item];
+      }
+    });
+  }
 
   const defaultHeader = useCallback(() => {
     return (
@@ -61,11 +78,16 @@ const DiaryList = () => {
         </StHeader>
         <StSection>
           <Filter>최신순</Filter>
-          <DiaryCard />
-          <DiaryCard />
-          <DiaryCard />
-          <DiaryCard />
-          <DiaryCard />
+          {Object.keys(filtedPosts).map((date,n) => {
+            return (
+              <div key={`dateFilter${n}`}>
+                <h2>{date}</h2>
+                {filtedPosts[date].map((post,n) => {
+                  return <DiaryCard key={`postData${n}`} postData={post} />;
+                })}
+              </div>
+            );
+          })}
         </StSection>
         <StNavigateWritePageBtnWrapper>
           <Button

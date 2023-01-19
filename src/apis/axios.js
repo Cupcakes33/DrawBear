@@ -18,7 +18,7 @@ export const loginApi = {
     });
     localStorage.setItem("token", data.token);
     setTimeout(() => {
-      localStorage.clear()
+      localStorage.clear();
     }, 3600000);
     return data;
   },
@@ -71,7 +71,7 @@ export const diaryApi = {
 
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/${diaryId}`);
-    return data;
+    return data.posts;
   },
 
   holiday: async (selectedYear) => {
