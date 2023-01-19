@@ -45,6 +45,10 @@ export const StHeader = styled.header`
   position: sticky;
   top: 0;
   ${flexProps}
+  span {
+    color: #3CC7A6;
+    cursor: pointer;
+  }
 `;
 
 export const StSection = styled.section`
