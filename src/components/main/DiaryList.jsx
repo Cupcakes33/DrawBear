@@ -2,14 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Add } from "../../UI/common";
 import CreateDiaryModal from "./CreateDiaryModal";
-import diaries from "./Diaries";
+import Diaries from "./Diaries";
 
 const DiaryList = ({ diaryData }) => {
   const [isModal, setIsModal] = useState(false);
   return (
     <>
       <StContainer>
-        {diaries(diaryData)}
+        {Diaries(diaryData)}
         <Add
           page="main"
           onClick={() => {
