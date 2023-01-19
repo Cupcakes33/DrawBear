@@ -9,8 +9,8 @@ const MyPassword = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
-  } = useForm();
+    formState: { isSubmitting, isDirty, errors },
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = (inputData) => {};
 
@@ -26,6 +26,76 @@ const MyPassword = () => {
         </div>
       </StHeader>
       <form>
+        <MypageSection flex derection="column" justify="flex-start">
+          <div className="PW-box current">
+            <label>기존 비밀번호</label>
+            <input
+              id="currentPW"
+              type="password"
+              name="currentPW"
+              placeholder="*영문,숫자 조합 8자리 이상"
+              aria-invalid={
+                !isDirty ? undefined : errors.currentPW ? false : true
+              }
+              {...register("currentPW", {
+                required: "비밀번호는 필수 입력 입니다.",
+                minLength: {
+                  value: 4,
+                  message: "4자리 이상 비밀번호를 입력해주세요",
+                },
+              })}
+            />
+            {errors.currentPW && (
+              <small role="alert">{errors.currentPW.message}</small>
+            )}
+          </div>
+          <div className="PW-box changing">
+            <label>새로 변경할 비밀번호</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="*영문,숫자 조합 8자리 이상"
+              aria-invalid={
+                !isDirty ? undefined : errors.password ? false : true
+              }
+              {...register("password", {
+                required: "비밀번호는 필수 입력 입니다.",
+                minLength: {
+                  value: 4,
+                  message: "4자리 이상 비밀번호를 입력해주세요",
+                },
+              })}
+              style={{ top: "33rem" }}
+            />
+            {errors.password && (
+              <small role="alert">{errors.password.message}</small>
+            )}
+            <input
+              id="passwordCheck"
+              type="password"
+              name="passwordCheck"
+              placeholder="비밀번호재입력"
+              aria-invalid={
+                !isDirty ? undefined : errors.passwordCheck ? false : true
+              }
+              {...register("passwordCheck", {
+                required: true,
+                validate: (val) => {
+                  if (watch("password") != val) {
+                    return "비밀번호가 다릅니다.";
+                  }
+                },
+              })}
+              style={{ top: "33rem" }}
+            />
+            {errors.passwordCheck && (
+              <small role="alert">{errors.passwordCheck.message}</small>
+            )}
+          </div>
+        </MypageSection>
+      </form>
+      {/* <form>
         <MypageSection flex derection="column" justify="flex-start">
           <div className="PW-box current">
             <label>기존 비밀번호</label>
@@ -67,7 +137,7 @@ const MyPassword = () => {
             {errors?.PWreconfirmation && <span role="alert">두 비밀번호가 달라요. 다시 한 번 확인해주세요.</span>}
           </div>
         </MypageSection>
-      </form>
+      </form> */}
       <Footer />
     </StContainer>
   );
