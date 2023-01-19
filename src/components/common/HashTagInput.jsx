@@ -64,14 +64,14 @@ const StHashTagContainer = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   width: 100%;
+  min-height: 4rem;
   border: 1px solid #d9d9d9;
   border-radius: 5px;
   padding: 0.5rem;
 `;
 
 const StHashTagItem = styled.div`
-  width: min-content;
-  height: min-content;
+  width: max-content;
   padding: 0.25rem 0.75rem;
   border-radius: 5px;
   background: #e9e9e9;
@@ -97,6 +97,7 @@ const StHashTagItem = styled.div`
   }
 `;
 const StHashTagInput = styled.input`
+  
   flex-grow: 1;
   padding: 0.5rem 0.5rem;
   border: none;

@@ -108,6 +108,7 @@ const fullWidth = css`
     props.fullWidth &&
     css`
       width: 100%;
+      height: 4rem;
       align-items: center;
       justify-content: center;
     `}

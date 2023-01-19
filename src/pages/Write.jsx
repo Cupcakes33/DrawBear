@@ -85,6 +85,7 @@ const Write = () => {
 
     formData.get("title");
     formData.get("createdAt");
+    console.log(formData.get("radio"));
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
     formData.append("weather", "눈");
@@ -109,21 +110,17 @@ const Write = () => {
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
 
-          <StTitleSection flex justify="flex-start" derection="column">
-            <form
+          <StTextSection>
+            <StTextSectionFrom
               onSubmit={writeFormSubmitHandler}
               onKeyDown={formEnterKeyPrevent}
               encType="multipart/form-data"
             >
-              <div className="box dateInputBox">
+              <div className="dateInputBox">
                 <span>날짜</span>
                 <input type="date" name="createdAt" />
               </div>
-              <div className="box HashTagInputBox">
-                <span>태그</span>
-                <HashTagInput tags={tags} setTags={setTags} />
-              </div>
-              <div className="box titleInputBox">
+              <div className="textInputBox">
                 <span>제목</span>
                 <input
                   type="text"
@@ -131,17 +128,20 @@ const Write = () => {
                   placeholder="제목을 입력해주세요"
                 />
               </div>
-
-              <div className="box weatherPickerBox">
-                <span>날씨 :</span>
+              <div className="weatherPickerBox">
+                <span>오늘의 날씨는 ?</span>
                 <WeatherPicker />
               </div>
-
-              <button type="submit">일기 작성하기</button>
-            </form>
-          </StTitleSection>
+              <div className="tagInputBox">
+                <span>태그</span>
+                <HashTagInput tags={tags} setTags={setTags} />
+              </div>
+              <Button fullWidth color="button_primary" outlined>
+                일기장 제출하기
+              </Button>
+            </StTextSectionFrom>
+          </StTextSection>
         </StSlideWrapper>
-        
       </StContainer>
     </>
   );
@@ -153,15 +153,64 @@ const StCanvasSection = styled(StSection)`
   min-height: calc(100vh - 6rem);
 `;
 
-const StTitleSection = styled(StSection)`
+const StTextSection = styled(StSection)`
   min-height: calc(100vh - 6rem);
+`;
 
-  .box {
+const StTextSectionFrom = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+
+  .dateInputBox {
     width: 100%;
-    height: 6rem;
+    height: 4rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
+    gap: 2rem;
+    span {
+      font-size: ${({ theme }) => theme.font.base};
+      white-space: nowrap;
+    }
+    input {
+      width: 50%;
+      height: 100%;
+      border: 1px solid ${({ theme }) => theme.color.border_grayscale};
+      border-radius: 5px;
+    }
+  }
+
+  .textInputBox {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+    span {
+      font-size: ${({ theme }) => theme.font.base};
+      white-space: nowrap;
+    }
+    input {
+      width: 90%;
+      height: 100%;
+      border: 1px solid ${({ theme }) => theme.color.border_grayscale};
+      border-radius: 5px;
+      padding: 1rem;
+    }
+  }
+
+  .weatherPickerBox {
+    width: 100%;
+    span {
+      font-size: ${({ theme }) => theme.font.base};
+    }
+  }
+
+  .tagInputBox {
+    span {
+      font-size: ${({ theme }) => theme.font.base};
+    }
   }
 `;
 
@@ -178,5 +227,3 @@ const StSlideWrapper = styled.div`
       transform: translateX(-50%);
     `}
 `;
-
-
