@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 const Diary = ({ bgColor, onClick }) => {
   return (
     <DiaryIcon bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
-      <div />
+      <div className="diaryHolder" />
     </DiaryIcon>
   );
 };
@@ -17,7 +17,7 @@ const DiaryIcon = styled.div`
   cursor: pointer;
   background-color: ${(props) => props.bgcolor};
   border-radius: 6px;
-  div {
+  .diaryHolder {
     position: absolute;
     top: 50%;
     right: calc(50% - 11rem);

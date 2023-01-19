@@ -15,6 +15,7 @@ const Modal = ({
   right,
   translate = "-50%, -50%",
   isCloseBtn,
+  radius = "15px",
 }) => {
   const modalRef = useRef(null);
   const closeModalHander = () => {
@@ -43,6 +44,7 @@ const Modal = ({
           right={right}
           left={left}
           translate={translate}
+          radius={radius}
         >
           {isCloseBtn ? <AiOutlineClose className="close-icon" onClick={closeModalHander} /> : null}
           {children}
@@ -72,7 +74,7 @@ const StModalWrapper = styled.div`
   right: ${(props) => props.right};
   width: ${(props) => props.modalWidth};
   height: ${(props) => props.modalHeight};
-  border-radius: 15px;
+  border-radius: ${(props) => props.radius};
   background-color: white;
   overflow: hidden;
   transform: translate(${(props) => props.translate});

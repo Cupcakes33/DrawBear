@@ -1,11 +1,5 @@
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import "swiper/css";
-import "swiper/css/pagination";
-
-import "./styles.css";
-
 import { Pagination } from "swiper";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
@@ -14,10 +8,16 @@ import { mainApi } from "../../apis/axios";
 import { showModal } from "../../redux/modules/UISlice";
 import { useDispatch } from "react-redux";
 import Diary from "./Diary";
+import { FiMoreVertical } from "react-icons/fi";
+import "swiper/css";
+import "swiper/css/pagination";
+import "./styles.css";
+import DiarySetting from "../FullList/DiarySetting";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [diarySettingModal, setDiarySettingModal] = useState(false);
   const queryClient = useQueryClient();
   const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
     onError: (error) => {
@@ -59,7 +59,10 @@ const Diaries = ({ diaryData }) => {
           return (
             <SwiperSlide key={i}>
               <DiaryShowContainer>
-                <label>{data.diaryName}</label>
+                <div className="diaryTitle">
+                  <label>{data.diaryName}</label>
+                  <FiMoreVertical className="diaryMoreInfo" onClick={() => setDiarySettingModal(true)} />
+                </div>
                 <Diary
                   bgColor={data.outsideColor}
                   onClick={() => {
@@ -69,6 +72,9 @@ const Diaries = ({ diaryData }) => {
                   <button onClick={() => mutate(data.diaryId)}>북마크</button>
                 </Diary>
               </DiaryShowContainer>
+              {diarySettingModal && (
+                <DiarySetting onClose={setDiarySettingModal} id={data.diaryId} queryClient={queryClient} />
+              )}
             </SwiperSlide>
           );
         })}
@@ -79,13 +85,18 @@ const Diaries = ({ diaryData }) => {
 
 export default Diaries;
 
-const SwiperContainer = styled.section`
-  position: fixed;
-  top: 35%;
-  left: calc(50% - 7.5rem);
-`;
-
 const DiaryShowContainer = styled.div`
-  label {
+  .diaryTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.9rem;
+  }
+
+  .diaryMoreInfo {
+    color: white;
+    background-color: #454545;
+    border-radius: 50%;
+    margin-left: 0.7rem;
   }
 `;
