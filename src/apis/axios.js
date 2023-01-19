@@ -32,7 +32,6 @@ export const loginApi = {
 export const mypageApi = {
   read: async () => {
     const { data } = await instance.get("/api/userInfo");
-    console.log(data);
     return data;
   },
 };
