@@ -28,6 +28,7 @@ const DiaryList = () => {
 
   if (!isLoading) {
     data.forEach((item) => {
+      console.log(item.createdAt);
       const temp = item.createdAt.slice(0, 10);
       if (filtedPosts[temp]) {
         filtedPosts[temp].push(item);
@@ -67,6 +68,7 @@ const DiaryList = () => {
     );
   }, []);
 
+  if (!data) return <div>로딩중</div>;
   return (
     <>
       {isModal && <Calendar onClose={setIsModal} />}
@@ -78,11 +80,11 @@ const DiaryList = () => {
         </StHeader>
         <StSection>
           <Filter>최신순</Filter>
-          {Object.keys(filtedPosts).map((date,n) => {
+          {Object.keys(filtedPosts).map((date, n) => {
             return (
               <div key={`dateFilter${n}`}>
                 <h2>{date}</h2>
-                {filtedPosts[date].map((post,n) => {
+                {filtedPosts[date].map((post, n) => {
                   return <DiaryCard key={`postData${n}`} postData={post} />;
                 })}
               </div>
