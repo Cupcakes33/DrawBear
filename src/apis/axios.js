@@ -34,6 +34,15 @@ export const mypageApi = {
     const { data } = await instance.get("/api/userInfo");
     return data;
   },
+  update: async (formData) => {
+    const { data } = await instance.patch("/api/userInfo/profile", formData);
+    return data;
+  },
+  passwordRead: async () => {
+    const { data } = await instance.get("/api/userInfo/password");
+    console.log(data);
+    return data;
+  },
 };
 
 export const mainApi = {
