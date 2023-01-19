@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Add } from "../../UI/common";
 import CreateDiaryModal from "./CreateDiaryModal";
+import Diaries from "./Diaries";
 import diaries from "./Diaries";
 
 const DiaryList = ({ diaryData }) => {
@@ -9,7 +10,7 @@ const DiaryList = ({ diaryData }) => {
   return (
     <>
       <StContainer>
-        {diaries(diaryData)}
+        <Diaries diaryData={diaryData} />
         <Add
           page="main"
           onClick={() => {

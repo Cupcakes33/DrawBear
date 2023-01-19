@@ -62,7 +62,7 @@ const CreateDiary = () => {
             <TiPencil />
           </div>
           <input type="text" ref={diaryTitleInputRef} />
-          <Diary color={selectedColor} />
+          <Diary bgColor={selectedColor} />
         </CreateDiaryBox>
         <Footer>
           {color.map((color, i) => {
