@@ -10,7 +10,6 @@ import Modal from "../common/modal/Modal";
 const DiarySetting = ({ onClose, queryClient, diaryId }) => {
   const dispatch = useDispatch();
   const { isModal } = useSelector((state) => state.UISlice);
-  // const { diaryId } = useSelector((state) => state.UISlice);
   const navigate = useNavigate();
 
   const { data, mutate } = useMutation((id) => mainApi.delete(id), {
@@ -23,13 +22,8 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
     onSuccess: () => {
       queryClient.refetchQueries(["main"]);
       dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
-      // navigate("/");
     },
   });
-
-  // const test1 = queryClient.getQueryData(["diaryId"]);
-  // const test = parseInt(localStorage.getItem("diaryId"))
-  console.log(diaryId);
 
   return (
     <>

@@ -13,6 +13,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.css";
 import DiarySetting from "../FullList/DiarySetting";
+import { AiOutlineStar } from "react-icons/ai";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
@@ -48,12 +49,8 @@ const Diaries = ({ diaryData }) => {
   const diarySettingHandler = (diaryId) => {
     setDiarySettingModal(true);
     setdiaryId(diaryId);
-    // dispatch(showModal(diaryId));
-    // queryClient.setQueryData(["diaryId"], diaryId);
-    // localStorage.setItem("diaryId", diaryId);
   };
 
-  // console.log(diaryId);
   return (
     <>
       <Swiper
@@ -72,6 +69,9 @@ const Diaries = ({ diaryData }) => {
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{data.diaryName}</label>
+                  {/* <BookmarkSection>
+                    <AiOutlineStar onClick={() => mutate(data.diaryId)}>북마크</AiOutlineStar>
+                  </BookmarkSection> */}
                   <FiMoreVertical className="diaryMoreInfo" onClick={() => diarySettingHandler(data.diaryId)} />
                 </div>
                 <Diary
@@ -80,7 +80,6 @@ const Diaries = ({ diaryData }) => {
                     navigate(`/list/${data.diaryId}`);
                   }}
                 >
-                  <button onClick={() => mutate(data.diaryId)}>북마크</button>
                 </Diary>
               </DiaryShowContainer>
               {diarySettingModal && (
@@ -111,4 +110,9 @@ const DiaryShowContainer = styled.div`
     margin-left: 0.7rem;
     cursor: pointer;
   }
+`;
+
+const BookmarkSection = styled.button`
+  position: absolute;
+  
 `;
