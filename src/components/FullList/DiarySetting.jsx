@@ -1,15 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { mainApi } from "../../apis/axios";
 import { showModal } from "../../redux/modules/UISlice";
 import Alert from "../common/modal/Alert";
 import Modal from "../common/modal/Modal";
 
-const DiarySetting = ({ onClose, id, queryClient }) => {
+const DiarySetting = ({ onClose, queryClient, diaryId }) => {
   const dispatch = useDispatch();
   const { isModal } = useSelector((state) => state.UISlice);
+  // const { diaryId } = useSelector((state) => state.UISlice);
   const navigate = useNavigate();
 
   const { data, mutate } = useMutation((id) => mainApi.delete(id), {
@@ -26,15 +27,19 @@ const DiarySetting = ({ onClose, id, queryClient }) => {
     },
   });
 
+  // const test1 = queryClient.getQueryData(["diaryId"]);
+  // const test = parseInt(localStorage.getItem("diaryId"))
+  console.log(diaryId);
+
   return (
     <>
       <Modal onClose={onClose} modalWidth="36rem" top="94%" radius="0">
         <DiarySettingModal>
           <div>같이 쓰는 멤버 초대</div>
           <hr />
-          <div onClick={() => navigate(`/update/${id}`)}>다이어리 수정</div>
+          <div onClick={() => navigate(`/update/${diaryId}`)}>다이어리 수정</div>
           <hr />
-          <div onClick={() => mutate(id)}>다이어리 삭제</div>
+          <div onClick={() => mutate(diaryId)}>다이어리 삭제</div>
         </DiarySettingModal>
       </Modal>
       {isModal && <Alert />}

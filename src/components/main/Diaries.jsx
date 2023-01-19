@@ -18,7 +18,9 @@ const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [diarySettingModal, setDiarySettingModal] = useState(false);
+  const [diaryId, setdiaryId] = useState("");
   const queryClient = useQueryClient();
+
   const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
     onError: (error) => {
       const status = error?.response.request.status;
@@ -43,6 +45,15 @@ const Diaries = ({ diaryData }) => {
     },
   });
 
+  const diarySettingHandler = (diaryId) => {
+    setDiarySettingModal(true);
+    setdiaryId(diaryId);
+    // dispatch(showModal(diaryId));
+    // queryClient.setQueryData(["diaryId"], diaryId);
+    // localStorage.setItem("diaryId", diaryId);
+  };
+
+  // console.log(diaryId);
   return (
     <>
       <Swiper
@@ -61,7 +72,7 @@ const Diaries = ({ diaryData }) => {
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{data.diaryName}</label>
-                  <FiMoreVertical className="diaryMoreInfo" onClick={() => setDiarySettingModal(true)} />
+                  <FiMoreVertical className="diaryMoreInfo" onClick={() => diarySettingHandler(data.diaryId)} />
                 </div>
                 <Diary
                   bgColor={data.outsideColor}
@@ -73,7 +84,7 @@ const Diaries = ({ diaryData }) => {
                 </Diary>
               </DiaryShowContainer>
               {diarySettingModal && (
-                <DiarySetting onClose={setDiarySettingModal} id={data.diaryId} queryClient={queryClient} />
+                <DiarySetting onClose={setDiarySettingModal} diaryId={diaryId} queryClient={queryClient} />
               )}
             </SwiperSlide>
           );
@@ -98,5 +109,6 @@ const DiaryShowContainer = styled.div`
     background-color: #454545;
     border-radius: 50%;
     margin-left: 0.7rem;
+    cursor: pointer;
   }
 `;

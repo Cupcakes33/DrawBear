@@ -14,12 +14,11 @@ import Diary from "../components/main/Diary";
 
 const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
 const CreateDiary = () => {
+  const dispatch = useDispatch();
   const [selectedColor, setSelectedColor] = useState("");
   const { isModal } = useSelector((state) => state.UISlice);
-  const dispatch = useDispatch();
-
-  const diaryTitleInputRef = useRef();
   const { couple } = useSelector((state) => state.diarySlice);
+  const diaryTitleInputRef = useRef();
 
   const { mutate } = useMutation((addData) => mainApi.create(addData), {
     onError: (error) => {

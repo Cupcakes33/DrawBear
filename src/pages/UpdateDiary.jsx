@@ -5,21 +5,25 @@ import { useNavigate, useParams } from "react-router";
 import styled, { css } from "styled-components";
 import { mainApi } from "../apis/axios";
 import Alert from "../components/common/modal/Alert";
-import Back from "../components/header/Back";
-import HeaderText from "../components/header/HeaderText";
+import NavigateBtn from "../components/common/NavigateBtn";
+import Diary from "../components/main/Diary";
 import { showModal } from "../redux/modules/UISlice";
-import { StHeader } from "../UI/common";
+import { DisplayDiv, StHeader } from "../UI/common";
+import { TiPencil } from "react-icons/ti";
+import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
+import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
 
-const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
+const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
 const UpdateDiary = () => {
   const dispatch = useDispatch();
-  const [selectedColor, setSelectedColor] = useState("");
   const { couple } = useSelector((state) => state.diarySlice);
   const { isModal } = useSelector((state) => state.UISlice);
   const diaryTitleInputRef = useRef();
   const { id } = useParams();
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
+  const [selectedColor, setSelectedColor] = useState(updateDiaryData?.[0].outsideColor);
 
   const { mutate } = useMutation((updateData) => mainApi.update(updateData), {
     onError: (error) => {
@@ -33,9 +37,7 @@ const UpdateDiary = () => {
     },
   });
 
-  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
-
-  const onAddDiaryHandler = () => {
+  const onUpdateDiaryHandler = () => {
     const diaryName = diaryTitleInputRef.current.value;
     if (!diaryName) dispatch(showModal({ isModal: true, content: "다이어리 이름을 작성해주세요!" }));
     else if (!selectedColor) {
@@ -58,19 +60,26 @@ const UpdateDiary = () => {
         <h1>알 수 없는 에러! 3초 뒤 메인화면으로 이동합니다...</h1>
       ) : (
         <Container>
-          <StHeader flexBetween>
+          <StHeader flex justify="space-between">
+            <DisplayDiv flex>
+              <NavigateBtn prev sizeType="header" />
+              <h3>다이어리 수정</h3>
+            </DisplayDiv>
             <div>
-              <Back />
-              <HeaderText>다이어리 수정</HeaderText>
-            </div>
-            <div>
-              <HeaderBtn onClick={onAddDiaryHandler}>완성</HeaderBtn>
+              <span onClick={onUpdateDiaryHandler}>완성</span>
             </div>
           </StHeader>
-          <Section>
-            <input type="text" ref={diaryTitleInputRef} defaultValue={updateDiaryData[0].diaryName}></input>
-            <DiaryIcon>그림</DiaryIcon>
-          </Section>
+          <UpdateDiaryBox>
+            <UpdateLogoBear>
+              <img src={couple === 0 ? soloDiaryBear : coupleDiaryBear} alt="다이어리 생성 곰돌이 그림" />
+              <span>{couple === 0 ? "혼자써요 !" : "같이써요 !"}</span>
+            </UpdateLogoBear>
+            <div className="pencilIcon-box">
+              <TiPencil />
+            </div>
+            <input type="text" defaultValue={updateDiaryData[0].diaryName} ref={diaryTitleInputRef} />
+            <Diary bgColor={selectedColor} />
+          </UpdateDiaryBox>
           <Footer>
             {color.map((color, i) => {
               return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
@@ -93,22 +102,52 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Section = styled.section`
+const UpdateDiaryBox = styled.section`
   width: 100%;
-  height: calc(100% - 13.2rem);
+  height: calc(100% - 16.2rem);
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  h3 {
+  input {
     margin-bottom: 2rem;
+    width: 20.3rem;
+    height: 4.3rem;
+    background: #fafafa;
+    border-radius: 6px;
+    border: none;
+    padding: 0 3rem 0 1rem;
+  }
+  .pencilIcon-box {
+    position: absolute;
+    top: calc(50% - 18.25rem);
+    left: calc(50% + 7.5rem);
+  }
+`;
+
+const UpdateLogoBear = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10%;
+  left: calc(50% - 15rem);
+  cursor: pointer;
+  img {
+    width: 4.2rem;
+    height: 4.2rem;
+  }
+  span {
+    font-size: 1rem;
+    margin-top: 0.6rem;
   }
 `;
 
 const Footer = styled.footer`
   position: absolute;
-  bottom: 0;
+  bottom: 2%;
   left: 0;
   width: 100%;
   height: 7.2rem;
@@ -119,29 +158,17 @@ const Footer = styled.footer`
 `;
 
 const ColorPicker = styled.button`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   background-color: ${(props) => props.color};
   transition: all 0.3s;
-  &:hover {
+  :hover {
     transform: scale(1.1);
   }
-`;
-
-const DiaryIcon = styled.div`
-  width: 20rem;
-  height: 28rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background-color: #d9d9d9;
-`;
-
-const HeaderBtn = styled.button`
-  border: 0;
-  cursor: pointer;
+  :focus {
+    transform: scale(1.1);
+  }
 `;
