@@ -122,7 +122,7 @@ const round = css`
       width: min-content;
       height: min-content;
       padding: 1rem;
-      font-size: 2rem;
+      font-size: ${({ fs }) => (fs ? fs : "2rem")};
     `}
 `;
 

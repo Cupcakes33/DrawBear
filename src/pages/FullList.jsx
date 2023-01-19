@@ -8,12 +8,17 @@ import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
 import { StHeader, StSection } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
+import Button from "../components/common/Button";
+import { TiPencil } from "react-icons/ti";
+import { useParams } from "react-router-dom";
 
 const DiaryList = () => {
   const navigate = useNavigate();
+  // diaryId를 받아서 해당 일기를 보여주는 페이지로 이동
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
+  const diaryId = useParams().id;
 
   const defaultHeader = useCallback(() => {
     return (
@@ -62,13 +67,18 @@ const DiaryList = () => {
           <DiaryCard />
           <DiaryCard />
         </StSection>
-        <Add
-          onClick={() => {
-            navigate("/write");
-          }}
-        >
-          글쓰기
-        </Add>
+        <StNavigateWritePageBtnWrapper>
+          <Button
+            size="mini"
+            color="button_primary"
+            fs="4rem"
+            icon={<TiPencil />}
+            round
+            onClick={() => {
+              navigate(`/write/${diaryId}`);
+            }}
+          />
+        </StNavigateWritePageBtnWrapper>
       </CommonContainer>
     </>
   );
@@ -83,19 +93,10 @@ const Filter = styled.div`
   font-size: 1.3rem;
 `;
 
-const Add = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StNavigateWritePageBtnWrapper = styled.div`
   position: fixed;
   right: calc(50% - 15.5rem);
-  top: 90%;
-  width: 6.9rem;
-  height: 6.9rem;
-  background-color: #d9d9d9;
-  border: 0;
-  border-radius: 100%;
-  box-shadow: 0 1px 2px;
+  bottom: 3rem;
 `;
 
 const StInput = styled.input`

@@ -65,7 +65,7 @@ export default function Diaries(diaryData) {
               <Diary
                 bgColor={data.outsideColor}
                 onClick={() => {
-                  console.log(1);
+                  navigate(`/list/${data.diaryId}`);
                 }}
               >
                 <button onClick={() => mutate(data.diaryId)}>북마크</button>
