@@ -18,7 +18,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 
 const DiaryList = () => {
   const navigate = useNavigate();
-  const state = useLocation();
+  const { diaryName } = useLocation().state;
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
@@ -26,7 +26,6 @@ const DiaryList = () => {
   const { data, error, isError, isLoading } = useQuery(["posts"], () =>
     diaryApi.get(diaryId)
   );
-  console.log(state);
 
   let filtedPosts = {};
   if (!isLoading) {
@@ -53,7 +52,7 @@ const DiaryList = () => {
       <StDefaultHeaderContents>
         <div>
           <NavigateBtn prev />
-          <HeaderText>다이어리 제목</HeaderText>
+          <HeaderText>{diaryName}</HeaderText>
         </div>
         <div className="default-header-configBox">
           <BsSearch onClick={() => setChangeHeader(true)} />
@@ -136,14 +135,13 @@ const StNavigateWritePageBtnWrapper = styled.div`
 
 const StInput = styled.input`
   width: 20rem;
-  font-size: 1.7rem;
-  border: 0;
+  font-size: 1rem;
+  border: none;
+  border-radius: 15px;
   outline: none;
-  background-color: inherit;
-  padding: 1rem 0.3rem 1rem 0;
+  background-color: #f0f0f0;
+  padding: 1rem 2rem;
   :focus {
-    border: 0;
-    border-bottom: 1px solid black;
   }
 `;
 
@@ -180,9 +178,10 @@ const StSearchHeaderContents = styled.div`
   div {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     button {
       font-size: 1.5rem;
+      color: ${({ theme }) => theme.color.button_primary};
       border: 0;
       outline: none;
       background-color: inherit;

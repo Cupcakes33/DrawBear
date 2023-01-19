@@ -22,29 +22,34 @@ const Diaries = ({ diaryData }) => {
   const [diaryId, setdiaryId] = useState("");
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
-    onError: (error) => {
-      const status = error?.response.request.status;
-      if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
-      else if (status === 404)
-        dispatch(
-          showModal({
-            isModal: true,
-            content: "존재하지 않는 다이어리입니다.",
-          })
-        );
-      else if (status === 500)
-        dispatch(
-          showModal({
-            isModal: true,
-            content: "북마크 저장 및 삭제에 실패했습니다.",
-          })
-        );
-    },
-    onSuccess: () => {
-      queryClient.refetchQueries(["main"]);
-    },
-  });
+  const { mutate } = useMutation(
+    ["diary"],
+    (diaryId) => mainApi.bookmark(diaryId),
+    {
+      onError: (error) => {
+        const status = error?.response.request.status;
+        if (status === 401)
+          dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+        else if (status === 404)
+          dispatch(
+            showModal({
+              isModal: true,
+              content: "존재하지 않는 다이어리입니다.",
+            })
+          );
+        else if (status === 500)
+          dispatch(
+            showModal({
+              isModal: true,
+              content: "북마크 저장 및 삭제에 실패했습니다.",
+            })
+          );
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries(["main"]);
+      },
+    }
+  );
 
   const diarySettingHandler = (diaryId) => {
     setDiarySettingModal(true);
@@ -72,18 +77,26 @@ const Diaries = ({ diaryData }) => {
                   {/* <BookmarkSection>
                     <AiOutlineStar onClick={() => mutate(data.diaryId)}>북마크</AiOutlineStar>
                   </BookmarkSection> */}
-                  <FiMoreVertical className="diaryMoreInfo" onClick={() => diarySettingHandler(data.diaryId)} />
+                  <FiMoreVertical
+                    className="diaryMoreInfo"
+                    onClick={() => diarySettingHandler(data.diaryId)}
+                  />
                 </div>
                 <Diary
                   bgColor={data.outsideColor}
                   onClick={() => {
-                    navigate(`/list/${data.diaryId}`);
+                    navigate(`/list/${data.diaryId}`, {
+                      state: { diaryName: data.diaryName },
+                    });
                   }}
-                >
-                </Diary>
+                ></Diary>
               </DiaryShowContainer>
               {diarySettingModal && (
-                <DiarySetting onClose={setDiarySettingModal} diaryId={diaryId} queryClient={queryClient} />
+                <DiarySetting
+                  onClose={setDiarySettingModal}
+                  diaryId={diaryId}
+                  queryClient={queryClient}
+                />
               )}
             </SwiperSlide>
           );
@@ -114,5 +127,4 @@ const DiaryShowContainer = styled.div`
 
 const BookmarkSection = styled.button`
   position: absolute;
-  
 `;
