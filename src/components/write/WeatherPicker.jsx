@@ -2,21 +2,53 @@ import styled from "styled-components";
 import weathericon from "../../assets/images/weathericon.png";
 import weathericonMini from "../../assets/images/weathericonMini.png";
 
-const WeatherPicker = () => {
+const WeatherPicker = ({ weather, setWeather }) => {
+  const handleChange = (e) => {
+    setWeather(e.target.value);
+  };
   return (
     <StWeatherPickerContainer>
-      {/* <StWeatherIcon />
-      <StWeatherIcon weatherType="비" />
-      <StWeatherIcon weatherType="흐림" />
-      <StWeatherIcon weatherType="천둥" />
-      <StWeatherIcon weatherType="눈" />
-      <StWeatherIcon weatherType="안개" /> */}
-      <StWeatherIconMini />
-      <StWeatherIconMini weatherTypeMini="비" />
-      <StWeatherIconMini weatherTypeMini="흐림" />
-      <StWeatherIconMini weatherTypeMini="천둥" />
-      <StWeatherIconMini weatherTypeMini="눈" />
-      <StWeatherIconMini weatherTypeMini="안개" />
+      <label htmlFor="sun">
+        <input
+          type="radio"
+          id="sun"
+          name="radio"
+          value="맑음"
+          onChange={handleChange}
+          checked={!weather || weather === "맑음"}
+        />
+        <StWeatherIconMini />
+      </label>
+      <label htmlFor="cloud">
+        <input
+          type="radio"
+          id="cloud"
+          name="radio"
+          value="흐림"
+          onChange={handleChange}
+        />
+        <StWeatherIconMini weatherTypeMini="흐림" />
+      </label>
+      <label htmlFor="rain">
+        <input
+          type="radio"
+          id="rain"
+          name="radio"
+          value="비"
+          onChange={handleChange}
+        />
+        <StWeatherIconMini weatherTypeMini="비" />
+      </label>
+      <label htmlFor="snow">
+        <input
+          type="radio"
+          id="snow"
+          name="radio"
+          value="눈"
+          onChange={handleChange}
+        />
+        <StWeatherIconMini weatherTypeMini="눈" />
+      </label>
     </StWeatherPickerContainer>
   );
 };
@@ -24,22 +56,6 @@ const WeatherPicker = () => {
 export default WeatherPicker;
 
 // default === "맑음"
-const weatherTypes = (type) => {
-  switch (type) {
-    case "비":
-      return "-105px 0px";
-    case "흐림":
-      return "0px -95px";
-    case "천둥":
-      return "-105px -95px";
-    case "눈":
-      return "0px -190px";
-    case "안개":
-      return "-100px -182px";
-    default:
-      return "";
-  }
-};
 
 const weatherTypesMini = (type) => {
   switch (type) {
@@ -60,20 +76,27 @@ const weatherTypesMini = (type) => {
 
 const StWeatherPickerContainer = styled.div`
   width: 100%;
-  
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 10px;
-`;
-const StWeatherIcon = styled.span`
-  width: 83px;
-  height: 80px;
-  background-image: url(${weathericon});
-  background-repeat: no-repeat;
-  background-position: ${({ weatherType }) => weatherTypes(weatherType)};
+
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  input[type="radio"] {
+    display: none;
+  }
+
+  input:checked + span {
+    transform: scale(1.2);
+  }
 `;
 
 const StWeatherIconMini = styled.span`
@@ -81,6 +104,8 @@ const StWeatherIconMini = styled.span`
   height: 40px;
   border: 2px solid #e9e9e9;
   border-radius: 50%;
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
   background-image: url(${weathericonMini});
   background-repeat: no-repeat;
   background-position: ${({ weatherTypeMini }) =>
