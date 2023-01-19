@@ -32,6 +32,14 @@ export const loginApi = {
 export const mypageApi = {
   read: async () => {
     const { data } = await instance.get("/api/userInfo");
+    return data;
+  },
+  update: async (formData) => {
+    const { data } = await instance.patch("/api/userInfo/profile", formData);
+    return data;
+  },
+  passwordRead: async () => {
+    const { data } = await instance.get("/api/userInfo/password");
     console.log(data);
     return data;
   },
@@ -73,6 +81,12 @@ export const diaryApi = {
   post: async ({ formData, diaryId }) => {
     await instance.post(`api/post/${diaryId}`, formData);
   },
+
+  get: async (diaryId) => {
+    const { data } = await instance.get(`/api/post/${diaryId}`);
+    return data.posts;
+  },
+
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
       `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`

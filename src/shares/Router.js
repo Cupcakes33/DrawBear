@@ -29,7 +29,10 @@ const Router = () => {
         <Route path="/update">
           <Route path=":id" element={<UpdateDiary />} />
         </Route>
-        <Route path="/write" element={<Write />} />
+        <Route path="/write">
+          <Route path=":id" element={<Write />} />
+        </Route>
+
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/list">

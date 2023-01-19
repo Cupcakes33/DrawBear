@@ -1,75 +1,120 @@
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
 import DiarySetting from "../components/FullList/DiarySetting";
-import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StSection } from "../UI/common";
-import CommonContainer from "../UI/CommonContainer";
+import { StContainer, StHeader, StSection } from "../UI/common";
+import Button from "../components/common/Button";
+import { TiPencil } from "react-icons/ti";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { diaryApi } from "../apis/axios";
+import NavigateBtn from "../components/common/NavigateBtn";
+import { BsSearch } from "react-icons/bs";
+import { AiOutlineSetting } from "react-icons/ai";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 const DiaryList = () => {
   const navigate = useNavigate();
+  const state = useLocation();
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
+  const diaryId = useParams().id;
+  const { data, error, isError, isLoading } = useQuery(["posts"], () =>
+    diaryApi.get(diaryId)
+  );
+  console.log(state);
+
+  let filtedPosts = {};
+  if (!isLoading) {
+    data.forEach((item) => {
+      const temp = item.createdAt.slice(0, 10);
+      if (filtedPosts[temp]) {
+        filtedPosts[temp].push(item);
+      } else {
+        filtedPosts[temp] = [item];
+      }
+    });
+  }
+
+  const locailDate = (date) => {
+    return new Date(date).toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   const defaultHeader = useCallback(() => {
     return (
-      <>
+      <StDefaultHeaderContents>
         <div>
-          <Back />
+          <NavigateBtn prev />
           <HeaderText>다이어리 제목</HeaderText>
         </div>
-        <div>
-          <button onClick={() => setChangeHeader(true)}>검색</button>
-          <button onClick={() => setIsSettingModal(true)}>설정</button>
+        <div className="default-header-configBox">
+          <BsSearch onClick={() => setChangeHeader(true)} />
+          <AiOutlineSetting onClick={() => setIsSettingModal(true)} />
         </div>
-      </>
+      </StDefaultHeaderContents>
     );
   }, []);
 
   const SearchHeader = useCallback(() => {
     return (
-      <>
+      <StSearchHeaderContents>
         <div>
-          <button>검색</button>
           <StInput placeholder="일기 검색..." />
         </div>
         <div>
-          <button onClick={() => setIsModal(true)}>달력</button>
+          <BsSearch />
+          <FaRegCalendarAlt onClick={() => setIsModal(true)} />
           <button onClick={() => setChangeHeader(false)}>취소</button>
         </div>
-      </>
+      </StSearchHeaderContents>
     );
   }, []);
 
+  if (!data) return <div>로딩중</div>;
   return (
     <>
       {isModal && <Calendar onClose={setIsModal} />}
       {isSettingModal && <DiarySetting onClose={setIsSettingModal} />}
-      <CommonContainer>
-        <StHeader flexBetween>
+      <StContainer>
+        <StHeader>
           {!changeHeader && defaultHeader()}
           {changeHeader && SearchHeader()}
         </StHeader>
         <StSection>
           <Filter>최신순</Filter>
-          <DiaryCard />
-          <DiaryCard />
-          <DiaryCard />
-          <DiaryCard />
-          <DiaryCard />
+          {Object.keys(filtedPosts).map((date, n) => {
+            return (
+              <div key={`dateFilter${n}`}>
+                <h2>{locailDate(date)}</h2>
+                {filtedPosts[date].map((post, n) => {
+                  return <DiaryCard key={`postData${n}`} postData={post} />;
+                })}
+                <StDivisionLine />
+              </div>
+            );
+          })}
         </StSection>
-        <Add
-          onClick={() => {
-            navigate("/write");
-          }}
-        >
-          글쓰기
-        </Add>
-      </CommonContainer>
+        <StNavigateWritePageBtnWrapper>
+          <Button
+            size="mini"
+            color="button_primary"
+            fs="4rem"
+            icon={<TiPencil />}
+            round
+            onClick={() => {
+              navigate(`/write/${diaryId}`);
+            }}
+          />
+        </StNavigateWritePageBtnWrapper>
+      </StContainer>
     </>
   );
 };
@@ -83,19 +128,10 @@ const Filter = styled.div`
   font-size: 1.3rem;
 `;
 
-const Add = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StNavigateWritePageBtnWrapper = styled.div`
   position: fixed;
   right: calc(50% - 15.5rem);
-  top: 90%;
-  width: 6.9rem;
-  height: 6.9rem;
-  background-color: #d9d9d9;
-  border: 0;
-  border-radius: 100%;
-  box-shadow: 0 1px 2px;
+  bottom: 3rem;
 `;
 
 const StInput = styled.input`
@@ -108,5 +144,49 @@ const StInput = styled.input`
   :focus {
     border: 0;
     border-bottom: 1px solid black;
+  }
+`;
+
+const StDivisionLine = styled.div`
+  width: 100%;
+  height: 0.5rem;
+  background-color: #e5e5e5;
+  margin: 2rem 0;
+`;
+
+const StDefaultHeaderContents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  div {
+    display: flex;
+    align-items: center;
+  }
+  .default-header-configBox {
+    gap: 1.5rem;
+    svg {
+      font-size: 2rem;
+      cursor: pointer;
+    }
+  }
+`;
+
+const StSearchHeaderContents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    button {
+      font-size: 1.5rem;
+      border: 0;
+      outline: none;
+      background-color: inherit;
+      cursor: pointer;
+    }
   }
 `;

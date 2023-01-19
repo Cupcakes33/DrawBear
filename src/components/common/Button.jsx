@@ -122,7 +122,6 @@ const round = css`
       width: min-content;
       height: min-content;
       padding: 1rem;
-      font-size: 2rem;
     `}
 `;
 
@@ -139,6 +138,8 @@ const StButton = styled.button`
   ${colorStyle}
   ${fullWidth}
   ${round}
+  color: ${(props) => props.fontColor};
+  font-size: ${(props) => props.fs};
 `;
 
 const StButtonInner = styled.div`

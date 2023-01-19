@@ -13,7 +13,7 @@ import WeatherPicker from "../components/write/WeatherPicker";
 import { showModal } from "../redux/modules/UISlice";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "../components/common/modal/Alert";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Button from "../components/common/Button";
 
@@ -27,10 +27,18 @@ const Write = () => {
   const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const diaryId = useParams().id;
 
   const { mutate } = useMutation(diaryApi.post, {
     onSuccess: () => {
-      // navigate("/list/");
+      dispatch(
+        showModal({
+          isModal: true,
+          content: "다이어리가 작성되었습니다.",
+          move: `/list/${diaryId}`,
+        })
+      );
+      // navigate(`/list/${diaryId}`);
     },
     onError: (error) => {
       const status = error?.response.request.status;
@@ -62,7 +70,10 @@ const Write = () => {
     if (!canvas) return;
     const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
     const splitDataUrl = canvasUrl.split(",");
-    const byteString = splitDataUrl[0].indexOf("base64") >= 0 ? atob(splitDataUrl[1]) : decodeURI(splitDataUrl[1]);
+    const byteString =
+      splitDataUrl[0].indexOf("base64") >= 0
+        ? atob(splitDataUrl[1])
+        : decodeURI(splitDataUrl[1]);
     const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
     const ia = new Uint8Array(byteString.length);
     for (let i = 0; i < byteString.length; i++) {
@@ -88,7 +99,7 @@ const Write = () => {
     formData.append("content", contents);
     formData.append("weather", weather || "sunny");
     formData.append("tag", tags);
-    mutate({ formData: formData, diaryId: 10 }, {});
+    mutate({ formData: formData, diaryId: diaryId }, {});
   };
 
   return (
