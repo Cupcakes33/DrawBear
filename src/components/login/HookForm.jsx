@@ -61,7 +61,9 @@ const HookForm = () => {
             aria-invalid={errors?.password ? "true" : "false"}
           />
         </div>
-        <StBtn>로그인</StBtn>
+        <div>
+          <StBtn>로그인</StBtn>
+        </div>
       </StForm>
       {isModal && <Alert />}
     </>
@@ -74,7 +76,7 @@ export default HookForm;
 
 const StForm = styled.form`
   div {
-    margin-top: 20%;
+    padding-top: 20%;
   }
   input {
     border: none;
@@ -103,7 +105,6 @@ const StBtn = styled.button.attrs((props) => ({
 }))`
   width: 27rem;
   height: 4.5rem;
-  margin: 10% 0px;
   color: white;
   background-color: #3cc7a6;
   border: none;
