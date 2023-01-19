@@ -39,6 +39,10 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/profile", formData);
     return data;
   },
+  delete: () => {
+    const { data } = instance.delete("/api/userInfo/unregister");
+    return data;
+  },
 };
 export const passwordApi = {
   update: async (formData) => {
