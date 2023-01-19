@@ -3,6 +3,7 @@ import axios from "axios";
 export const instance = axios.create({
   // baseURL: process.env.REACT_APP_MY_API,
   baseURL: "https://mylee.site",
+  // withCredentials: true, // 로그인 후 로그인이 풀리는 문제를 해결하기 위함
 });
 
 instance.interceptors.request.use((config) => {
@@ -38,8 +39,10 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/profile", formData);
     return data;
   },
-  passwordRead: async () => {
-    const { data } = await instance.get("/api/userInfo/password");
+};
+export const passwordApi = {
+  update: async (formData) => {
+    const { data } = await instance.patch("/api/userInfo/password", formData);
     console.log(data);
     return data;
   },
