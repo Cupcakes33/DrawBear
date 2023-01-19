@@ -42,10 +42,6 @@ const CreateDiaryModal = ({ onClose }) => {
 
 export default CreateDiaryModal;
 
-const CloseButton = styled.button`
-  /* float: right; */
-`;
-
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -60,6 +56,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   img {
     width: 6.5rem;
     height: 7.3rem;
