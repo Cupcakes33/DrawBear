@@ -1,16 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { mainApi } from "../../apis/axios";
 import { showModal } from "../../redux/modules/UISlice";
 import Alert from "../common/modal/Alert";
 import Modal from "../common/modal/Modal";
 
-const DiarySetting = ({ onClose }) => {
+const DiarySetting = ({ onClose, queryClient, diaryId }) => {
   const dispatch = useDispatch();
   const { isModal } = useSelector((state) => state.UISlice);
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const { data, mutate } = useMutation((id) => mainApi.delete(id), {
@@ -21,18 +20,20 @@ const DiarySetting = ({ onClose }) => {
       else if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 삭제에 실패하였습니다." }));
     },
     onSuccess: () => {
-      // dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
-      navigate("/");
+      queryClient.refetchQueries(["main"]);
+      dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
     },
   });
 
   return (
     <>
-      <Modal onClose={onClose} modalWidth="36rem" top="94%">
+      <Modal onClose={onClose} modalWidth="36rem" top="94%" radius="0">
         <DiarySettingModal>
           <div>같이 쓰는 멤버 초대</div>
-          <div onClick={() => navigate(`/update/${id}`)}>다이어리 수정</div>
-          <div onClick={() => mutate(id)}>다이어리 삭제</div>
+          <hr />
+          <div onClick={() => navigate(`/update/${diaryId}`)}>다이어리 수정</div>
+          <hr />
+          <div onClick={() => mutate(diaryId)}>다이어리 삭제</div>
         </DiarySettingModal>
       </Modal>
       {isModal && <Alert />}
@@ -44,7 +45,7 @@ export default DiarySetting;
 
 const DiarySettingModal = styled.section`
   width: 100%;
-  background-color: #d9d9d9;
+  background-color: white;
   div {
     width: 100%;
     height: 5rem;
@@ -53,5 +54,10 @@ const DiarySettingModal = styled.section`
     justify-content: center;
     font-weight: 700;
     cursor: pointer;
+  }
+  hr {
+    border: none;
+    height: 1px;
+    background-color: #f0f0f0;
   }
 `;

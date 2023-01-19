@@ -1,14 +1,13 @@
 .swiper {
   width: 30rem;
-  height: 65vh;
-  padding-top: 50%;
+  height: 60vh;
+  padding-top: 40%;
 }
 
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  color: whitesmoke;
-  background: #fff;
+  background: transparent;
 
   /* Center slide text vertically */
   display: -webkit-box;

@@ -4,19 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { mainApi } from "../apis/axios";
 import Alert from "../components/common/modal/Alert";
-import Back from "../components/header/Back";
-import HeaderText from "../components/header/HeaderText";
+import NavigateBtn from "../components/common/NavigateBtn";
 import { showModal } from "../redux/modules/UISlice";
-import { StHeader } from "../UI/common";
+import { DisplayDiv, StHeader } from "../UI/common";
+import { TiPencil } from "react-icons/ti";
+import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
+import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
+import Diary from "../components/main/Diary";
 
-const color = ["#E76020", "#ee892f", "#e0bb76", "#63896a", "#325434", "#0f0f0d"];
+const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
 const CreateDiary = () => {
+  const dispatch = useDispatch();
   const [selectedColor, setSelectedColor] = useState("");
   const { isModal } = useSelector((state) => state.UISlice);
-  const dispatch = useDispatch();
-
-  const diaryTitleInputRef = useRef();
   const { couple } = useSelector((state) => state.diarySlice);
+  const diaryTitleInputRef = useRef();
 
   const { mutate } = useMutation((addData) => mainApi.create(addData), {
     onError: (error) => {
@@ -41,19 +43,26 @@ const CreateDiary = () => {
   return (
     <>
       <Container>
-        <StHeader flexBetween>
+        <StHeader flex justify="space-between">
+          <DisplayDiv flex>
+            <NavigateBtn prev sizeType="header" />
+            <h3>다이어리 생성</h3>
+          </DisplayDiv>
           <div>
-            <Back />
-            <HeaderText>다이어리 생성</HeaderText>
-          </div>
-          <div>
-            <HeaderBtn onClick={onAddDiaryHandler}>완성</HeaderBtn>
+            <span onClick={onAddDiaryHandler}>완성</span>
           </div>
         </StHeader>
-        <Section>
-          <input type="text" ref={diaryTitleInputRef}></input>
-          <DiaryIcon>그림</DiaryIcon>
-        </Section>
+        <CreateDiaryBox>
+          <CreateLogoBear>
+            <img src={couple === 0 ? soloDiaryBear : coupleDiaryBear} alt="다이어리 생성 곰돌이 그림" />
+            <span>{couple === 0 ? "혼자써요 !" : "같이써요 !"}</span>
+          </CreateLogoBear>
+          <div className="pencilIcon-box">
+            <TiPencil />
+          </div>
+          <input type="text" ref={diaryTitleInputRef} />
+          <Diary bgColor={selectedColor} />
+        </CreateDiaryBox>
         <Footer>
           {color.map((color, i) => {
             return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
@@ -75,22 +84,52 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Section = styled.section`
+const CreateDiaryBox = styled.section`
   width: 100%;
-  height: calc(100% - 13.2rem);
+  height: calc(100% - 16.2rem);
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  h3 {
+  input {
     margin-bottom: 2rem;
+    width: 20.3rem;
+    height: 4.3rem;
+    background: #fafafa;
+    border-radius: 6px;
+    border: none;
+    padding: 0 3rem 0 1rem;
+  }
+  .pencilIcon-box {
+    position: absolute;
+    top: calc(50% - 18.25rem);
+    left: calc(50% + 7.5rem);
+  }
+`;
+
+const CreateLogoBear = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10%;
+  left: calc(50% - 15rem);
+  cursor: pointer;
+  img {
+    width: 4.2rem;
+    height: 4.2rem;
+  }
+  span {
+    font-size: 1rem;
+    margin-top: 0.6rem;
   }
 `;
 
 const Footer = styled.footer`
   position: absolute;
-  bottom: 0;
+  bottom: 2%;
   left: 0;
   width: 100%;
   height: 7.2rem;
@@ -101,29 +140,17 @@ const Footer = styled.footer`
 `;
 
 const ColorPicker = styled.button`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   background-color: ${(props) => props.color};
   transition: all 0.3s;
-  &:hover {
+  :hover {
     transform: scale(1.1);
   }
-`;
-
-const DiaryIcon = styled.div`
-  width: 20rem;
-  height: 28rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background-color: #d9d9d9;
-`;
-
-const HeaderBtn = styled.button`
-  border: 0;
-  cursor: pointer;
+  :focus {
+    transform: scale(1.1);
+  }
 `;
