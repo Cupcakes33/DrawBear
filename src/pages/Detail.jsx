@@ -1,18 +1,22 @@
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
-import Back from "../components/header/Back";
+
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StWrapper, StContainer, StSection } from "../UI/common";
-import CommonContainer from "../UI/CommonContainer";
-import { useQuery } from "@tanstack/react-query";
-import { postsApi } from "../apis/axios";
+import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
+
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { commentsApi, postsApi } from "../apis/axios";
 import { useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
+import Button from "../components/common/Button";
 import { StWeatherIconMini } from "../components/write/WeatherPicker";
+import { BsBookmark } from "react-icons/bs";
+import { AiOutlineArrowUp } from "react-icons/ai";
 
 const Detail = () => {
   const diaryId = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
+  const queryClient = useQueryClient();
 
   const {
     data = {},
@@ -21,7 +25,15 @@ const Detail = () => {
     isLoading,
   } = useQuery(["posts"], () => postsApi.get(diaryId));
 
+  const { mutate: postMutate } = useMutation({
+    mutationFn: (comments) => commentsApi.post(comments),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   const {
+    postId,
     title,
     createdAt,
     content,
@@ -30,16 +42,23 @@ const Detail = () => {
     weather,
     profileImg,
     nickname,
+    commentsCount,
+    comments,
   } = data;
 
-  console.log(data);
-  // const { title } = data;
+  const commentsSubmitHandler = (event) => {
+    event.preventDefault();
+    let comment = new FormData(event.target).get("comments");
+    postMutate({ comment, postId });
+  };
 
   const locailDate = (date) => {
     if (!date) return;
     const temp = date.slice(0, 10);
     return new Date(temp).toLocaleDateString("ko-KR");
   };
+  if (isLoading) return <div>isLoading...</div>;
+  if (isError) return console.error(error);
   return (
     <StContainer>
       <StHeader>
@@ -69,28 +88,44 @@ const Detail = () => {
             <span>{nickname}</span>
           </div>
         </div>
-        <ContentsBox>
-          <div className="img-box">
-            <img src={image} alt="그림" />
-          </div>
-          {/* {posts?.content ? <pre>{posts?.content}</pre> : null} */}
-        </ContentsBox>
+        <div className="detailPageImageWrapper">
+          <img src={image} alt="그림" />
+        </div>
+        <div className="detailPageContentWrapper">
+          <div dangerouslySetInnerHTML={{ __html: content }} />
+        </div>
 
-        <Buttonbox>
-          <button>수정</button>
-          <button>삭제</button>
-        </Buttonbox>
+        <div className="detailPageButtonWrapper">
+          <Button icon={<BsBookmark />} fs="2rem">
+            목록
+          </Button>
+          <Button size="small" fs="2rem">
+            목록
+          </Button>
+          <Button size="small" fs="2rem">
+            수정
+          </Button>
+          <Button size="small" fs="2rem" fontColor="#FF7070">
+            삭제
+          </Button>
+        </div>
         <CommentBox>
-          <h3>코멘트 1</h3>
-          <Comment />
-          <Comment />
-          <Comment />
-          <div className="input-box">
-            <input placeholder="댓글 작성하기" />
-            <button>등록</button>
-          </div>
+          <h3>댓글 {commentsCount}</h3>
+
+          <Comment comments={comments} />
         </CommentBox>
       </StDetailPageSection>
+      <DetailPageFooter>
+        <form onSubmit={commentsSubmitHandler}>
+          <input name="comments" placeholder="댓글 작성하기" />
+          <Button
+            size="mini"
+            color="button_icon"
+            icon={<AiOutlineArrowUp />}
+            round
+          />
+        </form>
+      </DetailPageFooter>
     </StContainer>
   );
 };
@@ -156,7 +191,6 @@ const StDetailPageSection = styled(StSection)`
       flex-direction: row;
       align-items: center;
       gap: 0.5rem;
-
       img {
         width: 2.4rem;
         height: 2.4rem;
@@ -165,45 +199,55 @@ const StDetailPageSection = styled(StSection)`
       }
     }
   }
-`;
 
-const ContentsBox = styled.div`
-  .img-box {
-    display: flex;
+  .detailPageImageWrapper {
     width: 100%;
     height: 30.7rem;
-    background-color: #d9d9d9;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.7rem;
+    border: 3px solid #ebebeb;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
-  pre {
-    width: 100%;
-    white-space: pre-wrap;
-    background-color: #d9d9d9;
-    padding: 1rem;
+
+  .detailPageButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    button {
+      font-family: ZigleTTF;
+    }
   }
 `;
 
-const Buttonbox = styled.div`
-  display: flex;
-  justify-content: end;
-  gap: 0.3rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+const DetailPageFooter = styled(StFooter)`
+  height: 7rem;
+  border-top: 1px solid #e8e8e8;
+  background: #ffffff;
+  padding: 0 1.5rem;
+  form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 3.6rem;
+    gap: 1rem;
+    input {
+      flex-grow: 1;
+      height: 3.7rem;
+      padding: 1rem;
+      border: 1px solid #e8e8e8;
+      border-radius: 33px;
+      background-color: #f8f8f8;
+    }
+  }
 `;
 
 const CommentBox = styled.div`
-  .input-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    input {
-      width: 85%;
-      height: 3.4rem;
-      ::placeholder {
-        padding-left: 1rem;
-      }
-    }
-  }
+  width: 100%;
+  height: 30rem;
+  overflow-y: scroll;
+  margin-bottom: 5rem;
 `;

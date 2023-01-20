@@ -101,3 +101,17 @@ export const postsApi = {
     return data.posts;
   },
 };
+
+export const commentsApi = {
+  post: async ({ comment, postId }) => {
+    await instance.post(`/api/comment/${postId}`, { comment: comment });
+  },
+
+  patch: async ({ comment, commentId }) => {
+    await instance.patch(`/api/comment/${commentId}`, comment);
+  },
+
+  delete: async (commentId) => {
+    await instance.delete(`/api/comment/${commentId}`);
+  },
+};
