@@ -21,31 +21,7 @@ const MyPassword = () => {
   });
 
   const onSubmit = (inputData) => {
-    console.log("inputData: ", inputData);
-    const formData = new FormData();
-    console.log(inputData.currentPW);
-    console.log(inputData.password);
-    formData.append("currentPassword", inputData.currentPW);
-    formData.append("changePassword", inputData.password);
-    formData.append("confirmPassword", inputData.passwordCheck);
-    mutate(formData);
-
-    // const update_result = axios
-    //   .post(
-    //     "https://mylee.site/api/userInfo/password",
-    //     {
-    //       currentPassword: inputData.currentPW,
-    //       changePassword: inputData.password,
-    //       confirmPassword: inputData.passwordCheck,
-    //     },
-    //     { withCredentials: true }
-    //   )
-    //   .then((res) => {
-    //     console.log("결과: ", res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    mutate(inputData);
   };
 
   return (
