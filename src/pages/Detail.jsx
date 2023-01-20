@@ -2,12 +2,13 @@ import styled from "styled-components";
 import Comment from "../components/detail/Comment";
 import Back from "../components/header/Back";
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StWrapper, StContainer } from "../UI/common";
+import { StHeader, StWrapper, StContainer, StSection } from "../UI/common";
 import CommonContainer from "../UI/CommonContainer";
 import { useQuery } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 import { useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
+import { StWeatherIconMini } from "../components/write/WeatherPicker";
 
 const Detail = () => {
   const diaryId = useParams().id;
@@ -20,46 +21,61 @@ const Detail = () => {
     isLoading,
   } = useQuery(["posts"], () => postsApi.get(diaryId));
 
-  const { title, createdAt, content, image,  } = data;
+  const {
+    title,
+    createdAt,
+    content,
+    image,
+    tag,
+    weather,
+    profileImg,
+    nickname,
+  } = data;
 
   console.log(data);
   // const { title } = data;
 
   const locailDate = (date) => {
     if (!date) return;
-    const temp = date.createdAt.slice(0, 10);
-    return new Date(temp).toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    const temp = date.slice(0, 10);
+    return new Date(temp).toLocaleDateString("ko-KR");
   };
-
-  if (isLoading) return <div>로딩중</div>;
-  if (isError) return <div>{error.message}</div>;
-
   return (
     <StContainer>
       <StHeader>
         <NavigateBtn prev />
         <HeaderText>{diaryName}</HeaderText>
       </StHeader>
-      <StWrapper>
-        <InfoBox>
-          {/* <h5>{title}</h5> */}
-          {/* <h3>{locailDate(createdAt)}</h3> */}
-          <div className="tag-box">
-            {/* {posts?.tags.map((v, i) => (
-              <Tag key={i}>#{v.tag}</Tag>
-            ))} */}
+
+      <StDetailPageSection>
+        <div className="detailPageTitleInfoWrapper">
+          <div className="TitleInfoBox">
+            <div>
+              <p>{diaryName}</p>
+              <span>{locailDate(createdAt)}</span>
+            </div>
+            <h3>{title}</h3>
           </div>
-        </InfoBox>
+          <StWeatherIconMini weatherTypeMini={weather} />
+        </div>
+        <div className="detailPageProfileInfoWrapper">
+          <div className="tagBox">
+            {tag?.split(",").map((tag) => {
+              return <span>{tag}</span>;
+            })}
+          </div>
+          <div className="profileBox">
+            <img src={profileImg} alt="프로필" />
+            <span>{nickname}</span>
+          </div>
+        </div>
         <ContentsBox>
           <div className="img-box">
-            <img src="" alt="그림" />
+            <img src={image} alt="그림" />
           </div>
           {/* {posts?.content ? <pre>{posts?.content}</pre> : null} */}
         </ContentsBox>
+
         <Buttonbox>
           <button>수정</button>
           <button>삭제</button>
@@ -74,26 +90,81 @@ const Detail = () => {
             <button>등록</button>
           </div>
         </CommentBox>
-      </StWrapper>
+      </StDetailPageSection>
     </StContainer>
   );
 };
 
 export default Detail;
 
-const InfoBox = styled.div`
-  .tag-box {
-    margin-top: 1rem;
-  }
-`;
+const StDetailPageSection = styled(StSection)`
+  font-family: ZigleTTF;
 
-const Tag = styled.div`
-  display: inline-block;
-  border: 1px solid black;
-  border-radius: 20px;
-  padding: 0.4rem;
-  margin-right: 0.5rem;
-  margin-bottom: 1rem;
+  .detailPageTitleInfoWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .TitleInfoBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      p {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+      span {
+        font-size: 1rem;
+        color: #a9a9a9;
+      }
+    }
+    h3 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+  }
+  .detailPageProfileInfoWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    .tagBox {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.5rem;
+
+      span {
+        font-size: 1.5rem;
+        background-color: #f5f5f5;
+        padding: 0.6rem 1.3rem;
+        border-radius: 1.5rem;
+      }
+    }
+
+    .profileBox {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+
+      img {
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
 `;
 
 const ContentsBox = styled.div`
