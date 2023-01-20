@@ -44,15 +44,18 @@ const Router = () => {
           <Route path="/detail">
             <Route path=":id" element={<Detail />} />
           </Route>
-          <Route path="/buttonpreview" element={<ButtonPreview />} />
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/setting/diaryManage" element={<DiaryManage />} />
-          <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
-          <Route path="/setting/infoEdit" element={<InfoEdit />} />
-          <Route path="/setting/password" element={<MyPassword />} />
-          <Route path="/setting/delete" element={<AccoutDelete />} />
-          <Route path="/setting/alarm" element={<Alarm />} />
         </Route>
+        <Route path="/invite" element={<Invite />} />
+        <Route path="/detail" element={<Detail />} />
+        <Route path="/buttonpreview" element={<ButtonPreview />} />
+        <Route path="/setting" element={<Setting />} />
+        <Route path="/setting/diaryManage" element={<DiaryManage />} />
+        <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
+        <Route path="/setting/infoEdit/" element={<InfoEdit />} />
+        <Route path="/setting/infoEdit/password" element={<MyPassword />} />
+        <Route path="/setting/delete" element={<AccoutDelete />} />
+        <Route path="/setting/alarm" element={<Alarm />} />
+
       </Routes>
     </BrowserRouter>
   );

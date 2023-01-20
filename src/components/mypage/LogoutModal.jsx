@@ -1,14 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../common/modal/Modal";
 
 const LogoutModal = ({ onClose }) => {
+  const navigate = useNavigate();
   return (
     <Modal modalHeight="15rem" onClose={onClose}>
       <StWrapper>
         <h4>로그아웃 하시겠어요 ?</h4>
         <div>
-          <button>네</button>
-          <button>아니요</button>
+          <button onClick={() => navigate("/login")}>네</button>
+          <button onClick={() => onClose(false)}>아니요</button>
         </div>
       </StWrapper>
     </Modal>

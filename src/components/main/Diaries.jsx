@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import styled from "styled-components";
@@ -12,14 +12,13 @@ import { FiMoreVertical } from "react-icons/fi";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.css";
-import DiarySetting from "../FullList/DiarySetting";
 import { AiOutlineStar } from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
+import { diaryModal } from "../../redux/modules/diarySlice";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [diarySettingModal, setDiarySettingModal] = useState(false);
-  const [diaryId, setdiaryId] = useState("");
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -52,8 +51,7 @@ const Diaries = ({ diaryData }) => {
   );
 
   const diarySettingHandler = (diaryId) => {
-    setDiarySettingModal(true);
-    setdiaryId(diaryId);
+    dispatch(diaryModal({ diaryId: diaryId, isModal: true }));
   };
 
   return (
@@ -74,13 +72,15 @@ const Diaries = ({ diaryData }) => {
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{data.diaryName}</label>
-                  {/* <BookmarkSection>
-                    <AiOutlineStar onClick={() => mutate(data.diaryId)}>북마크</AiOutlineStar>
-                  </BookmarkSection> */}
-                  <FiMoreVertical
-                    className="diaryMoreInfo"
-                    onClick={() => diarySettingHandler(data.diaryId)}
-                  />
+
+                  <BookmarkSection>
+                    {data.bookmark === 0 ? (
+                      <AiOutlineStar onClick={() => mutate(data.diaryId)} />
+                    ) : (
+                      <AiFillStar className="bookmark" onClick={() => mutate(data.diaryId)} />
+                    )}
+                  </BookmarkSection>
+                  <FiMoreVertical className="diaryMoreInfo" onClick={() => diarySettingHandler(data.diaryId)} />
                 </div>
                 <Diary
                   bgColor={data.outsideColor}
@@ -125,6 +125,11 @@ const DiaryShowContainer = styled.div`
   }
 `;
 
-const BookmarkSection = styled.button`
+const BookmarkSection = styled.div`
   position: absolute;
+  font-size: 2.5rem;
+  top: 20%;
+  left: calc(50% - 8rem);
+  color: #fdcb6e;
+  cursor: pointer;
 `;

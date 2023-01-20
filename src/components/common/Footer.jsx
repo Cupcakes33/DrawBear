@@ -1,40 +1,43 @@
+import { IoIosSettings, IoMdBookmark } from "react-icons/io";
+import { BsFillPersonFill } from "react-icons/bs";
+import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { diaryType } from "../../redux/modules/diarySlice";
-import { BsFillPersonFill } from "react-icons/bs";
 import { MdPeopleAlt } from "react-icons/md";
-import { IoIosSettings, IoMdBookmark } from "react-icons/io";
+import { diaryType } from "../../redux/modules/diarySlice";
+import styled from "styled-components";
 
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
-  const footerIconState = localStorage.getItem("footerIcons");
+  const footerIconState = queryClient?.getQueryData(["footerIcons"]);
+
   const diaryViewState = (state) => {
     dispatch(diaryType(state));
   };
 
   const changeSoloView = () => {
-    localStorage.setItem("footerIcons", "solo");
-    diaryViewState({ couple: 0, bookmark: 0 });
+    queryClient.setQueryData(["footerIcons"], "solo");
+    diaryViewState({ couple: 0 });
     navigate("/");
   };
 
   const changeCoupleView = () => {
-    localStorage.setItem("footerIcons", "couple");
+    queryClient.setQueryData(["footerIcons"], "couple");
     diaryViewState({ couple: 1, bookmark: 0 });
     navigate("/");
   };
 
   const changeFavoriteView = () => {
-    localStorage.setItem("footerIcons", "bookmark");
+    queryClient.setQueryData(["footerIcons"], "bookmark");
     diaryViewState({ couple: 2, bookmark: 1 });
     navigate("/");
   };
 
   const changeToMypage = () => {
-    localStorage.setItem("footerIcons", "setting");
+    queryClient.setQueryData(["footerIcons"], "setting");
     navigate("/setting");
   };
 

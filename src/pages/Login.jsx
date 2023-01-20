@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import HookForm from "../components/login/HookForm";
 import CommonContainer from "../UI/CommonContainer";
+import naver from "../assets/images/naver.webp";
+import kakao from "../assets/images/kakao.webp";
 
 const Login = () => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
     queryClient.clear();
-    localStorage.clear();
+    localStorage.removeItem("token");
   }, []);
 
   return (
@@ -18,7 +20,7 @@ const Login = () => {
       <StContainer>
         <h2>로그인</h2>
         <HookForm />
-        <div>
+        <div className="signup-box">
           아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
         </div>
       </StContainer>
@@ -27,7 +29,10 @@ const Login = () => {
         <span>간편로그인</span>
         <hr />
       </StLine>
-      {/* <소셜></소셜> */}
+      <SocialLogin>
+        <img src={naver} alt="네이버 로그인" />
+        <img src={kakao} alt="카카오 로그인" />
+      </SocialLogin>
     </CommonContainer>
   );
 };
@@ -36,7 +41,11 @@ export default Login;
 
 const StContainer = styled.div`
   width: 27rem;
-  margin: 25% auto 20% auto;
+  margin: auto;
+  padding-top: 15%;
+  .signup-box {
+    padding-top: 10%;
+  }
   label {
     display: block;
     font-size: 1.8rem;
@@ -52,6 +61,7 @@ const StContainer = styled.div`
 `;
 
 const StLine = styled.div`
+  padding-top: 10%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,5 +74,17 @@ const StLine = styled.div`
     border: 0;
     background-color: gray;
     margin: auto;
+  }
+`;
+
+const SocialLogin = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 15%;
+  img {
+    cursor: pointer;
   }
 `;
