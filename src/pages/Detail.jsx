@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
 
@@ -14,6 +15,7 @@ import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
 const Detail = () => {
+  const [commentValue, setCommentValue] = useState("");
   const diaryId = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
@@ -48,7 +50,8 @@ const Detail = () => {
 
   const commentsSubmitHandler = (event) => {
     event.preventDefault();
-    let comment = new FormData(event.target).get("comments");
+    const formData = new FormData(event.target);
+    let comment = formData.get("comments");
     postMutate({ comment, postId });
   };
 

@@ -5,10 +5,27 @@ export const instance = axios.create({
   baseURL: "https://mylee.site",
 });
 
+const getToken = () => {
+  const token = localStorage.getItem("token");
+  return token ? `Bearer ${token}` : null;
+};
+
 instance.interceptors.request.use((config) => {
-  config.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+  config.headers["Authorization"] = getToken();
   return config;
 });
+
+instance.interceptors.response.use(
+  (res) => {
+    res.headers["Authorization"] = getToken();
+    res.status === 401 && localStorage.removeItem("token");
+    return res;
+  },
+  (error) => {
+    error.response.status === 401 &&
+      window.location.replace("http://localhost:3000/login");
+  }
+);
 
 export const loginApi = {
   login: async (inputData) => {
