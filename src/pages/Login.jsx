@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import HookForm from "../components/login/HookForm";
 import CommonContainer from "../UI/CommonContainer";
-import naver from "../assets/images/naver.png";
-import kakao from "../assets/images/kakao.png";
+import naver from "../assets/images/naver.webp";
+import kakao from "../assets/images/kakao.webp";
 
 const Login = () => {
   const queryClient = useQueryClient();
@@ -84,4 +84,7 @@ const SocialLogin = styled.div`
   justify-content: center;
   gap: 2rem;
   padding-top: 15%;
+  img {
+    cursor: pointer;
+  }
 `;
