@@ -83,94 +83,80 @@ const MyProfileEdit = () => {
   let inputRef;
 
   return (
-    <StContainer>
-      <StHeader flex justify="space-between">
-        <DisplayDiv flex>
-          <NavigateBtn prev sizeType="header" />
-          <h3>프로필 수정</h3>
-        </DisplayDiv>
-        <button
-          onClick={handleSubmit((data) => {
-            const formData = new FormData();
-            console.log(nick);
-            console.log(data);
-            console.log(image.preview_URL);
-            console.log(image.image_file);
-            if (!data.nickname) {
-              console.log("//닉넴 변경 X , 이미지 0");
-              formData.append("nickname", nick);
-              formData.append("image", image.image_file);
-            } else if (!image.image_file && nick !== data.nickname) {
-              console.log("//닉넴 변경 0 , 이미지X");
-              formData.append("nickname", data.nickname);
-              formData.append("image", image.preview_URL);
-              console.log(image.preview_URL);
-            } else {
-              console.log("//닉넴 변경 0 , 이미지 0");
-              formData.append("nickname", data.nickname);
-              formData.append("image", image.image_file);
-              console.log(data);
-              console.log(image.image_file);
-            }
-
-            mutate(formData);
-          })}
-        >
-          <span>수정</span>
-        </button>
-      </StHeader>
-      <form>
-        <MyProfileSection flex derection="column" justify="flex-start">
-          <div>
-            <input
-              {...register("image")}
-              id="profileImg"
-              type="file"
-              name="profileImg"
-              accept="image/*"
-              onChange={imgOnChnageHandler}
-              onClick={(e) => (e.target.value = null)}
-              ref={(refParam) => (inputRef = refParam)}
-              style={{ display: "none " }}
-            ></input>
-            <div className="myProfileInfoWrapper">
-              <img src={image.preview_URL} onClick={() => inputRef.click()} />
-              <div className="pencilIcon-box">
-                <Button type="button" onClick={() => inputRef.click()} icon={<TiPencil />} round></Button>
+    <>
+      {isModal && <Alert />}
+      <StContainer>
+        <StHeader flex justify="space-between">
+          <DisplayDiv flex>
+            <NavigateBtn prev sizeType="header" />
+            <h3>프로필 수정</h3>
+          </DisplayDiv>
+          <button onClick={handleSubmit(onSubmit)}>
+            <span>수정</span>
+          </button>
+        </StHeader>
+        <form>
+          <MyProfileSection flex derection="column" justify="flex-start">
+            <div>
+              <input
+                {...register("image")}
+                id="profileImg"
+                type="file"
+                name="profileImg"
+                accept="image/*"
+                onChange={imgOnChnageHandler}
+                onClick={(e) => (e.target.value = null)}
+                ref={(refParam) => (inputRef = refParam)}
+                style={{ display: "none " }}
+              ></input>
+              <div className="myProfileInfoWrapper">
+                <img src={image.preview_URL} onClick={() => inputRef.click()} />
+                <div className="pencilIcon-box">
+                  <Button
+                    type="button"
+                    onClick={() => inputRef.click()}
+                    icon={<TiPencil />}
+                    round
+                  ></Button>
+                </div>
               </div>
             </div>
-          </div>
-          <AccountInfoBox>
-            <div>
-              <label>이메일</label>
-              <span>{data?.userInfo.email}</span>
-            </div>
-            <div>
-              <span className="nickName_txt">닉네임</span>
-              <div className="nickName_container">
-                <input
-                  id="nickname"
-                  type="text"
-                  name="nickname"
-                  placeholder="닉네임을 입력해주세요"
-                  defaultValue={nick}
-                  onChange={nickChangeHandle}
-                  aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
-                  {...register("nickname", {
-                    minLength: {
-                      value: 2,
-                      message: "2자리 이상 닉네임을 사용하세요.",
-                    },
-                  })}
-                />
-                {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
+            <AccountInfoBox>
+              <div>
+                <label>이메일</label>
+                <span>{data?.userInfo.email}</span>
               </div>
-            </div>
-          </AccountInfoBox>
-        </MyProfileSection>
-      </form>
-      <Footer />
-    </StContainer>
+              <div>
+                <span className="nickName_txt">닉네임</span>
+                <div className="nickName_container">
+                  <input
+                    id="nickname"
+                    type="text"
+                    name="nickname"
+                    placeholder="닉네임을 입력해주세요"
+                    defaultValue={nick}
+                    onChange={nickChangeHandle}
+                    aria-invalid={
+                      !isDirty ? undefined : errors.nickname ? "true" : "false"
+                    }
+                    {...register("nickname", {
+                      minLength: {
+                        value: 2,
+                        message: "2자리 이상 닉네임을 사용하세요.",
+                      },
+                    })}
+                  />
+                  {errors.nickname && (
+                    <small role="alert">{errors.nickname.message}</small>
+                  )}
+                </div>
+              </div>
+            </AccountInfoBox>
+          </MyProfileSection>
+        </form>
+        <Footer />
+      </StContainer>
+    </>
   );
 };
 
@@ -193,7 +179,7 @@ const MyProfileSection = styled(StSection)`
     background-color: white;
     border-radius: 50%;
     position: absolute;
-    top: 14rem;
+    top: 17%;
     left: 55%;
     display: flex;
     align-items: center;
