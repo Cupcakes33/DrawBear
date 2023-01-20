@@ -135,11 +135,11 @@ const Signup = () => {
                     !isDirty ? undefined : errors.password ? false : true
                   }
                   {...register("password", {
-                    required: "비밀번호는 필수 입력 입니다.",
-                    minLength: {
-                      value: 4,
+                    required: "필수 응답 항목입니다.",
+                    pattern: {
+                      value: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
+                      message: "영문, 숫자 조합 8자리 이상",
                     },
-                    message: "4자리 이상 비밀번호를 입력해주세요",
                   })}
                 />
                 {errors.password && (
