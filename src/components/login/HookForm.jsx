@@ -12,14 +12,20 @@ const HookForm = () => {
 
   const { mutate } = useMutation((inputData) => loginApi.login(inputData), {
     onError: (error) => {
-      const status = error?.response.request.status;
+      const { status } = error?.response?.request;
+      console.log(error);
       if (status === undefined || null) return;
       else if (status === 412) dispatch(showModal({ isModal: true, content: "이메일 또는 패스워드를 확인해주세요." }));
       else if (status === 400)
         dispatch(showModal({ isModal: true, content: "해당 아이디는 소셜로그인으로 시도해주세요." }));
       else dispatch(showModal({ isModal: true, content: "로그인에 실패하였습니다." }));
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data)
+      localStorage.setItem("token", data.token);
+      setTimeout(() => {
+        localStorage.clear();
+      }, 3600000);
       dispatch(showModal({ isModal: true, content: "로그인 성공!", move: "/" }));
     },
   });
