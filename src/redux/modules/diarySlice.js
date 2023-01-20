@@ -6,6 +6,10 @@ const initialState = {
     couple: 0,
     bookmark: 0
   },
+  diary: {
+    isModal: false,
+    diaryId: 0
+  },
   couple: 0,
   result: "",
   isLoading: ""
@@ -22,8 +26,12 @@ const diarySlice = createSlice({
     addDiary: (state, action) => {
       state.couple = action.payload
     },
+    diaryModal: (state, action) => {
+      console.log(action.payload)
+      state.diary = action.payload
+    }
   },
 })
 
-export const { diaryType, addDiary } = diarySlice.actions
+export const { diaryType, addDiary, diaryModal } = diarySlice.actions
 export default diarySlice.reducer;

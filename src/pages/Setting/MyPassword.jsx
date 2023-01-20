@@ -5,7 +5,6 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { passwordApi } from "../../apis/axios";
-import axios from "axios";
 
 const MyPassword = () => {
   const {

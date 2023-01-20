@@ -8,10 +8,13 @@ import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import Alert from "../components/common/modal/Alert";
+import ReactModal from "../components/common/modal/ReactModal";
+import DiarySetting from "../components/FullList/DiarySetting";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const { isModal } = useSelector((state) => state.UISlice);
+  const { diary } = useSelector((state) => state.diarySlice);
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
@@ -59,13 +62,20 @@ const Main = () => {
       ) : isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
-        <StContainer bgColor="#F8F8F8">
-          <StHeader flex>
-            <h1>LOGO</h1>
-          </StHeader>
-          {diaryType(diaries)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaries)} />}
-          <Footer />
-        </StContainer>
+        <>
+          <StContainer bgColor="#F8F8F8">
+            <StHeader flex>
+              <h1>LOGO</h1>
+            </StHeader>
+            {diaryType(diaries)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaries)} />}
+            <Footer />
+          </StContainer>
+          {diary.isModal && (
+            <ReactModal>
+              <DiarySetting diaryId={diary?.diaryId} queryClient={queryClient} />
+            </ReactModal>
+          )}
+        </>
       )}
     </>
   );
