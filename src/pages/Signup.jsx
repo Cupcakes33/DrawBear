@@ -15,7 +15,6 @@ import Alert from "../components/common/modal/Alert";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
-  const [backState, setBackState] = useState(false);
   const [image, setImage] = useState({
     image_file: "",
     preview_URL: defaultImg,
@@ -26,7 +25,6 @@ const Signup = () => {
 
   const onScreenChangeHandler = () => {
     setScreenChange(!screenChange);
-    setBackState(!backState);
   };
 
   const {
@@ -58,7 +56,7 @@ const Signup = () => {
     };
   }, []);
 
-  const { mutate } = useMutation((formData) => loginApi.signup(formData), {
+  const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
       dispatch(
         showModal({ isModal: true, content: "회원가입 성공!", move: "/login" }) //모달창에 전달하는 데이터
@@ -82,7 +80,11 @@ const Signup = () => {
       <StContainer bgColor="#EEF3E3;">
         <StHeader>
           <BackButtonDiv>
-            {backState ? <GrPrevious onClick={onScreenChangeHandler} /> : <GrPrevious onClick={() => navigate(-1)} />}
+            {screenChange ? (
+              <GrPrevious onClick={onScreenChangeHandler} />
+            ) : (
+              <GrPrevious onClick={() => navigate(-1)} />
+            )}
           </BackButtonDiv>
         </StHeader>
         <SlideContainerForm
@@ -107,7 +109,9 @@ const Signup = () => {
                   type="email"
                   name="email"
                   placeholder="이메일을 입력해주세요"
-                  aria-invalid={!isDirty ? undefined : errors.email ? false : true}
+                  aria-invalid={
+                    !isDirty ? undefined : errors.email ? false : true
+                  }
                   {...register("email", {
                     required: "이메일은 필수 입력 값입니다.",
                     pattern: {
@@ -116,7 +120,9 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.email && <small role="alert">{errors.email.message}</small>}
+                {errors.email && (
+                  <small role="alert">{errors.email.message}</small>
+                )}
               </div>
               <div>
                 <label htmlFor="password">비밀번호</label>
@@ -125,7 +131,9 @@ const Signup = () => {
                   type="password"
                   name="password"
                   placeholder="*영문,숫자 조합 8자리 이상"
-                  aria-invalid={!isDirty ? undefined : errors.password ? false : true}
+                  aria-invalid={
+                    !isDirty ? undefined : errors.password ? false : true
+                  }
                   {...register("password", {
                     required: "비밀번호는 필수 입력 입니다.",
                     minLength: {
@@ -134,13 +142,17 @@ const Signup = () => {
                     message: "4자리 이상 비밀번호를 입력해주세요",
                   })}
                 />
-                {errors.password && <small role="alert">{errors.password.message}</small>}
+                {errors.password && (
+                  <small role="alert">{errors.password.message}</small>
+                )}
                 <input
                   id="passwordCheck"
                   type="password"
                   name="passwordCheck"
                   placeholder="비밀번호재입력"
-                  aria-invalid={!isDirty ? undefined : errors.passwordCheck ? false : true}
+                  aria-invalid={
+                    !isDirty ? undefined : errors.passwordCheck ? false : true
+                  }
                   {...register("passwordCheck", {
                     required: true,
                     validate: (val) => {
@@ -150,7 +162,9 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.passwordCheck && <small role="alert">{errors.passwordCheck.message}</small>}
+                {errors.passwordCheck && (
+                  <small role="alert">{errors.passwordCheck.message}</small>
+                )}
               </div>
               {isDirty &&
                 watch("email") !== "" &&
@@ -184,7 +198,11 @@ const Signup = () => {
                   onClick={(e) => (e.target.value = null)}
                   ref={(refParam) => (inputRef = refParam)}
                 ></input>
-                <img src={image.preview_URL} alt="프사" onClick={() => inputRef.click()} />
+                <img
+                  src={image.preview_URL}
+                  alt="프사"
+                  onClick={() => inputRef.click()}
+                />
                 <Button
                   className="profile-setting"
                   type="button"
@@ -202,7 +220,9 @@ const Signup = () => {
                   type="text"
                   name="nickname"
                   placeholder="닉네임을 입력해주세요"
-                  aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
+                  aria-invalid={
+                    !isDirty ? undefined : errors.nickname ? "true" : "false"
+                  }
                   {...register("nickname", {
                     required: "닉네임은 필수 입력 입니다.",
                     minLength: {
@@ -211,7 +231,9 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
+                {errors.nickname && (
+                  <small role="alert">{errors.nickname.message}</small>
+                )}
               </div>
               <SignupButtonBox>
                 <button type="submit" disabled={isSubmitting}>
