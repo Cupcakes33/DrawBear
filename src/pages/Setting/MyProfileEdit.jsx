@@ -19,7 +19,11 @@ const MyProfileEdit = () => {
     onSuccess: (success) => {
       console.log(success);
       dispatch(
-        showModal({ isModal: true, content: success.message, move: "/setting" }) //모달창에 전달하는 데이터
+        showModal({
+          isModal: true,
+          content: success.message,
+          move: "/setting/profileEdit",
+        }) //모달창에 전달하는 데이터
       );
     },
   });
