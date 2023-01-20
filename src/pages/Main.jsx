@@ -1,19 +1,19 @@
-import { useCallback, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect } from "react";
+import { StContainer, StHeader } from "../UI/common";
+import { showModal } from "../redux/modules/UISlice";
+import { mainApi } from "../apis/axios";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
-import { StContainer, StHeader } from "../UI/common";
-import { mainApi } from "../apis/axios";
-import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../redux/modules/UISlice";
 import Alert from "../components/common/modal/Alert";
-import { useNavigate } from "react-router-dom";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const {
     data = [],
@@ -48,7 +48,7 @@ const Main = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem("footerIcons", "solo");
+    queryClient.setQueryData(["footerIcons"], "solo");
   }, []);
 
   return (
