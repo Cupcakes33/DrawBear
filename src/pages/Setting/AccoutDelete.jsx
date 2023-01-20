@@ -10,17 +10,23 @@ import { useForm } from "react-hook-form";
 
 const AccoutDelete = () => {
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
+  const { mutate } = useMutation((formData) => mypageApi.delete(formData));
   const [userinfo, setUserInfo] = useState({
     nickName: "",
   });
-  const deleteOnclickHandle = () => {
-    // const { data } = useMutation();
-  };
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, isDirty, errors },
   } = useForm({ mode: "onchange" });
+
+  const onSubmit = (inputData) => {
+    console.log(inputData);
+    const formData = new FormData();
+    formData.append("currentPassword", inputData.password);
+    mutate(formData);
+  };
+
   useEffect(() => {
     setUserInfo({
       nickName: data?.userInfo.nickname,
@@ -45,7 +51,7 @@ const AccoutDelete = () => {
               삭제된 데이터는 복구할 수 없어요.
             </h4>
           </div>
-          <div className="delete-button" onClick={deleteOnclickHandle}>
+          <div className="delete-button" onClick={handleSubmit(onSubmit)}>
             <Button fullWidth color="button_alart">
               네, 탈퇴할래요.
             </Button>
