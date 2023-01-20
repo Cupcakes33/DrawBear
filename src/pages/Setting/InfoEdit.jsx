@@ -25,6 +25,7 @@ const InfoEdit = () => {
             <div
               onClick={() => {
                 setIsModal(!isModal);
+                localStorage.removeItem("token");
               }}
             >
               로그아웃

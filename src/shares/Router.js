@@ -24,6 +24,8 @@ const Router = () => {
     <BrowserRouter>
       {/* <Header /> */}
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/test" element={<HashTagInput />} />
           <Route path="/" element={<Main />} />
@@ -35,8 +37,6 @@ const Router = () => {
             <Route path=":id" element={<Write />} />
           </Route>
 
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/list">
             <Route path=":id" element={<FullList />} />
           </Route>

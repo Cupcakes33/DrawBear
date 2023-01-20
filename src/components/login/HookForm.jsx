@@ -57,12 +57,12 @@ const HookForm = () => {
             id="password"
             name="password"
             placeholder="영문, 숫자 조합 8자리 이상"
-            {...register("password", { required: true })}
+            {...register("password", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
             aria-invalid={errors?.password ? "true" : "false"}
           />
         </div>
         <div>
-          <StBtn>
+          <StBtn disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}>
             로그인
           </StBtn>
         </div>
@@ -71,8 +71,7 @@ const HookForm = () => {
     </>
   );
 };
-// , pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/
-// disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}
+
 export default HookForm;
 
 const StForm = styled.form`

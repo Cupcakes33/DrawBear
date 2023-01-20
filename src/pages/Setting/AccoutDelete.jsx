@@ -33,7 +33,8 @@ const AccoutDelete = () => {
           isModal: true,
           content: "탈퇴가 완료 되었습니다.",
           move: "/login",
-        })
+        }),
+        localStorage.removeItem("token")
       );
     },
   });
@@ -72,8 +73,7 @@ const AccoutDelete = () => {
               <h2>{userinfo.nickName}님</h2>
               <h2>정말 떠나시겠어요? {": ("}</h2>
               <h4>
-                내 프로필 사진, 댓글, 다이어리, 내용 등 모든 활동 정보가
-                삭제되며, 삭제된 데이터는 복구할 수 없어요.
+                내 프로필 사진, 댓글, 다이어리, 내용 등 모든 활동 정보가 삭제되며, 삭제된 데이터는 복구할 수 없어요.
               </h4>
             </div>
             <div className="delete-button" onClick={handleSubmit(onSubmit)}>
@@ -88,16 +88,12 @@ const AccoutDelete = () => {
                 type="password"
                 name="password"
                 placeholder="비밀번호를 입력해주세요"
-                aria-invalid={
-                  !isDirty ? undefined : errors.password ? false : true
-                }
+                aria-invalid={!isDirty ? undefined : errors.password ? false : true}
                 {...register("password", {
                   required: "비밀번호는 필수 입력 입니다.",
                 })}
               />
-              {errors.password && (
-                <small role="alert">{errors.password.message}</small>
-              )}
+              {errors.password && <small role="alert">{errors.password.message}</small>}
             </div>
           </form>
         </StMypageSection>
