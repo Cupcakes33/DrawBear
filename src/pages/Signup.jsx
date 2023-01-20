@@ -56,7 +56,7 @@ const Signup = () => {
     };
   }, []);
 
-  const { mutate } = useMutation((formData) => loginApi.signup(formData), {
+  const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
       dispatch(
         showModal({ isModal: true, content: "회원가입 성공!", move: "/login" }) //모달창에 전달하는 데이터
@@ -80,7 +80,11 @@ const Signup = () => {
       <StContainer bgColor="#EEF3E3;">
         <StHeader>
           <BackButtonDiv>
-            {screenChange ? <GrPrevious onClick={onScreenChangeHandler} /> : <GrPrevious onClick={() => navigate(-1)} />}
+            {screenChange ? (
+              <GrPrevious onClick={onScreenChangeHandler} />
+            ) : (
+              <GrPrevious onClick={() => navigate("/login")} />
+            )}
           </BackButtonDiv>
         </StHeader>
         <SlideContainerForm
@@ -212,7 +216,7 @@ const Signup = () => {
                 {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
               </div>
               <SignupButtonBox>
-                <button disabled={isSubmitting}>
+                <button type="submit" disabled={isSubmitting}>
                   회원가입
                 </button>
               </SignupButtonBox>
@@ -297,6 +301,7 @@ const SignupButtonBox = styled.div`
     border-radius: 10px;
     font-size: 1.7rem;
     font-weight: 700;
+    cursor: pointer;
   }
 `;
 
