@@ -17,39 +17,42 @@ import MyPassword from "../pages/Setting/MyPassword";
 import AccoutDelete from "../pages/Setting/AccoutDelete";
 import Alarm from "../pages/Setting/Alarm";
 import InfoEdit from "../pages/Setting/InfoEdit";
+import PrivateRoutes from "./PrivateRoutes";
 
 const Router = () => {
   return (
     <BrowserRouter>
       {/* <Header /> */}
       <Routes>
-        <Route path="/test" element={<HashTagInput />} />
-        <Route path="/" element={<Main />} />
-        <Route path="/new" element={<CreateDiary />} />
-        <Route path="/update">
-          <Route path=":id" element={<UpdateDiary />} />
-        </Route>
-        <Route path="/write">
-          <Route path=":id" element={<Write />} />
-        </Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/test" element={<HashTagInput />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/new" element={<CreateDiary />} />
+          <Route path="/update">
+            <Route path=":id" element={<UpdateDiary />} />
+          </Route>
+          <Route path="/write">
+            <Route path=":id" element={<Write />} />
+          </Route>
 
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/list">
-          <Route path=":id" element={<FullList />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/list">
+            <Route path=":id" element={<FullList />} />
+          </Route>
+          <Route path="/invite" element={<Invite />} />
+          <Route path="/detail">
+            <Route path=":id" element={<Detail />} />
+          </Route>
+          <Route path="/buttonpreview" element={<ButtonPreview />} />
+          <Route path="/setting" element={<Setting />} />
+          <Route path="/setting/diaryManage" element={<DiaryManage />} />
+          <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
+          <Route path="/setting/infoEdit/" element={<InfoEdit />} />
+          <Route path="/setting/infoEdit/password" element={<MyPassword />} />
+          <Route path="/setting/delete" element={<AccoutDelete />} />
+          <Route path="/setting/alarm" element={<Alarm />} />
         </Route>
-        <Route path="/invite" element={<Invite />} />
-        <Route path="/detail">
-          <Route path=":id" element={<Detail />} />
-        </Route>
-        <Route path="/buttonpreview" element={<ButtonPreview />} />
-        <Route path="/setting" element={<Setting />} />
-        <Route path="/setting/diaryManage" element={<DiaryManage />} />
-        <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
-        <Route path="/setting/infoEdit/" element={<InfoEdit />} />
-        <Route path="/setting/infoEdit/password" element={<MyPassword />} />
-        <Route path="/setting/delete" element={<AccoutDelete />} />
-        <Route path="/setting/alarm" element={<Alarm />} />
       </Routes>
     </BrowserRouter>
   );

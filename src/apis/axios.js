@@ -6,10 +6,27 @@ export const instance = axios.create({
   // withCredentials: true, // 로그인 후 로그인이 풀리는 문제를 해결하기 위함
 });
 
+const getToken = () => {
+  const token = localStorage.getItem("token");
+  return token ? `Bearer ${token}` : null;
+};
+
 instance.interceptors.request.use((config) => {
-  config.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+  config.headers["Authorization"] = getToken();
   return config;
 });
+
+instance.interceptors.response.use(
+  (res) => {
+    res.headers["Authorization"] = getToken();
+    res.status === 401 && localStorage.removeItem("token");
+    return res;
+  },
+  (error) => {
+    error.response.status === 401 &&
+      window.location.replace("http://localhost:3000/login");
+  }
+);
 
 export const loginApi = {
   login: async (inputData) => {
