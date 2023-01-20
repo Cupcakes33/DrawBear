@@ -57,24 +57,27 @@ const HookForm = () => {
             id="password"
             name="password"
             placeholder="영문, 숫자 조합 8자리 이상"
-            {...register("password")}
+            {...register("password", { required: true })}
             aria-invalid={errors?.password ? "true" : "false"}
           />
         </div>
-        <StBtn>로그인</StBtn>
+        <div>
+          <StBtn>
+            로그인
+          </StBtn>
+        </div>
       </StForm>
       {isModal && <Alert />}
     </>
   );
 };
-// , { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ }
+// , pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/
 // disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}
-
 export default HookForm;
 
 const StForm = styled.form`
   div {
-    margin-top: 20%;
+    padding-top: 20%;
   }
   input {
     border: none;
@@ -103,7 +106,6 @@ const StBtn = styled.button.attrs((props) => ({
 }))`
   width: 27rem;
   height: 4.5rem;
-  margin: 10% 0px;
   color: white;
   background-color: #3cc7a6;
   border: none;

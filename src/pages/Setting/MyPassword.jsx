@@ -157,16 +157,7 @@ const MyPassword = () => {
             />
             {errors?.newPW && <span role="alert">영문, 숫자 조합 8자리 이상의 비밀번호를 입력해주세요.</span>}
             <input
-              className={errors.PWreconfirmation?.type === undefined ? "pass" : "fail"}
-              type="password"
-              id="PWreconfirmation"
-              name="PWreconfirmation"
-              placeholder="비밀번호 재입력"
-              {...register("PWreconfirmation", {
-                required: true,
-                validate: (value) => value === watch("newPW"),
-              })}
-              aria-invalid={errors?.PWreconfirmation ? "true" : "false"}
+              
             />
             {errors?.PWreconfirmation && <span role="alert">두 비밀번호가 달라요. 다시 한 번 확인해주세요.</span>}
           </div>
