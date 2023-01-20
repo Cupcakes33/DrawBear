@@ -301,7 +301,7 @@ const SignupButtonBox = styled.div`
     border-radius: 10px;
     font-size: 1.7rem;
     font-weight: 700;
-    cu
+    cursor: pointer;
   }
 `;
 
