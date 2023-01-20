@@ -39,8 +39,11 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/profile", formData);
     return data;
   },
-  delete: (formData) => {
-    const { data } = instance.delete("/api/userInfo/unregister", formData);
+  delete: async (inputData) => {
+    console.log(inputData.password);
+    const { data } = await instance.patch("/api/userInfo/unregister", {
+      currentPassword: inputData.password,
+    });
     console.log(data);
     return data;
   },
