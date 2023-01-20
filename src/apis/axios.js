@@ -45,10 +45,14 @@ export const mypageApi = {
     return data;
   },
 };
+
 export const passwordApi = {
-  update: async (formData) => {
-    const { data } = await instance.patch("/api/userInfo/password", formData);
-    console.log(data);
+  update: async (inputData) => {
+    const { data } = await instance.patch("/api/userInfo/password", {
+      currentPassword: inputData.currentPW,
+      changePassword: inputData.password,
+      confirmPassword: inputData.passwordCheck,
+    });
     return data;
   },
 };
