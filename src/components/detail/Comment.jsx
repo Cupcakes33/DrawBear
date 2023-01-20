@@ -1,57 +1,37 @@
 import React from "react";
 import styled from "styled-components";
-import TimeAgo from "timeago-react";
-import * as timeAgo from "timeago.js";
-import ko from "timeago.js/lib/lang/ko";
 
-const Comment = ({ comments }) => {
-  timeAgo.register("ko", ko);
-  const re = comments.reverse();
-  return re.map((comment) => (
-    <StCommentContainer>
-      <div className="commenterProfileWrapper">
-        <img src={comment.profileImg} alt="프로필이미지" />
-        <p>{comment.nickname}</p>
+const Comment = () => {
+  return (
+    <Stbox>
+      <div className="userinfo-box">
+        <img src="" alt="프사" />
+        <h4>닉네임</h4>
       </div>
-      <div className="commentsContentsWrapper">
-        <span>{comment.comment}</span>
-        <TimeAgo datetime={comment.createdAt} locale="ko" />
-      </div>
-    </StCommentContainer>
-  ));
+      <pre>안녕</pre>
+    </Stbox>
+  );
 };
 
 export default Comment;
 
-const StCommentContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 10px;
-  gap: 1rem;
-
-  .commenterProfileWrapper {
+const Stbox = styled.div`
+  margin-top: 1.7rem;
+  margin-bottom: 1.7rem;
+  .userinfo-box {
     display: flex;
     align-items: center;
-    gap: 1rem;
     img {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
+      width: 3.7rem;
+      height: 3.7rem;
+      border-radius: 100%;
+      background-color: tomato;
     }
-    p {
-      font-size: 2rem;
-      &::after {
-        content: " :";
-      }
+    h4 {
+      margin-left: 1rem;
     }
   }
-
-  .commentsContentsWrapper {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  pre {
+    margin-left: 4.5rem;
   }
 `;

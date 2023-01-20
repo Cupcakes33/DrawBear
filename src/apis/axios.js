@@ -6,27 +6,10 @@ export const instance = axios.create({
   // withCredentials: true, // 로그인 후 로그인이 풀리는 문제를 해결하기 위함
 });
 
-const getToken = () => {
-  const token = localStorage.getItem("token");
-  return token ? `Bearer ${token}` : null;
-};
-
 instance.interceptors.request.use((config) => {
-  config.headers["Authorization"] = getToken();
+  config.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
   return config;
 });
-
-instance.interceptors.response.use(
-  (res) => {
-    res.headers["Authorization"] = getToken();
-    res.status === 401 && localStorage.removeItem("token");
-    return res;
-  },
-  (error) => {
-    error.response.status === 401 &&
-      window.location.replace("http://localhost:3000/login");
-  }
-);
 
 export const loginApi = {
   login: async (inputData) => {
@@ -120,26 +103,5 @@ export const diaryApi = {
       `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`
     );
     return data.response.body.items.item;
-  },
-};
-
-export const postsApi = {
-  get: async (diaryId) => {
-    const { data } = await instance.get(`/api/post/detail/${diaryId}`);
-    return data.posts;
-  },
-};
-
-export const commentsApi = {
-  post: async ({ comment, postId }) => {
-    await instance.post(`/api/comment/${postId}`, { comment: comment });
-  },
-
-  patch: async ({ comment, commentId }) => {
-    await instance.patch(`/api/comment/${commentId}`, comment);
-  },
-
-  delete: async (commentId) => {
-    await instance.delete(`/api/comment/${commentId}`);
   },
 };

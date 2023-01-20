@@ -23,7 +23,6 @@ const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.color.font_main};
     -ms-overflow-style: none;
     scrollbar-width: none;
-    font-family: 'Noto Sans KR', sans-serif;
     ::-webkit-scrollbar {
       display:none;
     }
@@ -39,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
   }
   * {
   /* font-family: 'ZigleTTF' !important; */
-  /* font-family: 'Noto Sans KR', sans-serif; */
+  font-family: 'Noto Sans KR', sans-serif;
   }
 
 `;

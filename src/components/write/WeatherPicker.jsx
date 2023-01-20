@@ -99,7 +99,7 @@ const StWeatherPickerContainer = styled.div`
   }
 `;
 
-export const StWeatherIconMini = styled.span`
+const StWeatherIconMini = styled.span`
   width: 40px;
   height: 40px;
   border: 2px solid #e9e9e9;
