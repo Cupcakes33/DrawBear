@@ -27,7 +27,7 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
 
   return (
     <>
-      <Modal onClose={onClose} modalWidth="36rem" top="94%" radius="0">
+      <Modal modalWidth="36rem" top="94%" radius="0">
         <DiarySettingModal>
           <div>같이 쓰는 멤버 초대</div>
           <hr />

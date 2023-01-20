@@ -81,7 +81,7 @@ const StMypageSection = styled(StSection)`
       background-color: white;
       border-radius: 50%;
       position: absolute;
-      top: 17%;
+      top: 14rem;
       left: 55%;
       display: flex;
       align-items: center;

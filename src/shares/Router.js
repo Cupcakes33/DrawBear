@@ -46,8 +46,8 @@ const Router = () => {
         <Route path="/setting" element={<Setting />} />
         <Route path="/setting/diaryManage" element={<DiaryManage />} />
         <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
-        <Route path="/setting/infoEdit" element={<InfoEdit />} />
-        <Route path="/setting/password" element={<MyPassword />} />
+        <Route path="/setting/infoEdit/" element={<InfoEdit />} />
+        <Route path="/setting/infoEdit/password" element={<MyPassword />} />
         <Route path="/setting/delete" element={<AccoutDelete />} />
         <Route path="/setting/alarm" element={<Alarm />} />
       </Routes>
