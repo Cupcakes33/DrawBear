@@ -5,17 +5,19 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { VscBell } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import { TiPencil } from "react-icons/ti";
+import { mypageApi } from "../../apis/axios";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
-const myProfileData = {
-  id: 1,
-  name: "김철수",
-  email: "abc@naver.com",
-  profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-};
-
+const myProfileData = {};
 const Setting = () => {
   const navigate = useNavigate();
 
+  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
+  const [profileImg, setProfileImg] = useState("");
+  useEffect(() => {
+    setProfileImg(data?.userInfo.profileImg);
+  }, [data]);
   return (
     <StContainer>
       <StHeader flex justify="space-between">
@@ -25,7 +27,7 @@ const Setting = () => {
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
           <div onClick={() => navigate("/setting/profileEdit")}>
-            <img src={myProfileData.profile} alt="myProfileImg" />
+            <img src={profileImg} alt="myProfileImg" />
             <div className="pencilIcon-box">
               <TiPencil />
             </div>

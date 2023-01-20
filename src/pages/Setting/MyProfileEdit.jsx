@@ -8,8 +8,25 @@ import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "../../redux/modules/UISlice";
+import Alert from "../../components/common/modal/Alert";
 const MyProfileEdit = () => {
+  const dispatch = useDispatch();
+  const { isModal } = useSelector((state) => state.UISlice);
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
+  const { mutate } = useMutation((formData) => mypageApi.update(formData), {
+    onSuccess: (success) => {
+      console.log(success);
+      dispatch(
+        showModal({
+          isModal: true,
+          content: success.message,
+          move: "/setting/profileEdit",
+        }) //모달창에 전달하는 데이터
+      );
+    },
+  });
   const [nick, setNick] = useState("");
   const [image, setImage] = useState({
     image_file: "",
@@ -18,7 +35,7 @@ const MyProfileEdit = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, errors },
+    formState: { isDirty, errors },
   } = useForm({ mode: "onChange" });
 
   const nickChangeHandle = (event) => {
@@ -37,6 +54,27 @@ const MyProfileEdit = () => {
       }));
     }
   };
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    if (!data.nickname) {
+      console.log("//닉넴 변경 X , 이미지 0");
+      formData.append("nickname", nick);
+      formData.append("image", image.image_file);
+    } else if (!image.image_file && nick !== data.nickname) {
+      console.log("//닉넴 변경 0 , 이미지X");
+      formData.append("nickname", data.nickname);
+      formData.append("image", image.preview_URL);
+      console.log(image.preview_URL);
+    } else {
+      console.log("//닉넴 변경 0 , 이미지 0");
+      formData.append("nickname", data.nickname);
+      formData.append("image", image.image_file);
+      console.log(data);
+      console.log(image.image_file);
+    }
+    mutate(formData);
+  };
+
   useEffect(() => {
     setNick(data?.userInfo.nickname);
     setImage({ preview_URL: data?.userInfo.profileImg });
@@ -44,7 +82,6 @@ const MyProfileEdit = () => {
 
   let inputRef;
 
-  const { mutate } = useMutation((formData) => mypageApi.update(formData));
   return (
     <StContainer>
       <StHeader flex justify="space-between">

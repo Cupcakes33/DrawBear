@@ -25,7 +25,6 @@ export const loginApi = {
   },
 
   create: async (formData) => {
-    console.log(formData);
     await instance.post("/api/auth/signup", formData);
   },
 };
@@ -39,16 +38,21 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/profile", formData);
     return data;
   },
-  delete: (formData) => {
-    const { data } = instance.delete("/api/userInfo/unregister", formData);
-    console.log(data);
+  delete: async (inputData) => {
+    const { data } = await instance.patch("/api/userInfo/unregister", {
+      currentPassword: inputData.password,
+    });
     return data;
   },
 };
+
 export const passwordApi = {
-  update: async (formData) => {
-    const { data } = await instance.patch("/api/userInfo/password", formData);
-    console.log(data);
+  update: async (inputData) => {
+    const { data } = await instance.patch("/api/userInfo/password", {
+      currentPassword: inputData.currentPW,
+      changePassword: inputData.password,
+      confirmPassword: inputData.passwordCheck,
+    });
     return data;
   },
 };
@@ -79,7 +83,6 @@ export const mainApi = {
     return data;
   },
   bookmark: async (diaryId) => {
-    console.log(diaryId);
     const { data } = await instance.post(`/api/bookmark/diary/${diaryId}`);
     return data;
   },
