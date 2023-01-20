@@ -15,7 +15,6 @@ import Alert from "../components/common/modal/Alert";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
-  const [backState, setBackState] = useState(false);
   const [image, setImage] = useState({
     image_file: "",
     preview_URL: defaultImg,
@@ -26,7 +25,6 @@ const Signup = () => {
 
   const onScreenChangeHandler = () => {
     setScreenChange(!screenChange);
-    setBackState(!backState);
   };
 
   const {
@@ -58,7 +56,7 @@ const Signup = () => {
     };
   }, []);
 
-  const { mutate } = useMutation((formData) => loginApi.signup(formData), {
+  const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
       dispatch(
         showModal({ isModal: true, content: "회원가입 성공!", move: "/login" }) //모달창에 전달하는 데이터
@@ -82,7 +80,11 @@ const Signup = () => {
       <StContainer bgColor="#EEF3E3;">
         <StHeader>
           <BackButtonDiv>
-            {backState ? <GrPrevious onClick={onScreenChangeHandler} /> : <GrPrevious onClick={() => navigate(-1)} />}
+            {screenChange ? (
+              <GrPrevious onClick={onScreenChangeHandler} />
+            ) : (
+              <GrPrevious onClick={() => navigate("/login")} />
+            )}
           </BackButtonDiv>
         </StHeader>
         <SlideContainerForm
@@ -299,6 +301,7 @@ const SignupButtonBox = styled.div`
     border-radius: 10px;
     font-size: 1.7rem;
     font-weight: 700;
+    cursor: pointer;
   }
 `;
 
@@ -323,7 +326,7 @@ const ProfileSection = styled.section`
   }
   .profile-setting {
     position: absolute;
-    top: calc(50% - 15rem);
+    top: 23rem;
     right: calc(50% - 23rem);
   }
   img {

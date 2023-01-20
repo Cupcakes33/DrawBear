@@ -18,7 +18,7 @@ const InfoEdit = () => {
         </StHeader>
         <EditProfileSection flex derection="column" justify="flex-start">
           <div className="editProfileWrapper">
-            <div onClick={() => navigate("/setting/password")}>
+            <div onClick={() => navigate("/setting/infoEdit/password")}>
               비밀번호 변경
               <NavigateBtn />
             </div>
