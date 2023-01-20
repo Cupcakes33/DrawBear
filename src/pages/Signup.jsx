@@ -50,7 +50,7 @@ const Signup = () => {
     setsignUpClassName("left-form-slide");
     setprofilIsClassName("active-form-slide");
   };
-  const { mutate } = useMutation((formData) => loginApi.signup(formData), {
+  const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
       dispatch(
         showModal({ isModal: true, content: "회원가입 성공!", move: "/" }) //모달창에 전달하는 데이터
