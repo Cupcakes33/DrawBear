@@ -21,29 +21,34 @@ const Diaries = ({ diaryData }) => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
-    onError: (error) => {
-      const status = error?.response.request.status;
-      if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
-      else if (status === 404)
-        dispatch(
-          showModal({
-            isModal: true,
-            content: "존재하지 않는 다이어리입니다.",
-          })
-        );
-      else if (status === 500)
-        dispatch(
-          showModal({
-            isModal: true,
-            content: "북마크 저장 및 삭제에 실패했습니다.",
-          })
-        );
-    },
-    onSuccess: () => {
-      queryClient.refetchQueries(["main"]);
-    },
-  });
+  const { mutate } = useMutation(
+    ["diary"],
+    (diaryId) => mainApi.bookmark(diaryId),
+    {
+      onError: (error) => {
+        const status = error?.response.request.status;
+        if (status === 401)
+          dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+        else if (status === 404)
+          dispatch(
+            showModal({
+              isModal: true,
+              content: "존재하지 않는 다이어리입니다.",
+            })
+          );
+        else if (status === 500)
+          dispatch(
+            showModal({
+              isModal: true,
+              content: "북마크 저장 및 삭제에 실패했습니다.",
+            })
+          );
+      },
+      onSuccess: () => {
+        queryClient.refetchQueries(["main"]);
+      },
+    }
+  );
 
   const diarySettingHandler = (diaryId) => {
     dispatch(diaryModal({ diaryId: diaryId, isModal: true }));
@@ -67,6 +72,7 @@ const Diaries = ({ diaryData }) => {
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{data.diaryName}</label>
+
                   <BookmarkSection>
                     {data.bookmark === 0 ? (
                       <AiOutlineStar onClick={() => mutate(data.diaryId)} />
@@ -80,9 +86,18 @@ const Diaries = ({ diaryData }) => {
                   bgColor={data.outsideColor}
                   onClick={() => {
                     navigate(`/list/${data.diaryId}`);
+                    localStorage.removeItem("diaryName");
+                    localStorage.setItem("diaryName", data.diaryName);
                   }}
                 ></Diary>
               </DiaryShowContainer>
+              {diarySettingModal && (
+                <DiarySetting
+                  onClose={setDiarySettingModal}
+                  diaryId={diaryId}
+                  queryClient={queryClient}
+                />
+              )}
             </SwiperSlide>
           );
         })}
