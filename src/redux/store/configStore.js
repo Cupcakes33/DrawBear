@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginSlice from '../modules/loginSlice'
+import diarySlice from '../modules/diarySlice'
+import UISlice from '../modules/UISlice'
 
 const store = configureStore({
-  reducer: { loginSlice },
-  // devTools: false
+  reducer: { diarySlice, UISlice },
 });
 
 export default store;

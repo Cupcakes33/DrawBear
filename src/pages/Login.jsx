@@ -1,52 +1,90 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import HookForm from "../components/login/HookForm";
+import CommonContainer from "../UI/CommonContainer";
+import naver from "../assets/images/naver.webp";
+import kakao from "../assets/images/kakao.webp";
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const queryClient = useQueryClient();
 
-  console.log(errors);
-
-  const onSubmit = (data) => console.log(data); // console.log 대신 디스패치 들어가면 됨
+  useEffect(() => {
+    queryClient.clear();
+    localStorage.removeItem("token");
+  }, []);
 
   return (
-    <TestForm onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">이메일</label>
-        <input type="email" id="email" name="email" {...register("email", { required: true })} aria-invalid={errors.email ? "true" : "false"}></input>
-        {errors?.email && <span role="alert">⚠이메일을 적어주세요.</span>}
-      </div>
-      <div>
-        <label htmlFor="password">비밀번호</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          {...register("password", { required: true, minLength: 3, maxLength: 10 })}
-          aria-invalid={errors?.password ? "true" : "false"}
-        ></input>
-        {errors?.password && <span role="alert">⚠3~10자 이내로 적어주세요</span>}
-      </div>
-      <div>
-        <button>로그인</button>
-        <button type="button">회원가입</button>
-      </div>
-    </TestForm>
+    <CommonContainer>
+      <StContainer>
+        <h2>로그인</h2>
+        <HookForm />
+        <div className="signup-box">
+          아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
+        </div>
+      </StContainer>
+      <StLine>
+        <hr />
+        <span>간편로그인</span>
+        <hr />
+      </StLine>
+      <SocialLogin>
+        <img src={naver} alt="네이버 로그인" />
+        <img src={kakao} alt="카카오 로그인" />
+      </SocialLogin>
+    </CommonContainer>
   );
 };
 
-const TestForm = styled.form`
-  span {
-    color: red;
+export default Login;
+
+const StContainer = styled.div`
+  width: 27rem;
+  margin: auto;
+  padding-top: 15%;
+  .signup-box {
+    padding-top: 10%;
   }
-  input:focus {
-    /* border-color: red;
-    outline: none; */
+  label {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  input {
+    width: 27rem;
+    height: 4.5rem;
+  }
+  a {
+    font-weight: 700;
   }
 `;
 
-export default Login;
+const StLine = styled.div`
+  padding-top: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    margin: auto -2rem;
+  }
+  hr {
+    width: 8rem;
+    height: 0.1rem;
+    border: 0;
+    background-color: gray;
+    margin: auto;
+  }
+`;
+
+const SocialLogin = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 15%;
+  img {
+    cursor: pointer;
+  }
+`;
