@@ -128,7 +128,10 @@ const MyProfileEdit = () => {
               </div>
               <div>
                 <span className="nickName_txt">닉네임</span>
-                <div className="nickName_container">
+                <div
+                  className="nickName_container"
+                  style={{ flexDirection: "column" }}
+                >
                   <input
                     id="nickname"
                     type="text"
