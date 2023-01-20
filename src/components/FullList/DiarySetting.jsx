@@ -7,7 +7,7 @@ import { showModal } from "../../redux/modules/UISlice";
 import Alert from "../common/modal/Alert";
 import Modal from "../common/modal/Modal";
 
-const DiarySetting = ({ onClose, queryClient, diaryId }) => {
+const DiarySetting = ({ queryClient, diaryId }) => {
   const dispatch = useDispatch();
   const { isModal } = useSelector((state) => state.UISlice);
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
 
   return (
     <>
-      <Modal onClose={onClose} modalWidth="36rem" top="94%" radius="0">
+      <Modal modalWidth="36rem" top="94%" radius="0">
         <DiarySettingModal>
           <div>같이 쓰는 멤버 초대</div>
           <hr />

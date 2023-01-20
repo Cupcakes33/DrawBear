@@ -83,7 +83,9 @@ const Signup = () => {
             {screenChange ? (
               <GrPrevious onClick={onScreenChangeHandler} />
             ) : (
-              <GrPrevious onClick={() => navigate(-1)} />
+
+              <GrPrevious onClick={() => navigate("/login")} />
+
             )}
           </BackButtonDiv>
         </StHeader>
@@ -321,6 +323,7 @@ const SignupButtonBox = styled.div`
     border-radius: 10px;
     font-size: 1.7rem;
     font-weight: 700;
+    cursor: pointer;
   }
 `;
 
@@ -345,7 +348,7 @@ const ProfileSection = styled.section`
   }
   .profile-setting {
     position: absolute;
-    top: calc(50% - 15rem);
+    top: 23rem;
     right: calc(50% - 23rem);
   }
   img {

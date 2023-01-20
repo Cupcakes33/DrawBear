@@ -12,7 +12,7 @@ const Login = () => {
 
   useEffect(() => {
     queryClient.clear();
-    localStorage.clear();
+    localStorage.removeItem("token");
   }, []);
 
   return (
