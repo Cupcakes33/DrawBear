@@ -45,7 +45,7 @@ const Invite = () => {
         </StSearchInputWrapper>
         <StSearchUserInfoWrapper>
           {userData.map((user) => (
-            <StSearchUserInfo>
+            <StSearchUserInfo key={`userId${user.id}`}>
               <img src={user.profile} alt="profile" />
               <div>
                 <span>{user.name}</span>

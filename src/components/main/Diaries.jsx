@@ -68,7 +68,7 @@ const Diaries = ({ diaryData }) => {
       >
         {diaryData.map((data, i) => {
           return (
-            <SwiperSlide key={i}>
+            <SwiperSlide key={`diary${data.diaryId}`}>
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{data.diaryName}</label>
@@ -76,10 +76,16 @@ const Diaries = ({ diaryData }) => {
                     {data.bookmark === 0 ? (
                       <AiOutlineStar onClick={() => mutate(data.diaryId)} />
                     ) : (
-                      <AiFillStar className="bookmark" onClick={() => mutate(data.diaryId)} />
+                      <AiFillStar
+                        className="bookmark"
+                        onClick={() => mutate(data.diaryId)}
+                      />
                     )}
                   </BookmarkSection>
-                  <FiMoreVertical className="diaryMoreInfo" onClick={() => diarySettingHandler(data.diaryId)} />
+                  <FiMoreVertical
+                    className="diaryMoreInfo"
+                    onClick={() => diarySettingHandler(data.diaryId)}
+                  />
                 </div>
                 <Diary
                   bgColor={data.outsideColor}
