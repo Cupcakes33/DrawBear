@@ -5,6 +5,11 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { passwordApi } from "../../apis/axios";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "../../redux/modules/UISlice";
+import Alert from "../../components/common/modal/Alert";
+
 
 const MyPassword = () => {
   const {
@@ -14,156 +19,121 @@ const MyPassword = () => {
     formState: { isSubmitting, isDirty, errors },
   } = useForm({ mode: "onChange" });
 
+  const dispatch = useDispatch();
+
+  const { isModal } = useSelector((state) => state.UISlice);
+
   const { mutate } = useMutation((formData) => passwordApi.update(formData), {
-    onSuccess: () => {},
-    onError: () => {},
+    onSuccess: (data) => {
+      dispatch(
+        showModal({ isModal: true, content: data.message, move: "/setting" })
+      );
+    },
+    onError: (error) => {
+      const errorStatus = error.response.status;
+      console.log(errorStatus);
+      if (errorStatus === 401) {
+        console.log();
+        dispatch(
+          showModal({
+            isModal: true,
+            content: "현재 비밀번호가 틀렸습니다.",
+          })
+        );
+      }
+    },
   });
 
   const onSubmit = (inputData) => {
-    console.log("inputData: ", inputData);
-    const formData = new FormData();
-    console.log(inputData.currentPW);
-    console.log(inputData.password);
-    formData.append("currentPassword", inputData.currentPW);
-    formData.append("changePassword", inputData.password);
-    formData.append("confirmPassword", inputData.passwordCheck);
-    mutate(formData);
-
-    // const update_result = axios
-    //   .post(
-    //     "https://mylee.site/api/userInfo/password",
-    //     {
-    //       currentPassword: inputData.currentPW,
-    //       changePassword: inputData.password,
-    //       confirmPassword: inputData.passwordCheck,
-    //     },
-    //     { withCredentials: true }
-    //   )
-    //   .then((res) => {
-    //     console.log("결과: ", res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    mutate(inputData);
   };
 
   return (
-    <StContainer>
-      <StHeader flex justify="space-between">
-        <DisplayDiv flex>
-          <NavigateBtn prev sizeType="header" />
-          <h3>비밀번호 변경</h3>
-        </DisplayDiv>
-        <div>
-          <h3 onClick={handleSubmit(onSubmit)}>완료</h3>
-        </div>
-      </StHeader>
-      <form>
-        <MypageSection flex derection="column" justify="flex-start">
-          <div className="PW-box current">
-            <label>기존 비밀번호</label>
-            <input
-              id="currentPW"
-              type="password"
-              name="currentPW"
-              placeholder="*영문,숫자 조합 8자리 이상"
-              aria-invalid={
-                !isDirty ? undefined : errors.currentPW ? false : true
-              }
-              {...register("currentPW", {
-                required: "비밀번호는 필수 입력 입니다.",
-                minLength: {
-                  value: 4,
-                  message: "4자리 이상 비밀번호를 입력해주세요",
-                },
-              })}
-            />
-            {errors.currentPW && (
-              <small role="alert">{errors.currentPW.message}</small>
-            )}
+    <>
+      {isModal && <Alert />}
+      <StContainer>
+        <StHeader flex justify="space-between">
+          <DisplayDiv flex>
+            <NavigateBtn prev sizeType="header" />
+            <h3>비밀번호 변경</h3>
+          </DisplayDiv>
+          <div>
+            <h3 onClick={handleSubmit(onSubmit)}>완료</h3>
           </div>
-          <div className="PW-box changing">
-            <label>새로 변경할 비밀번호</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="*영문,숫자 조합 8자리 이상"
-              aria-invalid={
-                !isDirty ? undefined : errors.password ? false : true
-              }
-              {...register("password", {
-                required: "비밀번호는 필수 입력 입니다.",
-                minLength: {
-                  value: 4,
-                  message: "4자리 이상 비밀번호를 입력해주세요",
-                },
-              })}
-              style={{ top: "33rem" }}
-            />
-            {errors.password && (
-              <small role="alert">{errors.password.message}</small>
-            )}
-            <input
-              id="passwordCheck"
-              type="password"
-              name="passwordCheck"
-              placeholder="비밀번호재입력"
-              aria-invalid={
-                !isDirty ? undefined : errors.passwordCheck ? false : true
-              }
-              {...register("passwordCheck", {
-                required: true,
-                validate: (val) => {
-                  if (watch("password") != val) {
-                    return "비밀번호가 다릅니다.";
-                  }
-                },
-              })}
-              style={{ top: "33rem" }}
-            />
-            {errors.passwordCheck && (
-              <small role="alert">{errors.passwordCheck.message}</small>
-            )}
-          </div>
-        </MypageSection>
-      </form>
-      {/* <form>
-        <MypageSection flex derection="column" justify="flex-start">
-          <div className="PW-box current">
-            <label>기존 비밀번호</label>
-            <input
-              className={errors.currentPW?.type === undefined ? "pass" : "fail"}
-              type="password"
-              id="currentPW"
-              name="currentPW"
-              placeholder="영문, 숫자 조합 8자리 이상"
-              {...register("currentPW", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
-              aria-invalid={errors?.currentPW ? "true" : "false"}
-            />
-            {errors?.currentPW && <span role="alert">비밀번호를 다시 한 번 확인해주세요.</span>}
-          </div>
-          <div className="PW-box changing">
-            <label>새로 변경할 비밀번호</label>
-            <input
-              className={errors.newPW?.type === undefined ? "pass" : "fail"}
-              type="password"
-              id="newPW"
-              name="newPW"
-              placeholder="영문, 숫자 조합 8자리 이상"
-              {...register("newPW", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
-              aria-invalid={errors?.newPW ? "true" : "false"}
-            />
-            {errors?.newPW && <span role="alert">영문, 숫자 조합 8자리 이상의 비밀번호를 입력해주세요.</span>}
-            <input
-              
-            />
-            {errors?.PWreconfirmation && <span role="alert">두 비밀번호가 달라요. 다시 한 번 확인해주세요.</span>}
-          </div>
-        </MypageSection>
-      </form> */}
-      <Footer />
-    </StContainer>
+        </StHeader>
+        <form>
+          <MypageSection flex derection="column" justify="flex-start">
+            <div className="PW-box current">
+              <label>기존 비밀번호</label>
+              <input
+                id="currentPW"
+                type="password"
+                name="currentPW"
+                placeholder="*영문,숫자 조합 8자리 이상"
+                aria-invalid={
+                  !isDirty ? undefined : errors.currentPW ? false : true
+                }
+                {...register("currentPW", {
+                  required: "비밀번호는 필수 입력 입니다.",
+                  minLength: {
+                    value: 4,
+                    message: "4자리 이상 비밀번호를 입력해주세요",
+                  },
+                })}
+              />
+              {errors.currentPW && (
+                <small role="alert">{errors.currentPW.message}</small>
+              )}
+            </div>
+            <div className="PW-box changing">
+              <label>새로 변경할 비밀번호</label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="*영문,숫자 조합 8자리 이상"
+                aria-invalid={
+                  !isDirty ? undefined : errors.password ? false : true
+                }
+                {...register("password", {
+                  required: "비밀번호는 필수 입력 입니다.",
+                  minLength: {
+                    value: 4,
+                    message: "4자리 이상 비밀번호를 입력해주세요",
+                  },
+                })}
+                style={{ top: "33rem" }}
+              />
+              {errors.password && (
+                <small role="alert">{errors.password.message}</small>
+              )}
+              <input
+                id="passwordCheck"
+                type="password"
+                name="passwordCheck"
+                placeholder="비밀번호재입력"
+                aria-invalid={
+                  !isDirty ? undefined : errors.passwordCheck ? false : true
+                }
+                {...register("passwordCheck", {
+                  required: true,
+                  validate: (val) => {
+                    if (watch("password") != val) {
+                      return "비밀번호가 다릅니다.";
+                    }
+                  },
+                })}
+                style={{ top: "33rem" }}
+              />
+              {errors.passwordCheck && (
+                <small role="alert">{errors.passwordCheck.message}</small>
+              )}
+            </div>
+          </MypageSection>
+        </form>
+        <Footer />
+      </StContainer>
+    </>
   );
 };
 

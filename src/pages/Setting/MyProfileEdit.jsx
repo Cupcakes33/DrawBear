@@ -8,8 +8,21 @@ import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { showModal } from "../../redux/modules/UISlice";
+import Alert from "../../components/common/modal/Alert";
 const MyProfileEdit = () => {
+  const dispatch = useDispatch();
+  const { isModal } = useSelector((state) => state.UISlice);
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
+  const { mutate } = useMutation((formData) => mypageApi.update(formData), {
+    onSuccess: (success) => {
+      console.log(success);
+      dispatch(
+        showModal({ isModal: true, content: success.message, move: "/setting" }) //모달창에 전달하는 데이터
+      );
+    },
+  });
   const [nick, setNick] = useState("");
   const [image, setImage] = useState({
     image_file: "",
@@ -18,7 +31,7 @@ const MyProfileEdit = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, errors },
+    formState: { isDirty, errors },
   } = useForm({ mode: "onChange" });
 
   const nickChangeHandle = (event) => {
@@ -37,6 +50,27 @@ const MyProfileEdit = () => {
       }));
     }
   };
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    if (!data.nickname) {
+      console.log("//닉넴 변경 X , 이미지 0");
+      formData.append("nickname", nick);
+      formData.append("image", image.image_file);
+    } else if (!image.image_file && nick !== data.nickname) {
+      console.log("//닉넴 변경 0 , 이미지X");
+      formData.append("nickname", data.nickname);
+      formData.append("image", image.preview_URL);
+      console.log(image.preview_URL);
+    } else {
+      console.log("//닉넴 변경 0 , 이미지 0");
+      formData.append("nickname", data.nickname);
+      formData.append("image", image.image_file);
+      console.log(data);
+      console.log(image.image_file);
+    }
+    mutate(formData);
+  };
+
   useEffect(() => {
     setNick(data?.userInfo.nickname);
     setImage({ preview_URL: data?.userInfo.profileImg });
@@ -44,8 +78,44 @@ const MyProfileEdit = () => {
 
   let inputRef;
 
-  const { mutate } = useMutation((formData) => mypageApi.update(formData));
   return (
+
+    <>
+      {isModal && <Alert />}
+      <StContainer>
+        <StHeader flex justify="space-between">
+          <DisplayDiv flex>
+            <NavigateBtn prev sizeType="header" />
+            <h3>프로필 수정</h3>
+          </DisplayDiv>
+          <button onClick={handleSubmit(onSubmit)}>
+            <span>수정</span>
+          </button>
+        </StHeader>
+        <form>
+          <MyProfileSection flex derection="column" justify="flex-start">
+            <div>
+              <input
+                {...register("image")}
+                id="profileImg"
+                type="file"
+                name="profileImg"
+                accept="image/*"
+                onChange={imgOnChnageHandler}
+                onClick={(e) => (e.target.value = null)}
+                ref={(refParam) => (inputRef = refParam)}
+                style={{ display: "none " }}
+              ></input>
+              <div className="myProfileInfoWrapper">
+                <img src={image.preview_URL} onClick={() => inputRef.click()} />
+                <div className="pencilIcon-box">
+                  <Button
+                    type="button"
+                    onClick={() => inputRef.click()}
+                    icon={<TiPencil />}
+                    round
+                  ></Button>
+                </div>
     <StContainer>
       <StHeader flex justify="space-between">
         <DisplayDiv flex>
@@ -127,13 +197,45 @@ const MyProfileEdit = () => {
                   })}
                 />
                 {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
+
               </div>
             </div>
-          </AccountInfoBox>
-        </MyProfileSection>
-      </form>
-      <Footer />
-    </StContainer>
+            <AccountInfoBox>
+              <div>
+                <label>이메일</label>
+                <span>{data?.userInfo.email}</span>
+              </div>
+              <div>
+                <span className="nickName_txt">닉네임</span>
+                <div className="nickName_container">
+                  <input
+                    id="nickname"
+                    type="text"
+                    name="nickname"
+                    placeholder="닉네임을 입력해주세요"
+                    defaultValue={nick}
+                    onChange={nickChangeHandle}
+                    aria-invalid={
+                      !isDirty ? undefined : errors.nickname ? "true" : "false"
+                    }
+                    {...register("nickname", {
+                      minLength: {
+                        value: 2,
+                        message: "2자리 이상 닉네임을 사용하세요.",
+                      },
+                    })}
+                  />
+                  {errors.nickname && (
+                    <small role="alert">{errors.nickname.message}</small>
+                  )}
+                </div>
+              </div>
+            </AccountInfoBox>
+          </MyProfileSection>
+        </form>
+        <Footer />
+      </StContainer>
+    </>
   );
 };
 
