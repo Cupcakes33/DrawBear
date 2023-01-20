@@ -27,7 +27,7 @@ const diarySlice = createSlice({
       state.couple = action.payload
     },
     diaryModal: (state, action) => {
-      console.log(action.payload)
+      
       state.diary = action.payload
     }
   },

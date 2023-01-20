@@ -31,7 +31,7 @@ const HashTagInput = ({ tags, setTags }) => {
 
     // 입력값 초기화
     event.target.value = "";
-    console.log(tags);
+  
   };
 
   const removeHashTag = (targetIndex) => {

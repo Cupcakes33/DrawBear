@@ -90,11 +90,11 @@ const Write = () => {
     event.preventDefault();
     let blob = imgUrlConvertBlob(canvas);
     let formData = new FormData(event.target);
-    console.log(blob);
+
 
     formData.get("title");
     formData.get("createdAt");
-    console.log(formData.get("radio"));
+
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
     formData.append("weather", weather || "sunny");

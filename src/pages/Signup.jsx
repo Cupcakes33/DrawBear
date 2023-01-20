@@ -64,24 +64,18 @@ const Signup = () => {
       );
     },
     onError: (error) => {
-      console.log(error);
+      
       const msg = error.response.data.message;
       const errorStatus = error.response.status;
-      console.log(errorStatus);
+      
       if (errorStatus === 409) {
-        console.log();
+      
         dispatch(showModal({ isModal: true, content: msg }));
       }
     },
   });
 
-  console.log(watch("email"));
-  console.log(watch("password"));
-  console.log(watch("passwordCheck"));
-
-  console.log(watch(errors.email?.type));
-  console.log(watch(errors.password?.type));
-  console.log(watch(errors.passwordCheck?.type));
+  
 
   return (
     <>
