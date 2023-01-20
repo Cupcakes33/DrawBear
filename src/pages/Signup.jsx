@@ -15,7 +15,6 @@ import Alert from "../components/common/modal/Alert";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
-  const [backState, setBackState] = useState(false);
   const [image, setImage] = useState({
     image_file: "",
     preview_URL: defaultImg,
@@ -26,7 +25,6 @@ const Signup = () => {
 
   const onScreenChangeHandler = () => {
     setScreenChange(!screenChange);
-    setBackState(!backState);
   };
 
   const {
@@ -82,7 +80,7 @@ const Signup = () => {
       <StContainer bgColor="#EEF3E3;">
         <StHeader>
           <BackButtonDiv>
-            {backState ? <GrPrevious onClick={onScreenChangeHandler} /> : <GrPrevious onClick={() => navigate(-1)} />}
+            {screenChange ? <GrPrevious onClick={onScreenChangeHandler} /> : <GrPrevious onClick={() => navigate(-1)} />}
           </BackButtonDiv>
         </StHeader>
         <SlideContainerForm
@@ -214,7 +212,7 @@ const Signup = () => {
                 {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
               </div>
               <SignupButtonBox>
-                <button type="submit" disabled={isSubmitting}>
+                <button disabled={isSubmitting}>
                   회원가입
                 </button>
               </SignupButtonBox>
