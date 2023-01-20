@@ -13,7 +13,14 @@ import { TiPencil } from "react-icons/ti";
 import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
 
-const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
+const color = [
+  "#FF8181",
+  "#FFCA7A",
+  "#FFE99A",
+  "#A4F5A3",
+  "#9CDBF7",
+  "#BB9EFA",
+];
 const UpdateDiary = () => {
   const dispatch = useDispatch();
   const { couple } = useSelector((state) => state.diarySlice);
@@ -22,26 +29,47 @@ const UpdateDiary = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
-  const [selectedColor, setSelectedColor] = useState(updateDiaryData?.[0].outsideColor);
+  const updateDiaryData = queryClient
+    ?.getQueryData(["main"])
+    ?.diaries.filter((data) => data.diaryId === +id);
+  const [selectedColor, setSelectedColor] = useState(
+    updateDiaryData?.[0].outsideColor
+  );
 
   const { mutate } = useMutation((updateData) => mainApi.update(updateData), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 생성에 실패하였습니다." }));
-      else if (status === 404) dispatch(showModal({ isModal: true, content: "다이어리가 존재하지 않습니다." }));
-      else if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+      if (status === 500)
+        dispatch(
+          showModal({
+            isModal: true,
+            content: "다이어리 생성에 실패하였습니다.",
+          })
+        );
+      else if (status === 404)
+        dispatch(
+          showModal({ isModal: true, content: "다이어리가 존재하지 않습니다." })
+        );
+      else if (status === 401)
+        dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
     },
     onSuccess: () => {
-      dispatch(showModal({ isModal: true, content: "다이어리 수정 성공!", move: "/" }));
+      dispatch(
+        showModal({ isModal: true, content: "다이어리 수정 성공!", move: "/" })
+      );
     },
   });
 
   const onUpdateDiaryHandler = () => {
     const diaryName = diaryTitleInputRef.current.value;
-    if (!diaryName) dispatch(showModal({ isModal: true, content: "다이어리 이름을 작성해주세요!" }));
+    if (!diaryName)
+      dispatch(
+        showModal({ isModal: true, content: "다이어리 이름을 작성해주세요!" })
+      );
     else if (!selectedColor) {
-      dispatch(showModal({ isModal: true, content: "다이어리 색상을 선택해주세요!" }));
+      dispatch(
+        showModal({ isModal: true, content: "다이어리 색상을 선택해주세요!" })
+      );
     } else {
       return mutate({ diaryName, selectedColor, couple, id });
     }
@@ -71,18 +99,31 @@ const UpdateDiary = () => {
           </StHeader>
           <UpdateDiaryBox>
             <UpdateLogoBear>
-              <img src={couple === 0 ? soloDiaryBear : coupleDiaryBear} alt="다이어리 생성 곰돌이 그림" />
+              <img
+                src={couple === 0 ? soloDiaryBear : coupleDiaryBear}
+                alt="다이어리 생성 곰돌이 그림"
+              />
               <span>{couple === 0 ? "혼자써요 !" : "같이써요 !"}</span>
             </UpdateLogoBear>
             <div className="pencilIcon-box">
               <TiPencil />
             </div>
-            <input type="text" defaultValue={updateDiaryData[0].diaryName} ref={diaryTitleInputRef} />
+            <input
+              type="text"
+              defaultValue={updateDiaryData[0].diaryName}
+              ref={diaryTitleInputRef}
+            />
             <Diary bgColor={selectedColor} />
           </UpdateDiaryBox>
           <Footer>
             {color.map((color, i) => {
-              return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
+              return (
+                <ColorPicker
+                  key={`updateDiaryColorPicker${i}`}
+                  color={color}
+                  onClick={() => setSelectedColor(color)}
+                ></ColorPicker>
+              );
             })}
           </Footer>
         </Container>

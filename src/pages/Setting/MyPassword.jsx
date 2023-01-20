@@ -30,9 +30,9 @@ const MyPassword = () => {
     },
     onError: (error) => {
       const errorStatus = error.response.status;
-      console.log(errorStatus);
+      
       if (errorStatus === 401) {
-        console.log();
+      
         dispatch(
           showModal({
             isModal: true,

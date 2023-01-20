@@ -20,7 +20,7 @@ const Calendar = ({ onClose }) => {
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
-  console.log(holiday);
+
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {

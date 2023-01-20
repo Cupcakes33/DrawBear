@@ -79,8 +79,8 @@ const Detail = () => {
         </div>
         <div className="detailPageProfileInfoWrapper">
           <div className="tagBox">
-            {tag?.split(",").map((tag) => {
-              return <span>{tag}</span>;
+            {tag?.split(",").map((tag,n) => {
+              return <span key={`tag${n}`}>{tag}</span>;
             })}
           </div>
           <div className="profileBox">

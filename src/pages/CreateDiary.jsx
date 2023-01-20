@@ -65,7 +65,7 @@ const CreateDiary = () => {
         </CreateDiaryBox>
         <Footer>
           {color.map((color, i) => {
-            return <ColorPicker key={i} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
+            return <ColorPicker key={`diaryColorPicker${i}`} color={color} onClick={() => setSelectedColor(color)}></ColorPicker>;
           })}
         </Footer>
       </Container>

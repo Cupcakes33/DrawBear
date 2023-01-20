@@ -17,7 +17,7 @@ const MyProfileEdit = () => {
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const { mutate } = useMutation((formData) => mypageApi.update(formData), {
     onSuccess: (success) => {
-      console.log(success);
+      
       dispatch(
         showModal({
           isModal: true,
@@ -43,11 +43,11 @@ const MyProfileEdit = () => {
   };
   const imgOnChnageHandler = (e) => {
     e.preventDefault();
-    console.log(e.target.files[0]);
+    
     if (e.target.files[0]) {
       URL.revokeObjectURL(image.preview_URL);
       const preview_URL = URL.createObjectURL(e.target.files[0]);
-      console.log(preview_URL);
+    
       setImage(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
@@ -57,20 +57,19 @@ const MyProfileEdit = () => {
   const onSubmit = (data) => {
     const formData = new FormData();
     if (!data.nickname) {
-      console.log("//닉넴 변경 X , 이미지 0");
+      
       formData.append("nickname", nick);
       formData.append("image", image.image_file);
     } else if (!image.image_file && nick !== data.nickname) {
-      console.log("//닉넴 변경 0 , 이미지X");
+      
       formData.append("nickname", data.nickname);
       formData.append("image", image.preview_URL);
-      console.log(image.preview_URL);
+      
     } else {
-      console.log("//닉넴 변경 0 , 이미지 0");
+      
       formData.append("nickname", data.nickname);
       formData.append("image", image.image_file);
-      console.log(data);
-      console.log(image.image_file);
+      
     }
     mutate(formData);
   };

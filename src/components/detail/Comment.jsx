@@ -6,9 +6,9 @@ import ko from "timeago.js/lib/lang/ko";
 
 const Comment = ({ comments }) => {
   timeAgo.register("ko", ko);
-  const re = comments.reverse();
-  return re.map((comment) => (
-    <StCommentContainer>
+  const reverseArr = comments.reverse();
+  return reverseArr.map((comment) => (
+    <StCommentContainer key={`comment${comment.commentId}`}>
       <div className="commenterProfileWrapper">
         <img src={comment.profileImg} alt="프로필이미지" />
         <p>{comment.nickname}</p>

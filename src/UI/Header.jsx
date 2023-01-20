@@ -11,36 +11,6 @@ import Calendar from "../components/calendar/Calendar";
 const Header = () => {
   const [isModal, setIsModal] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // const FullList = useCallback(() => {
-  //   return (
-  //     <>
-  //       <Head>
-  //         <div>
-  //           <LeftDiv>
-  //             <button onClick={() => navigate(-1)}>{"<"}</button>
-  //             <span>일기 쓰기</span>
-  //           </LeftDiv>
-  //           <RightDiv>
-  //             <button
-  //               onClick={() => {
-  //                 setIsModal(true);
-  //               }}
-  //             >
-  //               달력
-  //             </button>
-  //           </RightDiv>
-  //         </div>
-  //       </Head>
-  //       <DummyDiv />
-  //     </>
-  //   );
-  // // }, []);
-
-  // useEffect(() => {
-  //   console.log(location);
-  // }, []);
 
   return (
     <>
