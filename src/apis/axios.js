@@ -23,7 +23,6 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log(error)
     if (error.response.status === 401)
       window.location.replace("http://localhost:3000/login");
     return Promise.reject(error);
@@ -32,15 +31,10 @@ instance.interceptors.response.use(
 
 export const loginApi = {
   login: async (inputData) => {
-    console.log(inputData)
     const { data } = await instance.post("/api/auth/login", {
       email: inputData.email,
       password: inputData.password,
     })
-    // .catch((error) => {
-    //   console.log(error)
-    // })
-    console.log(data)
     return data;
   },
 
