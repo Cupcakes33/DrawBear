@@ -12,15 +12,16 @@ import { FiMoreVertical } from "react-icons/fi";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.css";
-import DiarySetting from "../FullList/DiarySetting";
+// import DiarySetting from "../FullList/DiarySetting";
 import { AiOutlineStar } from "react-icons/ai";
 import { AiFillStar } from "react-icons/ai";
+import { diaryModal } from "../../redux/modules/diarySlice";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [diarySettingModal, setDiarySettingModal] = useState(false);
-  const [diaryId, setdiaryId] = useState("");
+  // const [diarySettingModal, setDiarySettingModal] = useState(false);
+  // const [diaryId, setdiaryId] = useState("");
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
@@ -48,8 +49,9 @@ const Diaries = ({ diaryData }) => {
   });
 
   const diarySettingHandler = (diaryId) => {
-    setDiarySettingModal(true);
-    setdiaryId(diaryId);
+    // setDiarySettingModal(true);
+    // setdiaryId(diaryId);
+    dispatch(diaryModal({ diaryId: diaryId, isModal: true }));
   };
 
   return (
@@ -86,9 +88,6 @@ const Diaries = ({ diaryData }) => {
                   }}
                 ></Diary>
               </DiaryShowContainer>
-              {diarySettingModal && (
-                <DiarySetting onClose={setDiarySettingModal} diaryId={diaryId} queryClient={queryClient} />
-              )}
             </SwiperSlide>
           );
         })}
