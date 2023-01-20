@@ -99,12 +99,7 @@ const MyProfileEdit = () => {
             <div className="myProfileInfoWrapper">
               <img src={image.preview_URL} onClick={() => inputRef.click()} />
               <div className="pencilIcon-box">
-                <Button
-                  type="button"
-                  onClick={() => inputRef.click()}
-                  icon={<TiPencil />}
-                  round
-                ></Button>
+                <Button type="button" onClick={() => inputRef.click()} icon={<TiPencil />} round></Button>
               </div>
             </div>
           </div>
@@ -123,9 +118,7 @@ const MyProfileEdit = () => {
                   placeholder="닉네임을 입력해주세요"
                   defaultValue={nick}
                   onChange={nickChangeHandle}
-                  aria-invalid={
-                    !isDirty ? undefined : errors.nickname ? "true" : "false"
-                  }
+                  aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
                   {...register("nickname", {
                     minLength: {
                       value: 2,
@@ -133,9 +126,7 @@ const MyProfileEdit = () => {
                     },
                   })}
                 />
-                {errors.nickname && (
-                  <small role="alert">{errors.nickname.message}</small>
-                )}
+                {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
               </div>
             </div>
           </AccountInfoBox>
@@ -165,7 +156,7 @@ const MyProfileSection = styled(StSection)`
     background-color: white;
     border-radius: 50%;
     position: absolute;
-    top: 17%;
+    top: 14rem;
     left: 55%;
     display: flex;
     align-items: center;

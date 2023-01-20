@@ -301,7 +301,7 @@ const SignupButtonBox = styled.div`
     border-radius: 10px;
     font-size: 1.7rem;
     font-weight: 700;
-    cursor: pointer;
+    cu
   }
 `;
 
@@ -326,7 +326,7 @@ const ProfileSection = styled.section`
   }
   .profile-setting {
     position: absolute;
-    top: calc(50% - 15rem);
+    top: 23rem;
     right: calc(50% - 23rem);
   }
   img {
