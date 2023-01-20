@@ -20,8 +20,8 @@ const DiarySetting = ({ queryClient, diaryId }) => {
       else if (status === 500) dispatch(showModal({ isModal: true, content: "다이어리 삭제에 실패하였습니다." }));
     },
     onSuccess: () => {
-      queryClient.refetchQueries(["main"]);
       dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
+      queryClient?.invalidateQueries({ queryKey: ["main"] });
     },
   });
 

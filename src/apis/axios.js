@@ -12,7 +12,7 @@ const getToken = () => {
 };
 
 instance.interceptors.request.use((config) => {
-  config.headers["Authorization"] = getToken();
+  config.headers["Authorization"] = getToken()
   return config;
 });
 
@@ -23,8 +23,9 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    error.response.status === 401 &&
+    if (error.response.status === 401)
       window.location.replace("http://localhost:3000/login");
+    return Promise.reject(error);
   }
 );
 
@@ -33,11 +34,7 @@ export const loginApi = {
     const { data } = await instance.post("/api/auth/login", {
       email: inputData.email,
       password: inputData.password,
-    });
-    localStorage.setItem("token", data.token);
-    setTimeout(() => {
-      localStorage.clear();
-    }, 3600000);
+    })
     return data;
   },
 

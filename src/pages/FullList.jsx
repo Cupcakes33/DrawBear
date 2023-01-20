@@ -81,7 +81,7 @@ const DiaryList = () => {
   return (
     <>
       {isModal && <Calendar onClose={setIsModal} />}
-      {isSettingModal && <DiarySetting onClose={setIsSettingModal} />}
+      {isSettingModal && <DiarySetting onClose={setIsSettingModal} diaryId={diaryId} />}
       <StContainer>
         <StHeader>
           {!changeHeader && defaultHeader()}
