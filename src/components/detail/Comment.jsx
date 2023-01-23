@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import TimeAgo from "timeago-react";
 import * as timeAgo from "timeago.js";
 import ko from "timeago.js/lib/lang/ko";
 import Button from "../common/Button";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { TfiPencil, TfiTrash } from "react-icons/tfi";
 
 const Comment = ({ comments }) => {
-  const [isDropdown, setIsDropdown] = useState(false);
   timeAgo.register("ko", ko);
+  const [commentId, setCommentId] = useState(0);
+  const [isDropdown, setIsDropdown] = useState(false);
+
   return comments.map((comment) => (
     <StCommentContainer key={`comment${comment.commentId}`}>
       <img src={comment.profileImg} alt="프로필이미지" />
@@ -27,11 +30,32 @@ const Comment = ({ comments }) => {
         round
         fs="2rem"
         icon={<BiDotsVerticalRounded />}
-        onClick={() => setIsDropdown(!isDropdown)}
+        onClick={() => {
+          setCommentId(comment.commentId);
+          setIsDropdown(!isDropdown);
+        }}
       />
-      <StOptionDropdown isDropdown={isDropdown}>
-        <li>수정</li>
-        <li>삭제</li>
+
+      <StOptionDropdown
+        isDropdown={isDropdown && commentId === comment.commentId}
+      >
+        <li
+          onClick={() => {
+            console.log("update");
+          }}
+        >
+          <TfiPencil />
+          <span>수정</span>
+        </li>
+
+        <li
+          onClick={() => {
+            console.log("delete");
+          }}
+        >
+          <TfiTrash />
+          <span>삭제</span>
+        </li>
       </StOptionDropdown>
     </StCommentContainer>
   ));
@@ -40,16 +64,17 @@ const Comment = ({ comments }) => {
 export default Comment;
 
 const StOptionDropdown = styled.ul`
+  z-index: 3;
   position: absolute;
-  display: none;
-  top: 50%;
-  right: 3rem;
-  transform: translateY(-50%);
+  display: ${(props) => (props.isDropdown ? "flex" : "none")};
+  bottom: -150%;
+  right: 1rem;
+  width: 8rem;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   gap: 1rem;
-  padding: 1rem;
+  padding: 1rem 1rem;
   background-color: #fff;
   border-radius: 1rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
@@ -57,6 +82,13 @@ const StOptionDropdown = styled.ul`
   li {
     font-size: 1.5rem;
     font-weight: 700;
+    width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
     cursor: pointer;
     &:hover {
       color: #ff6b6b;
@@ -93,6 +125,9 @@ const StCommentContainer = styled.div`
     }
     .commentOptionBtn:hover {
       background-color: #f0f0f0;
+    }
+    .commentOptionBtn:active {
+      background-color: #e0e0e0;
     }
   }
 `;
