@@ -15,12 +15,8 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
   const { data, mutate } = useMutation((id) => mainApi.delete(id), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 404)
-        dispatch(
-          showModal({ isModal: true, content: "다이어리가 존재하지 않습니다." })
-        );
-      else if (status === 401)
-        dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+      if (status === 404) dispatch(showModal({ isModal: true, content: "다이어리가 존재하지 않습니다." }));
+      else if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
       else if (status === 500)
         dispatch(
           showModal({
@@ -30,9 +26,7 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
         );
     },
     onSuccess: () => {
-      dispatch(
-        showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" })
-      );
+      dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
       queryClient?.invalidateQueries({ queryKey: ["main"] });
     },
   });
@@ -41,11 +35,9 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
     <>
       <Modal onClose={onClose} modalWidth="36rem" top="94%" radius="0">
         <DiarySettingModal>
-          <div>같이 쓰는 멤버 초대</div>
+          <div onClick={() => navigate("/invite")}>같이 쓰는 멤버 초대</div>
           <hr />
-          <div onClick={() => navigate(`/update/${diaryId}`)}>
-            다이어리 수정
-          </div>
+          <div onClick={() => navigate(`/update/${diaryId}`)}>다이어리 수정</div>
           <hr />
           <div onClick={() => mutate(diaryId)}>다이어리 삭제</div>
         </DiarySettingModal>
