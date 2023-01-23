@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
+import NavigateBtn from "../components/common/NavigateBtn";
 
 const userData = [
   {
@@ -28,14 +29,8 @@ const Invite = () => {
   const navigate = useNavigate();
   return (
     <StContainer>
-      <StHeader flexCenter>
-        <button
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          이전
-        </button>
+      <StHeader flex justify="flex-start">
+        <NavigateBtn prev sizeType="header" />
         <h3>같이 쓰는 멤버 초대</h3>
       </StHeader>
       <StInviteSection>
