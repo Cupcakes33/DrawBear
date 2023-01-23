@@ -24,7 +24,8 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401)
-      window.location.replace("https://finale-omega.vercel.app/login");
+      // window.location.replace("https://finale-omega.vercel.app/login");
+      window.location.replace("http://localhost:3000/login");
     return Promise.reject(error);
   }
 );

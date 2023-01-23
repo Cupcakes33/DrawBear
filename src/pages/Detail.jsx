@@ -79,7 +79,7 @@ const Detail = () => {
         </div>
         <div className="detailPageProfileInfoWrapper">
           <div className="tagBox">
-            {tag?.split(",").map((tag,n) => {
+            {tag?.split(",").map((tag, n) => {
               return <span key={`tag${n}`}>{tag}</span>;
             })}
           </div>
@@ -112,7 +112,7 @@ const Detail = () => {
         <CommentBox>
           <h3>댓글 {commentsCount}</h3>
 
-          <Comment comments={comments} />
+          <Comment comments={comments.reverse()} />
         </CommentBox>
       </StDetailPageSection>
       <DetailPageFooter>
