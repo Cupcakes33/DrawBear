@@ -1,6 +1,6 @@
 import { useRef, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import TimeAgo from "timeago-react";
 import * as timeAgo from "timeago.js";
@@ -16,23 +16,35 @@ import { commentsApi } from "../../apis/axios";
 // memo 를 적용하여 댓글이 추가되거나 삭제될 때만 리렌더링 되도록 변경.
 
 const Comment = memo(({ comments }) => {
+  const queryClient = useQueryClient();
   timeAgo.register("ko", ko);
   const [commentId, setCommentId] = useState(0);
   const [isDropdown, setIsDropdown] = useState(false);
+  const [editCommentValue, setEditCommentValue] = useState("");
+  const [isCommentEdit, setIsCommentEdit] = useState(false);
 
-  const { mutate } = useMutation(
-    (inputData) => commentsApi.login(inputData),
-    {}
+  const { mutate: commentDeleteMutate } = useMutation(
+    (inputData) => commentsApi.delete(inputData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+      },
+    }
   );
 
   const deleteComment = (commentId) => {
     setIsDropdown(false);
-    console.log(commentId);
+    commentDeleteMutate(commentId);
   };
 
-  const updateComment = (commentId) => {
+  const updateComment = (comment) => {
+    setEditCommentValue(comment);
     setIsDropdown(false);
-    console.log(commentId);
+    setIsCommentEdit(true);
+  };
+
+  const commentInputHandler = (event) => {
+    setEditCommentValue(event.target.value);
   };
 
   return (
@@ -50,26 +62,48 @@ const Comment = memo(({ comments }) => {
               </StCommentNicknameBox>
 
               <StCommentContentBox>
-                <span>{comment.comment}</span>
+                {isCommentEdit && commentId === comment.commentId ? (
+                  <input
+                    value={editCommentValue}
+                    onChange={(event) => {
+                      commentInputHandler(event);
+                    }}
+                  />
+                ) : (
+                  <span>{comment.comment}</span>
+                )}
               </StCommentContentBox>
             </div>
-            <Button
-              className="commentOptionBtn"
-              round
-              fs="2rem"
-              icon={<BiDotsVerticalRounded />}
-              onClick={() => {
-                setCommentId(comment.commentId);
-                setIsDropdown(!isDropdown);
-              }}
-            />
+            {isCommentEdit && commentId === comment.commentId ? (
+              <div>
+                <button>수정완료</button>
+                <button
+                  onClick={() => {
+                    setIsCommentEdit(false);
+                  }}
+                >
+                  취소
+                </button>
+              </div>
+            ) : (
+              <Button
+                className="commentOptionBtn"
+                round
+                fs="2rem"
+                icon={<BiDotsVerticalRounded />}
+                onClick={() => {
+                  setCommentId(comment.commentId);
+                  setIsDropdown(!isDropdown);
+                }}
+              />
+            )}
 
             <StOptionDropdown
               isDropdown={isDropdown && commentId === comment.commentId}
             >
               <li
                 onClick={() => {
-                  updateComment(comment.commentId);
+                  updateComment(comment.comment);
                 }}
               >
                 <TfiPencil />
