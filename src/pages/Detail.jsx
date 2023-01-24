@@ -6,7 +6,7 @@ import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Button from "../components/common/Button";
 import { StWeatherIconMini } from "../components/write/WeatherPicker";
@@ -14,6 +14,7 @@ import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 
 const Detail = () => {
+  const navigate = useNavigate();
   const diaryId = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
@@ -24,13 +25,6 @@ const Detail = () => {
     isError,
     isLoading,
   } = useQuery(["posts"], () => postsApi.get(diaryId));
-
-  const { mutate: postMutate } = useMutation({
-    mutationFn: (comments) => commentsApi.post(comments),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
-    },
-  });
 
   const {
     postId,
@@ -46,6 +40,20 @@ const Detail = () => {
     comments,
   } = data;
 
+  const { mutate: postMutate } = useMutation({
+    mutationFn: (comments) => commentsApi.post(comments),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
+  const { mutate: postDeleteMutate } = useMutation({
+    mutationFn: () => postsApi.delete(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   const commentsSubmitHandler = (event) => {
     event.preventDefault();
     const comment = event.target.children.comment.value.trim();
@@ -59,6 +67,12 @@ const Detail = () => {
     const temp = date.slice(0, 10);
     return new Date(temp).toLocaleDateString("ko-KR");
   };
+
+  const postDeleteHandler = () => {
+    postDeleteMutate();
+    navigate(-1);
+  };
+
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
@@ -98,16 +112,25 @@ const Detail = () => {
         </div>
 
         <div className="detailPageButtonWrapper">
-          <Button icon={<BsBookmark />} fs="2rem">
-            목록
-          </Button>
-          <Button size="small" fs="2rem">
+          <Button icon={<BsBookmark />} fs="2rem" />
+          <Button
+            size="small"
+            fs="2rem"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
             목록
           </Button>
           <Button size="small" fs="2rem">
             수정
           </Button>
-          <Button size="small" fs="2rem" fontColor="#FF7070">
+          <Button
+            size="small"
+            fs="2rem"
+            fontColor="#FF7070"
+            onClick={postDeleteHandler}
+          >
             삭제
           </Button>
         </div>

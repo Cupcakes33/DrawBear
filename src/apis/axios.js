@@ -126,6 +126,9 @@ export const postsApi = {
     const { data } = await instance.get(`/api/post/detail/${diaryId}`);
     return data.posts;
   },
+  delete: async (postId) => {
+    await instance.delete(`/api/post/${postId}`);
+  },
 };
 
 export const commentsApi = {
