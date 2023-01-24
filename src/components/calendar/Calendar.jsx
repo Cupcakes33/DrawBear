@@ -48,23 +48,30 @@ const Calendar = ({ onClose }) => {
     ));
   }, []);
 
+  // 주호님 방식에 맞춰서 둘 중 하나로 로직 수정
+  // 1. setquerydata를 이용해 캐시를 변경할 경우 -> 복사본 만들어서 복사본을 달력 표시로 쓰고 원본을 수정해 렌더링 변화주기
+  // 2. 캐시 건드리지 않고 임의의 변수 or 상수를 만들어서 렌더링에 사용하실 경우 -> 만들어 놓은 것에 덮어 씌워 렌더링 변화주기
+  const postsMonthFilterFn = useCallback(() => {
+    const postsMonth = queryClient
+      ?.getQueryData(["Allposts"])
+      .filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
+    return postsMonth;
+  }, [selectedMonth]);
+
   const returnDay = useCallback(() => {
     let dayArr = [];
     const holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
     const holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
-    const postsMonth = queryClient
-      ?.getQueryData(["Allposts"])
-      .filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
-    const postsDate = postsMonth.map((post) => +post.createdAt.split("-")[2].split("T")[0]);
+    const postsDate = postsMonthFilterFn().map((post) => +post.createdAt.split("-")[2].split("T")[0]);
 
-    const holidayCompare = (i) => {
+    const holidayCompareFn = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
         // console.log(h);
         if (holidayDate[h] === i) return true;
       }
     };
 
-    const postedDayCompare = (i) => {
+    const postedDayCompareFn = (i) => {
       for (let p = 0; p <= postsDate.length; p++) {
         if (postsDate[p] === i) return true;
 
@@ -81,8 +88,8 @@ const Calendar = ({ onClose }) => {
     };
 
     const dayColor = (i) => {
-      if (postedDayCompare(i)) return "postedDay";
-      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompare(i)) return "redDay";
+      if (postedDayCompareFn(i)) return "postedDay";
+      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
       else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
 
@@ -91,11 +98,7 @@ const Calendar = ({ onClose }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <SpecialDate
-              key={i}
-              color={dayColor(i)}
-              onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)}
-            >
+            <SpecialDate key={i} color={dayColor(i)} onClick={() => setSelectedDate(i)}>
               {i}
             </SpecialDate>
           );
@@ -106,6 +109,13 @@ const Calendar = ({ onClose }) => {
     }
     return dayArr;
   }, [selectedMonth, holiday]);
+
+  const selectedDatePostSearch = () => {
+    const selectedDayPost = postsMonthFilterFn().filter(
+      (post) => +post.createdAt.split("-")[2].split("T")[0] === selectedDate
+    );
+    queryClient.setQueryData(["Allposts"], selectedDayPost);
+  };
 
   return (
     <Modal onClose={onClose} modalWidth="36rem" modalHeight="40rem" top="80%">
@@ -120,6 +130,7 @@ const Calendar = ({ onClose }) => {
               <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
               <div className="buttons">
                 <div>
+                  <button onClick={selectedDatePostSearch}>조회</button>
                   <button onClick={() => prevMonth()}>이전 달</button>
                   <button onClick={() => nextMonth()}>다음 달</button>
                 </div>
