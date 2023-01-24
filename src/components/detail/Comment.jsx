@@ -32,15 +32,29 @@ const Comment = memo(({ comments }) => {
     }
   );
 
+  const { mutate: commentUpdateMutate } = useMutation(
+    (inputData) => commentsApi.patch(inputData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+      },
+    }
+  );
+
   const deleteComment = (commentId) => {
     setIsDropdown(false);
     commentDeleteMutate(commentId);
   };
 
-  const updateComment = (comment) => {
+  const updateCommentMode = (comment) => {
     setEditCommentValue(comment);
     setIsDropdown(false);
     setIsCommentEdit(true);
+  };
+
+  const updateComment = (commentId) => {
+    setIsCommentEdit(false);
+    commentUpdateMutate({ comment: editCommentValue, commentId });
   };
 
   const commentInputHandler = (event) => {
@@ -76,7 +90,13 @@ const Comment = memo(({ comments }) => {
             </div>
             {isCommentEdit && commentId === comment.commentId ? (
               <div>
-                <button>수정완료</button>
+                <button
+                  onClick={() => {
+                    updateComment(comment.commentId);
+                  }}
+                >
+                  수정완료
+                </button>
                 <button
                   onClick={() => {
                     setIsCommentEdit(false);
@@ -103,7 +123,7 @@ const Comment = memo(({ comments }) => {
             >
               <li
                 onClick={() => {
-                  updateComment(comment.comment);
+                  updateCommentMode(comment.comment);
                 }}
               >
                 <TfiPencil />

@@ -134,7 +134,7 @@ export const commentsApi = {
   },
 
   patch: async ({ comment, commentId }) => {
-    await instance.patch(`/api/comment/${commentId}`, comment);
+    await instance.patch(`/api/comment/${commentId}`, { comment: comment });
   },
 
   delete: async (commentId) => {
