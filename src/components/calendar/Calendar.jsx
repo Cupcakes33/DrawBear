@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { diaryApi } from "../../apis/axios";
 import Modal from "../common/modal/Modal";
 
@@ -57,10 +57,33 @@ const Calendar = ({ onClose }) => {
       .filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
     const postsDate = postsMonth.map((post) => +post.createdAt.split("-")[2].split("T")[0]);
 
-    const compare = (i) => {
+    const holidayCompare = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
+        // console.log(h);
         if (holidayDate[h] === i) return true;
       }
+    };
+
+    const postedDayCompare = (i) => {
+      for (let p = 0; p <= postsDate.length; p++) {
+        if (postsDate[p] === i) return true;
+
+        // return postsDate[p] === i ? `${i}*` : i;
+        // console.log(postsDate.length);
+        // console.log(p);
+        // console.log(postsDate);
+        // console.log(postsDate[p]);
+
+        // if (postsDate[p] === i) return `${i}*`;
+        // ;
+        // else if (postsDate[p] !== i) return i;
+      }
+    };
+
+    const dayColor = (i) => {
+      if (postedDayCompare(i)) return "postedDay";
+      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompare(i)) return "redDay";
+      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
 
     for (const today of week) {
@@ -68,23 +91,17 @@ const Calendar = ({ onClose }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <button
+            <SpecialDate
               key={i}
-              className={
-                new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || compare(i)
-                  ? "weekday sunday"
-                  : new Date(selectedYear, selectedMonth - 1, i).getDay() === 6
-                  ? "weekday saturday"
-                  : "weekday"
-              }
+              color={dayColor(i)}
               onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)}
             >
               {i}
-            </button>
+            </SpecialDate>
           );
         }
       } else {
-        dayArr.push(<div key={today} className="weekday"></div>);
+        dayArr.push(<div key={today}></div>);
       }
     }
     return dayArr;
@@ -154,22 +171,7 @@ const StWeek = styled.div`
 
 const StDate = styled.div`
   margin-top: 2rem;
-  button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    :hover {
-      border: 1px solid black;
-      border-radius: 100%;
-    }
-    :focus {
-      border: 1px solid black;
-      border-radius: 100%;
-      background-color: black;
-      color: whitesmoke;
-    }
-  }
-  .weekday {
+  div {
     float: left;
     width: calc(36rem / 7);
     margin-left: -0.3rem;
@@ -177,12 +179,47 @@ const StDate = styled.div`
     height: 5rem;
     color: whitesmoke;
   }
-  .saturday {
-    color: blue;
+`;
+
+const SpecialDate = styled.button`
+  float: left;
+  width: calc(36rem / 7);
+  margin-left: -0.3rem;
+  margin-right: -0.3rem;
+  height: 5rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  :hover {
+    border: 1px solid black;
+    border-radius: 100%;
   }
-  .sunday {
-    color: red;
+  :focus {
+    border: 1px solid black;
+    border-radius: 100%;
+    background-color: black;
+    color: whitesmoke;
   }
+  ${({ color }) => {
+    switch (color) {
+      case "redDay":
+        return css`
+          color: red;
+        `;
+      case "saturday":
+        return css`
+          color: blue;
+        `;
+      case "postedDay":
+        return css`
+          color: yellow;
+        `;
+      default:
+        return css`
+          color: whitesmoke;
+        `;
+    }
+  }}
 `;
 
 export default Calendar;
