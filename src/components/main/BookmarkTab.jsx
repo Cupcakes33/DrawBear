@@ -10,7 +10,7 @@ const Bookmark = ({ diaryData }) => {
 
   return (
     <BookmarkSection>
-      {diaryData.map((diary, i) => {
+      {diaryData?.map((diary, i) => {
         return (
           <DiaryCardBox key={i}>
             <label>{diary.diaryName}</label>

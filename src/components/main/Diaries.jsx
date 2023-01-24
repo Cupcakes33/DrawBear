@@ -32,7 +32,7 @@ const Diaries = ({ diaryData }) => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {diaryData.map((data, i) => {
+        {diaryData?.map((data, i) => {
           return (
             <SwiperSlide key={`diary${data.diaryId}`}>
               <DiaryShowContainer>

@@ -31,7 +31,12 @@ const BookmarkStar = ({ bookmark, diaryId }) => {
         );
     },
     onSuccess: () => {
-      queryClient.refetchQueries(["main"]);
+      const diaryData = queryClient.getQueryData(["main"])?.diaries;
+      queryClient.setQueryData(["main"], {
+        diaries: diaryData?.map((diary) =>
+          diary.diaryId === diaryId ? { ...diary, bookmark: diary.bookmark === 0 ? 1 : 0 } : diary
+        ),
+      });
     },
   });
 

@@ -33,7 +33,7 @@ const Main = () => {
         return dispatch(showModal({ isModal: true, content: "일기장 조회에 실패했습니다.", move: "/login" }));
     },
   });
-  const { diaries } = data;
+  const diaries = queryClient.getQueryData(["main"])?.diaries;
 
   const diaryType = useCallback(
     (diaries) => {
@@ -53,7 +53,8 @@ const Main = () => {
 
   useEffect(() => {
     queryClient.setQueryData(["footerIcons"], "solo");
-  }, []);
+    return queryClient.getQueryData(["main"])?.diaries;
+  }, [queryClient]);
 
   return (
     <>
