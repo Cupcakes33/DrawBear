@@ -114,7 +114,7 @@ const Detail = () => {
         <CommentBox>
           <h3>댓글 {commentsCount}</h3>
 
-          <Comment comments={comments.reverse()} />
+          <Comment comments={comments} />
         </CommentBox>
       </StDetailPageSection>
       <DetailPageFooter>
