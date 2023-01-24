@@ -66,29 +66,17 @@ const Calendar = ({ onClose }) => {
 
     const holidayCompareFn = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
-        // console.log(h);
         if (holidayDate[h] === i) return true;
       }
     };
 
     const postedDayCompareFn = (i) => {
       for (let p = 0; p <= postsDate.length; p++) {
-        if (postsDate[p] === i) return true;
-
-        // return postsDate[p] === i ? `${i}*` : i;
-        // console.log(postsDate.length);
-        // console.log(p);
-        // console.log(postsDate);
-        // console.log(postsDate[p]);
-
-        // if (postsDate[p] === i) return `${i}*`;
-        // ;
-        // else if (postsDate[p] !== i) return i;
+        if (postsDate[p] === i) return `${i}*`;
       }
     };
 
     const dayColor = (i) => {
-      if (postedDayCompareFn(i)) return "postedDay";
       if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
       else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
@@ -99,7 +87,7 @@ const Calendar = ({ onClose }) => {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
             <SpecialDate key={i} color={dayColor(i)} onClick={() => setSelectedDate(i)}>
-              {i}
+              {postedDayCompareFn(i) ? postedDayCompareFn(i) : i}
             </SpecialDate>
           );
         }
