@@ -14,7 +14,6 @@ import { commentsApi } from "../../apis/axios";
 // memo 를 적용하여 댓글이 추가되거나 삭제될 때만 리렌더링 되도록 변경.
 
 const Comment = memo(({ comments }) => {
-  console.log(comments);
   const queryClient = useQueryClient();
   timeAgo.register("ko", ko);
   const [commentId, setCommentId] = useState(0);
@@ -52,6 +51,7 @@ const Comment = memo(({ comments }) => {
   };
 
   const updateComment = (commentId) => {
+    if (!editCommentValue) return;
     setIsCommentEdit(false);
     commentUpdateMutate({ comment: editCommentValue, commentId });
   };
@@ -68,7 +68,7 @@ const Comment = memo(({ comments }) => {
         .map((comment) => (
           <StCommentContainer key={`comment${comment.commentId}`}>
             <img src={comment.profileImg} alt="프로필이미지" />
-            <div>
+            <StCommentWrapper>
               <StCommentNicknameBox>
                 <p>{comment.nickname}</p>
                 {comment.createdAt === comment.updatedAt ? (
@@ -93,24 +93,24 @@ const Comment = memo(({ comments }) => {
                   <span>{comment.comment}</span>
                 )}
               </StCommentContentBox>
-            </div>
+            </StCommentWrapper>
             {isCommentEdit && commentId === comment.commentId ? (
-              <div>
-                <button
+              <EditOptionBox>
+                <span
                   onClick={() => {
                     updateComment(comment.commentId);
                   }}
                 >
-                  수정완료
-                </button>
-                <button
+                  저장
+                </span>
+                <span
                   onClick={() => {
                     setIsCommentEdit(false);
                   }}
                 >
                   취소
-                </button>
-              </div>
+                </span>
+              </EditOptionBox>
             ) : (
               <Button
                 className="commentOptionBtn"
@@ -222,6 +222,10 @@ const StCommentContainer = styled.div`
   }
 `;
 
+const StCommentWrapper = styled.div`
+  flex-grow: 1;
+`;
+
 const StCommentNicknameBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -242,4 +246,27 @@ const StCommentContentBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  input {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    transition: border 0.2s ease-in-out;
+    &:focus {
+      border-bottom: 1px solid black;
+    }
+  }
+`;
+
+const EditOptionBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  span {
+    cursor: pointer;
+    
+    &:last-child:hover {
+      color: #ff6b6b;
+    }
+  }
 `;
