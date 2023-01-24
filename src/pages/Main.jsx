@@ -53,8 +53,7 @@ const Main = () => {
 
   useEffect(() => {
     queryClient.setQueryData(["footerIcons"], "solo");
-    return queryClient.getQueryData(["main"])?.diaries;
-  }, [queryClient]);
+  }, []);
 
   return (
     <>

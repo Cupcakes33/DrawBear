@@ -27,7 +27,11 @@ const DiarySetting = ({ onClose, queryClient, diaryId }) => {
     },
     onSuccess: () => {
       dispatch(showModal({ isModal: true, content: "다이어리 삭제 성공!", move: "/" }));
-      queryClient?.invalidateQueries({ queryKey: ["main"] });
+      // queryClient?.invalidateQueries({ queryKey: ["main"] });
+      const diaryData = queryClient.getQueryData(["main"])?.diaries;
+      queryClient.setQueryData(["main"], {
+        diaries: diaryData?.filter((diary) => diary.diaryId !== diaryId),
+      });
     },
   });
 
