@@ -35,7 +35,8 @@ const BookmarkStar = ({ bookmark, diaryId }) => {
     },
   });
 
-  const bookmarkHandler = () => {
+  const bookmarkHandler = (event) => {
+    event.stopPropagation();
     mutate(diaryId);
   };
 
