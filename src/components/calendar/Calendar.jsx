@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/axios";
@@ -14,13 +14,13 @@ const Calendar = ({ onClose }) => {
   const [selectedMonth, setSelectedMonth] = useState(today.month);
   const [selectedDate, setSelectedDate] = useState("");
 
-  const { data = [], isLoading, isError } = useQuery(["holiday"], () => diaryApi.holiday(selectedYear));
+  const { data = [], isLoading, isError } = useQuery(["holiday", selectedYear], () => diaryApi.holiday(selectedYear));
+  const queryClient = useQueryClient();
 
-  const holiday = data.map((v) => v.locdate);
+  const holiday = data?.map((v) => v.locdate);
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
-
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -50,8 +50,12 @@ const Calendar = ({ onClose }) => {
 
   const returnDay = useCallback(() => {
     let dayArr = [];
-    let holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
-    let holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
+    const holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
+    const holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
+    const postsMonth = queryClient
+      ?.getQueryData(["Allposts"])
+      .filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
+    const postsDate = postsMonth.map((post) => +post.createdAt.split("-")[2].split("T")[0]);
 
     const compare = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
@@ -84,7 +88,7 @@ const Calendar = ({ onClose }) => {
       }
     }
     return dayArr;
-  }, [selectedYear, selectedMonth, lastDay, holiday]);
+  }, [selectedMonth, holiday]);
 
   return (
     <Modal onClose={onClose} modalWidth="36rem" modalHeight="40rem" top="80%">
