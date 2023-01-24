@@ -1,9 +1,13 @@
 import { darken } from "polished";
 import styled, { css } from "styled-components";
+import BookmarkStar from "./BookmarkStar";
 
-const Diary = ({ bgColor, onClick }) => {
+const Diary = (props) => {
+  const { size, bgColor, onClick, bookmark, diaryId } = props;
+
   return (
-    <DiaryIcon bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
+    <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
+      <BookmarkStar bookmark={bookmark} diaryId={diaryId} />
       <div className="diaryHolder" />
     </DiaryIcon>
   );
@@ -12,18 +16,42 @@ const Diary = ({ bgColor, onClick }) => {
 export default Diary;
 
 const DiaryIcon = styled.div`
-  width: 20rem;
-  height: 28rem;
+  ${({ size }) => {
+    switch (size) {
+      case "bookmark":
+        return css`
+          width: 13.4rem;
+          height: 17.9rem;
+        `;
+      default:
+        return css`
+          width: 20rem;
+          height: 28rem;
+        `;
+    }
+  }}
   cursor: pointer;
   background-color: ${(props) => props.bgcolor};
   border-radius: 6px;
   .diaryHolder {
-    position: absolute;
+    position: relative;
     top: 50%;
-    right: calc(50% - 11rem);
-    width: 6rem;
-    height: 4.2rem;
+    left: calc(50% + 25%);
     transform: translateY(-50%);
+    ${({ size }) => {
+      switch (size) {
+        case "bookmark":
+          return css`
+            width: 4.2rem;
+            height: 2.9rem;
+          `;
+        default:
+          return css`
+            width: 6rem;
+            height: 4.2rem;
+          `;
+      }
+    }}
     border-radius: 6px;
     ${({ bgcolor }) => {
       switch (bgcolor) {
