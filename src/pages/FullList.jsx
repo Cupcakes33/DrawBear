@@ -22,12 +22,15 @@ const DiaryList = () => {
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
+  const [dateOrderedPosts, setDateOrderedPosts] = useState({})
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
     diaryApi.get(diaryId)
   );
 
+
   let filtedPosts = {};
+  
   if (!isLoading) {
     data.forEach((item) => {
       const temp = item.createdAt.slice(0, 10);

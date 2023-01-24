@@ -24,7 +24,8 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401)
-      window.location.replace("https://finale-omega.vercel.app/login");
+      // window.location.replace("https://finale-omega.vercel.app/login");
+      window.location.replace("http://localhost:3000/login");
     return Promise.reject(error);
   }
 );
@@ -124,6 +125,9 @@ export const postsApi = {
     const { data } = await instance.get(`/api/post/detail/${diaryId}`);
     return data.posts;
   },
+  delete: async (postId) => {
+    await instance.delete(`/api/post/${postId}`);
+  },
 };
 
 export const commentsApi = {
@@ -132,7 +136,7 @@ export const commentsApi = {
   },
 
   patch: async ({ comment, commentId }) => {
-    await instance.patch(`/api/comment/${commentId}`, comment);
+    await instance.patch(`/api/comment/${commentId}`, { comment: comment });
   },
 
   delete: async (commentId) => {
