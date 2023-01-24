@@ -119,7 +119,7 @@ const Detail = () => {
       </StDetailPageSection>
       <DetailPageFooter>
         <form onSubmit={commentsSubmitHandler}>
-          <input id="comment" name="comments" placeholder="댓글 작성하기" />
+          <input id="comment" placeholder="댓글 작성하기" />
           <Button
             size="mini"
             color="button_icon"

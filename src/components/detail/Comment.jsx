@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, memo } from "react";
 import styled from "styled-components";
 import TimeAgo from "timeago-react";
 import * as timeAgo from "timeago.js";
@@ -7,7 +7,7 @@ import Button from "../common/Button";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { TfiPencil, TfiTrash } from "react-icons/tfi";
 
-const Comment = ({ comments }) => {
+const Comment = memo(({ comments }) => {
   timeAgo.register("ko", ko);
   const [commentId, setCommentId] = useState(0);
   const [isDropdown, setIsDropdown] = useState(false);
@@ -59,7 +59,7 @@ const Comment = ({ comments }) => {
       </StOptionDropdown>
     </StCommentContainer>
   ));
-};
+});
 
 export default Comment;
 
