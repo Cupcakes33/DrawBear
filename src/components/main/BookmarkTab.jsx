@@ -15,6 +15,8 @@ const Bookmark = ({ diaryData }) => {
           <DiaryCardBox key={i}>
             <label>{diary.diaryName}</label>
             <Diary
+              bookmark={diary.bookmark}
+              diaryId={diary.diaryId}
               size={"bookmark"}
               bgColor={diary.outsideColor}
               onClick={() => {
