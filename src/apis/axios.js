@@ -12,7 +12,7 @@ const getToken = () => {
 };
 
 instance.interceptors.request.use((config) => {
-  config.headers["Authorization"] = getToken()
+  config.headers["Authorization"] = getToken();
   return config;
 });
 
@@ -24,7 +24,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401)
-      window.location.replace("http://localhost:3000/login");
+      window.location.replace("https://finale-omega.vercel.app/login");
     return Promise.reject(error);
   }
 );
@@ -34,7 +34,7 @@ export const loginApi = {
     const { data } = await instance.post("/api/auth/login", {
       email: inputData.email,
       password: inputData.password,
-    })
+    });
     return data;
   },
 
@@ -114,8 +114,7 @@ export const diaryApi = {
 
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
-      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`
-    );
+      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`);
     return data.response.body.items.item;
   },
 };

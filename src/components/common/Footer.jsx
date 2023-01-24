@@ -36,7 +36,7 @@ const Footer = () => {
     navigate("/");
   };
 
-  const changeToMypage = () => {
+  const changeToSetting = () => {
     queryClient.setQueryData(["footerIcons"], "setting");
     navigate("/setting");
   };
@@ -55,7 +55,7 @@ const Footer = () => {
         <IoMdBookmark className={footerIconState === "bookmark" ? "icons selected" : "icons"} />
         <span className="bookmark-text">책갈피</span>
       </button>
-      <button onClick={changeToMypage}>
+      <button onClick={changeToSetting}>
         <IoIosSettings className={footerIconState === "setting" ? "icons selected" : "icons"} />
         <span>설정</span>
       </button>

@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { diaryApi } from "../../apis/axios";
 import Modal from "../common/modal/Modal";
 
@@ -14,13 +14,13 @@ const Calendar = ({ onClose }) => {
   const [selectedMonth, setSelectedMonth] = useState(today.month);
   const [selectedDate, setSelectedDate] = useState("");
 
-  const { data = [], isLoading, isError } = useQuery(["holiday"], () => diaryApi.holiday(selectedYear));
+  const { data = [], isLoading, isError } = useQuery(["holiday", selectedYear], () => diaryApi.holiday(selectedYear));
+  const queryClient = useQueryClient();
 
-  const holiday = data.map((v) => v.locdate);
+  const holiday = data?.map((v) => v.locdate);
 
   const week = ["일", "월", "화", "수", "목", "금", "토"];
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
-
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -48,15 +48,37 @@ const Calendar = ({ onClose }) => {
     ));
   }, []);
 
+  // 주호님 방식에 맞춰서 둘 중 하나로 로직 수정
+  // 1. setquerydata를 이용해 캐시를 변경할 경우 -> 복사본 만들어서 복사본을 달력 표시로 쓰고 원본을 수정해 렌더링 변화주기
+  // 2. 캐시 건드리지 않고 임의의 변수 or 상수를 만들어서 렌더링에 사용하실 경우 -> 만들어 놓은 것에 덮어 씌워 렌더링 변화주기
+  const postsMonthFilterFn = useCallback(() => {
+    const postsMonth = queryClient
+      ?.getQueryData(["Allposts"])
+      .filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
+    return postsMonth;
+  }, [selectedMonth]);
+
   const returnDay = useCallback(() => {
     let dayArr = [];
-    let holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
-    let holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
+    const holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
+    const holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
+    const postsDate = postsMonthFilterFn().map((post) => +post.createdAt.split("-")[2].split("T")[0]);
 
-    const compare = (i) => {
+    const holidayCompareFn = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
         if (holidayDate[h] === i) return true;
       }
+    };
+
+    const postedDayCompareFn = (i) => {
+      for (let p = 0; p <= postsDate.length; p++) {
+        if (postsDate[p] === i) return `${i}*`;
+      }
+    };
+
+    const dayColor = (i) => {
+      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
+      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
 
     for (const today of week) {
@@ -64,27 +86,24 @@ const Calendar = ({ onClose }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <button
-              key={i}
-              className={
-                new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || compare(i)
-                  ? "weekday sunday"
-                  : new Date(selectedYear, selectedMonth - 1, i).getDay() === 6
-                  ? "weekday saturday"
-                  : "weekday"
-              }
-              onClick={() => setSelectedDate(`${selectedYear}년 ${selectedMonth}월 ${i}일`)}
-            >
-              {i}
-            </button>
+            <SpecialDate key={i} color={dayColor(i)} onClick={() => setSelectedDate(i)}>
+              {postedDayCompareFn(i) ? postedDayCompareFn(i) : i}
+            </SpecialDate>
           );
         }
       } else {
-        dayArr.push(<div key={today} className="weekday"></div>);
+        dayArr.push(<div key={today}></div>);
       }
     }
     return dayArr;
-  }, [selectedYear, selectedMonth, lastDay, holiday]);
+  }, [selectedMonth, holiday]);
+
+  const selectedDatePostSearch = () => {
+    const selectedDayPost = postsMonthFilterFn().filter(
+      (post) => +post.createdAt.split("-")[2].split("T")[0] === selectedDate
+    );
+    queryClient.setQueryData(["Allposts"], selectedDayPost);
+  };
 
   return (
     <Modal onClose={onClose} modalWidth="36rem" modalHeight="40rem" top="80%">
@@ -99,6 +118,7 @@ const Calendar = ({ onClose }) => {
               <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
               <div className="buttons">
                 <div>
+                  <button onClick={selectedDatePostSearch}>조회</button>
                   <button onClick={() => prevMonth()}>이전 달</button>
                   <button onClick={() => nextMonth()}>다음 달</button>
                 </div>
@@ -150,22 +170,7 @@ const StWeek = styled.div`
 
 const StDate = styled.div`
   margin-top: 2rem;
-  button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    :hover {
-      border: 1px solid black;
-      border-radius: 100%;
-    }
-    :focus {
-      border: 1px solid black;
-      border-radius: 100%;
-      background-color: black;
-      color: whitesmoke;
-    }
-  }
-  .weekday {
+  div {
     float: left;
     width: calc(36rem / 7);
     margin-left: -0.3rem;
@@ -173,12 +178,47 @@ const StDate = styled.div`
     height: 5rem;
     color: whitesmoke;
   }
-  .saturday {
-    color: blue;
+`;
+
+const SpecialDate = styled.button`
+  float: left;
+  width: calc(36rem / 7);
+  margin-left: -0.3rem;
+  margin-right: -0.3rem;
+  height: 5rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  :hover {
+    border: 1px solid black;
+    border-radius: 100%;
   }
-  .sunday {
-    color: red;
+  :focus {
+    border: 1px solid black;
+    border-radius: 100%;
+    background-color: black;
+    color: whitesmoke;
   }
+  ${({ color }) => {
+    switch (color) {
+      case "redDay":
+        return css`
+          color: red;
+        `;
+      case "saturday":
+        return css`
+          color: blue;
+        `;
+      case "postedDay":
+        return css`
+          color: yellow;
+        `;
+      default:
+        return css`
+          color: whitesmoke;
+        `;
+    }
+  }}
 `;
 
 export default Calendar;

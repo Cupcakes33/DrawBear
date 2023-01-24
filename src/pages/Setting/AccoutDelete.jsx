@@ -27,7 +27,7 @@ const AccoutDelete = () => {
         );
       }
     },
-    onSuccess: (success) => {
+    onSuccess: () => {
       dispatch(
         showModal({
           isModal: true,
@@ -76,11 +76,6 @@ const AccoutDelete = () => {
                 내 프로필 사진, 댓글, 다이어리, 내용 등 모든 활동 정보가 삭제되며, 삭제된 데이터는 복구할 수 없어요.
               </h4>
             </div>
-            <div className="delete-button" onClick={handleSubmit(onSubmit)}>
-              <Button fullWidth color="button_alart">
-                네, 탈퇴할래요.
-              </Button>
-            </div>
             <div>
               <h4>회원탈퇴를 위해 비밀번호를 입력해주세요</h4>
               <input
@@ -95,6 +90,11 @@ const AccoutDelete = () => {
               />
               {errors.password && <small role="alert">{errors.password.message}</small>}
             </div>
+            <div className="delete-button" onClick={handleSubmit(onSubmit)}>
+              <Button fullWidth color="button_alart">
+                네, 탈퇴할래요.
+              </Button>
+            </div>
           </form>
         </StMypageSection>
       </StContainer>
@@ -105,6 +105,7 @@ const AccoutDelete = () => {
 export default AccoutDelete;
 
 const StMypageSection = styled(StSection)`
+  text-align: center;
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {
@@ -120,7 +121,7 @@ const StMypageSection = styled(StSection)`
   }
   .warning {
     padding-top: 5%;
-    width: 80%;
+    width: 100%;
     word-break: keep-all;
   }
   h4 {
@@ -128,10 +129,11 @@ const StMypageSection = styled(StSection)`
   }
   .delete-button {
     position: absolute;
-    top: 90%;
-    width: 80%;
+    left: calc(50% - 17.75rem);
+    bottom: 0%;
+    width: 100%;
     button {
-      width: 100%;
+      width: 80%;
       height: 5.5rem;
       font-size: 1.4rem;
       font-weight: 700;

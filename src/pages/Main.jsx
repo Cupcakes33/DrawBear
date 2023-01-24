@@ -10,6 +10,7 @@ import Footer from "../components/common/Footer";
 import Alert from "../components/common/modal/Alert";
 import ReactModal from "../components/common/modal/ReactModal";
 import DiarySetting from "../components/FullList/DiarySetting";
+import Bookmark from "../components/main/BookmarkTab";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
@@ -32,7 +33,7 @@ const Main = () => {
         return dispatch(showModal({ isModal: true, content: "일기장 조회에 실패했습니다.", move: "/login" }));
     },
   });
-  const { diaries } = data;
+  const diaries = queryClient.getQueryData(["main"])?.diaries;
 
   const diaryType = useCallback(
     (diaries) => {
@@ -67,7 +68,13 @@ const Main = () => {
             <StHeader flex>
               <h1>LOGO</h1>
             </StHeader>
-            {diaryType(diaries)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaries)} />}
+            {diaryType(diaries)?.length === 0 ? (
+              <NoDiary />
+            ) : diaryTypes.bookmark === 1 ? (
+              <Bookmark diaryData={diaryType(diaries)} />
+            ) : (
+              <DiaryList diaryData={diaryType(diaries)} />
+            )}
             <Footer />
           </StContainer>
           {diary.isModal && (
