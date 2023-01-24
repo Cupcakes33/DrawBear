@@ -1,13 +1,11 @@
-import { useRef, useState, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, memo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import TimeAgo from "timeago-react";
 import * as timeAgo from "timeago.js";
 import ko from "timeago.js/lib/lang/ko";
 import Button from "../common/Button";
-import Alert from "../common/modal/Alert";
-import { showModal } from "../../redux/modules/UISlice";
+
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { TfiPencil, TfiTrash } from "react-icons/tfi";
 import { commentsApi } from "../../apis/axios";
@@ -16,6 +14,7 @@ import { commentsApi } from "../../apis/axios";
 // memo 를 적용하여 댓글이 추가되거나 삭제될 때만 리렌더링 되도록 변경.
 
 const Comment = memo(({ comments }) => {
+  console.log(comments);
   const queryClient = useQueryClient();
   timeAgo.register("ko", ko);
   const [commentId, setCommentId] = useState(0);
@@ -72,7 +71,14 @@ const Comment = memo(({ comments }) => {
             <div>
               <StCommentNicknameBox>
                 <p>{comment.nickname}</p>
-                <TimeAgo datetime={comment.createdAt} locale="ko" />
+                {comment.createdAt === comment.updatedAt ? (
+                  <TimeAgo datetime={comment.createdAt} locale="ko" />
+                ) : (
+                  <>
+                    <TimeAgo datetime={comment.updatedAt} locale="ko" />
+                    <span>(수정됨)</span>
+                  </>
+                )}
               </StCommentNicknameBox>
 
               <StCommentContentBox>
@@ -225,7 +231,8 @@ const StCommentNicknameBox = styled.div`
     font-size: 2rem;
     font-weight: 700;
   }
-  time {
+  time,
+  span {
     font-size: 1.2rem;
     color: #a9a9a9;
   }
