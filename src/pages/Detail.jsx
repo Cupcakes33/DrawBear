@@ -48,8 +48,10 @@ const Detail = () => {
 
   const commentsSubmitHandler = (event) => {
     event.preventDefault();
-    let comment = new FormData(event.target).get("comments");
+    const comment = event.target.children.comment.value.trim();
+    if (comment === "") return;
     postMutate({ comment, postId });
+    event.target.children.comment.value = "";
   };
 
   const locailDate = (date) => {
@@ -117,7 +119,7 @@ const Detail = () => {
       </StDetailPageSection>
       <DetailPageFooter>
         <form onSubmit={commentsSubmitHandler}>
-          <input name="comments" placeholder="댓글 작성하기" />
+          <input id="comment" name="comments" placeholder="댓글 작성하기" />
           <Button
             size="mini"
             color="button_icon"
