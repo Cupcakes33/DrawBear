@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ import { showModal } from "../redux/modules/UISlice";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "../components/common/modal/Alert";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import Button from "../components/common/Button";
 
 const Write = () => {
@@ -26,7 +26,6 @@ const Write = () => {
 
   const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const diaryId = useParams().id;
 
   const { mutate } = useMutation(diaryApi.post, {
@@ -38,7 +37,6 @@ const Write = () => {
           move: `/list/${diaryId}`,
         })
       );
-      // navigate(`/list/${diaryId}`);
     },
     onError: (error) => {
       const status = error?.response.request.status;
@@ -66,22 +64,6 @@ const Write = () => {
     },
   });
 
-  const imgUrlConvertBlob = (canvas) => {
-    if (!canvas) return;
-    const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
-    const splitDataUrl = canvasUrl.split(",");
-    const byteString =
-      splitDataUrl[0].indexOf("base64") >= 0
-        ? atob(splitDataUrl[1])
-        : decodeURI(splitDataUrl[1]);
-    const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
-    const ia = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ia], { type: mimeString });
-  };
-
   const formEnterKeyPrevent = (event) => {
     event.key === "Enter" && event.preventDefault();
   };
@@ -90,7 +72,6 @@ const Write = () => {
     event.preventDefault();
     let blob = imgUrlConvertBlob(canvas);
     let formData = new FormData(event.target);
-
 
     formData.get("title");
     formData.get("createdAt");
@@ -102,25 +83,38 @@ const Write = () => {
     mutate({ formData: formData, diaryId: diaryId }, {});
   };
 
+  const defaultHeader = () => {
+    return (
+      <>
+        <NavigateBtn prev />
+        <h3>LOGO</h3>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
+      </>
+    );
+  };
+
+  const drawingEndHeader = () => {
+    return (
+      <>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
+        <button type="submit" form="writeForm">
+          완성
+        </button>
+      </>
+    );
+  };
+
   return (
     <>
       {isModal && <Alert />}
       <StContainer>
         <StHeader flex justify="space-between">
-          <NavigateBtn prev />
-          <h3>LOGO</h3>
-          <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
-            {isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}
-          </span>
+          {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
         </StHeader>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
-          <StCanvasSection flex justify="flex-start" derection="column">
-            <Canvas canvas={canvas} setCanvas={setCanvas} />
-            <TextEditor contents={contents} setContents={setContents} />
-          </StCanvasSection>
-
           <StTextSection>
             <StTextSectionFrom
+              id="writeForm"
               onSubmit={writeFormSubmitHandler}
               onKeyDown={formEnterKeyPrevent}
               encType="multipart/form-data"
@@ -140,17 +134,17 @@ const Write = () => {
               <div className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
                 <WeatherPicker weather={weather} setWeather={setWeather} />
-                {/* <WeatherSelector /> */}
               </div>
               <div className="tagInputBox">
                 <span>태그</span>
                 <HashTagInput tags={tags} setTags={setTags} />
               </div>
-              <Button fullWidth color="button_primary" outlined>
-                일기장 제출하기
-              </Button>
             </StTextSectionFrom>
           </StTextSection>
+          <StCanvasSection flex justify="flex-start" derection="column">
+            <Canvas canvas={canvas} setCanvas={setCanvas} />
+            <TextEditor contents={contents} setContents={setContents} />
+          </StCanvasSection>
         </StSlideWrapper>
       </StContainer>
     </>
