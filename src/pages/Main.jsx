@@ -10,7 +10,7 @@ import Footer from "../components/common/Footer";
 import Alert from "../components/common/modal/Alert";
 import ReactModal from "../components/common/modal/ReactModal";
 import DiarySetting from "../components/FullList/DiarySetting";
-import Bookmark from "../components/main/BookmarkTab";
+import BookmarkTab from "../components/main/BookmarkTab";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
@@ -71,7 +71,7 @@ const Main = () => {
             {diaryType(diaries)?.length === 0 ? (
               <NoDiary />
             ) : diaryTypes.bookmark === 1 ? (
-              <Bookmark diaryData={diaryType(diaries)} />
+              <BookmarkTab diaryData={diaryType(diaries)} />
             ) : (
               <DiaryList diaryData={diaryType(diaries)} />
             )}

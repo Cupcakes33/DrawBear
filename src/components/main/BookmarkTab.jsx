@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Diary from "./Diary/Diary";
 
-const Bookmark = ({ diaryData }) => {
+const BookmarkTab = ({ diaryData }) => {
   const navigate = useNavigate();
 
   console.log(diaryData);
@@ -25,7 +25,16 @@ const Bookmark = ({ diaryData }) => {
                 localStorage.setItem("diaryName", diary.diaryName);
               }}
             ></Diary>
-            {diary.couple === 1 && <span>{`${diary.invitedNickname}님과 함께써요`}</span>}
+            {diary.couple === 1 ? (
+              diary.invitedNickname === null ? (
+                <span>수락 기다리는 중...</span>
+              ) : (
+                <>
+                  <img src={diary.invitedProfileImg} alt="상대방 프사" />
+                  <span>{`${diary.invitedNickname}님과 함께써요`}</span>
+                </>
+              )
+            ) : null}
           </DiaryCardBox>
         );
       })}
@@ -33,7 +42,7 @@ const Bookmark = ({ diaryData }) => {
   );
 };
 
-export default Bookmark;
+export default BookmarkTab;
 
 const BookmarkSection = styled.section`
   display: flex;
@@ -53,5 +62,9 @@ const DiaryCardBox = styled.div`
     display: flex;
     justify-content: center;
     font-size: 1rem;
+  }
+  img {
+    width: 1.8rem;
+    height: 1.8rem;
   }
 `;
