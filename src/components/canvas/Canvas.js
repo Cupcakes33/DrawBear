@@ -91,6 +91,8 @@ const Canvas = ({ canvas, setCanvas }) => {
     const { files } = e.target;
     const urlFile = URL.createObjectURL(files[0]);
     new fabric.Image.fromURL(urlFile, (image) => {
+      image.scaleToWidth(100);
+      image.scaleToHeight(100);
       canvas.add(image);
       canvas.renderAll();
     });
