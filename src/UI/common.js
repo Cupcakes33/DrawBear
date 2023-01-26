@@ -13,6 +13,33 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
+export const flex = (jc = "", ai = "") => {
+  const justifyContent = () => {
+    switch (jc) {
+      case "between":
+        return "space-between";
+      case "space-evenly":
+        return "space-evenly";
+      default:
+        return "center"
+    }
+  }
+
+  const alignItems = () => {
+    switch (ai) {
+      default:
+        return "center"
+    }
+  }
+
+  return css`
+  display: flex;
+  justify-content: ${justifyContent()};
+  align-items: ${alignItems()};
+  `
+}
+
+
 // display: flex;
 // flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
 // justify-content: ${({ justify = "center" }) => justify};
