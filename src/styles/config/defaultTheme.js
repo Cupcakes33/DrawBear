@@ -7,7 +7,7 @@ const padding = {
 };
 
 const font = {
-  base: "2.2rem",
+  base: "1.7rem",
   header: "3.4rem",
 };
 
