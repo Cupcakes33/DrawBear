@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
@@ -15,12 +14,12 @@ import { BsSearch } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DiarySettingModal from "../components/common/modal/DiarySettingModal/DiarySettingModal";
+import CalendarModal from "../components/calendar/CalendarModal";
 
 const DiaryList = () => {
   const navigate = useNavigate();
   const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
-  const [isModal, setIsModal] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
@@ -71,7 +70,9 @@ const DiaryList = () => {
         </div>
         <div>
           <BsSearch />
-          <FaRegCalendarAlt onClick={() => setIsModal(true)} />
+          <CalendarModal>
+            <FaRegCalendarAlt />
+          </CalendarModal>
           <button onClick={() => setChangeHeader(false)}>취소</button>
         </div>
       </StSearchHeaderContents>
@@ -81,7 +82,6 @@ const DiaryList = () => {
   if (!data) return <div>로딩중</div>;
   return (
     <>
-      {isModal && <Calendar onClose={setIsModal} />}
       <StContainer>
         <StHeader>
           {!changeHeader && defaultHeader()}
