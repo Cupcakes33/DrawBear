@@ -3,22 +3,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
 import Diary from "./Diary/Diary";
 import { FiMoreVertical } from "react-icons/fi";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.css";
-
-import { diaryModal } from "../../redux/modules/diarySlice";
+import { flex } from "../../UI/common";
+import DiarySettingModal from "../common/modal/DiarySettingModal/DiarySettingModal";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const diarySettingHandler = (diaryId) => {
-    dispatch(diaryModal({ diaryId: diaryId, isModal: true }));
-  };
 
   return (
     <>
@@ -32,22 +26,25 @@ const Diaries = ({ diaryData }) => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {diaryData?.map((data, i) => {
+        {diaryData?.map((data) => {
+          const { diaryId, diaryName, bookmark, outsideColor } = data;
           return (
-            <SwiperSlide key={`diary${data.diaryId}`}>
+            <SwiperSlide key={`diary${diaryId}`}>
               <DiaryShowContainer>
                 <div className="diaryTitle">
-                  <label>{data.diaryName}</label>
-                  <FiMoreVertical className="diaryMoreInfo" onClick={() => diarySettingHandler(data.diaryId)} />
+                  <label>{diaryName}</label>
+                  <DiarySettingModal diaryId={diaryId} diaryName={diaryName}>
+                    <FiMoreVertical className="diaryMoreInfo" />
+                  </DiarySettingModal>
                 </div>
                 <Diary
-                  bookmark={data.bookmark}
-                  diaryId={data.diaryId}
-                  bgColor={data.outsideColor}
+                  bookmark={bookmark}
+                  diaryId={diaryId}
+                  bgColor={outsideColor}
                   onClick={() => {
-                    navigate(`/list/${data.diaryId}`);
+                    navigate(`/list/${diaryId}`);
                     localStorage.removeItem("diaryName");
-                    localStorage.setItem("diaryName", data.diaryName);
+                    localStorage.setItem("diaryName", diaryName);
                   }}
                 ></Diary>
               </DiaryShowContainer>
@@ -63,17 +60,15 @@ export default Diaries;
 
 const DiaryShowContainer = styled.div`
   .diaryTitle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ${flex}
     margin-bottom: 0.9rem;
-  }
-
-  .diaryMoreInfo {
-    color: white;
-    background-color: #454545;
-    border-radius: 50%;
-    margin-left: 0.7rem;
-    cursor: pointer;
+    .diaryMoreInfo {
+      ${flex}
+      color: white;
+      background-color: #454545;
+      border-radius: 50%;
+      margin-left: 0.7rem;
+      cursor: pointer;
+    }
   }
 `;

@@ -14,13 +14,13 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import DiarySettingModal from "../components/common/modal/DiarySettingModal/DiarySettingModal";
 
 const DiaryList = () => {
   const navigate = useNavigate();
   const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
-  const [isSettingModal, setIsSettingModal] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
@@ -55,7 +55,9 @@ const DiaryList = () => {
         </div>
         <div className="default-header-configBox">
           <BsSearch onClick={() => setChangeHeader(true)} />
-          <AiOutlineSetting onClick={() => setIsSettingModal(true)} />
+          <DiarySettingModal diaryName={diaryName} diaryId={diaryId}>
+            <AiOutlineSetting />
+          </DiarySettingModal>
         </div>
       </StDefaultHeaderContents>
     );
