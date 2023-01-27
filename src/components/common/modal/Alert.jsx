@@ -1,31 +1,52 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { showModal } from "../../../redux/modules/UISlice";
+import { Modal } from "./ReactModal";
 
-const Alert = () => {
-  const dispatch = useDispatch();
+const Alert = ({ children, h3, p, select, move, Fn }) => {
   const navigate = useNavigate();
-  const { content } = useSelector((state) => state.UISlice);
-  const { move } = useSelector((state) => state.UISlice);
 
-  const ModalReactController = () => {
-    dispatch(showModal(false));
+  const ConfirmReactionHandler = () => {
+    Fn();
     navigate(move);
   };
 
   return (
-    <StBox>
-      <div>{content}</div>
-      <hr />
-      <button onClick={ModalReactController}>확인</button>
-    </StBox>
+    <Modal>
+      <Modal.Trigger>{children}</Modal.Trigger>
+      <Modal.Portal>
+        <Modal.BackDrop notClose>
+          <Modal.ContentBox>
+            <AlertBox>
+              <div className="text-box">
+                <h3>{h3}</h3>
+                <p>{p}</p>
+              </div>
+              <hr />
+              {select ? (
+                <SelectBtnBox>
+                  <Modal.Close>
+                    <button className="select cancel">취소</button>
+                  </Modal.Close>
+                  <button className="select confirm" onClick={ConfirmReactionHandler}>
+                    확인
+                  </button>
+                </SelectBtnBox>
+              ) : (
+                <button className="confirm" onClick={ConfirmReactionHandler}>
+                  확인
+                </button>
+              )}
+            </AlertBox>
+          </Modal.ContentBox>
+        </Modal.BackDrop>
+      </Modal.Portal>
+    </Modal>
   );
 };
 
 export default Alert;
 
-const StBox = styled.div`
+const AlertBox = styled.div`
   display: grid;
   width: 28rem;
   position: fixed;
@@ -36,26 +57,41 @@ const StBox = styled.div`
   border-radius: 12px;
   box-shadow: 0 1px 4px #d7d7d7;
   background-color: white;
-  div {
-    display: flex;
+  .text-box {
+    display: block;
     text-align: center;
     word-break: keep-all;
     align-items: center;
-    height: 13rem;
-    font-size: 1.4rem;
     padding: 3rem;
     font-weight: 700;
+    p {
+      font-size: 1.4rem;
+    }
   }
   hr {
-    height: 0.1rem;
+    height: 1px;
     border: 0;
     background-color: #d7d7d7;
   }
+`;
+
+const SelectBtnBox = styled.div`
+  display: flex;
+
   button {
     height: 4rem;
-    color: #3cc7a6;
     border: none;
     background-color: white;
     cursor: pointer;
+  }
+  .cancel {
+    border-right: 1px solid #d7d7d7;
+  }
+  .select {
+    width: 14rem;
+    color: #bdbdbd;
+  }
+  .confirm {
+    color: #3cc7a6;
   }
 `;
