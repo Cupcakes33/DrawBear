@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Modal } from "./ReactModal";
 
-const Alert = ({ showModal, children, bigTxt, smallTxt, select, move, onClick }) => {
+const AlertModal = ({ showModal, children, bigTxt, smallTxt, select, move, onClick }) => {
   const navigate = useNavigate();
   const ConfirmReactionHandler = () => {
     onClick && onClick();
@@ -49,7 +49,7 @@ const Alert = ({ showModal, children, bigTxt, smallTxt, select, move, onClick })
   );
 };
 
-export default Alert;
+export default AlertModal;
 
 const AlertBox = styled.div`
   display: grid;

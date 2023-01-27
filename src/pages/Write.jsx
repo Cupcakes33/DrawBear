@@ -12,7 +12,7 @@ import WeatherPicker from "../components/write/WeatherPicker";
 
 import { ErrorModal } from "../redux/modules/UISlice";
 import { useDispatch } from "react-redux";
-import Alert from "../components/common/modal/Alert";
+import Alert from "../components/common/modal/AlertModal";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Button from "../components/common/Button";

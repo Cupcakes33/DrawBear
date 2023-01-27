@@ -4,7 +4,7 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 import LogoutModal from "../../components/mypage/LogoutModal";
 import { useNavigate } from "react-router-dom";
-import Alert from "../../components/common/modal/Alert";
+import Alert from "../../components/common/modal/AlertModal";
 
 const InfoEdit = () => {
   const [isModal, setIsModal] = useState(false);
