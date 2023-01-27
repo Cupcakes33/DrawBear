@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Modal } from "./ReactModal";
 
-const Alert = ({ showModal, children, h4, p, select, move, onClick }) => {
+const Alert = ({ showModal, children, bigTxt, smallTxt, select, move, onClick }) => {
   const navigate = useNavigate();
   const ConfirmReactionHandler = () => {
     onClick && onClick();
@@ -17,8 +17,8 @@ const Alert = ({ showModal, children, h4, p, select, move, onClick }) => {
           <Modal.ContentBox>
             <AlertBox>
               <div className="text-box">
-                <h4>{h4}</h4>
-                <p>{p}</p>
+                <h4>{bigTxt}</h4>
+                <p>{smallTxt}</p>
               </div>
               <hr />
               {select ? (

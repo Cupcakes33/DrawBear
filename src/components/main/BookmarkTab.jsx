@@ -6,8 +6,6 @@ import Diary from "./Diary/Diary";
 const BookmarkTab = ({ diaryData }) => {
   const navigate = useNavigate();
 
-  console.log(diaryData);
-
   return (
     <BookmarkSection>
       {diaryData?.map((diary, i) => {

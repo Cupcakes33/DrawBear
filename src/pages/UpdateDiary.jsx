@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import styled, { css } from "styled-components";
 import { mainApi } from "../apis/axios";
-import Alert from "../components/common/modal/Alert";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Diary from "../components/main/Diary/Diary";
-import { showModal } from "../redux/modules/UISlice";
+import { ErrorModal } from "../redux/modules/UISlice";
 import { DisplayDiv, StHeader } from "../UI/common";
 import { TiPencil } from "react-icons/ti";
 import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
@@ -17,7 +16,6 @@ const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"]
 const UpdateDiary = () => {
   const dispatch = useDispatch();
   const { couple } = useSelector((state) => state.diarySlice);
-  const { isModal } = useSelector((state) => state.UISlice);
   const diaryTitleInputRef = useRef();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,24 +28,24 @@ const UpdateDiary = () => {
       const status = error?.response.request.status;
       if (status === 500)
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "다이어리 생성에 실패하였습니다.",
+            bigTxt: "다이어리 생성에 실패하였습니다.",
           })
         );
-      else if (status === 404) dispatch(showModal({ isModal: true, content: "다이어리가 존재하지 않습니다." }));
-      else if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+      else if (status === 404) dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리가 존재하지 않습니다." }));
+      else if (status === 401) dispatch(ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." }));
     },
     onSuccess: () => {
-      dispatch(showModal({ isModal: true, content: "다이어리 수정 성공!", move: "/" }));
+      dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 수정 성공!", move: "/" }));
     },
   });
 
   const onUpdateDiaryHandler = () => {
     const diaryName = diaryTitleInputRef.current.value;
-    if (!diaryName) dispatch(showModal({ isModal: true, content: "다이어리 이름을 작성해주세요!" }));
+    if (!diaryName) dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 이름을 작성해주세요!" }));
     else if (!selectedColor) {
-      dispatch(showModal({ isModal: true, content: "다이어리 색상을 선택해주세요!" }));
+      dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 색상을 선택해주세요!" }));
     } else {
       return mutate({ diaryName, selectedColor, couple, id });
     }
@@ -99,7 +97,6 @@ const UpdateDiary = () => {
           </Footer>
         </Container>
       )}
-      {isModal && <Alert />}
     </>
   );
 };

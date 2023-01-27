@@ -6,8 +6,8 @@ const initialState = {
     couple: 0,
     bookmark: 0
   },
-  diary: {
-    isModal: false,
+  diaryData: {
+    diaryName: "",
     diaryId: 0
   },
   couple: 0,
@@ -27,8 +27,7 @@ const diarySlice = createSlice({
       state.couple = action.payload
     },
     diaryModal: (state, action) => {
-      
-      state.diary = action.payload
+      state.diaryData = action.payload
     }
   },
 })

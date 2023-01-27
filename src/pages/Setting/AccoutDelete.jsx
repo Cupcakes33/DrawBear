@@ -7,21 +7,19 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../../redux/modules/UISlice";
-import Alert from "../../components/common/modal/Alert";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../../redux/modules/UISlice";
 
 const AccoutDelete = () => {
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const dispatch = useDispatch();
-  const { isModal } = useSelector((state) => state.UISlice);
   const { mutate } = useMutation((inputData) => mypageApi.delete(inputData), {
     onError: (error) => {
       if (error.response.status === 401) {
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "비밀번호가 틀렸습니다.",
+            bigTxt: "비밀번호가 틀렸습니다.",
             move: "/setting/delete",
           })
         );
@@ -29,9 +27,9 @@ const AccoutDelete = () => {
     },
     onSuccess: () => {
       dispatch(
-        showModal({
+        ErrorModal({
           isModal: true,
-          content: "탈퇴가 완료 되었습니다.",
+          bigTxt: "탈퇴가 완료 되었습니다.",
           move: "/login",
         }),
         localStorage.removeItem("token")
@@ -58,7 +56,6 @@ const AccoutDelete = () => {
   }, [isLoading]);
   return (
     <>
-      {isModal && <Alert />}
       <StContainer>
         <StHeader flex justify="flex-start">
           <NavigateBtn prev sizeType="header" />

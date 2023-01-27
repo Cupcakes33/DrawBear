@@ -4,6 +4,7 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 import LogoutModal from "../../components/mypage/LogoutModal";
 import { useNavigate } from "react-router-dom";
+import Alert from "../../components/common/modal/Alert";
 
 const InfoEdit = () => {
   const [isModal, setIsModal] = useState(false);
@@ -22,14 +23,16 @@ const InfoEdit = () => {
               비밀번호 변경
               <NavigateBtn />
             </div>
-            <div
-              onClick={() => {
-                setIsModal(!isModal);
-                localStorage.removeItem("token");
-              }}
+            <Alert
+              select
+              bigTxt={"로그아웃하시겠어요?"}
+              smallTxt={"다시 로그인해서 이용할 수 있어요."}
+              move={"/login"}
+              onClick={() => localStorage.removeItem("token")}
             >
-              로그아웃
-            </div>
+              <div>로그아웃</div>
+            </Alert>
+
             <div onClick={() => navigate("/setting/delete")}>
               <span>회원 탈퇴</span>
             </div>

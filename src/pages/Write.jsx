@@ -10,8 +10,8 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 
-import { showModal } from "../redux/modules/UISlice";
-import { useSelector, useDispatch } from "react-redux";
+import { ErrorModal } from "../redux/modules/UISlice";
+import { useDispatch } from "react-redux";
 import Alert from "../components/common/modal/Alert";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -24,7 +24,6 @@ const Write = () => {
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
 
-  const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const diaryId = useParams().id;
@@ -32,9 +31,9 @@ const Write = () => {
   const { mutate } = useMutation(diaryApi.post, {
     onSuccess: () => {
       dispatch(
-        showModal({
+        ErrorModal({
           isModal: true,
-          content: "다이어리가 작성되었습니다.",
+          bigTxt: "다이어리가 작성되었습니다.",
           move: `/list/${diaryId}`,
         })
       );
@@ -44,23 +43,23 @@ const Write = () => {
       const status = error?.response.request.status;
       status === 401 &&
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "인증되지 않은 사용자입니다.",
+            bigTxt: "인증되지 않은 사용자입니다.",
           })
         );
       status === 404 &&
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "잘못된 접근입니다.",
+            bigTxt: "잘못된 접근입니다.",
           })
         );
       status === 412 &&
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "아직 작성하지 않은 항목이 있습니다.",
+            bigTxt: "아직 작성하지 않은 항목이 있습니다.",
           })
         );
     },
@@ -70,10 +69,7 @@ const Write = () => {
     if (!canvas) return;
     const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
     const splitDataUrl = canvasUrl.split(",");
-    const byteString =
-      splitDataUrl[0].indexOf("base64") >= 0
-        ? atob(splitDataUrl[1])
-        : decodeURI(splitDataUrl[1]);
+    const byteString = splitDataUrl[0].indexOf("base64") >= 0 ? atob(splitDataUrl[1]) : decodeURI(splitDataUrl[1]);
     const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
     const ia = new Uint8Array(byteString.length);
     for (let i = 0; i < byteString.length; i++) {
@@ -91,7 +87,6 @@ const Write = () => {
     let blob = imgUrlConvertBlob(canvas);
     let formData = new FormData(event.target);
 
-
     formData.get("title");
     formData.get("createdAt");
 
@@ -104,14 +99,11 @@ const Write = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       <StContainer>
         <StHeader flex justify="space-between">
           <NavigateBtn prev />
           <h3>LOGO</h3>
-          <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
-            {isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}
-          </span>
+          <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>{isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}</span>
         </StHeader>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StCanvasSection flex justify="flex-start" derection="column">
@@ -131,11 +123,7 @@ const Write = () => {
               </div>
               <div className="textInputBox">
                 <span>제목</span>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="제목을 입력해주세요"
-                />
+                <input type="text" name="title" placeholder="제목을 입력해주세요" />
               </div>
               <div className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>

@@ -8,7 +8,6 @@ const ErrorHandlerModal = ({ showModal }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { errorModal } = useSelector((state) => state.UISlice);
-  console.log(errorModal);
 
   const ConfirmReactionHandler = () => {
     dispatch(ErrorModal({ isModal: false }));

@@ -2,10 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { showModal } from "../../../redux/modules/UISlice";
+import { ErrorModal } from "../../../redux/modules/UISlice";
 import { AiOutlineStar } from "react-icons/ai";
 import { AiFillStar } from "react-icons/ai";
 import { mainApi } from "../../../apis/axios";
+import ErrorHandlerModal from "../../common/modal/ErrorHandlerModal";
 
 const BookmarkStar = ({ bookmark, diaryId }) => {
   const queryClient = useQueryClient();
@@ -14,19 +15,19 @@ const BookmarkStar = ({ bookmark, diaryId }) => {
   const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 401) dispatch(showModal({ isModal: true, content: "권한이 없습니다." }));
+      if (status === 401) dispatch(ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." }));
       else if (status === 404)
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "존재하지 않는 다이어리입니다.",
+            bigTxt: "존재하지 않는 다이어리입니다.",
           })
         );
       else if (status === 500)
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "북마크 저장 및 삭제에 실패했습니다.",
+            bigTxt: "북마크 저장 및 삭제에 실패했습니다.",
           })
         );
     },
@@ -46,7 +47,9 @@ const BookmarkStar = ({ bookmark, diaryId }) => {
   };
 
   return (
-    <BookmarkStarDiv onClick={bookmarkHandler}>{bookmark === 0 ? <AiOutlineStar /> : <AiFillStar />}</BookmarkStarDiv>
+    <>
+      <BookmarkStarDiv onClick={bookmarkHandler}>{bookmark === 0 ? <AiOutlineStar /> : <AiFillStar />}</BookmarkStarDiv>
+    </>
   );
 };
 

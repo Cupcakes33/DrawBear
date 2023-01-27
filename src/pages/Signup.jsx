@@ -7,11 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Button from "../components/common/Button";
 import { AiOutlineSetting } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../redux/modules/UISlice";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../redux/modules/UISlice";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../apis/axios";
-import Alert from "../components/common/modal/Alert";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -36,8 +35,6 @@ const Signup = () => {
 
   let inputRef;
 
-  const { isModal } = useSelector((state) => state.UISlice); //모달창을 사용하기 위한 값?
-
   const imgOnChnageHandler = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {
@@ -60,7 +57,7 @@ const Signup = () => {
   const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
       dispatch(
-        showModal({ isModal: true, content: "회원가입 성공!", move: "/login" }) //모달창에 전달하는 데이터
+        ErrorModal({ isModal: true, bigTxt: "회원가입 성공!", move: "/login" }) //모달창에 전달하는 데이터
       );
     },
     onError: (error) => {
@@ -70,7 +67,7 @@ const Signup = () => {
       
       if (errorStatus === 409) {
       
-        dispatch(showModal({ isModal: true, content: msg }));
+        dispatch(ErrorModal({ isModal: true, bigTxt: msg }));
       }
     },
   });
@@ -79,7 +76,6 @@ const Signup = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       <StContainer bgColor="#EEF3E3;">
         <StHeader>
           <BackButtonDiv>
