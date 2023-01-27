@@ -97,18 +97,29 @@ const Write = () => {
     return (
       <>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
-        <button type="submit" form="writeForm">
-          완성
-        </button>
+        <span>
+          <StWriteFormSubmitBtn type="submit" form="writeForm">
+            완성
+          </StWriteFormSubmitBtn>
+        </span>
       </>
     );
   };
 
+  const StWriteFormSubmitBtn = styled.button`
+    color: #3cc7a6;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 1.6rem;
+  `;
+  // ---------------------------------------------------------------------------------
+  // 나중에 수정해야할 부분
   return (
     <>
       {isModal && <Alert />}
       <StContainer>
-        <StHeader flex justify="space-between">
+        <StHeader flex justify="space-between" aline="center">
           {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
         </StHeader>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
