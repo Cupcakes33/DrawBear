@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
+import { useState } from "react";
+import io from "socket.io-client";
+import { useEffect } from "react";
 
 const userData = [
   {
@@ -14,7 +17,7 @@ const userData = [
   {
     id: 2,
     name: "김영희",
-    email: "eieke@naver.com",
+    email: "1@naver.com",
     profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
   },
   {
@@ -26,7 +29,24 @@ const userData = [
 ];
 
 const Invite = () => {
+  const [showUserForm, setShowUserForm] = useState(false);
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+  const nameChangeHandle = (event) => {
+    setName(event.target.value);
+  };
+  const userSearchOnclickHandle = () => {
+    userData.map((user) => {
+      if (user.name === name) {
+        setUserInfo({ ...user });
+      }
+    });
+    setShowUserForm(!showUserForm);
+  };
+  useEffect(() => {
+    const socket = io.connect("http://localhost:3002");
+  }, []);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -35,21 +55,26 @@ const Invite = () => {
       </StHeader>
       <StInviteSection>
         <StSearchInputWrapper>
-          <input placeholder="초대 할 멤버의 아이디를 입력해주세요."></input>
-          <StSearchBtn />
+          <input
+            type="text"
+            onChange={nameChangeHandle}
+            value={name}
+            placeholder="초대 할 멤버의 닉네임을 입력해주세요."
+          ></input>
+          <StSearchBtn onClick={userSearchOnclickHandle} />
         </StSearchInputWrapper>
-        <StSearchUserInfoWrapper>
-          {userData.map((user) => (
-            <StSearchUserInfo key={`userId${user.id}`}>
-              <img src={user.profile} alt="profile" />
+        {showUserForm && (
+          <StSearchUserInfoWrapper>
+            <StSearchUserInfo key={`userId${userInfo.id}`}>
+              <img src={userInfo.profile} alt="profile" />
               <div>
-                <span>{user.name}</span>
-                <span>{user.email}</span>
+                <span>{userInfo.name}</span>
+                <span>{userInfo.email}</span>
               </div>
               <button>초대</button>
             </StSearchUserInfo>
-          ))}
-        </StSearchUserInfoWrapper>
+          </StSearchUserInfoWrapper>
+        )}
       </StInviteSection>
     </StContainer>
   );
