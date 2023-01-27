@@ -1,26 +1,22 @@
-import { useState } from "react";
 import styled from "styled-components";
 import CreateDiaryModal from "./CreateDiaryModal";
 import NoDiaryBear from "../../assets/images/noDiaryBear.webp";
+import { flex } from "../../UI/common";
 
 const NoDiary = () => {
-  const [isModal, setIsModal] = useState(false);
   return (
     <>
       <StContainer>
         <StWrapper>
           <h3>아직 다이어리가 없어요</h3>
-          <img
-            src={NoDiaryBear}
-            alt="다이어리 없을 때 곰돌이 그림"
-            onClick={() => {
-              setIsModal(true);
-            }}
-          />
-          <span>여기를 눌러 첫 다이어리를 만들어보세요</span>
+          <CreateDiaryModal>
+            <div className="addDiary">
+              <img src={NoDiaryBear} alt="다이어리 없을 때 곰돌이 그림" />
+              <span>여기를 눌러 첫 다이어리를 만들어보세요</span>
+            </div>
+          </CreateDiaryModal>
         </StWrapper>
       </StContainer>
-      {isModal && <CreateDiaryModal onClose={setIsModal}></CreateDiaryModal>}
     </>
   );
 };
@@ -34,10 +30,10 @@ const StContainer = styled.div`
 `;
 
 const StWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${flex("", "", "column")}
+  .addDiary {
+    ${flex("", "", "column")}
+  }
   img {
     width: 10.5rem;
     height: 11.5rem;
