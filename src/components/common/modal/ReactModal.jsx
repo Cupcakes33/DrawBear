@@ -9,8 +9,9 @@ import styled, { css } from "styled-components";
 
 const ModalContext = createContext({});
 
-export const Modal = ({ children }) => {
-  const [isModal, setIsModal] = useState(false);
+export const Modal = ({ children, showModal }) => {
+  const [isModal, setIsModal] = useState(showModal);
+
   return <ModalContext.Provider value={{ isModal, setIsModal }}>{children}</ModalContext.Provider>;
 };
 

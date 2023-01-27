@@ -20,6 +20,8 @@ export const flex = (jc = "", ai = "") => {
         return "space-between";
       case "space-evenly":
         return "space-evenly";
+      case "flex-start":
+        return "flex-start"
       default:
         return "center"
     }

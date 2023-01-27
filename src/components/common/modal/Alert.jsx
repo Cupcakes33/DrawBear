@@ -2,23 +2,22 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Modal } from "./ReactModal";
 
-const Alert = ({ children, h3, p, select, move, Fn }) => {
+const Alert = ({ showModal, children, h4, p, select, move, onClick }) => {
   const navigate = useNavigate();
-
   const ConfirmReactionHandler = () => {
-    Fn();
+    onClick && onClick();
     navigate(move);
   };
 
   return (
-    <Modal>
+    <Modal showModal={showModal}>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Portal>
         <Modal.BackDrop notClose>
           <Modal.ContentBox>
             <AlertBox>
               <div className="text-box">
-                <h3>{h3}</h3>
+                <h4>{h4}</h4>
                 <p>{p}</p>
               </div>
               <hr />
@@ -31,10 +30,16 @@ const Alert = ({ children, h3, p, select, move, Fn }) => {
                     확인
                   </button>
                 </SelectBtnBox>
-              ) : (
+              ) : move ? (
                 <button className="confirm" onClick={ConfirmReactionHandler}>
                   확인
                 </button>
+              ) : (
+                <Modal.Close>
+                  <button className="confirm" onClick={ConfirmReactionHandler}>
+                    확인
+                  </button>
+                </Modal.Close>
               )}
             </AlertBox>
           </Modal.ContentBox>
@@ -65,7 +70,7 @@ const AlertBox = styled.div`
     padding: 3rem;
     font-weight: 700;
     p {
-      font-size: 1.4rem;
+      font-size: 1rem;
     }
   }
   hr {
@@ -73,12 +78,8 @@ const AlertBox = styled.div`
     border: 0;
     background-color: #d7d7d7;
   }
-`;
-
-const SelectBtnBox = styled.div`
-  display: flex;
-
   button {
+    width: 100%;
     height: 4rem;
     border: none;
     background-color: white;
@@ -94,4 +95,8 @@ const SelectBtnBox = styled.div`
   .confirm {
     color: #3cc7a6;
   }
+`;
+
+const SelectBtnBox = styled.div`
+  display: flex;
 `;
