@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
-import DiarySetting from "../components/FullList/DiarySetting";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import Button from "../components/common/Button";
@@ -22,15 +21,12 @@ const DiaryList = () => {
   const [changeHeader, setChangeHeader] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isSettingModal, setIsSettingModal] = useState(false);
-  const [dateOrderedPosts, setDateOrderedPosts] = useState({})
+  const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const diaryId = useParams().id;
-  const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
-    diaryApi.get(diaryId)
-  );
-
+  const { data, error, isError, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
 
   let filtedPosts = {};
-  
+
   if (!isLoading) {
     data.forEach((item) => {
       const temp = item.createdAt.slice(0, 10);
@@ -84,7 +80,6 @@ const DiaryList = () => {
   return (
     <>
       {isModal && <Calendar onClose={setIsModal} />}
-      {isSettingModal && <DiarySetting onClose={setIsSettingModal} diaryId={diaryId} />}
       <StContainer>
         <StHeader>
           {!changeHeader && defaultHeader()}

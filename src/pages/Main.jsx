@@ -8,8 +8,7 @@ import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import Alert from "../components/common/modal/Alert";
-import ReactModal from "../components/common/modal/ReactModal";
-import DiarySetting from "../components/FullList/DiarySetting";
+import DiarySetting from "../components/common/modal/DiarySettingModal/DiarySettingModal";
 import BookmarkTab from "../components/main/BookmarkTab";
 
 const Main = () => {
@@ -77,11 +76,6 @@ const Main = () => {
             )}
             <Footer />
           </StContainer>
-          {diary.isModal && (
-            <ReactModal>
-              <DiarySetting diaryId={diary?.diaryId} queryClient={queryClient} />
-            </ReactModal>
-          )}
         </>
       )}
     </>
