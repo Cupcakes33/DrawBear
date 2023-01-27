@@ -82,7 +82,7 @@ const StWeatherPickerContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   gap: 10px;
-  margin-top: 1.5rem;
+  
 
   label {
     display: flex;

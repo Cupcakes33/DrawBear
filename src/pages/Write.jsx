@@ -16,6 +16,7 @@ import Alert from "../components/common/modal/Alert";
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import Button from "../components/common/Button";
+import Dropdown from "../components/common/dropdown/Dropdown";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -106,15 +107,6 @@ const Write = () => {
     );
   };
 
-  const StWriteFormSubmitBtn = styled.button`
-    color: #3cc7a6;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    font-size: 1.6rem;
-  `;
-  // ---------------------------------------------------------------------------------
-  // 나중에 수정해야할 부분
   return (
     <>
       {isModal && <Alert />}
@@ -130,26 +122,27 @@ const Write = () => {
               onKeyDown={formEnterKeyPrevent}
               encType="multipart/form-data"
             >
-              <div className="dateInputBox">
+              <StTextSectionBox className="titleInputBox">
                 <span>날짜</span>
                 <input type="date" name="createdAt" />
-              </div>
-              <div className="textInputBox">
+              </StTextSectionBox>
+              <StTextSectionBox className="tagInputBox">
+                <span>태그</span>
+                <HashTagInput tags={tags} setTags={setTags} />
+              </StTextSectionBox>
+              <StTextSectionBox className="textInputBox">
                 <span>제목</span>
                 <input
                   type="text"
                   name="title"
                   placeholder="제목을 입력해주세요"
                 />
-              </div>
-              <div className="weatherPickerBox">
+              </StTextSectionBox>
+              <StTextSectionBox className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
                 <WeatherPicker weather={weather} setWeather={setWeather} />
-              </div>
-              <div className="tagInputBox">
-                <span>태그</span>
-                <HashTagInput tags={tags} setTags={setTags} />
-              </div>
+              </StTextSectionBox>
+              
             </StTextSectionFrom>
           </StTextSection>
           <StCanvasSection flex justify="flex-start" derection="column">
@@ -178,54 +171,46 @@ const StTextSectionFrom = styled.form`
   gap: 2rem;
   padding: 2rem;
 
-  .dateInputBox {
-    width: 100%;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    span {
-      font-size: ${({ theme }) => theme.font.base};
-      white-space: nowrap;
-    }
+  .titleInputBox {
     input {
+      flex-grow: 0;
       width: 50%;
-      height: 100%;
-      border: 1px solid ${({ theme }) => theme.color.border_grayscale};
-      border-radius: 5px;
-    }
-  }
-
-  .textInputBox {
-    width: 100%;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    gap: 2.4rem;
-    span {
-      font-size: ${({ theme }) => theme.font.base};
-      white-space: nowrap;
-    }
-    input {
-      width: 90%;
-      height: 100%;
-      border: 1px solid ${({ theme }) => theme.color.border_grayscale};
-      border-radius: 5px;
-      padding: 1rem;
-    }
-  }
-
-  .weatherPickerBox {
-    width: 100%;
-    span {
-      font-size: ${({ theme }) => theme.font.base};
     }
   }
 
   .tagInputBox {
-    span {
-      font-size: ${({ theme }) => theme.font.base};
+    input {
+      background: none;
     }
+  }
+
+  .weatherPickerBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+`;
+
+const StTextSectionBox = styled.div`
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+
+  span {
+    font-size: ${({ theme }) => theme.font.base};
+    white-space: nowrap;
+  }
+  input {
+    flex-grow: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    background: #f5f5f5;
+    padding: 1rem;
   }
 `;
 
@@ -241,4 +226,12 @@ const StSlideWrapper = styled.div`
     css`
       transform: translateX(-50%);
     `}
+`;
+
+const StWriteFormSubmitBtn = styled.button`
+  color: #3cc7a6;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 1.6rem;
 `;
