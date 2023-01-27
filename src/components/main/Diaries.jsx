@@ -37,16 +37,18 @@ const Diaries = ({ diaryData }) => {
                     <FiMoreVertical className="diaryMoreInfo" />
                   </DiarySettingModal>
                 </div>
-                <Diary
-                  bookmark={bookmark}
-                  diaryId={diaryId}
-                  bgColor={outsideColor}
-                  onClick={() => {
-                    navigate(`/list/${diaryId}`);
-                    localStorage.removeItem("diaryName");
-                    localStorage.setItem("diaryName", diaryName);
-                  }}
-                ></Diary>
+                <div className="diary">
+                  <Diary
+                    bookmark={bookmark}
+                    diaryId={diaryId}
+                    bgColor={outsideColor}
+                    onClick={() => {
+                      navigate(`/list/${diaryId}`);
+                      localStorage.removeItem("diaryName");
+                      localStorage.setItem("diaryName", diaryName);
+                    }}
+                  ></Diary>
+                </div>
               </DiaryShowContainer>
             </SwiperSlide>
           );
@@ -70,5 +72,8 @@ const DiaryShowContainer = styled.div`
       margin-left: 0.7rem;
       cursor: pointer;
     }
+  }
+  .diary {
+    ${flex}
   }
 `;
