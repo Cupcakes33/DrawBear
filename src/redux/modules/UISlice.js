@@ -7,8 +7,8 @@ const initialState = {
     smallTxt: "",
     move: "",
     diaryId: ""
-  }
-
+  },
+  isSuccess: false
 };
 
 const UISlice = createSlice({
@@ -18,8 +18,11 @@ const UISlice = createSlice({
     ErrorModal: (state, action) => {
       state.errorModal = action.payload
     },
+    Rerendering: (state, action) => {
+      state.isSuccess = action.payload
+    },
   }
 })
 
-export const { ErrorModal } = UISlice.actions
+export const { ErrorModal, Rerendering } = UISlice.actions
 export default UISlice.reducer

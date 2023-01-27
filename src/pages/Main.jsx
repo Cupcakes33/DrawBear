@@ -23,9 +23,9 @@ const Main = () => {
     onError: (error) => {
       const { status } = error?.response.request;
       if (status === 401) {
-        dispatch(ErrorModal({ isModal: true, content: "로그인 후 이용해주세요.", move: "/login" }));
+        dispatch(ErrorModal({ isModal: true, bigTxt: "로그인 후 이용해주세요.", move: "/login" }));
       } else if (status === 400)
-        return dispatch(ErrorModal({ isModal: true, content: "일기장 조회에 실패했습니다.", move: "/login" }));
+        return dispatch(ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" }));
     },
   });
   const diaries = queryClient.getQueryData(["main"])?.diaries;

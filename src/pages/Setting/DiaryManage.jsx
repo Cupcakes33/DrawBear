@@ -2,41 +2,91 @@ import styled from "styled-components";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
 import Button from "../../components/common/Button";
+import { useQuery } from "@tanstack/react-query";
+import DiaryDeleteModal from "../../components/Setting/DiaryDeleteModal";
+import { mainApi } from "../../apis/axios";
+import { ErrorModal } from "../../redux/modules/UISlice";
+import { diaryData } from "../../redux/modules/diarySlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const DiaryManage = () => {
+  const dispatch = useDispatch();
+  const { isSuccess } = useSelector((state) => state.UISlice);
+
+  const {
+    data = [],
+    isError,
+    isLoading,
+    error,
+  } = useQuery(["main"], mainApi.read, {
+    onError: (error) => {
+      const { status } = error?.response.request;
+      if (status === 401) {
+        dispatch(ErrorModal({ isModal: true, bigTxt: "로그인 후 이용해주세요.", move: "/login" }));
+      } else if (status === 400)
+        return dispatch(ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" }));
+    },
+  });
+
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="flex-start">
-          <NavigateBtn prev sizeType="header" />
-          <h3>일기 설정</h3>
-        </StHeader>
-        <DiaryManagementSection flex derection="column" justify="flex-start">
-          <CoupleDiary>
-            <h1>D조 3조팀 다여리</h1>
-            <DisplayDiv flex justify="space-between">
-              <div>
-                <img src="" alt="프사" />
-                <span>{"닉네임"}님과 함께써요</span>
-              </div>
-              <div>
-                <Button size="small">탈퇴하기</Button>
-              </div>
-            </DisplayDiv>
-          </CoupleDiary>
-          <SoloDiary>
-            <h1>데일리 그림일기</h1>
-            <DisplayDiv flex justify="space-between">
-              <div>
-                <span>나만의 그림일기!</span>
-              </div>
-              <div>
-                <Button size="small">삭제하기</Button>
-              </div>
-            </DisplayDiv>
-          </SoloDiary>
-        </DiaryManagementSection>
-      </StContainer>
+      {isLoading ? (
+        <h2>로딩 중...</h2>
+      ) : isError ? (
+        <h2>{`${error?.response.status} ERROR`}</h2>
+      ) : (
+        <StContainer>
+          <StHeader flex justify="flex-start">
+            <NavigateBtn prev sizeType="header" />
+            <h3>일기 설정</h3>
+          </StHeader>
+          <DiaryManagementSection flex derection="column" justify="flex-start">
+            {data.diaries?.map((diary) => {
+              const { diaryId, diaryName, invitedNickname, invitedProfileImg } = diary;
+              return diary.couple === 0 ? (
+                <SoloDiary key={`diary_${diaryId}`}>
+                  <h1>{diaryName}</h1>
+                  <DisplayDiv flex justify="space-between">
+                    <div>
+                      <span>나만의 그림일기!</span>
+                    </div>
+                    <div>
+                      <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`}>
+                        <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
+                          삭제하기
+                        </Button>
+                      </DiaryDeleteModal>
+                    </div>
+                  </DisplayDiv>
+                </SoloDiary>
+              ) : (
+                <CoupleDiary key={`diary_${diaryId}`}>
+                  <h1>{diaryName}</h1>
+                  <DisplayDiv flex justify="space-between">
+                    <div>
+                      {invitedNickname === null ? (
+                        <span>수락 대기중...</span>
+                      ) : (
+                        <>
+                          <img src={invitedProfileImg} alt="프사" />
+                          <span>{invitedNickname}님과 함께써요</span>
+                        </>
+                      )}
+                    </div>
+                    <div>
+                      <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`} diaryId={diaryId}>
+                        <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
+                          탈퇴하기
+                        </Button>
+                      </DiaryDeleteModal>
+                    </div>
+                  </DisplayDiv>
+                </CoupleDiary>
+              );
+            })}
+          </DiaryManagementSection>
+        </StContainer>
+      )}
     </>
   );
 };

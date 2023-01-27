@@ -27,7 +27,9 @@ const DiaryDeleteConfirmModal = ({ children, diaryName, diaryId }) => {
         );
     },
     onSuccess: () => {
-      dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 삭제 성공!", move: "/" }));
+      dispatch(
+        ErrorModal({ isModal: true, bigTxt: "다이어리를 삭제했어요.", smallTxt: "다이어리야 안녕!", move: "/" })
+      );
       const diaryData = queryClient.getQueryData(["main"])?.diaries;
       queryClient.setQueryData(["main"], {
         diaries: diaryData?.filter((diary) => diary.diaryId !== diaryId),

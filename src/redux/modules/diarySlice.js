@@ -26,11 +26,11 @@ const diarySlice = createSlice({
     addDiary: (state, action) => {
       state.couple = action.payload
     },
-    diaryModal: (state, action) => {
+    diaryData: (state, action) => {
       state.diaryData = action.payload
-    }
+    },
   },
 })
 
-export const { diaryType, addDiary, diaryModal } = diarySlice.actions
+export const { diaryType, addDiary, diaryData } = diarySlice.actions
 export default diarySlice.reducer;
