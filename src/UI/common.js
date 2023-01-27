@@ -13,7 +13,7 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
-export const flex = (jc = "", ai = "") => {
+export const flex = (jc = "", ai = "", fd = "") => {
   const justifyContent = () => {
     switch (jc) {
       case "between":
@@ -34,10 +34,22 @@ export const flex = (jc = "", ai = "") => {
     }
   }
 
+  const flexdirection = () => {
+    switch (fd) {
+      case "column":
+        return "column";
+      case "row":
+        return "row";
+      default:
+        return ""
+    }
+  }
+
   return css`
   display: flex;
   justify-content: ${justifyContent()};
   align-items: ${alignItems()};
+  flex-direction: ${flexdirection()};
   `
 }
 
