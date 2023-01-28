@@ -19,9 +19,12 @@ import Alarm from "../pages/Setting/Alarm";
 import InfoEdit from "../pages/Setting/InfoEdit";
 import PrivateRoutes from "./PrivateRoutes";
 import Chatting from "../pages/Chatting";
-
+import { useSelector } from "react-redux";
+import ErrorHandlerModal from "../components/common/modal/ErrorHandlerModal";
 
 const Router = () => {
+  const { isModal } = useSelector((state) => state.UISlice.errorModal);
+
   return (
     <BrowserRouter>
       {/* <Header /> */}
@@ -57,6 +60,7 @@ const Router = () => {
           <Route path="/setting/alarm" element={<Alarm />} />
         </Route>
       </Routes>
+      {isModal && <ErrorHandlerModal showModal />}
     </BrowserRouter>
   );
 };

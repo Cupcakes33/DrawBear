@@ -5,10 +5,8 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { passwordApi } from "../../apis/axios";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../../redux/modules/UISlice";
-import Alert from "../../components/common/modal/Alert";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../../redux/modules/UISlice";
 
 const MyPassword = () => {
   const {
@@ -20,23 +18,18 @@ const MyPassword = () => {
 
   const dispatch = useDispatch();
 
-  const { isModal } = useSelector((state) => state.UISlice);
-
   const { mutate } = useMutation((formData) => passwordApi.update(formData), {
     onSuccess: (data) => {
-      dispatch(
-        showModal({ isModal: true, content: data.message, move: "/setting" })
-      );
+      dispatch(ErrorModal({ isModal: true, bigTxt: data.message, move: "/setting" }));
     },
     onError: (error) => {
       const errorStatus = error.response.status;
-      
+
       if (errorStatus === 401) {
-      
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "현재 비밀번호가 틀렸습니다.",
+            bigTxt: "현재 비밀번호가 틀렸습니다.",
           })
         );
       }
@@ -49,7 +42,6 @@ const MyPassword = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
@@ -69,9 +61,7 @@ const MyPassword = () => {
                 type="password"
                 name="currentPW"
                 placeholder="*영문,숫자 조합 8자리 이상"
-                aria-invalid={
-                  !isDirty ? undefined : errors.currentPW ? false : true
-                }
+                aria-invalid={!isDirty ? undefined : errors.currentPW ? false : true}
                 {...register("currentPW", {
                   required: "비밀번호는 필수 입력 입니다.",
                   minLength: {
@@ -80,9 +70,7 @@ const MyPassword = () => {
                   },
                 })}
               />
-              {errors.currentPW && (
-                <small role="alert">{errors.currentPW.message}</small>
-              )}
+              {errors.currentPW && <small role="alert">{errors.currentPW.message}</small>}
             </div>
             <div className="PW-box changing">
               <label>새로 변경할 비밀번호</label>
@@ -91,9 +79,7 @@ const MyPassword = () => {
                 type="password"
                 name="password"
                 placeholder="*영문,숫자 조합 8자리 이상"
-                aria-invalid={
-                  !isDirty ? undefined : errors.password ? false : true
-                }
+                aria-invalid={!isDirty ? undefined : errors.password ? false : true}
                 {...register("password", {
                   required: "비밀번호는 필수 입력 입니다.",
                   minLength: {
@@ -103,17 +89,13 @@ const MyPassword = () => {
                 })}
                 style={{ top: "33rem" }}
               />
-              {errors.password && (
-                <small role="alert">{errors.password.message}</small>
-              )}
+              {errors.password && <small role="alert">{errors.password.message}</small>}
               <input
                 id="passwordCheck"
                 type="password"
                 name="passwordCheck"
                 placeholder="비밀번호재입력"
-                aria-invalid={
-                  !isDirty ? undefined : errors.passwordCheck ? false : true
-                }
+                aria-invalid={!isDirty ? undefined : errors.passwordCheck ? false : true}
                 {...register("passwordCheck", {
                   required: true,
                   validate: (val) => {
@@ -124,9 +106,7 @@ const MyPassword = () => {
                 })}
                 style={{ top: "33rem" }}
               />
-              {errors.passwordCheck && (
-                <small role="alert">{errors.passwordCheck.message}</small>
-              )}
+              {errors.passwordCheck && <small role="alert">{errors.passwordCheck.message}</small>}
             </div>
           </MypageSection>
         </form>

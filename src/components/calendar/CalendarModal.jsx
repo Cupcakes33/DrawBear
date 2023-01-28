@@ -1,10 +1,11 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
 import { diaryApi } from "../../apis/axios";
-import Modal from "../common/modal/Modal";
+import { Modal } from "../common/modal/ReactModal";
 
-const Calendar = ({ onClose }) => {
+const CalendarModal = ({ children }) => {
   const today = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -19,24 +20,26 @@ const Calendar = ({ onClose }) => {
 
   const holiday = data?.map((v) => v.locdate);
 
-  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const week = useMemo(() => {
+    return ["일", "월", "화", "수", "목", "금", "토"];
+  }, []);
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
       setSelectedMonth(12);
-      setSelectedYear(selectedYear - 1);
+      setSelectedYear((prev) => prev - 1);
     } else {
-      setSelectedMonth(selectedMonth - 1);
+      setSelectedMonth((prev) => prev - 1);
     }
   }, [selectedMonth]);
 
   const nextMonth = useCallback(() => {
     if (selectedMonth === 12) {
       setSelectedMonth(1);
-      setSelectedYear(selectedYear + 1);
+      setSelectedYear((prev) => prev + 1);
     } else {
-      setSelectedMonth(selectedMonth + 1);
+      setSelectedMonth((prev) => prev + 1);
     }
   }, [selectedMonth]);
 
@@ -46,7 +49,7 @@ const Calendar = ({ onClose }) => {
         {v}
       </div>
     ));
-  }, []);
+  }, [week]);
 
   // 주호님 방식에 맞춰서 둘 중 하나로 로직 수정
   // 1. setquerydata를 이용해 캐시를 변경할 경우 -> 복사본 만들어서 복사본을 달력 표시로 쓰고 원본을 수정해 렌더링 변화주기
@@ -106,34 +109,43 @@ const Calendar = ({ onClose }) => {
   };
 
   return (
-    <Modal onClose={onClose} modalWidth="36rem" modalHeight="40rem" top="80%">
-      <Container>
-        {isLoading ? (
-          <h2>로딩 중...</h2>
-        ) : isError ? (
-          <h2>서버 연결 실패</h2>
-        ) : (
-          <>
-            <StHeader>
-              <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
-              <div className="buttons">
-                <div>
-                  <button onClick={selectedDatePostSearch}>조회</button>
-                  <button onClick={() => prevMonth()}>이전 달</button>
-                  <button onClick={() => nextMonth()}>다음 달</button>
-                </div>
-              </div>
-            </StHeader>
-            <StWeek>{returnWeek()}</StWeek>
-            <StDate>{returnDay()}</StDate>
-          </>
-        )}
-      </Container>
+    <Modal>
+      <Modal.Trigger>{children}</Modal.Trigger>
+      <Modal.Portal>
+        <Modal.BackDrop>
+          <Modal.ContentBox XYcoordinate="bottom">
+            <CalendarContainer>
+              {isLoading ? (
+                <h2>로딩 중...</h2>
+              ) : isError ? (
+                <h2>서버 연결 실패</h2>
+              ) : (
+                <>
+                  <StHeader>
+                    <h3>{`${selectedYear}년 ${selectedMonth}월`}</h3>
+                    <div className="buttons">
+                      <div>
+                        <button onClick={selectedDatePostSearch}>조회</button>
+                        <button onClick={() => prevMonth()}>이전 달</button>
+                        <button onClick={() => nextMonth()}>다음 달</button>
+                      </div>
+                    </div>
+                  </StHeader>
+                  <StWeek>{returnWeek()}</StWeek>
+                  <StDate>{returnDay()}</StDate>
+                </>
+              )}
+            </CalendarContainer>
+          </Modal.ContentBox>
+        </Modal.BackDrop>
+      </Modal.Portal>
     </Modal>
   );
 };
 
-const Container = styled.section`
+export default CalendarModal;
+
+const CalendarContainer = styled.section`
   width: 36rem;
   height: 40rem;
   padding: 2rem 2rem;
@@ -220,5 +232,3 @@ const SpecialDate = styled.button`
     }
   }}
 `;
-
-export default Calendar;

@@ -10,9 +10,9 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 
-import { showModal } from "../redux/modules/UISlice";
-import { useSelector, useDispatch } from "react-redux";
-import Alert from "../components/common/modal/Alert";
+import { ErrorModal } from "../redux/modules/UISlice";
+import { useDispatch } from "react-redux";
+import Alert from "../components/common/modal/AlertModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import Button from "../components/common/Button";
@@ -25,16 +25,15 @@ const Write = () => {
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
 
-  const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
   const diaryId = useParams().id;
 
   const { mutate } = useMutation(diaryApi.post, {
     onSuccess: () => {
       dispatch(
-        showModal({
+        ErrorModal({
           isModal: true,
-          content: "다이어리가 작성되었습니다.",
+          bigTxt: "다이어리가 작성되었습니다.",
           move: `/list/${diaryId}`,
         })
       );
@@ -43,23 +42,23 @@ const Write = () => {
       const status = error?.response.request.status;
       status === 401 &&
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "인증되지 않은 사용자입니다.",
+            bigTxt: "인증되지 않은 사용자입니다.",
           })
         );
       status === 404 &&
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "잘못된 접근입니다.",
+            bigTxt: "잘못된 접근입니다.",
           })
         );
       status === 412 &&
         dispatch(
-          showModal({
+          ErrorModal({
             isModal: true,
-            content: "아직 작성하지 않은 항목이 있습니다.",
+            bigTxt: "아직 작성하지 않은 항목이 있습니다.",
           })
         );
     },
@@ -109,7 +108,6 @@ const Write = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       <StContainer>
         <StHeader flex justify="space-between" aline="center">
           {isDrawingEnd ? drawingEndHeader() : defaultHeader()}

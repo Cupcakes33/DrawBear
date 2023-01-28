@@ -8,20 +8,18 @@ import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../../redux/modules/UISlice";
-import Alert from "../../components/common/modal/Alert";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../../redux/modules/UISlice";
+
 const MyProfileEdit = () => {
   const dispatch = useDispatch();
-  const { isModal } = useSelector((state) => state.UISlice);
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const { mutate } = useMutation((formData) => mypageApi.update(formData), {
     onSuccess: (success) => {
-      
       dispatch(
-        showModal({
+        ErrorModal({
           isModal: true,
-          content: success.message,
+          bigTxt: success.message,
           move: "/setting/profileEdit",
         }) //모달창에 전달하는 데이터
       );
@@ -43,11 +41,11 @@ const MyProfileEdit = () => {
   };
   const imgOnChnageHandler = (e) => {
     e.preventDefault();
-    
+
     if (e.target.files[0]) {
       URL.revokeObjectURL(image.preview_URL);
       const preview_URL = URL.createObjectURL(e.target.files[0]);
-    
+
       setImage(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
@@ -57,19 +55,14 @@ const MyProfileEdit = () => {
   const onSubmit = (data) => {
     const formData = new FormData();
     if (!data.nickname) {
-      
       formData.append("nickname", nick);
       formData.append("image", image.image_file);
     } else if (!image.image_file && nick !== data.nickname) {
-      
       formData.append("nickname", data.nickname);
       formData.append("image", image.preview_URL);
-      
     } else {
-      
       formData.append("nickname", data.nickname);
       formData.append("image", image.image_file);
-      
     }
     mutate(formData);
   };
@@ -83,7 +76,6 @@ const MyProfileEdit = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
@@ -111,12 +103,7 @@ const MyProfileEdit = () => {
               <div className="myProfileInfoWrapper">
                 <img src={image.preview_URL} onClick={() => inputRef.click()} />
                 <div className="pencilIcon-box">
-                  <Button
-                    type="button"
-                    onClick={() => inputRef.click()}
-                    icon={<TiPencil />}
-                    round
-                  ></Button>
+                  <Button type="button" onClick={() => inputRef.click()} icon={<TiPencil />} round></Button>
                 </div>
               </div>
             </div>
@@ -127,10 +114,7 @@ const MyProfileEdit = () => {
               </div>
               <div>
                 <span className="nickName_txt">닉네임</span>
-                <div
-                  className="nickName_container"
-                  style={{ flexDirection: "column" }}
-                >
+                <div className="nickName_container" style={{ flexDirection: "column" }}>
                   <input
                     id="nickname"
                     type="text"
@@ -138,9 +122,7 @@ const MyProfileEdit = () => {
                     placeholder="닉네임을 입력해주세요"
                     defaultValue={nick}
                     onChange={nickChangeHandle}
-                    aria-invalid={
-                      !isDirty ? undefined : errors.nickname ? "true" : "false"
-                    }
+                    aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
                     {...register("nickname", {
                       minLength: {
                         value: 2,
@@ -148,9 +130,7 @@ const MyProfileEdit = () => {
                       },
                     })}
                   />
-                  {errors.nickname && (
-                    <small role="alert">{errors.nickname.message}</small>
-                  )}
+                  {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
                 </div>
               </div>
             </AccountInfoBox>

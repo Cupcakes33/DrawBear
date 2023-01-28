@@ -2,20 +2,15 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
 import { StContainer, StHeader } from "../UI/common";
-import { showModal } from "../redux/modules/UISlice";
+import { ErrorModal } from "../redux/modules/UISlice";
 import { mainApi } from "../apis/axios";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
-import Alert from "../components/common/modal/Alert";
-import ReactModal from "../components/common/modal/ReactModal";
-import DiarySetting from "../components/FullList/DiarySetting";
-import Bookmark from "../components/main/BookmarkTab";
+import BookmarkTab from "../components/main/BookmarkTab";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
-  const { isModal } = useSelector((state) => state.UISlice);
-  const { diary } = useSelector((state) => state.diarySlice);
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
@@ -28,12 +23,11 @@ const Main = () => {
     onError: (error) => {
       const { status } = error?.response.request;
       if (status === 401) {
-        dispatch(showModal({ isModal: true, content: "로그인 후 이용해주세요.", move: "/login" }));
+        dispatch(ErrorModal({ isModal: true, bigTxt: "로그인 후 이용해주세요.", move: "/login" }));
       } else if (status === 400)
-        return dispatch(showModal({ isModal: true, content: "일기장 조회에 실패했습니다.", move: "/login" }));
+        return dispatch(ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" }));
     },
   });
-  const diaries = queryClient.getQueryData(["main"])?.diaries;
 
   const diaryType = useCallback(
     (diaries) => {
@@ -57,7 +51,6 @@ const Main = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       {isLoading ? (
         <h2>로딩 중...</h2>
       ) : isError ? (
@@ -68,20 +61,15 @@ const Main = () => {
             <StHeader flex>
               <h1>LOGO</h1>
             </StHeader>
-            {diaryType(diaries)?.length === 0 ? (
+            {diaryType(data?.diaries)?.length === 0 ? (
               <NoDiary />
             ) : diaryTypes.bookmark === 1 ? (
-              <Bookmark diaryData={diaryType(diaries)} />
+              <BookmarkTab diaryData={diaryType(data?.diaries)} />
             ) : (
-              <DiaryList diaryData={diaryType(diaries)} />
+              <DiaryList diaryData={diaryType(data?.diaries)} />
             )}
             <Footer />
           </StContainer>
-          {diary.isModal && (
-            <ReactModal>
-              <DiarySetting diaryId={diary?.diaryId} queryClient={queryClient} />
-            </ReactModal>
-          )}
         </>
       )}
     </>
