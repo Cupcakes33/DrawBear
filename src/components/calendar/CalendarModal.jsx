@@ -55,11 +55,13 @@ const CalendarModal = ({ children }) => {
   // 1. setquerydata를 이용해 캐시를 변경할 경우 -> 복사본 만들어서 복사본을 달력 표시로 쓰고 원본을 수정해 렌더링 변화주기
   // 2. 캐시 건드리지 않고 임의의 변수 or 상수를 만들어서 렌더링에 사용하실 경우 -> 만들어 놓은 것에 덮어 씌워 렌더링 변화주기
   const postsMonthFilterFn = useCallback(() => {
-    const postsMonth = queryClient
+    const postsYear = queryClient
       ?.getQueryData(["Allposts"])
-      .filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
+      .filter((post) => +post.createdAt.split("-")[0] === selectedYear);
+    const postsMonth = postsYear?.filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
+    console.log(postsMonth);
     return postsMonth;
-  }, [selectedMonth]);
+  }, [selectedYear, selectedMonth, queryClient]);
 
   const returnDay = useCallback(() => {
     let dayArr = [];
@@ -75,12 +77,13 @@ const CalendarModal = ({ children }) => {
 
     const postedDayCompareFn = (i) => {
       for (let p = 0; p <= postsDate.length; p++) {
-        if (postsDate[p] === i) return `${i}*`;
+        if (postsDate[p] === i) return true;
       }
     };
 
     const dayColor = (i) => {
-      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
+      if (postedDayCompareFn(i)) return "postedDay";
+      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
       else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
 
@@ -90,7 +93,7 @@ const CalendarModal = ({ children }) => {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
             <SpecialDate key={i} color={dayColor(i)} onClick={() => setSelectedDate(i)}>
-              {postedDayCompareFn(i) ? postedDayCompareFn(i) : i}
+              {i}
             </SpecialDate>
           );
         }
@@ -150,13 +153,14 @@ const CalendarContainer = styled.section`
   height: 40rem;
   padding: 2rem 2rem;
   border: 1px solid black;
-  background-color: #383838;
+  border-radius: 20px 20px 0px 0px;
+  background-color: white;
 `;
 
 const StHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  color: whitesmoke;
+  color: #242424
   margin-bottom: 2rem;
   .buttons {
     display: flex;
@@ -170,13 +174,13 @@ const StWeek = styled.div`
   .weekday {
     width: calc(36rem / 7);
     text-align: center;
-    color: whitesmoke;
+    color: #242424;
   }
   .saturday {
     color: blue;
   }
   .sunday {
-    color: red;
+    color: #ff5656;
   }
 `;
 
@@ -215,7 +219,7 @@ const SpecialDate = styled.button`
     switch (color) {
       case "redDay":
         return css`
-          color: red;
+          color: #ff5656;
         `;
       case "saturday":
         return css`
@@ -223,11 +227,12 @@ const SpecialDate = styled.button`
         `;
       case "postedDay":
         return css`
-          color: yellow;
+          border-radius: 100%;
+          background-color: #b3e9dc;
         `;
       default:
         return css`
-          color: whitesmoke;
+          color: #242424;
         `;
     }
   }}
