@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import DiaryDeleteConfirmModal from "./DiaryDeleteConfirmModal";
-import { Modal } from "../ReactModal";
+import { Modal } from "../../common/modal/ReactModal";
 
 const DiarySettingModal = ({ children, diaryId, diaryName }) => {
   const navigate = useNavigate();

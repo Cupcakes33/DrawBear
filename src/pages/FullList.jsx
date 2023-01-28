@@ -13,7 +13,7 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import DiarySettingModal from "../components/common/modal/DiarySettingModal/DiarySettingModal";
+import DiarySettingModal from "../components/main/DiarySettingModal/DiarySettingModal";
 import CalendarModal from "../components/calendar/CalendarModal";
 
 const DiaryList = () => {

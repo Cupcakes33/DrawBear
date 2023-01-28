@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.css";
 import { flex } from "../../UI/common";
-import DiarySettingModal from "../common/modal/DiarySettingModal/DiarySettingModal";
+import DiarySettingModal from "./DiarySettingModal/DiarySettingModal";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();

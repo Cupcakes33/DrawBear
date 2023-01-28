@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { flex } from "../../../../UI/common";
-import DeleteConfirmBear from "../../../../assets/images/DeleteConfirmBear.webp";
-import Button from "../../Button";
-import { Modal } from "../ReactModal";
+import { flex } from "../../../UI/common";
+import DeleteConfirmBear from "../../../assets/images/DeleteConfirmBear.webp";
+import Button from "../../common/Button";
+import { Modal } from "../../common/modal/ReactModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { mainApi } from "../../../../apis/axios";
+import { mainApi } from "../../../apis/axios";
 import { useDispatch } from "react-redux";
-import { ErrorModal } from "../../../../redux/modules/UISlice";
+import { ErrorModal } from "../../../redux/modules/UISlice";
 
 const DiaryDeleteConfirmModal = ({ children, diaryName, diaryId }) => {
   const dispatch = useDispatch();

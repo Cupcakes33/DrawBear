@@ -17,8 +17,8 @@ export const Modal = ({ children, showModal }) => {
 // 모달 트리거
 
 const Trigger = ({ children }) => {
-  const { isModal, setIsModal } = useContext(ModalContext);
-  return <div onClick={() => setIsModal(!isModal)}>{children}</div>;
+  const { setIsModal } = useContext(ModalContext);
+  return <div onClick={() => setIsModal((prev) => !prev)}>{children}</div>;
 };
 
 // 모달 포탈
@@ -39,7 +39,7 @@ const BackDrop = ({ children, notClose }) => {
 
   return (
     isModal && (
-      <Background onClick={() => (notClose ? null : setIsModal(!isModal))} bgColor={notClose}>
+      <Background onClick={() => (notClose ? null : setIsModal((prev) => !prev))} bgColor={notClose}>
         {children}
       </Background>
     )

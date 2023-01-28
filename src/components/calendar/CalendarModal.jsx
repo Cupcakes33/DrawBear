@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
 import { diaryApi } from "../../apis/axios";
@@ -19,24 +20,26 @@ const CalendarModal = ({ children }) => {
 
   const holiday = data?.map((v) => v.locdate);
 
-  const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const week = useMemo(() => {
+    return ["일", "월", "화", "수", "목", "금", "토"];
+  }, []);
   const lastDay = new Date(selectedYear, selectedMonth, 0).getDate();
 
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
       setSelectedMonth(12);
-      setSelectedYear(selectedYear - 1);
+      setSelectedYear((prev) => prev - 1);
     } else {
-      setSelectedMonth(selectedMonth - 1);
+      setSelectedMonth((prev) => prev - 1);
     }
   }, [selectedMonth]);
 
   const nextMonth = useCallback(() => {
     if (selectedMonth === 12) {
       setSelectedMonth(1);
-      setSelectedYear(selectedYear + 1);
+      setSelectedYear((prev) => prev + 1);
     } else {
-      setSelectedMonth(selectedMonth + 1);
+      setSelectedMonth((prev) => prev + 1);
     }
   }, [selectedMonth]);
 
@@ -46,7 +49,7 @@ const CalendarModal = ({ children }) => {
         {v}
       </div>
     ));
-  }, []);
+  }, [week]);
 
   // 주호님 방식에 맞춰서 둘 중 하나로 로직 수정
   // 1. setquerydata를 이용해 캐시를 변경할 경우 -> 복사본 만들어서 복사본을 달력 표시로 쓰고 원본을 수정해 렌더링 변화주기
