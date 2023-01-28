@@ -1,3 +1,17 @@
+/* @font-face {
+  font-family: "ZigleTTFBold";
+  src: url("../assets/fonts/UhBee_ZIGLE_Bold.ttf") format("truetype");
+} */
+
+@font-face {
+  font-family: "ZigleTTFBold";
+  src: url("./assets/fonts/UhBee_ZIGLE_Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ZigleTTF";
+  src: url("./assets/fonts/UhBee_ZIGLE.ttf") format("truetype");
+}
+
 * {
   padding: 0;
   margin: 0;
