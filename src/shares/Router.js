@@ -18,6 +18,7 @@ import AccoutDelete from "../pages/Setting/AccoutDelete";
 import Alarm from "../pages/Setting/Alarm";
 import InfoEdit from "../pages/Setting/InfoEdit";
 import PrivateRoutes from "./PrivateRoutes";
+import Chatting from "../pages/Chatting";
 
 const Router = () => {
   return (
@@ -25,6 +26,7 @@ const Router = () => {
       {/* <Header /> */}
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="chat" element={<Chatting />} />
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/test" element={<HashTagInput />} />
