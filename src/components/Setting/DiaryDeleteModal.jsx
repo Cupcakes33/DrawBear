@@ -2,8 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { mainApi } from "../../apis/axios";
-import { ErrorModal, Rerendering } from "../../redux/modules/UISlice";
-import AlertModal from "../common/modal/AlertModal";
+import { ErrorModal } from "../../redux/modules/UISlice";
 import { Modal } from "../common/modal/ReactModal";
 
 const ReconfirmAlertModal = ({ children, bigTxt }) => {
@@ -26,11 +25,10 @@ const ReconfirmAlertModal = ({ children, bigTxt }) => {
     },
     onSuccess: () => {
       dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리를 삭제했어요.", smallTxt: "다이어리야 안녕!" }));
-      const diaryData = queryClient.getQueryData(["main"])?.diaries;
+      const diaries = queryClient.getQueryData(["main"])?.diaries;
       queryClient.setQueryData(["main"], {
-        diaries: diaryData?.filter((diary) => diary.diaryId !== diaryData),
+        diaries: diaries?.filter((diary) => diary.diaryId !== diaryData),
       });
-      dispatch(Rerendering(true));
     },
   });
 

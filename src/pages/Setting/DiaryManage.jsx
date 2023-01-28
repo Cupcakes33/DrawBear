@@ -7,11 +7,10 @@ import DiaryDeleteModal from "../../components/Setting/DiaryDeleteModal";
 import { mainApi } from "../../apis/axios";
 import { ErrorModal } from "../../redux/modules/UISlice";
 import { diaryData } from "../../redux/modules/diarySlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const DiaryManage = () => {
   const dispatch = useDispatch();
-  const { isSuccess } = useSelector((state) => state.UISlice);
 
   const {
     data = [],
