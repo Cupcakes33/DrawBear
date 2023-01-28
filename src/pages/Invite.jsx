@@ -7,27 +7,9 @@ import { useRef, useState } from "react";
 import io from "socket.io-client";
 import { useEffect } from "react";
 import Toast from "./Toast";
-
-const userData = [
-  {
-    id: 1,
-    name: "김철수",
-    email: "abc@naver.com",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  },
-  {
-    id: 2,
-    name: "김영희",
-    email: "1@naver.com",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  },
-  {
-    id: 1,
-    name: "이수",
-    email: "3209@naver.com",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  },
-];
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { inviteApi } from "../apis/axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Invite = () => {
   const [showUserForm, setShowUserForm] = useState(false);
@@ -36,26 +18,28 @@ const Invite = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isInvite, setIsInvite] = useState(false);
   const [popup, setPopup] = useState(false);
+  const queryClient = useQueryClient();
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
+  const { mutate } = useMutation((name) => inviteApi.search(name), {
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: ({ userInfo }) => {
+      console.log(userInfo);
+      setUserInfo({ ...userInfo });
+      queryClient.setQueryData(["searchNickname"], userInfo);
+    },
+  });
   const userSearchOnclickHandle = () => {
-    userData.map((user) => {
-      if (user.name === name) {
-        setUserInfo({ ...user });
-      }
-    });
+    mutate(name);
     setShowUserForm(!showUserForm);
   };
-  const userInviteOnClickHandle = (event) => {
-    // event.preventDefault();
+  const userInviteOnClickHandle = () => {
     setIsInvite(!isInvite);
     setPopup(!popup);
-    console.log("userInviteOnClickHandle");
   };
-  useEffect(() => {
-    const socket = io.connect("http://localhost:3002");
-  }, []);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -74,14 +58,15 @@ const Invite = () => {
         </StSearchInputWrapper>
         {showUserForm && (
           <StSearchUserInfoWrapper>
-            <StSearchUserInfo key={`userId${userInfo.id}`}>
-              <img src={userInfo.profile} alt="profile" />
+            <StSearchUserInfo key={`userId${userInfo.userId}`}>
+              <img src={userInfo.profileImg} alt="profile" />
               <div>
-                <span>{userInfo.name}</span>
+                <span>{userInfo.nickname}</span>
                 <span>{userInfo.email}</span>
               </div>
               <StIsviteBtn
                 isinvite={isInvite.toString()}
+                disabled={isInvite ? true : false}
                 onClick={userInviteOnClickHandle}
                 type="button"
               >
@@ -90,7 +75,7 @@ const Invite = () => {
             </StSearchUserInfo>
             {popup && (
               <Toast
-                nickName={userInfo.name}
+                nickName={userInfo.nickname}
                 setPopup={setPopup}
                 text="님을 초대하였습니다."
               />
@@ -184,10 +169,7 @@ const StIsviteBtn = styled.button`
   height: 3rem;
   border: 1px solid #e5e5e5;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   color: ${(props) => (props.isinvite === "false" ? "#FF7070" : "#9E9E9E")};
   cursor: pointer;
-  &:hover {
-    background-color: #e5e5e5;
-  }
 `;
