@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { useEffect } from "react";
 import { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
 import { diaryApi } from "../../apis/axios";
@@ -56,10 +57,9 @@ const CalendarModal = ({ children }) => {
   // 2. 캐시 건드리지 않고 임의의 변수 or 상수를 만들어서 렌더링에 사용하실 경우 -> 만들어 놓은 것에 덮어 씌워 렌더링 변화주기
   const postsMonthFilterFn = useCallback(() => {
     const postsYear = queryClient
-      ?.getQueryData(["Allposts"])
+      ?.getQueryData(["Allposts_copy"])
       .filter((post) => +post.createdAt.split("-")[0] === selectedYear);
     const postsMonth = postsYear?.filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
-    console.log(postsMonth);
     return postsMonth;
   }, [selectedYear, selectedMonth, queryClient]);
 
@@ -82,8 +82,7 @@ const CalendarModal = ({ children }) => {
     };
 
     const dayColor = (i) => {
-      if (postedDayCompareFn(i)) return "postedDay";
-      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
+      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
       else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
 
@@ -92,9 +91,13 @@ const CalendarModal = ({ children }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <SpecialDate key={i} color={dayColor(i)} onClick={() => setSelectedDate(i)}>
+            <button
+              key={i}
+              className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
+              onClick={() => setSelectedDate(i)}
+            >
               {i}
-            </SpecialDate>
+            </button>
           );
         }
       } else {
@@ -102,7 +105,7 @@ const CalendarModal = ({ children }) => {
       }
     }
     return dayArr;
-  }, [selectedMonth, holiday]);
+  }, [selectedYear, selectedMonth, holiday]);
 
   const selectedDatePostSearch = () => {
     const selectedDayPost = postsMonthFilterFn().filter(
@@ -110,6 +113,11 @@ const CalendarModal = ({ children }) => {
     );
     queryClient.setQueryData(["Allposts"], selectedDayPost);
   };
+
+  useEffect(() => {
+    const diaries = queryClient.getQueryData(["Allposts"]);
+    queryClient.setQueryData(["Allposts_copy"], diaries);
+  }, []);
 
   return (
     <Modal>
@@ -186,6 +194,37 @@ const StWeek = styled.div`
 
 const StDate = styled.div`
   margin-top: 2rem;
+  button {
+    float: left;
+    width: calc(36rem / 7);
+    margin-left: -0.3rem;
+    margin-right: -0.3rem;
+    height: 5rem;
+    border: none;
+    background-color: transparent;
+    color: #242424;
+    cursor: pointer;
+    :hover {
+      border: 1px solid black;
+      border-radius: 100%;
+    }
+    :focus {
+      border: 1px solid black;
+      border-radius: 100%;
+      background-color: black;
+      color: whitesmoke;
+    }
+  }
+  .redDay {
+    color: #ff5656;
+  }
+  .saturday {
+    color: blue;
+  }
+  .postedDay {
+    border-radius: 100%;
+    background-color: #b3e9dc;
+  }
   div {
     float: left;
     width: calc(36rem / 7);
@@ -194,46 +233,4 @@ const StDate = styled.div`
     height: 5rem;
     color: whitesmoke;
   }
-`;
-
-const SpecialDate = styled.button`
-  float: left;
-  width: calc(36rem / 7);
-  margin-left: -0.3rem;
-  margin-right: -0.3rem;
-  height: 5rem;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  :hover {
-    border: 1px solid black;
-    border-radius: 100%;
-  }
-  :focus {
-    border: 1px solid black;
-    border-radius: 100%;
-    background-color: black;
-    color: whitesmoke;
-  }
-  ${({ color }) => {
-    switch (color) {
-      case "redDay":
-        return css`
-          color: #ff5656;
-        `;
-      case "saturday":
-        return css`
-          color: blue;
-        `;
-      case "postedDay":
-        return css`
-          border-radius: 100%;
-          background-color: #b3e9dc;
-        `;
-      default:
-        return css`
-          color: #242424;
-        `;
-    }
-  }}
 `;
