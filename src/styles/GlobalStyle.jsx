@@ -1,17 +1,8 @@
 import { createGlobalStyle } from "styled-components";
-import ZigleTTFBold from "../assets/fonts/UhBee_ZIGLE_Bold.ttf";
-import ZigleTTF from "../assets/fonts/UhBee_ZIGLE.ttf";
+
 
 const GlobalStyle = createGlobalStyle`
-@font-face {
-  font-family: 'ZigleTTFBold';
-  src: url(${ZigleTTFBold}) format('truetype')
-}
 
-@font-face {
-  font-family: 'ZigleTTF';
-  src: url(${ZigleTTF}) format('truetype')
-}
 
   html {
     font-size: 62.5%;

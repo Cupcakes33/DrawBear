@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
@@ -14,8 +14,9 @@ import { showModal } from "../redux/modules/UISlice";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "../components/common/modal/Alert";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import Button from "../components/common/Button";
+import Dropdown from "../components/common/dropdown/Dropdown";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -26,7 +27,6 @@ const Write = () => {
 
   const { isModal } = useSelector((state) => state.UISlice);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const diaryId = useParams().id;
 
   const { mutate } = useMutation(diaryApi.post, {
@@ -38,7 +38,6 @@ const Write = () => {
           move: `/list/${diaryId}`,
         })
       );
-      // navigate(`/list/${diaryId}`);
     },
     onError: (error) => {
       const status = error?.response.request.status;
@@ -66,22 +65,6 @@ const Write = () => {
     },
   });
 
-  const imgUrlConvertBlob = (canvas) => {
-    if (!canvas) return;
-    const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
-    const splitDataUrl = canvasUrl.split(",");
-    const byteString =
-      splitDataUrl[0].indexOf("base64") >= 0
-        ? atob(splitDataUrl[1])
-        : decodeURI(splitDataUrl[1]);
-    const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
-    const ia = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ia], { type: mimeString });
-  };
-
   const formEnterKeyPrevent = (event) => {
     event.key === "Enter" && event.preventDefault();
   };
@@ -90,7 +73,6 @@ const Write = () => {
     event.preventDefault();
     let blob = imgUrlConvertBlob(canvas);
     let formData = new FormData(event.target);
-
 
     formData.get("title");
     formData.get("createdAt");
@@ -102,55 +84,71 @@ const Write = () => {
     mutate({ formData: formData, diaryId: diaryId }, {});
   };
 
+  const defaultHeader = () => {
+    return (
+      <>
+        <NavigateBtn prev />
+        <h3>LOGO</h3>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
+      </>
+    );
+  };
+
+  const drawingEndHeader = () => {
+    return (
+      <>
+        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
+        <span>
+          <StWriteFormSubmitBtn type="submit" form="writeForm">
+            완성
+          </StWriteFormSubmitBtn>
+        </span>
+      </>
+    );
+  };
+
   return (
     <>
       {isModal && <Alert />}
       <StContainer>
-        <StHeader flex justify="space-between">
-          <NavigateBtn prev />
-          <h3>LOGO</h3>
-          <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>
-            {isDrawingEnd ? "덜 그렸어요" : "다 그렸어요 !"}
-          </span>
+        <StHeader flex justify="space-between" aline="center">
+          {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
         </StHeader>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
-          <StCanvasSection flex justify="flex-start" derection="column">
-            <Canvas canvas={canvas} setCanvas={setCanvas} />
-            <TextEditor contents={contents} setContents={setContents} />
-          </StCanvasSection>
-
           <StTextSection>
             <StTextSectionFrom
+              id="writeForm"
               onSubmit={writeFormSubmitHandler}
               onKeyDown={formEnterKeyPrevent}
               encType="multipart/form-data"
             >
-              <div className="dateInputBox">
+              <StTextSectionBox className="titleInputBox">
                 <span>날짜</span>
                 <input type="date" name="createdAt" />
-              </div>
-              <div className="textInputBox">
+              </StTextSectionBox>
+              <StTextSectionBox className="tagInputBox">
+                <span>태그</span>
+                <HashTagInput tags={tags} setTags={setTags} />
+              </StTextSectionBox>
+              <StTextSectionBox className="textInputBox">
                 <span>제목</span>
                 <input
                   type="text"
                   name="title"
                   placeholder="제목을 입력해주세요"
                 />
-              </div>
-              <div className="weatherPickerBox">
+              </StTextSectionBox>
+              <StTextSectionBox className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
                 <WeatherPicker weather={weather} setWeather={setWeather} />
-                {/* <WeatherSelector /> */}
-              </div>
-              <div className="tagInputBox">
-                <span>태그</span>
-                <HashTagInput tags={tags} setTags={setTags} />
-              </div>
-              <Button fullWidth color="button_primary" outlined>
-                일기장 제출하기
-              </Button>
+              </StTextSectionBox>
+              
             </StTextSectionFrom>
           </StTextSection>
+          <StCanvasSection flex justify="flex-start" derection="column">
+            <Canvas canvas={canvas} setCanvas={setCanvas} />
+            <TextEditor contents={contents} setContents={setContents} />
+          </StCanvasSection>
         </StSlideWrapper>
       </StContainer>
     </>
@@ -173,54 +171,46 @@ const StTextSectionFrom = styled.form`
   gap: 2rem;
   padding: 2rem;
 
-  .dateInputBox {
-    width: 100%;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    span {
-      font-size: ${({ theme }) => theme.font.base};
-      white-space: nowrap;
-    }
+  .titleInputBox {
     input {
+      flex-grow: 0;
       width: 50%;
-      height: 100%;
-      border: 1px solid ${({ theme }) => theme.color.border_grayscale};
-      border-radius: 5px;
-    }
-  }
-
-  .textInputBox {
-    width: 100%;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    gap: 2.4rem;
-    span {
-      font-size: ${({ theme }) => theme.font.base};
-      white-space: nowrap;
-    }
-    input {
-      width: 90%;
-      height: 100%;
-      border: 1px solid ${({ theme }) => theme.color.border_grayscale};
-      border-radius: 5px;
-      padding: 1rem;
-    }
-  }
-
-  .weatherPickerBox {
-    width: 100%;
-    span {
-      font-size: ${({ theme }) => theme.font.base};
     }
   }
 
   .tagInputBox {
-    span {
-      font-size: ${({ theme }) => theme.font.base};
+    input {
+      background: none;
     }
+  }
+
+  .weatherPickerBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+`;
+
+const StTextSectionBox = styled.div`
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+
+  span {
+    font-size: ${({ theme }) => theme.font.base};
+    white-space: nowrap;
+  }
+  input {
+    flex-grow: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    background: #f5f5f5;
+    padding: 1rem;
   }
 `;
 
@@ -236,4 +226,12 @@ const StSlideWrapper = styled.div`
     css`
       transform: translateX(-50%);
     `}
+`;
+
+const StWriteFormSubmitBtn = styled.button`
+  color: #3cc7a6;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 1.6rem;
 `;

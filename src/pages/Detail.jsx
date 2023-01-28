@@ -50,7 +50,7 @@ const Detail = () => {
   const { mutate: postDeleteMutate } = useMutation({
     mutationFn: () => postsApi.delete(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries(["Allposts"]);
     },
   });
 

@@ -7,7 +7,7 @@ import CreateDiary from "../pages/CreateDiary";
 import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
 import Detail from "../pages/Detail";
-import HashTagInput from "../components/common/HashTagInput";
+
 import UpdateDiary from "../pages/UpdateDiary";
 import ButtonPreview from "../pages/ButtonPreview";
 import Setting from "../pages/Setting/Setting";
@@ -20,6 +20,7 @@ import InfoEdit from "../pages/Setting/InfoEdit";
 import PrivateRoutes from "./PrivateRoutes";
 import Chatting from "../pages/Chatting";
 
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -28,8 +29,8 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="chat" element={<Chatting />} />
         <Route path="/signup" element={<Signup />} />
+
         <Route element={<PrivateRoutes />}>
-          <Route path="/test" element={<HashTagInput />} />
           <Route path="/" element={<Main />} />
           <Route path="/new" element={<CreateDiary />} />
           <Route path="/update">
