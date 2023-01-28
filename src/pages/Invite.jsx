@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
+import { useRef, useState } from "react";
+import io from "socket.io-client";
+import { useEffect } from "react";
 
 const userData = [
   {
@@ -14,7 +17,7 @@ const userData = [
   {
     id: 2,
     name: "김영희",
-    email: "eieke@naver.com",
+    email: "1@naver.com",
     profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
   },
   {
@@ -26,7 +29,29 @@ const userData = [
 ];
 
 const Invite = () => {
+  const [showUserForm, setShowUserForm] = useState(false);
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+  const [isInvite, setIsInvite] = useState(false);
+  const nameChangeHandle = (event) => {
+    setName(event.target.value);
+  };
+  const userSearchOnclickHandle = () => {
+    userData.map((user) => {
+      if (user.name === name) {
+        setUserInfo({ ...user });
+      }
+    });
+    setShowUserForm(!showUserForm);
+  };
+  const userInviteOnClickHandle = () => {
+    setIsInvite(!isInvite);
+    console.log("userInviteOnClickHandle");
+  };
+  useEffect(() => {
+    const socket = io.connect("http://localhost:3002");
+  }, []);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -35,21 +60,31 @@ const Invite = () => {
       </StHeader>
       <StInviteSection>
         <StSearchInputWrapper>
-          <input placeholder="초대 할 멤버의 아이디를 입력해주세요."></input>
-          <StSearchBtn />
+          <input
+            type="text"
+            onChange={nameChangeHandle}
+            value={name}
+            placeholder="초대 할 멤버의 닉네임을 입력해주세요."
+          ></input>
+          <StSearchBtn onClick={userSearchOnclickHandle} />
         </StSearchInputWrapper>
-        <StSearchUserInfoWrapper>
-          {userData.map((user) => (
-            <StSearchUserInfo key={`userId${user.id}`}>
-              <img src={user.profile} alt="profile" />
+        {showUserForm && (
+          <StSearchUserInfoWrapper>
+            <StSearchUserInfo key={`userId${userInfo.id}`}>
+              <img src={userInfo.profile} alt="profile" />
               <div>
-                <span>{user.name}</span>
-                <span>{user.email}</span>
+                <span>{userInfo.name}</span>
+                <span>{userInfo.email}</span>
               </div>
-              <button>초대</button>
+              <StIsviteBtn
+                isinvite={isInvite.toString()}
+                onClick={userInviteOnClickHandle}
+              >
+                {isInvite ? "초대 중" : "초대하기"}
+              </StIsviteBtn>
             </StSearchUserInfo>
-          ))}
-        </StSearchUserInfoWrapper>
+          </StSearchUserInfoWrapper>
+        )}
       </StInviteSection>
     </StContainer>
   );
@@ -131,15 +166,16 @@ const StSearchUserInfo = styled.div`
       }
     }
   }
-  button {
-    width: 5rem;
-    height: 3rem;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    background-color: #fff;
-    cursor: pointer;
-    &:hover {
-      background-color: #e5e5e5;
-    }
+`;
+const StIsviteBtn = styled.button`
+  width: 8.2rem;
+  height: 3rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background-color: #fff;
+  color: ${(props) => (props.isinvite === "false" ? "#FF7070" : "#9E9E9E")};
+  cursor: pointer;
+  &:hover {
+    background-color: #e5e5e5;
   }
 `;

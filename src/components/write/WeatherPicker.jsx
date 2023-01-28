@@ -79,9 +79,10 @@ const StWeatherPickerContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   gap: 10px;
+  
 
   label {
     display: flex;
@@ -95,7 +96,7 @@ const StWeatherPickerContainer = styled.div`
   }
 
   input:checked + span {
-    transform: scale(1.2);
+    transform: scale(1.3);
   }
 `;
 
