@@ -10,21 +10,33 @@ import Toast from "./Toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { inviteApi } from "../apis/axios";
 import { useQueryClient } from "@tanstack/react-query";
+import AlertModal from "../components/common/modal/AlertModal";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../redux/modules/UISlice";
 
 const Invite = () => {
-  const [showUserForm, setShowUserForm] = useState(false);
+  // const [showUserForm, setShowUserForm] = useState(false);
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userInfo, setUserInfo] = useState({});
   const [isInvite, setIsInvite] = useState(false);
   const [popup, setPopup] = useState(false);
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
   const { mutate } = useMutation((name) => inviteApi.search(name), {
     onError: (error) => {
-      console.log(error);
+      const status = error?.response.status;
+      if (status === 404) {
+        dispatch(
+          ErrorModal({
+            isModal: true,
+            bigTxt: "닉네임을 입력해주세요",
+          })
+        );
+      }
     },
     onSuccess: ({ userInfo }) => {
       console.log(userInfo);
@@ -34,7 +46,6 @@ const Invite = () => {
   });
   const userSearchOnclickHandle = () => {
     mutate(name);
-    setShowUserForm(!showUserForm);
   };
   const userInviteOnClickHandle = () => {
     setIsInvite(!isInvite);
@@ -56,7 +67,7 @@ const Invite = () => {
           ></input>
           <StSearchBtn onClick={userSearchOnclickHandle} />
         </StSearchInputWrapper>
-        {showUserForm && (
+        {Object.keys(userInfo).length !== 0 && (
           <StSearchUserInfoWrapper>
             <StSearchUserInfo key={`userId${userInfo.userId}`}>
               <img src={userInfo.profileImg} alt="profile" />
