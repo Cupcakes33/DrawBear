@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import io from "socket.io-client";
 import { useEffect } from "react";
 
@@ -33,6 +33,7 @@ const Invite = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [userInfo, setUserInfo] = useState({});
+  const [isInvite, setIsInvite] = useState(false);
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
@@ -43,6 +44,10 @@ const Invite = () => {
       }
     });
     setShowUserForm(!showUserForm);
+  };
+  const userInviteOnClickHandle = () => {
+    setIsInvite(!isInvite);
+    console.log("userInviteOnClickHandle");
   };
   useEffect(() => {
     const socket = io.connect("http://localhost:3002");
@@ -71,7 +76,12 @@ const Invite = () => {
                 <span>{userInfo.name}</span>
                 <span>{userInfo.email}</span>
               </div>
-              <button>초대</button>
+              <StIsviteBtn
+                isinvite={isInvite.toString()}
+                onClick={userInviteOnClickHandle}
+              >
+                {isInvite ? "초대 중" : "초대하기"}
+              </StIsviteBtn>
             </StSearchUserInfo>
           </StSearchUserInfoWrapper>
         )}
@@ -156,15 +166,16 @@ const StSearchUserInfo = styled.div`
       }
     }
   }
-  button {
-    width: 5rem;
-    height: 3rem;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    background-color: #fff;
-    cursor: pointer;
-    &:hover {
-      background-color: #e5e5e5;
-    }
+`;
+const StIsviteBtn = styled.button`
+  width: 8.2rem;
+  height: 3rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background-color: #fff;
+  color: ${(props) => (props.isinvite === "false" ? "#FF7070" : "#9E9E9E")};
+  cursor: pointer;
+  &:hover {
+    background-color: #e5e5e5;
   }
 `;
