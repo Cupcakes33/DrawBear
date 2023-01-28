@@ -9,27 +9,28 @@ const BookmarkTab = ({ diaryData }) => {
   return (
     <BookmarkSection>
       {diaryData?.map((diary, i) => {
+        const { diaryName, bookmark, diaryId, outsideColor, couple, invitedNickname, invitedProfileImg } = diary;
         return (
           <DiaryCardBox key={i}>
-            <label>{diary.diaryName}</label>
+            <label>{diaryName}</label>
             <Diary
-              bookmark={diary.bookmark}
-              diaryId={diary.diaryId}
+              bookmark={bookmark}
+              diaryId={diaryId}
               size={"bookmark"}
-              bgColor={diary.outsideColor}
+              bgColor={outsideColor}
               onClick={() => {
-                navigate(`/list/${diary.diaryId}`);
+                navigate(`/list/${diaryId}`);
                 localStorage.removeItem("diaryName");
-                localStorage.setItem("diaryName", diary.diaryName);
+                localStorage.setItem("diaryName", diaryName);
               }}
             ></Diary>
-            {diary.couple === 1 ? (
-              diary.invitedNickname === null ? (
+            {couple === 1 ? (
+              invitedNickname === null ? (
                 <span>수락 기다리는 중...</span>
               ) : (
                 <>
-                  <img src={diary.invitedProfileImg} alt="상대방 프사" />
-                  <span>{`${diary.invitedNickname}님과 함께써요`}</span>
+                  <img src={invitedProfileImg} alt="상대방 프사" />
+                  <span>{`${invitedNickname}님과 함께써요`}</span>
                 </>
               )
             ) : null}

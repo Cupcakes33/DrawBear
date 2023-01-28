@@ -7,6 +7,8 @@ import { ErrorModal } from "../../../redux/modules/UISlice";
 import { IoMdBookmark } from "react-icons/io";
 import { AiOutlineStar } from "react-icons/ai";
 import { AiFillStar } from "react-icons/ai";
+import bookmarked from "../../../assets/images/bookmarked.webp";
+import unbookmarked from "../../../assets/images/unbookmarked.webp";
 
 const Diary = (props) => {
   const { size, bgColor, onClick, bookmark, diaryId } = props;
@@ -50,11 +52,15 @@ const Diary = (props) => {
 
   return (
     <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
-      <BookmarkStarDiv onClick={bookmarkHandler}>
-        {bookmark === 0 ? <AiOutlineStar /> : <AiFillStar className="star" />}
-        {/* {bookmark === 0 ? <AiOutlineStar /> : <AiFillStar className="star" />}
-        <IoMdBookmark size={size} className={bookmark === 1 && "bookmarked"} /> */}
-      </BookmarkStarDiv>
+      {/* <BookmarkStarDiv onClick={bookmarkHandler}> */}
+      {bookmark === 0 ? (
+        <img src={unbookmarked} alt="노북마크" onClick={bookmarkHandler} />
+      ) : (
+        <img src={bookmarked} alt="북마크" onClick={bookmarkHandler} />
+      )}
+      {/* <IoMdBookmark className={bookmark === 0 ? "bookmark" : "bookmark yellow"} onClick={bookmarkHandler} /> */}
+      {/* <img src={bookmared} alt="북마크" /> */}
+      {/* </BookmarkStarDiv> */}
       <div className="diaryHolder" />
     </DiaryIcon>
   );
@@ -80,6 +86,25 @@ const DiaryIcon = styled.div`
   cursor: pointer;
   background-color: ${(props) => props.bgcolor};
   border-radius: 6px;
+  img {
+    float: left;
+    margin: -3% 0 0 3%;
+    cursor: pointer;
+    ${({ size }) => {
+      switch (size) {
+        case "bookmark":
+          return css`
+            width: 2.5rem;
+            height: 3.3rem;
+          `;
+        default:
+          return css`
+            width: 3.5rem;
+            height: 4.7rem;
+          `;
+      }
+    }};
+  }
   .diaryHolder {
     position: relative;
     top: 50%;
@@ -146,11 +171,11 @@ const DiaryIcon = styled.div`
 //   }
 // `;
 
-const BookmarkStarDiv = styled.div`
-  float: left;
-  margin: 10% 0 0 10%;
-  width: 3rem;
-  font-size: 2.5rem;
-  color: #fdcb6e;
-  cursor: pointer;
-`;
+// const BookmarkStarDiv = styled.div`
+// float: left;
+// margin: 10% 0 0 10%;
+// width: 3rem;
+// font-size: 2.5rem;
+// color: #fdcb6e;
+// cursor: pointer;
+// `;
