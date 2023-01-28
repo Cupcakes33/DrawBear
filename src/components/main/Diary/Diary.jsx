@@ -4,9 +4,6 @@ import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { mainApi } from "../../../apis/axios";
 import { ErrorModal } from "../../../redux/modules/UISlice";
-import { IoMdBookmark } from "react-icons/io";
-import { AiOutlineStar } from "react-icons/ai";
-import { AiFillStar } from "react-icons/ai";
 import bookmarked from "../../../assets/images/bookmarked.webp";
 import unbookmarked from "../../../assets/images/unbookmarked.webp";
 
@@ -52,15 +49,11 @@ const Diary = (props) => {
 
   return (
     <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
-      {/* <BookmarkStarDiv onClick={bookmarkHandler}> */}
       {bookmark === 0 ? (
         <img src={unbookmarked} alt="노북마크" onClick={bookmarkHandler} />
       ) : (
         <img src={bookmarked} alt="북마크" onClick={bookmarkHandler} />
       )}
-      {/* <IoMdBookmark className={bookmark === 0 ? "bookmark" : "bookmark yellow"} onClick={bookmarkHandler} /> */}
-      {/* <img src={bookmared} alt="북마크" /> */}
-      {/* </BookmarkStarDiv> */}
       <div className="diaryHolder" />
     </DiaryIcon>
   );
