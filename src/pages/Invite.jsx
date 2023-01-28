@@ -6,6 +6,7 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import { useRef, useState } from "react";
 import io from "socket.io-client";
 import { useEffect } from "react";
+import Toast from "./Toast";
 
 const userData = [
   {
@@ -34,6 +35,7 @@ const Invite = () => {
   const [name, setName] = useState("");
   const [userInfo, setUserInfo] = useState({});
   const [isInvite, setIsInvite] = useState(false);
+  const [popup, setPopup] = useState(false);
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
@@ -45,8 +47,10 @@ const Invite = () => {
     });
     setShowUserForm(!showUserForm);
   };
-  const userInviteOnClickHandle = () => {
+  const userInviteOnClickHandle = (event) => {
+    // event.preventDefault();
     setIsInvite(!isInvite);
+    setPopup(!popup);
     console.log("userInviteOnClickHandle");
   };
   useEffect(() => {
@@ -79,10 +83,18 @@ const Invite = () => {
               <StIsviteBtn
                 isinvite={isInvite.toString()}
                 onClick={userInviteOnClickHandle}
+                type="button"
               >
                 {isInvite ? "초대 중" : "초대하기"}
               </StIsviteBtn>
             </StSearchUserInfo>
+            {popup && (
+              <Toast
+                nickName={userInfo.name}
+                setPopup={setPopup}
+                text="님을 초대하였습니다."
+              />
+            )}
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>
