@@ -28,7 +28,6 @@ const Main = () => {
         return dispatch(ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" }));
     },
   });
-  const diaries = queryClient.getQueryData(["main"])?.diaries;
 
   const diaryType = useCallback(
     (diaries) => {
@@ -62,12 +61,12 @@ const Main = () => {
             <StHeader flex>
               <h1>LOGO</h1>
             </StHeader>
-            {diaryType(diaries)?.length === 0 ? (
+            {diaryType(data?.diaries)?.length === 0 ? (
               <NoDiary />
             ) : diaryTypes.bookmark === 1 ? (
-              <BookmarkTab diaryData={diaryType(diaries)} />
+              <BookmarkTab diaryData={diaryType(data?.diaries)} />
             ) : (
-              <DiaryList diaryData={diaryType(diaries)} />
+              <DiaryList diaryData={diaryType(data?.diaries)} />
             )}
             <Footer />
           </StContainer>
