@@ -140,6 +140,7 @@ const StButton = styled.button`
   ${round}
   color: ${(props) => props.fontColor};
   font-size: ${(props) => props.fs};
+  background-color: ${(props) => props.bgColor};
 `;
 
 const StButtonInner = styled.div`

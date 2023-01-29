@@ -112,14 +112,14 @@ const Container = styled.div`
 
   ul {
     position: absolute;
-    top: 1rem;
-    left: 0rem;
+    top: 1.5rem;
+    left: -2rem;
+    
     width: min-content;
     background: #fff;
     border: 1px solid #d9d9d9;
     border-radius: 5px;
     z-index: 10;
-    
 
     li {
       list-style: none;
@@ -144,4 +144,3 @@ const Container = styled.div`
     }
   }
 `;
-

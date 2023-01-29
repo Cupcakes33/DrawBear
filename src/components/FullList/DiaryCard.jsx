@@ -4,6 +4,7 @@ import Card from "./Card";
 import { useNavigate } from "react-router";
 import Button from "../common/Button";
 import { BsBookmark } from "react-icons/bs";
+import ListPageDropdown from "../common/dropdown/ListPageDropdown";
 
 const DiaryCard = ({ postData }) => {
   const naigate = useNavigate();
@@ -24,7 +25,10 @@ const DiaryCard = ({ postData }) => {
   return (
     <StDiaryCardContainer>
       <StTitleWrapper>
-        <h4 onClick={redirectDetailpage}>{title}</h4>
+        <div className="postOptionbox">
+          <h4 onClick={redirectDetailpage}>{title}</h4>
+          <ListPageDropdown />
+        </div>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />
           <span>{nickname}</span>
@@ -59,6 +63,12 @@ const StTitleWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  .postOptionbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.2rem;
+  }
   .writerInfoBox {
     display: flex;
     flex-direction: row;
