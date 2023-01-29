@@ -3,7 +3,6 @@ import Comment from "../components/detail/Comment";
 
 import HeaderText from "../components/header/HeaderText";
 import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,6 +11,7 @@ import Button from "../components/common/Button";
 import { StWeatherIconMini } from "../components/write/WeatherPicker";
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
+import { weatherIcon } from "../assets/images/weather";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -72,7 +72,8 @@ const Detail = () => {
     postDeleteMutate();
     navigate(-1);
   };
-
+  console.log(weatherIcon);
+  console.log(weather);
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
@@ -91,7 +92,7 @@ const Detail = () => {
             </div>
             <h3>{title}</h3>
           </div>
-          <StWeatherIconMini weatherTypeMini={weather} />
+          <img src={weatherIcon[weather]} alt="날씨" />
         </div>
         <div className="detailPageProfileInfoWrapper">
           <div className="tagBox">
@@ -164,6 +165,10 @@ const StDetailPageSection = styled(StSection)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
   }
 
   .TitleInfoBox {
