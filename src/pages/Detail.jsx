@@ -8,7 +8,7 @@ import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Button from "../components/common/Button";
-import { StWeatherIconMini } from "../components/write/WeatherPicker";
+import borderLine from "../assets/images/borderLine.png";
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { weatherIcon } from "../assets/images/weather";
@@ -109,7 +109,10 @@ const Detail = () => {
           <img src={image} alt="그림" />
         </div>
         <div className="detailPageContentWrapper">
-          <div dangerouslySetInnerHTML={{ __html: content }} />
+          <div
+            dangerouslySetInnerHTML={{ __html: content }}
+            className="content"
+          />
         </div>
 
         <div className="detailPageButtonWrapper">
@@ -240,6 +243,28 @@ const StDetailPageSection = styled(StSection)`
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  .detailPageContentWrapper {
+    .content {
+      p {
+        position: relative;
+        margin-bottom: 2rem;
+        padding: 0 1.5rem;
+      }
+
+      p::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -1rem;
+        width: 100%;
+        height: 1.5rem;
+        background-image: url(${borderLine});
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
     }
   }
 
