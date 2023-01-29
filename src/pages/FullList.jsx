@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
@@ -15,27 +15,32 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DiarySettingModal from "../components/main/DiarySettingModal/DiarySettingModal";
 import CalendarModal from "../components/calendar/CalendarModal";
+import { useEffect } from "react";
 
-const DiaryList = () => {
+const DiaryList = memo(() => {
   const navigate = useNavigate();
   const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const diaryId = useParams().id;
-  const { data, error, isError, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
+  const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
+    diaryApi.get(diaryId)
+  );
 
-  let filtedPosts = {};
-
-  if (!isLoading) {
-    data.forEach((item) => {
-      const temp = item.createdAt.slice(0, 10);
-      if (filtedPosts[temp]) {
-        filtedPosts[temp].push(item);
-      } else {
-        filtedPosts[temp] = [item];
-      }
-    });
-  }
+  const orderPostsByDate = (data) => {
+    const orderedPosts = {};
+    if (!isLoading) {
+      data.forEach((item) => {
+        const temp = item.createdAt.slice(0, 10);
+        if (orderedPosts[temp]) {
+          orderedPosts[temp].push(item);
+        } else {
+          orderedPosts[temp] = [item];
+        }
+      });
+    }
+    return orderedPosts;
+  };
 
   const locailDate = (date) => {
     return new Date(date).toLocaleDateString("ko-KR", {
@@ -79,6 +84,11 @@ const DiaryList = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (!data) return;
+    setDateOrderedPosts(orderPostsByDate(data));
+  }, [data]);
+
   if (!data) return <div>로딩중</div>;
   return (
     <>
@@ -89,11 +99,11 @@ const DiaryList = () => {
         </StHeader>
         <StSection>
           <Filter>최신순</Filter>
-          {Object.keys(filtedPosts).map((date, n) => {
+          {Object.keys(dateOrderedPosts).map((date, n) => {
             return (
               <div key={`dateFilter${n}`}>
                 <h2>{locailDate(date)}</h2>
-                {filtedPosts[date].map((post, n) => {
+                {dateOrderedPosts[date].map((post, n) => {
                   return <DiaryCard key={`postData${n}`} postData={post} />;
                 })}
                 <StDivisionLine />
@@ -116,7 +126,7 @@ const DiaryList = () => {
       </StContainer>
     </>
   );
-};
+});
 
 export default DiaryList;
 
