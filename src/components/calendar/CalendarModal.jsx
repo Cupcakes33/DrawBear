@@ -7,6 +7,7 @@ import { diaryApi } from "../../apis/axios";
 import { Modal } from "../common/modal/ReactModal";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { FiChevronDown } from "react-icons/fi";
+import YearSelectModal from "./YearSelectModal";
 
 const CalendarModal = ({ children }) => {
   const today = {
@@ -24,7 +25,7 @@ const CalendarModal = ({ children }) => {
 
   const holiday = data?.map((v) => v.locdate);
 
-  const month = useCallback(() => {
+  const months = useCallback(() => {
     let monthArr = [];
     for (let i = 1; i < 13; i++) {
       monthArr.push(i);
@@ -122,8 +123,13 @@ const CalendarModal = ({ children }) => {
     queryClient.setQueryData(["Allposts"], selectedDayPost);
   };
 
-  const monthController = (month) => {
+  const onMonthController = (month) => {
     setSelectedMonth(month);
+    setShowMonth(false);
+  };
+
+  const onYearController = (year) => {
+    setSelectedYear(year);
     setShowMonth(false);
   };
 
@@ -136,7 +142,7 @@ const CalendarModal = ({ children }) => {
     <Modal>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Portal>
-        <Modal.BackDrop>
+        <Modal.BackDrop onClick={() => setShowMonth(false)}>
           <Modal.ContentBox XYcoordinate="bottom">
             <CalendarContainer>
               {isLoading ? (
@@ -149,7 +155,13 @@ const CalendarModal = ({ children }) => {
                     <div className="shown-date">
                       <h3>{`${selectedYear}년`}</h3>
                       {showMonth ? null : <h3>{`${selectedMonth}월`}</h3>}
-                      <FiChevronDown className="date-show-arrow" onClick={() => setShowMonth(true)} />
+                      {showMonth ? (
+                        <YearSelectModal onYearController={onYearController}>
+                          <FiChevronDown className="date-show-arrow" />
+                        </YearSelectModal>
+                      ) : (
+                        <FiChevronDown className="date-show-arrow" onClick={() => setShowMonth(true)} />
+                      )}
                     </div>
 
                     <div className="buttons">
@@ -163,12 +175,12 @@ const CalendarModal = ({ children }) => {
                   </CalendarHeaderBox>
                   {showMonth ? (
                     <MonthBox>
-                      {month().map((month) => {
+                      {months().map((month) => {
                         return (
                           <button
                             key={month}
                             className={month <= today.month ? "past" : "future"}
-                            onClick={() => monthController(month)}
+                            onClick={() => onMonthController(month)}
                           >{`${month}월`}</button>
                         );
                       })}

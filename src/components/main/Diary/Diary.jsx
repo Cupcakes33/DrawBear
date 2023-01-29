@@ -47,8 +47,6 @@ const Diary = (props) => {
     mutate(diaryId);
   };
 
-  console.log(size);
-
   return (
     <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
       {bookmark === 0 ? (
