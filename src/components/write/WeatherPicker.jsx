@@ -25,6 +25,7 @@ const WeatherPicker = ({ weather, setWeather }) => {
           name="radio"
           value="cloud"
           onChange={handleChange}
+          checked={weather === "cloud"}
         />
         <img src={weatherIcon.cloud} alt="흐림" />
       </label>
@@ -35,6 +36,7 @@ const WeatherPicker = ({ weather, setWeather }) => {
           name="radio"
           value="rain"
           onChange={handleChange}
+          checked={weather === "rain"}
         />
         <img src={weatherIcon.rain} alt="비" />
       </label>
@@ -45,6 +47,7 @@ const WeatherPicker = ({ weather, setWeather }) => {
           name="radio"
           value="snow"
           onChange={handleChange}
+          checked={weather === "snow"}
         />
         <img src={weatherIcon.snow} alt="눈" />
       </label>
