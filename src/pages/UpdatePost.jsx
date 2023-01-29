@@ -12,7 +12,7 @@ import WeatherPicker from "../components/write/WeatherPicker";
 
 import { ErrorModal } from "../redux/modules/UISlice";
 import { useDispatch } from "react-redux";
-import Alert from "../components/common/modal/AlertModal";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 
@@ -76,7 +76,7 @@ const Write = () => {
 
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
-    formData.append("weather", weather || "sunny");
+    formData.append("weather", weather || "sun");
     formData.append("tag", tags);
     mutate({ formData: formData, diaryId: diaryId }, {});
   };
@@ -97,7 +97,7 @@ const Write = () => {
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
         <span>
           <StWriteFormSubmitBtn type="submit" form="writeForm">
-            완성
+            수정
           </StWriteFormSubmitBtn>
         </span>
       </>

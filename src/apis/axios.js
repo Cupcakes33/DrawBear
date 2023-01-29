@@ -104,10 +104,6 @@ export const mainApi = {
 };
 
 export const diaryApi = {
-  post: async ({ formData, diaryId }) => {
-    await instance.post(`api/post/${diaryId}`, formData);
-  },
-
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/${diaryId}`);
     return data.posts;
@@ -115,12 +111,17 @@ export const diaryApi = {
 
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
-      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`);
+      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`
+    );
     return data.response.body.items.item;
   },
 };
 
 export const postsApi = {
+  post: async ({ formData, diaryId }) => {
+    await instance.post(`api/post/${diaryId}`, formData);
+  },
+
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/detail/${diaryId}`);
     return data.posts;

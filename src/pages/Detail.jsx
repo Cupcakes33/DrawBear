@@ -72,8 +72,11 @@ const Detail = () => {
     postDeleteMutate();
     navigate(-1);
   };
-  console.log(weatherIcon);
-  console.log(weather);
+
+  const postUpdateHandler = () => {
+    navigate(`/detail/${postId}/update`);
+  };
+
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
@@ -126,7 +129,7 @@ const Detail = () => {
           >
             목록
           </Button>
-          <Button size="small" fs="2rem">
+          <Button size="small" fs="2rem" onClick={postUpdateHandler}>
             수정
           </Button>
           <Button
