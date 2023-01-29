@@ -15,16 +15,17 @@ import { weatherIcon } from "../assets/images/weather";
 
 const Detail = () => {
   const navigate = useNavigate();
-  const diaryId = useParams().id;
+  const params = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
+  console.log(params);
 
   const {
     data = {},
     error,
     isError,
     isLoading,
-  } = useQuery(["posts"], () => postsApi.get(diaryId));
+  } = useQuery(["posts"], () => postsApi.get(params));
 
   const {
     postId,

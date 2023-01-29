@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
 import Canvas from "../components/canvas/Canvas";
@@ -23,20 +23,24 @@ const UpdatePost = () => {
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
-  const postId = useParams().id;
+  const params = useParams().id;
   const queryClient = useQueryClient();
 
-  const postsData = queryClient.getQueryData(["posts"]);
+  // const postsData = queryClient.getQueryData(["posts"]);
+  const {
+    data: postsData,
+    error,
+    isError,
+    isLoading,
+  } = useQuery(["posts"], () => postsApi.get(params));
 
   useEffect(() => {
+    if (!postsData) return;
     const post = postsData;
-    // console.log(post);
-    // console.log(post.weather);
-    // console.log(post.image);
     setTags([...post.tag.split(",")]);
     setContents(post.content);
     setWeather(post.weather);
-  }, [postsData, postId]);
+  }, [postsData, params]);
 
   const formEnterKeyPrevent = (event) => {
     event.key === "Enter" && event.preventDefault();
@@ -80,6 +84,8 @@ const UpdatePost = () => {
     );
   };
 
+  if (isLoading) return <div>로딩중</div>;
+  if (isError) return <div>에러</div>;
   return (
     <>
       <StContainer>
@@ -117,15 +123,16 @@ const UpdatePost = () => {
               </StTextSectionBox>
               <StTextSectionBox className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
-                <WeatherPicker
-                  weather={weather}
-                  setWeather={setWeather}
-                />
+                <WeatherPicker weather={weather} setWeather={setWeather} />
               </StTextSectionBox>
             </StTextSectionFrom>
           </StTextSection>
           <StCanvasSection flex justify="flex-start" derection="column">
-            <Canvas canvas={canvas} setCanvas={setCanvas} canvasBg={postsData.image}/>
+            <Canvas
+              canvas={canvas}
+              setCanvas={setCanvas}
+              canvasBg={postsData.image}
+            />
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
