@@ -30,8 +30,9 @@ const UpdatePost = () => {
 
   useEffect(() => {
     const post = postsData;
-    console.log(post);
-    console.log(post.weather);
+    // console.log(post);
+    // console.log(post.weather);
+    // console.log(post.image);
     setTags([...post.tag.split(",")]);
     setContents(post.content);
     setWeather(post.weather);
@@ -124,7 +125,7 @@ const UpdatePost = () => {
             </StTextSectionFrom>
           </StTextSection>
           <StCanvasSection flex justify="flex-start" derection="column">
-            <Canvas canvas={canvas} setCanvas={setCanvas} />
+            <Canvas canvas={canvas} setCanvas={setCanvas} canvasBg={postsData.image}/>
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
