@@ -17,7 +17,7 @@ const CalendarModal = ({ children }) => {
   };
   const [selectedYear, setSelectedYear] = useState(today.year);
   const [selectedMonth, setSelectedMonth] = useState(today.month);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState();
   const [showMonth, setShowMonth] = useState(false);
 
   const { data = [], isLoading, isError } = useQuery(["holiday", selectedYear], () => diaryApi.holiday(selectedYear));
@@ -102,7 +102,7 @@ const CalendarModal = ({ children }) => {
             <button
               key={i}
               className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
-              onClick={() => selectedDatePostSearch(i)}
+              // onClick={() => selectedDatePostSearch(i)}
             >
               {i}
             </button>
@@ -115,13 +115,10 @@ const CalendarModal = ({ children }) => {
     return dayArr;
   }, [selectedYear, selectedMonth, holiday]);
 
-  const selectedDatePostSearch = (i) => {
-    setSelectedDate(i);
-    const selectedDayPost = postsMonthFilterFn().filter(
-      (post) => +post.createdAt.split("-")[2].split("T")[0] === selectedDate
-    );
-    queryClient.setQueryData(["Allposts"], selectedDayPost);
-  };
+  // const selectedDatePostSearch = (i) => {
+  //   const selectedDayPost = postsMonthFilterFn().filter((post) => +post.createdAt.split("-")[2].split("T")[0] === i);
+  //   queryClient.setQueryData(["Allposts"], selectedDayPost);
+  // };
 
   const onMonthController = (month) => {
     setSelectedMonth(month);
@@ -130,6 +127,12 @@ const CalendarModal = ({ children }) => {
 
   const onYearController = (year) => {
     setSelectedYear(year);
+    setShowMonth(false);
+  };
+
+  const fnStartHandler = () => {
+    setSelectedYear(today.year);
+    setSelectedMonth(today.month);
     setShowMonth(false);
   };
 
@@ -142,7 +145,7 @@ const CalendarModal = ({ children }) => {
     <Modal>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Portal>
-        <Modal.BackDrop onClick={() => setShowMonth(false)}>
+        <Modal.BackDrop fnStartHandler={fnStartHandler}>
           <Modal.ContentBox XYcoordinate="bottom">
             <CalendarContainer>
               {isLoading ? (
