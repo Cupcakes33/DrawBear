@@ -1,28 +1,30 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { useRef, useState } from "react";
-import io from "socket.io-client";
-import { useEffect } from "react";
 import Toast from "./Toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { inviteApi } from "../apis/axios";
+import { inviteApi, mypageApi } from "../apis/axios";
 import { useQueryClient } from "@tanstack/react-query";
-import AlertModal from "../components/common/modal/AlertModal";
 import { useDispatch } from "react-redux";
 import { ErrorModal } from "../redux/modules/UISlice";
+import io from "socket.io-client";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Invite = () => {
   // const [showUserForm, setShowUserForm] = useState(false);
-  const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [userInfo, setUserInfo] = useState({});
   const [isInvite, setIsInvite] = useState(false);
+  const [inviteUserInfo, setInviteUserInfo] = useState({});
+  const [hostUserInfo, setHostUserInfo] = useState({});
   const [popup, setPopup] = useState(false);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+  const socket = useRef(null);
+  const { id } = useParams();
+  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
@@ -39,18 +41,31 @@ const Invite = () => {
       }
     },
     onSuccess: ({ userInfo }) => {
-      console.log(userInfo);
-      setUserInfo({ ...userInfo });
+      setInviteUserInfo({ ...userInfo });
       queryClient.setQueryData(["searchNickname"], userInfo);
     },
   });
   const userSearchOnclickHandle = () => {
     mutate(name);
+    setHostUserInfo({ ...data.userInfo });
   };
   const userInviteOnClickHandle = () => {
     setIsInvite(!isInvite);
     setPopup(!popup);
+    const inviteData = {
+      diaryId: id,
+      hostUserId: hostUserInfo.userId,
+      invitedUserId: inviteUserInfo.userId,
+    };
+    socket.current.emit("invited", inviteData);
   };
+
+  useEffect(() => {
+    socket.current = io.connect("http://localhost:3002");
+    // return () => {
+    //   socket.current.disconnect();
+    // };
+  }, []);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
@@ -67,13 +82,13 @@ const Invite = () => {
           ></input>
           <StSearchBtn onClick={userSearchOnclickHandle} />
         </StSearchInputWrapper>
-        {Object.keys(userInfo).length !== 0 && (
+        {Object.keys(inviteUserInfo).length !== 0 && (
           <StSearchUserInfoWrapper>
-            <StSearchUserInfo key={`userId${userInfo.userId}`}>
-              <img src={userInfo.profileImg} alt="profile" />
+            <StSearchUserInfo key={`userId${inviteUserInfo.userId}`}>
+              <img src={inviteUserInfo.profileImg} alt="profile" />
               <div>
-                <span>{userInfo.nickname}</span>
-                <span>{userInfo.email}</span>
+                <span>{inviteUserInfo.nickname}</span>
+                <span>{inviteUserInfo.email}</span>
               </div>
               <StIsviteBtn
                 isinvite={isInvite.toString()}
@@ -86,7 +101,7 @@ const Invite = () => {
             </StSearchUserInfo>
             {popup && (
               <Toast
-                nickName={userInfo.nickname}
+                nickName={inviteUserInfo.nickname}
                 setPopup={setPopup}
                 text="님을 초대하였습니다."
               />
