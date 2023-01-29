@@ -39,10 +39,6 @@ const DiaryCard = ({ postData }) => {
         </div>
         <div>
           <Button size="mini" icon={<BsBookmark />} />
-          <Button size="small">수정</Button>
-          <Button size="small" fontColor="red">
-            삭제
-          </Button>
         </div>
       </StConfigWrapper>
     </StDiaryCardContainer>

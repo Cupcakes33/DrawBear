@@ -101,13 +101,13 @@ const DiaryList = memo(() => {
           <Filter>최신순</Filter>
           {Object.keys(dateOrderedPosts).map((date, n) => {
             return (
-              <div key={`dateFilter${n}`}>
-                <h2>{locailDate(date)}</h2>
+              <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                <div className="orderedDate">{locailDate(date)}</div>
                 {dateOrderedPosts[date].map((post, n) => {
                   return <DiaryCard key={`postData${n}`} postData={post} />;
                 })}
                 <StDivisionLine />
-              </div>
+              </StDiaryCarsWrapper>
             );
           })}
         </StSection>
@@ -197,5 +197,18 @@ const StSearchHeaderContents = styled.div`
       background-color: inherit;
       cursor: pointer;
     }
+  }
+`;
+
+const StDiaryCarsWrapper = styled.div`
+  .orderedDate {
+    width: min-content;
+    white-space: nowrap;
+    background: #f5f5f5;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.9rem;
+    font-weight: 700;
+    border-radius: 25px;
+    margin-bottom: 2rem;
   }
 `;
