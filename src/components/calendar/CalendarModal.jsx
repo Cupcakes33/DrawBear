@@ -102,7 +102,7 @@ const CalendarModal = ({ children }) => {
             <button
               key={i}
               className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
-              // onClick={() => selectedDatePostSearch(i)}
+              onClick={() => selectedDatePostSearch(i)}
             >
               {i}
             </button>
@@ -115,10 +115,10 @@ const CalendarModal = ({ children }) => {
     return dayArr;
   }, [selectedYear, selectedMonth, holiday]);
 
-  // const selectedDatePostSearch = (i) => {
-  //   const selectedDayPost = postsMonthFilterFn().filter((post) => +post.createdAt.split("-")[2].split("T")[0] === i);
-  //   queryClient.setQueryData(["Allposts"], selectedDayPost);
-  // };
+  const selectedDatePostSearch = (i) => {
+    const selectedDayPost = postsMonthFilterFn().filter((post) => +post.createdAt.split("-")[2].split("T")[0] === i);
+    queryClient.setQueryData(["Allposts"], selectedDayPost);
+  };
 
   const onMonthController = (month) => {
     setSelectedMonth(month);
