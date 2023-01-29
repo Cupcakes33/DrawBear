@@ -47,12 +47,14 @@ const Diary = (props) => {
     mutate(diaryId);
   };
 
+  console.log(size);
+
   return (
     <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
       {bookmark === 0 ? (
-        <img src={unbookmarked} alt="노북마크" onClick={bookmarkHandler} />
+        <img src={unbookmarked} alt="노북마크" className="bookmark" onClick={bookmarkHandler} />
       ) : (
-        <img src={bookmarked} alt="북마크" onClick={bookmarkHandler} />
+        <img src={bookmarked} alt="북마크" className="bookmark" onClick={bookmarkHandler} />
       )}
       <div className="diaryHolder" />
     </DiaryIcon>
@@ -79,16 +81,18 @@ const DiaryIcon = styled.div`
   cursor: pointer;
   background-color: ${(props) => props.bgcolor};
   border-radius: 6px;
-  img {
+  .bookmark {
     float: left;
     margin: -3% 0 0 3%;
+    width: 3.5rem;
+    height: 4.7rem;
     cursor: pointer;
     ${({ size }) => {
       switch (size) {
         case "bookmark":
           return css`
-            width: 2.5rem;
-            height: 3.3rem;
+            width: 3rem;
+            height: 3.7rem;
           `;
         default:
           return css`
@@ -152,23 +156,3 @@ const DiaryIcon = styled.div`
     }}
   }
 `;
-
-// const BookmarkStarDiv = styled.div`
-//   float: left;
-//   margin: -13% 0 0 5%;
-//   color: white;
-//   font-size: 6rem;
-//   cursor: pointer;
-//   .bookmarked {
-//     color: #fffa84;
-//   }
-// `;
-
-// const BookmarkStarDiv = styled.div`
-// float: left;
-// margin: 10% 0 0 10%;
-// width: 3rem;
-// font-size: 2.5rem;
-// color: #fdcb6e;
-// cursor: pointer;
-// `;
