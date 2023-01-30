@@ -8,6 +8,7 @@ import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
 import Detail from "../pages/Detail";
 
+import UpdatePost from "../pages/UpdatePost";
 import UpdateDiary from "../pages/UpdateDiary";
 import ButtonPreview from "../pages/ButtonPreview";
 import Setting from "../pages/Setting/Setting";
@@ -49,6 +50,7 @@ const Router = () => {
           <Route path="/invite" element={<Invite />} />
           <Route path="/detail">
             <Route path=":id" element={<Detail />} />
+            <Route path=":id/update" element={<UpdatePost />} />
           </Route>
           <Route path="/buttonpreview" element={<ButtonPreview />} />
           <Route path="/setting" element={<Setting />} />

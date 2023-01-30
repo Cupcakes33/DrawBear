@@ -202,7 +202,7 @@ const StCommentContainer = styled.div`
   }
 
   .commentOptionBtn {
-    display: none;
+    display: block;
     background: inherit;
     position: absolute;
     right: 0;
@@ -211,7 +211,7 @@ const StCommentContainer = styled.div`
   }
   &:hover {
     .commentOptionBtn {
-      display: block;
+      /* display: block; */
     }
     .commentOptionBtn:hover {
       background-color: #f0f0f0;
@@ -264,7 +264,7 @@ const EditOptionBox = styled.div`
   gap: 1rem;
   span {
     cursor: pointer;
-    
+
     &:last-child:hover {
       color: #ff6b6b;
     }

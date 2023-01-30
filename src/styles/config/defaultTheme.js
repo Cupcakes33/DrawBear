@@ -18,7 +18,7 @@ const fontWeight = {
 
 const color = {
   bg_main: "#EEF3E3",
-  font_main: "#5F4C36",
+  font_main: "#242424",
   font_sub: "#CAC9B7",
   button_main: "#EEEEEE",
   button_primary: "#3CC7A6",

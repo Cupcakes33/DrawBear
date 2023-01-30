@@ -5,13 +5,12 @@ import { TbBrush, TbBrushOff } from "react-icons/tb";
 import { BiSquare, BiCircle, BiText } from "react-icons/bi";
 import { RiImageAddFill, RiDeleteBinLine } from "react-icons/ri";
 
-const Canvas = ({ canvas, setCanvas }) => {
+const Canvas = ({ canvas, setCanvas, canvasBg }) => {
   // const [canvas, setCanvas] = useState("");
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("black");
   const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
-  const bgImgInput = useRef();
   const productImgInput = useRef();
 
   useEffect(() => {
@@ -29,6 +28,33 @@ const Canvas = ({ canvas, setCanvas }) => {
       },
     });
 
+  const canvasBackground = (url) => {
+    let image = new Image();
+    image.crossOrigin = "anonymous";
+    image.src = url + "?v=" + new Date().getTime();
+    
+    image.onload = () => {
+      canvas.setBackgroundImage(
+        new fabric.Image(image, {
+          width: canvas.width,
+          height: canvas.height,
+          originX: "left",
+          originY: "top",
+        }),
+        canvas.renderAll.bind(canvas)
+      );
+    };
+  };
+
+  //   canvas.setBackgroundImage(, canvas.renderAll.bind(canvas), {
+  //     width: canvas.width,
+  //     height: canvas.height,
+  //     originX: "left",
+  //     originY: "top",
+  //     crossOrigin: "anonymous",
+  //   });
+  // };
+
   const deleteSelectedObjects = () => {
     let selection = canvas.getActiveObject();
     if (selection?._objects) {
@@ -42,6 +68,8 @@ const Canvas = ({ canvas, setCanvas }) => {
 
   useEffect(() => {
     if (!canvas) return;
+    if (!canvasBg) return;
+    canvasBackground(canvasBg);
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {

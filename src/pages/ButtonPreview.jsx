@@ -3,6 +3,7 @@ import { BsBookmark } from "react-icons/bs";
 import { TiPencil } from "react-icons/ti";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Dropdown from "../components/common/dropdown/Dropdown";
+import ListPageDropdown from "../components/common/dropdown/ListPageDropdown";
 
 const ButtonPreview = () => {
   return (
@@ -171,6 +172,7 @@ const ButtonPreview = () => {
           </Dropdown.Wrapper>
         </Dropdown.Container>
       </Dropdown>
+      <ListPageDropdown />
     </>
   );
 };
