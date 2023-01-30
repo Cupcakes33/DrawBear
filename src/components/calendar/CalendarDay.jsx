@@ -25,6 +25,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
     const holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
     const holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
     const postsDate = postsMonthFilterFn.map((post) => +post.createdAt.split("-")[2].split("T")[0]);
+    const todayDate = new Date().toLocaleDateString("en-US").split("/");
 
     const holidayCompareFn = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
@@ -38,9 +39,9 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
       }
     };
 
-    console.log(new Date());
     const dayColor = (i) => {
       if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
+      else if (+todayDate[2] === selectedYear && +todayDate[0] === selectedMonth && +todayDate[1] === i) return "today";
     };
 
     for (const today of week) {
@@ -48,9 +49,8 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <div className="day-box">
+            <div className="day-box" key={`${i}일`}>
               <button
-                key={`${i}일`}
                 className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
                 onClick={() => selectedDatePostSearch(i)}
               >
@@ -110,6 +110,9 @@ const DateBox = styled.div`
     color: #ff5656;
   }
   .today {
+    color: white;
+    border-radius: 100%;
+    background-color: #242424;
   }
   .postedDay {
     border-radius: 100%;
