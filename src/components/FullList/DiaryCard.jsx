@@ -5,8 +5,11 @@ import { useNavigate } from "react-router";
 import Button from "../common/Button";
 import { BsBookmark } from "react-icons/bs";
 import ListPageDropdown from "../common/dropdown/ListPageDropdown";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postsApi } from "../../apis/axios";
 
 const DiaryCard = ({ postData }) => {
+  const queryClient = useQueryClient();
   const naigate = useNavigate();
   const {
     postId,
@@ -17,6 +20,18 @@ const DiaryCard = ({ postData }) => {
     profileImg,
     commentsCount,
   } = postData;
+
+  const { mutate: bookmarkMutate } = useMutation({
+    mutationFn: () => postsApi.bookmark(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["Allposts"]);
+      console.log("성공");
+    },
+  });
+
+  const bookmarkHandler = (postId) => {
+    bookmarkMutate(postId);
+  };
 
   const redirectDetailpage = () => {
     naigate(`/detail/${postId}`);
@@ -42,7 +57,14 @@ const DiaryCard = ({ postData }) => {
           <span>댓글 {commentsCount}</span>
         </div>
         <div>
-          <Button size="mini" icon={<BsBookmark />} />
+          <Button
+            size="mini"
+            icon={<BsBookmark />}
+            color={bookmark ? "button_main" : "button_primary"}
+            onClick={() => {
+              bookmarkHandler(postId);
+            }}
+          />
         </div>
       </StConfigWrapper>
     </StDiaryCardContainer>

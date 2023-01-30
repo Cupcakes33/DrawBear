@@ -21,13 +21,14 @@ const Dropdown = ({ children }) => {
   );
   const handleClickOutside = (event) => {
     if (!dropdownRef.current) return;
-    if (!dropdownRef.current.contains(event.target)) {
-      if (!toggleRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
+    if (
+      !dropdownRef.current.contains(event.target) &&
+      !toggleRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
     }
   };
-  
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {

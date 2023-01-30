@@ -22,10 +22,11 @@ const FilterDropdown = () => {
 
   const filterDropdownCloseHandler = (event) => {
     if (!filterRef.current) return;
-    if (!filterRef.current.contains(event.target)) {
-      if (!btnRef.current.contains(event.target)) {
-        setOpen(false);
-      }
+    if (
+      !filterRef.current.contains(event.target) &&
+      !btnRef.current.contains(event.target)
+    ) {
+      setOpen(false);
     }
   };
 

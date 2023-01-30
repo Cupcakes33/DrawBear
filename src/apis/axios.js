@@ -131,7 +131,12 @@ export const postsApi = {
   },
   patch: async ({ formData, postId }) => {
     await instance.patch(`/api/post/${postId}`, formData);
-  }
+  },
+
+  bookmark: async (postId) => {
+    const { data } = await instance.post(`/api/bookmark/post/${postId}`);
+    return data;
+  },
 };
 
 export const commentsApi = {
