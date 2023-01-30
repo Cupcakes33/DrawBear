@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
 import Canvas from "../components/canvas/Canvas";
@@ -12,55 +12,41 @@ import WeatherPicker from "../components/write/WeatherPicker";
 
 import { ErrorModal } from "../redux/modules/UISlice";
 import { useDispatch } from "react-redux";
-import Alert from "../components/common/modal/AlertModal";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
+import { useEffect } from "react";
 
-const Write = () => {
+const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
+  const params = useParams().id;
+  const queryClient = useQueryClient();
 
-  const dispatch = useDispatch();
-  const diaryId = useParams().id;
+  // const postsData = queryClient.getQueryData(["posts"]);
+  const {
+    data: postsData,
+    isError,
+    isLoading,
+  } = useQuery(["posts"], () => postsApi.get(params));
 
-  const { mutate } = useMutation(postsApi.post, {
+  const { mutate } = useMutation(postsApi.patch, {
     onSuccess: () => {
-      dispatch(
-        ErrorModal({
-          isModal: true,
-          bigTxt: "다이어리가 작성되었습니다.",
-          move: `/list/${diaryId}`,
-        })
-      );
-    },
-    onError: (error) => {
-      const status = error?.response.request.status;
-      status === 401 &&
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "인증되지 않은 사용자입니다.",
-          })
-        );
-      status === 404 &&
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "잘못된 접근입니다.",
-          })
-        );
-      status === 412 &&
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "아직 작성하지 않은 항목이 있습니다.",
-          })
-        );
+      queryClient.invalidateQueries("posts");
+      console.log("success");
     },
   });
+
+  useEffect(() => {
+    if (!postsData) return;
+    const post = postsData;
+    setTags([...post.tag.split(",")]);
+    setContents(post.content);
+    setWeather(post.weather);
+  }, [postsData, params]);
 
   const formEnterKeyPrevent = (event) => {
     event.key === "Enter" && event.preventDefault();
@@ -76,9 +62,9 @@ const Write = () => {
 
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
-    formData.append("weather", weather || "sunny");
+    formData.append("weather", weather || "sun");
     formData.append("tag", tags);
-    mutate({ formData: formData, diaryId: diaryId }, {});
+    mutate({ formData: formData, postId: params }, {});
   };
 
   const defaultHeader = () => {
@@ -97,13 +83,15 @@ const Write = () => {
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
         <span>
           <StWriteFormSubmitBtn type="submit" form="writeForm">
-            완성
+            수정
           </StWriteFormSubmitBtn>
         </span>
       </>
     );
   };
 
+  if (isLoading) return <div>로딩중</div>;
+  if (isError) return <div>에러</div>;
   return (
     <>
       <StContainer>
@@ -120,7 +108,11 @@ const Write = () => {
             >
               <StTextSectionBox className="titleInputBox">
                 <span>날짜</span>
-                <input type="date" name="createdAt" />
+                <input
+                  type="date"
+                  name="createdAt"
+                  defaultValue={postsData.createdAt.split("T")[0]}
+                />
               </StTextSectionBox>
               <StTextSectionBox className="tagInputBox">
                 <span>태그</span>
@@ -132,17 +124,21 @@ const Write = () => {
                   type="text"
                   name="title"
                   placeholder="제목을 입력해주세요"
+                  defaultValue={postsData.title}
                 />
               </StTextSectionBox>
               <StTextSectionBox className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
                 <WeatherPicker weather={weather} setWeather={setWeather} />
               </StTextSectionBox>
-              
             </StTextSectionFrom>
           </StTextSection>
           <StCanvasSection flex justify="flex-start" derection="column">
-            <Canvas canvas={canvas} setCanvas={setCanvas} />
+            <Canvas
+              canvas={canvas}
+              setCanvas={setCanvas}
+              canvasBg={postsData.image}
+            />
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
@@ -151,7 +147,7 @@ const Write = () => {
   );
 };
 
-export default Write;
+export default UpdatePost;
 
 const StCanvasSection = styled(StSection)`
   min-height: calc(100vh - 6rem);

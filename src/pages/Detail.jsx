@@ -3,19 +3,19 @@ import Comment from "../components/detail/Comment";
 
 import HeaderText from "../components/header/HeaderText";
 import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Button from "../components/common/Button";
-import { StWeatherIconMini } from "../components/write/WeatherPicker";
+import borderLine from "../assets/images/borderLine.png";
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
+import { weatherIcon } from "../assets/images/weather";
 
 const Detail = () => {
   const navigate = useNavigate();
-  const diaryId = useParams().id;
+  const params = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
 
@@ -24,7 +24,7 @@ const Detail = () => {
     error,
     isError,
     isLoading,
-  } = useQuery(["posts"], () => postsApi.get(diaryId));
+  } = useQuery(["posts"], () => postsApi.get(params));
 
   const {
     postId,
@@ -73,6 +73,10 @@ const Detail = () => {
     navigate(-1);
   };
 
+  const postUpdateHandler = () => {
+    navigate(`/detail/${postId}/update`);
+  };
+
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
@@ -91,7 +95,7 @@ const Detail = () => {
             </div>
             <h3>{title}</h3>
           </div>
-          <StWeatherIconMini weatherTypeMini={weather} />
+          <img src={weatherIcon[weather]} alt="날씨" />
         </div>
         <div className="detailPageProfileInfoWrapper">
           <div className="tagBox">
@@ -108,7 +112,10 @@ const Detail = () => {
           <img src={image} alt="그림" />
         </div>
         <div className="detailPageContentWrapper">
-          <div dangerouslySetInnerHTML={{ __html: content }} />
+          <div
+            dangerouslySetInnerHTML={{ __html: content }}
+            className="content"
+          />
         </div>
 
         <div className="detailPageButtonWrapper">
@@ -122,7 +129,7 @@ const Detail = () => {
           >
             목록
           </Button>
-          <Button size="small" fs="2rem">
+          <Button size="small" fs="2rem" onClick={postUpdateHandler}>
             수정
           </Button>
           <Button
@@ -164,6 +171,10 @@ const StDetailPageSection = styled(StSection)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
   }
 
   .TitleInfoBox {
@@ -235,6 +246,28 @@ const StDetailPageSection = styled(StSection)`
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  .detailPageContentWrapper {
+    .content {
+      p {
+        position: relative;
+        margin-bottom: 2rem;
+        padding: 0 1.5rem;
+      }
+
+      p::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -1rem;
+        width: 100%;
+        height: 1.5rem;
+        background-image: url(${borderLine});
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
     }
   }
 
