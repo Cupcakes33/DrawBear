@@ -1,9 +1,10 @@
-import { IoIosSettings, IoMdBookmark } from "react-icons/io";
+import { IoMdBookmark } from "react-icons/io";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MdPeopleAlt } from "react-icons/md";
+import { MdMoreHoriz } from "react-icons/md";
 import { diaryType } from "../../redux/modules/diarySlice";
 import styled from "styled-components";
 
@@ -73,8 +74,8 @@ const Footer = () => {
         <span className="chatSpanTag">채팅</span>
       </button>
       <button className={footerIconState === "setting" ? "icons selected" : "icons"} onClick={changeToSetting}>
-        <IoIosSettings />
-        <span>설정</span>
+        <MdMoreHoriz />
+        <span>더보기</span>
       </button>
     </Container>
   );
