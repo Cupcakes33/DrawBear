@@ -14,11 +14,18 @@ const DiarySettingModal = ({ children, diaryId, diaryName }) => {
           <Modal.BackDrop>
             <Modal.ContentBox XYcoordinate="bottom">
               <DiarySettingBox>
-                <div onClick={() => navigate(`/invite/${diaryId}`)}>같이 쓰는 멤버 초대</div>
+                <div onClick={() => navigate(`/invite/${diaryId}`)}>
+                  같이 쓰는 멤버 초대
+                </div>
                 <hr />
-                <div onClick={() => navigate(`/update/${diaryId}`)}>다이어리 수정</div>
+                <div onClick={() => navigate(`/update/${diaryId}`)}>
+                  다이어리 수정
+                </div>
                 <hr />
-                <DiaryDeleteConfirmModal diaryId={diaryId} diaryName={diaryName}>
+                <DiaryDeleteConfirmModal
+                  diaryId={diaryId}
+                  diaryName={diaryName}
+                >
                   <div>다이어리 삭제</div>
                 </DiaryDeleteConfirmModal>
               </DiarySettingBox>

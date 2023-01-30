@@ -61,6 +61,13 @@ export const mypageApi = {
   },
 };
 
+export const inviteApi = {
+  search: async (nickName) => {
+    const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
+    return data;
+  },
+};
+
 export const passwordApi = {
   update: async (inputData) => {
     const { data } = await instance.patch("/api/userInfo/password", {
