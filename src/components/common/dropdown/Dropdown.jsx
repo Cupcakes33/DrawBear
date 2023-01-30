@@ -7,7 +7,7 @@ import {
   useContext,
   createContext,
 } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 const DropdownContext = createContext();
 
 const Dropdown = ({ children }) => {
@@ -19,15 +19,16 @@ const Dropdown = ({ children }) => {
     () => ({ isOpen, dropdownRef, toggle, toggleRef }),
     [isOpen, dropdownRef, toggle, toggleRef]
   );
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        if (toggleRef.current && !toggleRef.current.contains(event.target)) {
-          setIsOpen(false);
-        }
+  const handleClickOutside = (event) => {
+    if (!dropdownRef.current) return;
+    if (!dropdownRef.current.contains(event.target)) {
+      if (!toggleRef.current.contains(event.target)) {
+        setIsOpen(false);
       }
-    };
+    }
+  };
+  
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -53,11 +54,7 @@ const DropdownToggle = ({ children }) => {
 const DropdownContainer = ({ children }) => {
   const { isOpen } = useContext(DropdownContext);
 
-  return (
-    <Container isOpen={isOpen} className={`${isOpen ? "fade-in" : "fade-out"}`}>
-      {children}
-    </Container>
-  );
+  return <Container isOpen={isOpen}>{children}</Container>;
 };
 
 const DropdownWrapper = ({ children }) => {
@@ -74,28 +71,6 @@ Dropdown.Wrapper = DropdownWrapper;
 Dropdown.Toggle = DropdownToggle;
 Dropdown.Container = DropdownContainer;
 export default Dropdown;
-
-const fadeIn = keyframes`
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-`;
 
 const Container = styled.div`
   width: min-content;
@@ -114,7 +89,7 @@ const Container = styled.div`
     position: absolute;
     top: 1.5rem;
     left: -2rem;
-    
+
     width: min-content;
     background: #fff;
     border: 1px solid #d9d9d9;
@@ -129,18 +104,6 @@ const Container = styled.div`
       &:hover {
         background: #f8f9fa;
       }
-    }
-  }
-
-  &.fade-in {
-    ul {
-      animation: ${fadeIn} 0.4s ease;
-    }
-  }
-
-  &.fade-out {
-    ul {
-      animation: ${fadeOut} 0.4s ease;
     }
   }
 `;

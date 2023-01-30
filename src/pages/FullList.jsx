@@ -16,6 +16,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import DiarySettingModal from "../components/main/DiarySettingModal/DiarySettingModal";
 import CalendarModal from "../components/calendar/CalendarModal";
 import { useEffect } from "react";
+import FilterDropdown from "../components/common/dropdown/FilterDropdown";
 
 const DiaryList = memo(() => {
   const navigate = useNavigate();
@@ -97,8 +98,10 @@ const DiaryList = memo(() => {
           {!changeHeader && defaultHeader()}
           {changeHeader && SearchHeader()}
         </StHeader>
+        <StFilterContainer>
+          <FilterDropdown />
+        </StFilterContainer>
         <StSection>
-          <Filter>최신순</Filter>
           {Object.keys(dateOrderedPosts).map((date, n) => {
             return (
               <StDiaryCarsWrapper key={`orderedPosts${n}`}>
@@ -211,4 +214,11 @@ const StDiaryCarsWrapper = styled.div`
     border-radius: 25px;
     margin-bottom: 2rem;
   }
+`;
+
+const StFilterContainer = styled.div`
+  position: absolute;
+  z-index: 10;
+  right: 2.2rem;
+  top: 7.5rem;
 `;
