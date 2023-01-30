@@ -15,31 +15,36 @@ const CreateDiaryModal = ({ children }) => {
     <Modal>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Portal>
-        <Modal.BackDrop>
+        <Modal.BackDrop notClose>
           <Modal.ContentBox>
             <Wrapper>
-              <Box>
-                <img
-                  src={soloDiaryBear}
-                  alt="솔로 다이어리 곰돌이 그림"
-                  onClick={() => {
-                    dispatch(addDiary(0));
-                    navigate("/new");
-                  }}
-                />
-                <span>혼자써요 !</span>
-              </Box>
-              <Box>
-                <img
-                  src={coupleDiaryBear}
-                  alt="커플 다이어리 곰돌이 그림"
-                  onClick={() => {
-                    dispatch(addDiary(1));
-                    navigate("/new");
-                  }}
-                />
-                <span>같이써요 !</span>
-              </Box>
+              <Modal.Close>
+                <CloseBtn>X</CloseBtn>
+              </Modal.Close>
+              <div className="create-box">
+                <CuteBearBox>
+                  <img
+                    src={soloDiaryBear}
+                    alt="솔로 다이어리 곰돌이 그림"
+                    onClick={() => {
+                      dispatch(addDiary(0));
+                      navigate("/new");
+                    }}
+                  />
+                  <span>혼자써요 !</span>
+                </CuteBearBox>
+                <CuteBearBox>
+                  <img
+                    src={coupleDiaryBear}
+                    alt="커플 다이어리 곰돌이 그림"
+                    onClick={() => {
+                      dispatch(addDiary(1));
+                      navigate("/new");
+                    }}
+                  />
+                  <span>같이써요 !</span>
+                </CuteBearBox>
+              </div>
             </Wrapper>
           </Modal.ContentBox>
         </Modal.BackDrop>
@@ -51,16 +56,30 @@ const CreateDiaryModal = ({ children }) => {
 export default CreateDiaryModal;
 
 const Wrapper = styled.div`
-  ${flex}
+  display: block;
   width: 28.3rem;
   height: 18.6rem;
-  gap: 3.6rem;
   background-color: white;
   box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.08);
   border-radius: 26px;
+  .create-box {
+    width: 100%;
+    gap: 3.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
-const Box = styled.div`
+const CloseBtn = styled.button`
+  float: right;
+  margin: 2rem 2rem 0 0;
+  font-size: 2rem;
+  border: none;
+  background-color: transparent;
+`;
+
+const CuteBearBox = styled.div`
   ${flex}
   flex-direction: column;
   cursor: pointer;

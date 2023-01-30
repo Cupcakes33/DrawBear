@@ -4,8 +4,12 @@ import Card from "./Card";
 import { useNavigate } from "react-router";
 import Button from "../common/Button";
 import { BsBookmark } from "react-icons/bs";
+import ListPageDropdown from "../common/dropdown/ListPageDropdown";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postsApi } from "../../apis/axios";
 
 const DiaryCard = ({ postData }) => {
+  const queryClient = useQueryClient();
   const naigate = useNavigate();
   const {
     postId,
@@ -17,6 +21,17 @@ const DiaryCard = ({ postData }) => {
     commentsCount,
   } = postData;
 
+  const { mutate: bookmarkMutate } = useMutation({
+    mutationFn: () => postsApi.bookmark(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["Allposts"]);
+    },
+  });
+
+  const bookmarkHandler = (postId) => {
+    bookmarkMutate(postId);
+  };
+
   const redirectDetailpage = () => {
     naigate(`/detail/${postId}`);
   };
@@ -24,7 +39,10 @@ const DiaryCard = ({ postData }) => {
   return (
     <StDiaryCardContainer>
       <StTitleWrapper>
-        <h4 onClick={redirectDetailpage}>{title}</h4>
+        <div className="postOptionbox">
+          <h4 onClick={redirectDetailpage}>{title}</h4>
+          <ListPageDropdown />
+        </div>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />
           <span>{nickname}</span>
@@ -38,11 +56,14 @@ const DiaryCard = ({ postData }) => {
           <span>댓글 {commentsCount}</span>
         </div>
         <div>
-          <Button size="mini" icon={<BsBookmark />} />
-          <Button size="small">수정</Button>
-          <Button size="small" fontColor="red">
-            삭제
-          </Button>
+          <Button
+            size="mini"
+            icon={<BsBookmark />}
+            color={bookmark ? "button_primary" : "button_main"}
+            onClick={() => {
+              bookmarkHandler(postId);
+            }}
+          />
         </div>
       </StConfigWrapper>
     </StDiaryCardContainer>
@@ -63,6 +84,12 @@ const StTitleWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  .postOptionbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.2rem;
+  }
   .writerInfoBox {
     display: flex;
     flex-direction: row;

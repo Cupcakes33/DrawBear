@@ -4,6 +4,7 @@ import { TiDelete } from "react-icons/ti";
 
 const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
+
   const HashTagInputOnchangeHandler = (event) => {
     const { value } = event.target;
     // 6글자 이상이면 자르기

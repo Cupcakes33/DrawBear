@@ -29,7 +29,7 @@ const Portal = ({ children }) => {
 
 // 모달 백드롭
 
-const BackDrop = ({ children, notClose }) => {
+const BackDrop = ({ children, notClose, fnStartHandler }) => {
   const { isModal, setIsModal } = useContext(ModalContext);
 
   useEffect(() => {
@@ -39,7 +39,13 @@ const BackDrop = ({ children, notClose }) => {
 
   return (
     isModal && (
-      <Background onClick={() => (notClose ? null : setIsModal((prev) => !prev))} bgColor={notClose}>
+      <Background
+        onClick={() => {
+          fnStartHandler && fnStartHandler();
+          return notClose ? null : setIsModal((prev) => !prev);
+        }}
+        bgColor={notClose}
+      >
         {children}
       </Background>
     )

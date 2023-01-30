@@ -111,10 +111,6 @@ export const mainApi = {
 };
 
 export const diaryApi = {
-  post: async ({ formData, diaryId }) => {
-    await instance.post(`api/post/${diaryId}`, formData);
-  },
-
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/${diaryId}`);
     return data.posts;
@@ -129,12 +125,24 @@ export const diaryApi = {
 };
 
 export const postsApi = {
+  post: async ({ formData, diaryId }) => {
+    await instance.post(`api/post/${diaryId}`, formData);
+  },
+
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/detail/${diaryId}`);
     return data.posts;
   },
   delete: async (postId) => {
     await instance.delete(`/api/post/${postId}`);
+  },
+  patch: async ({ formData, postId }) => {
+    await instance.patch(`/api/post/${postId}`, formData);
+  },
+
+  bookmark: async (postId) => {
+    const { data } = await instance.post(`/api/bookmark/post/${postId}`);
+    return data;
   },
 };
 
