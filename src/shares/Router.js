@@ -22,6 +22,7 @@ import Chatting from "../pages/Chatting";
 import { useSelector } from "react-redux";
 import ErrorHandlerModal from "../components/common/modal/ErrorHandlerModal";
 import ChatList from "../pages/ChatList";
+import NoChatList from "../pages/NoChatList";
 
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
@@ -37,6 +38,7 @@ const Router = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<Main />} />
           <Route path="/chat" element={<Chatting />} />
+          <Route path="/nochat" element={<NoChatList />} />
           <Route path="/chatlist" element={<ChatList />} />
           <Route path="/new" element={<CreateDiary />} />
           <Route path="/update">
