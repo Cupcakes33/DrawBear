@@ -98,7 +98,7 @@ export const StSection = styled.section`
   min-height: calc(100vh - 13.2rem);
   background-color: white;
   position: relative;
-  overflow-x: scroll;
+  overflow-x: hidden;
   padding: 1rem;
   ${flexProps}
 `;
