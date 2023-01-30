@@ -18,7 +18,6 @@ const Detail = () => {
   const params = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
-  console.log(params);
 
   const {
     data = {},

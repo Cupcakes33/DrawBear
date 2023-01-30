@@ -1,6 +1,7 @@
 export const imgUrlConvertBlob = (canvas) => {
   if (!canvas) return;
   const canvasUrl = canvas.toDataURL("image/png;base64", 0.5);
+  
   const splitDataUrl = canvasUrl.split(",");
   const byteString =
     splitDataUrl[0].indexOf("base64") >= 0

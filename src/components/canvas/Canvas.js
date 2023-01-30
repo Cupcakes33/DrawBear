@@ -27,14 +27,33 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
         width: width,
       },
     });
-  const canvasBackground = () => {
-    canvas.setBackgroundImage(canvasBg, canvas.renderAll.bind(canvas), {
-      width: canvas.width,
-      height: canvas.height,
-      originX: "left",
-      originY: "top",
-    });
+
+  const canvasBackground = (url) => {
+    let image = new Image();
+    image.crossOrigin = "anonymous";
+    image.src = url;
+    // 이 부분 나중에 백엔드 오면 수정하고 맞춰 볼 부분-----------------------------
+    image.onload = () => {
+      canvas.setBackgroundImage(
+        new fabric.Image(image, {
+          width: canvas.width,
+          height: canvas.height,
+          originX: "left",
+          originY: "top",
+        }),
+        canvas.renderAll.bind(canvas)
+      );
+    };
   };
+
+  //   canvas.setBackgroundImage(, canvas.renderAll.bind(canvas), {
+  //     width: canvas.width,
+  //     height: canvas.height,
+  //     originX: "left",
+  //     originY: "top",
+  //     crossOrigin: "anonymous",
+  //   });
+  // };
 
   const deleteSelectedObjects = () => {
     let selection = canvas.getActiveObject();
@@ -50,7 +69,7 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
   useEffect(() => {
     if (!canvas) return;
     if (!canvasBg) return;
-    canvasBackground();
+    canvasBackground(canvasBg);
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {

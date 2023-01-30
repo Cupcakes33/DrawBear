@@ -129,6 +129,9 @@ export const postsApi = {
   delete: async (postId) => {
     await instance.delete(`/api/post/${postId}`);
   },
+  patch: async ({ formData, postId }) => {
+    await instance.patch(`/api/post/${postId}`, formData);
+  }
 };
 
 export const commentsApi = {

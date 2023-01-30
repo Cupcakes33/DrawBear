@@ -29,10 +29,15 @@ const UpdatePost = () => {
   // const postsData = queryClient.getQueryData(["posts"]);
   const {
     data: postsData,
-    error,
     isError,
     isLoading,
   } = useQuery(["posts"], () => postsApi.get(params));
+
+  const { mutate } = useMutation(postsApi.patch, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("posts");
+    },
+  });
 
   useEffect(() => {
     if (!postsData) return;
@@ -58,7 +63,7 @@ const UpdatePost = () => {
     formData.append("content", contents);
     formData.append("weather", weather || "sun");
     formData.append("tag", tags);
-    // mutate({ formData: formData, diaryId: diaryId }, {});
+    // mutate({ formData: formData, postId: params }, {});
   };
 
   const defaultHeader = () => {
