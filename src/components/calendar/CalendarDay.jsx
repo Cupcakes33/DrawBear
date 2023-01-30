@@ -38,6 +38,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
       }
     };
 
+    console.log(new Date());
     const dayColor = (i) => {
       if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
     };
@@ -47,17 +48,19 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <button
-              key={`${i}일`}
-              className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
-              onClick={() => selectedDatePostSearch(i)}
-            >
-              {i}
-            </button>
+            <div className="day-box">
+              <button
+                key={`${i}일`}
+                className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
+                onClick={() => selectedDatePostSearch(i)}
+              >
+                {i}
+              </button>
+            </div>
           );
         }
       } else {
-        dayArr.push(<div key={today}></div>);
+        dayArr.push(<div className="blank-day" key={today}></div>);
       }
     }
     return dayArr;
@@ -77,12 +80,17 @@ export default React.memo(CalendarDay);
 
 const DateBox = styled.div`
   margin-top: 2rem;
-  button {
+  .day-box {
+    text-align: center;
     float: left;
     width: calc(36rem / 7);
     margin-left: -0.3rem;
     margin-right: -0.3rem;
     height: 5rem;
+  }
+  button {
+    width: 3.5rem;
+    height: 3.5rem;
     border: none;
     background-color: transparent;
     color: #242424;
@@ -107,7 +115,7 @@ const DateBox = styled.div`
     border-radius: 100%;
     background-color: #b3e9dc;
   }
-  div {
+  .blank-day {
     float: left;
     width: calc(36rem / 7);
     margin-left: -0.3rem;

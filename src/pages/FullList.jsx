@@ -89,7 +89,6 @@ const DiaryList = memo(() => {
   useEffect(() => {
     if (!data) return;
     setDateOrderedPosts(orderPostsByDate(data));
-    console.log(data);
   }, [data]);
 
   if (!data) return <div>로딩중</div>;
