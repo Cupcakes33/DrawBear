@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { mainApi } from "../../../apis/axios";
 import { ErrorModal } from "../../../redux/modules/UISlice";
-import { IoMdBookmark } from "react-icons/io";
-import { AiOutlineStar } from "react-icons/ai";
-import { AiFillStar } from "react-icons/ai";
+import bookmarked from "../../../assets/images/bookmarked.webp";
+import unbookmarked from "../../../assets/images/unbookmarked.webp";
 
 const Diary = (props) => {
   const { size, bgColor, onClick, bookmark, diaryId } = props;
@@ -50,11 +49,11 @@ const Diary = (props) => {
 
   return (
     <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
-      <BookmarkStarDiv onClick={bookmarkHandler}>
-        {bookmark === 0 ? <AiOutlineStar /> : <AiFillStar className="star" />}
-        {/* {bookmark === 0 ? <AiOutlineStar /> : <AiFillStar className="star" />}
-        <IoMdBookmark size={size} className={bookmark === 1 && "bookmarked"} /> */}
-      </BookmarkStarDiv>
+      {bookmark === 0 ? (
+        <img src={unbookmarked} alt="노북마크" className="bookmark" onClick={bookmarkHandler} />
+      ) : (
+        <img src={bookmarked} alt="북마크" className="bookmark" onClick={bookmarkHandler} />
+      )}
       <div className="diaryHolder" />
     </DiaryIcon>
   );
@@ -80,6 +79,27 @@ const DiaryIcon = styled.div`
   cursor: pointer;
   background-color: ${(props) => props.bgcolor};
   border-radius: 6px;
+  .bookmark {
+    float: left;
+    margin: -3% 0 0 3%;
+    width: 3.5rem;
+    height: 4.7rem;
+    cursor: pointer;
+    ${({ size }) => {
+      switch (size) {
+        case "bookmark":
+          return css`
+            width: 3rem;
+            height: 3.7rem;
+          `;
+        default:
+          return css`
+            width: 3.5rem;
+            height: 4.7rem;
+          `;
+      }
+    }};
+  }
   .diaryHolder {
     position: relative;
     top: 50%;
@@ -133,24 +153,4 @@ const DiaryIcon = styled.div`
       }
     }}
   }
-`;
-
-// const BookmarkStarDiv = styled.div`
-//   float: left;
-//   margin: -13% 0 0 5%;
-//   color: white;
-//   font-size: 6rem;
-//   cursor: pointer;
-//   .bookmarked {
-//     color: #fffa84;
-//   }
-// `;
-
-const BookmarkStarDiv = styled.div`
-  float: left;
-  margin: 10% 0 0 10%;
-  width: 3rem;
-  font-size: 2.5rem;
-  color: #fdcb6e;
-  cursor: pointer;
 `;

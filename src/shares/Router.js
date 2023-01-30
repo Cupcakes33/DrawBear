@@ -47,7 +47,9 @@ const Router = () => {
           <Route path="/list">
             <Route path=":id" element={<FullList />} />
           </Route>
-          <Route path="/invite" element={<Invite />} />
+          <Route path="/invite">
+            <Route path=":id" element={<Invite />} />
+          </Route>
           <Route path="/detail">
             <Route path=":id" element={<Detail />} />
             <Route path=":id/update" element={<UpdatePost />} />

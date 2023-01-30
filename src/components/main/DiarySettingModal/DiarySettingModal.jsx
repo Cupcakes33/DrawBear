@@ -14,7 +14,7 @@ const DiarySettingModal = ({ children, diaryId, diaryName }) => {
           <Modal.BackDrop>
             <Modal.ContentBox XYcoordinate="bottom">
               <DiarySettingBox>
-                <div onClick={() => navigate("/invite")}>같이 쓰는 멤버 초대</div>
+                <div onClick={() => navigate(`/invite/${diaryId}`)}>같이 쓰는 멤버 초대</div>
                 <hr />
                 <div onClick={() => navigate(`/update/${diaryId}`)}>다이어리 수정</div>
                 <hr />
