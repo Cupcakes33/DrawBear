@@ -96,13 +96,13 @@ const DateBox = styled.div`
     color: #242424;
     cursor: pointer;
     :hover {
-      border: 1px solid black;
+      border: 1px solid #3cc7a6;
       border-radius: 100%;
     }
     :focus {
-      border: 1px solid black;
+      border: 1px solid #3cc7a6;
       border-radius: 100%;
-      background-color: black;
+      background-color: #3cc7a6;
       color: whitesmoke;
     }
   }
