@@ -40,7 +40,6 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
 
     const dayColor = (i) => {
       if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
-      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
     };
 
     for (const today of week) {
@@ -49,7 +48,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
             <button
-              key={i}
+              key={`${i}일`}
               className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
               onClick={() => selectedDatePostSearch(i)}
             >
@@ -102,8 +101,7 @@ const DateBox = styled.div`
   .redDay {
     color: #ff5656;
   }
-  .saturday {
-    color: blue;
+  .today {
   }
   .postedDay {
     border-radius: 100%;
