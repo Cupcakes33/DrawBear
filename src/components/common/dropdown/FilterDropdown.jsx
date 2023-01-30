@@ -2,10 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { GoTriangleDown } from "react-icons/go";
 
-const FilterDropdown = () => {
-  const [filter, setFilter] = useState("전체");
+const FilterDropdown = ({ filter, setFilter }) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("전체");
+  const [selected, setSelected] = useState("최신순");
   const filterRef = useRef();
   const btnRef = useRef();
 
@@ -50,8 +49,7 @@ const FilterDropdown = () => {
       {open && (
         <ul className="filterDropdownContents" ref={filterRef}>
           <li onClick={filterDropdownClickHandler}>최신순</li>
-          <li onClick={filterDropdownClickHandler}>오름차순</li>
-          <li onClick={filterDropdownClickHandler}>내림차순</li>
+          <li onClick={filterDropdownClickHandler}>오래된순</li>
           <li onClick={filterDropdownClickHandler}>북마크</li>
         </ul>
       )}

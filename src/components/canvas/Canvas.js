@@ -31,8 +31,8 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
   const canvasBackground = (url) => {
     let image = new Image();
     image.crossOrigin = "anonymous";
-    image.src = url;
-    // 이 부분 나중에 백엔드 오면 수정하고 맞춰 볼 부분-----------------------------
+    image.src = url + "?v=" + new Date().getTime();
+    
     image.onload = () => {
       canvas.setBackgroundImage(
         new fabric.Image(image, {

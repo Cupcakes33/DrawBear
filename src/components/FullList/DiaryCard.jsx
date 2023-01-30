@@ -25,7 +25,6 @@ const DiaryCard = ({ postData }) => {
     mutationFn: () => postsApi.bookmark(postId),
     onSuccess: () => {
       queryClient.invalidateQueries(["Allposts"]);
-      console.log("성공");
     },
   });
 
@@ -60,7 +59,7 @@ const DiaryCard = ({ postData }) => {
           <Button
             size="mini"
             icon={<BsBookmark />}
-            color={bookmark ? "button_main" : "button_primary"}
+            color={bookmark ? "button_primary" : "button_main"}
             onClick={() => {
               bookmarkHandler(postId);
             }}

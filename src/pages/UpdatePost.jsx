@@ -36,6 +36,7 @@ const UpdatePost = () => {
   const { mutate } = useMutation(postsApi.patch, {
     onSuccess: () => {
       queryClient.invalidateQueries("posts");
+      console.log("success");
     },
   });
 
@@ -63,7 +64,7 @@ const UpdatePost = () => {
     formData.append("content", contents);
     formData.append("weather", weather || "sun");
     formData.append("tag", tags);
-    // mutate({ formData: formData, postId: params }, {});
+    mutate({ formData: formData, postId: params }, {});
   };
 
   const defaultHeader = () => {
