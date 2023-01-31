@@ -61,17 +61,19 @@ const CalendarModal = ({ children }) => {
               ) : (
                 <>
                   <CalendarHeader
-                    selectedMonth={selectedMonth}
-                    setSelectedMonth={setSelectedMonth}
                     selectedYear={selectedYear}
                     setSelectedYear={setSelectedYear}
+                    selectedMonth={selectedMonth}
+                    setSelectedMonth={setSelectedMonth}
                     setShowMonth={setShowMonth}
                     showMonth={showMonth}
                   />
                   {showMonth ? (
                     <ClalendarMonth
+                      selectedYear={selectedYear}
                       setSelectedMonth={setSelectedMonth}
                       setShowMonth={setShowMonth}
+                      todayYear={today.year}
                       todayMonth={today.month}
                     />
                   ) : (

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const ClalendarMonth = ({ setSelectedMonth, setShowMonth, todayMonth }) => {
+const ClalendarMonth = ({ selectedYear, setSelectedMonth, setShowMonth, todayYear, todayMonth }) => {
   const months = () => {
     let monthArr = [];
     for (let i = 1; i < 13; i++) {
@@ -15,13 +15,18 @@ const ClalendarMonth = ({ setSelectedMonth, setShowMonth, todayMonth }) => {
     setShowMonth(false);
   };
 
+  const dateCompareFn = (month) => {
+    if (selectedYear > todayYear) return "future";
+    else if (selectedYear < todayYear || month <= todayMonth) return "past";
+  };
+
   return (
     <MonthBox>
       {months().map((month) => {
         return (
           <button
             key={month}
-            className={month <= todayMonth ? "past" : "future"}
+            className={dateCompareFn(month)}
             onClick={() => onMonthController(month)}
           >{`${month}월`}</button>
         );
@@ -46,12 +51,12 @@ const MonthBox = styled.div`
     margin-bottom: 1rem;
     cursor: pointer;
   }
-  .past {
-    background: #3cc7a6;
-    color: white;
-  }
   .future {
     background-color: #e8e8e8;
     color: #b3b3b3;
+  }
+  .past {
+    background: #3cc7a6;
+    color: white;
   }
 `;

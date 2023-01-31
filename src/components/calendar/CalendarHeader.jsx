@@ -47,7 +47,6 @@ const CalendarHeader = (props) => {
           <FiChevronDown className="date-show-arrow" onClick={() => setShowMonth(true)} />
         )}
       </div>
-
       <div className="buttons">
         <button onClick={() => prevMonth()}>
           <GrPrevious />
