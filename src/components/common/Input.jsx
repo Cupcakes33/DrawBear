@@ -27,6 +27,7 @@ export const Input = () => {
 };
 
 export const WorningWord = ({ children, color }) => {
+  console.log(color);
   return <ValidationText color={color ? "#ff5656" : "transparent"}>{children}</ValidationText>;
 };
 
