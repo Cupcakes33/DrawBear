@@ -39,7 +39,7 @@ const Router = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<Main />} />
           <Route path="/chat" element={<Chatting />} />
-          <Route path="/nochat" element={<NoChatList />} />
+          <Route path="/nochatlist" element={<NoChatList />} />
           <Route path="/chatlist" element={<ChatList />} />
           <Route path="/new" element={<CreateDiary />} />
           <Route path="/update">
