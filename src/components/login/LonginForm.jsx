@@ -1,11 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { loginApi } from "../../apis/axios";
-import { useDispatch } from "react-redux";
 import { ErrorModal } from "../../redux/modules/UISlice";
+import { loginApi } from "../../apis/axios";
+import { Input } from "../common/Input";
 
-const HookForm = () => {
+const LonginForm = () => {
   const dispatch = useDispatch();
 
   const { mutate } = useMutation((inputData) => loginApi.login(inputData), {
@@ -78,32 +79,13 @@ const HookForm = () => {
   );
 };
 
-export default HookForm;
+export default LonginForm;
 
 const StForm = styled.form`
   div {
     padding-top: 20%;
   }
-  input {
-    border: none;
-    border-radius: 10px;
-    padding: 1rem;
-    ::placeholder {
-      color: #dedede;
-    }
-  }
-  .pass:focus {
-    border: 1px solid #3cc7a5;
-    box-shadow: 0 0 5px #3cc7a5;
-    outline: none;
-    transition: box-shadow 0.4s;
-  }
-  .fail:focus {
-    border: 1px solid #ff5656;
-    box-shadow: 0 0 5px #ff5656;
-    outline: none;
-    transition: box-shadow 0.4s;
-  }
+  ${Input}
 `;
 
 const StBtn = styled.button.attrs((props) => ({

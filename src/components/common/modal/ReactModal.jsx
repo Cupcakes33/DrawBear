@@ -61,7 +61,7 @@ const Background = styled.section`
   background-color: ${({ bgColor }) => (bgColor ? "transparent" : "rgba(0, 0, 0, 0.3)")};
 `;
 
-// 모달 박스
+// 모달 컨텐츠로 쓸 거
 
 const ContentBox = ({ children, XYcoordinate }) => {
   const { isModal } = useContext(ModalContext);
