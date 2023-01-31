@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,9 +13,10 @@ import WeatherPicker from "../components/write/WeatherPicker";
 import { ErrorModal } from "../redux/modules/UISlice";
 import { useDispatch } from "react-redux";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import { useEffect } from "react";
+import { GrPrevious } from "react-icons/gr";
 
 const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
@@ -66,7 +67,6 @@ const UpdatePost = () => {
 
     formData.get("title");
     formData.get("createdAt");
-
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
     formData.append("weather", weather || "sun");
@@ -77,8 +77,10 @@ const UpdatePost = () => {
   const defaultHeader = () => {
     return (
       <>
-        <NavigateBtn prev />
-        <h3>LOGO</h3>
+        <StHeaderTextWrapper>
+          <NavigateBtn prev />
+          <span>다이어리 수정</span>
+        </StHeaderTextWrapper>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
       </>
     );
@@ -87,7 +89,10 @@ const UpdatePost = () => {
   const drawingEndHeader = () => {
     return (
       <>
-        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
+        <StHeaderTextWrapper>
+          <GrPrevious onClick={() => setIsDrawingEnd(!isDrawingEnd)} />
+          <span>다이어리 수정</span>
+        </StHeaderTextWrapper>
         <span>
           <StWriteFormSubmitBtn type="submit" form="writeForm">
             수정
@@ -233,4 +238,10 @@ const StWriteFormSubmitBtn = styled.button`
   border: none;
   background-color: transparent;
   font-size: 1.6rem;
+`;
+
+const StHeaderTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;

@@ -29,6 +29,7 @@ const Detail = () => {
 
   const {
     postId,
+    diaryId,
     title,
     createdAt,
     content,
@@ -41,6 +42,7 @@ const Detail = () => {
     comments,
   } = data;
 
+  console.log(diaryId);
   const { mutate: postMutate } = useMutation({
     mutationFn: (comments) => commentsApi.post(comments),
     onSuccess: () => {
@@ -52,6 +54,7 @@ const Detail = () => {
     mutationFn: () => postsApi.delete(postId),
     onSuccess: () => {
       queryClient.invalidateQueries(["Allposts"]);
+      navigate(`/list/${diaryId}`);
     },
   });
 
@@ -71,7 +74,6 @@ const Detail = () => {
 
   const postDeleteHandler = () => {
     postDeleteMutate();
-    navigate(-1);
   };
 
   const postUpdateHandler = () => {
