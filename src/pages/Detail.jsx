@@ -12,6 +12,7 @@ import borderLine from "../assets/images/borderLine.png";
 import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { weatherIcon } from "../assets/images/weather";
+import AlertModal from "../components/common/modal/AlertModal";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -132,14 +133,17 @@ const Detail = () => {
           <Button size="small" fs="2rem" onClick={postUpdateHandler}>
             수정
           </Button>
-          <Button
-            size="small"
-            fs="2rem"
-            fontColor="#FF7070"
+
+          <AlertModal
+            select
+            bigTxt={"정말 일기를 삭제할까요?"}
+            smallTxt={"삭제한 일기는 복구할 수 없어요"}
             onClick={postDeleteHandler}
           >
-            삭제
-          </Button>
+            <Button size="small" fs="2rem" fontColor="#FF7070">
+              삭제
+            </Button>
+          </AlertModal>
         </div>
         <CommentBox>
           <h3>댓글 {commentsCount}</h3>
@@ -231,7 +235,6 @@ const StDetailPageSection = styled(StSection)`
         width: 2.4rem;
         height: 2.4rem;
         border-radius: 50%;
-        object-fit: cover;
       }
     }
   }

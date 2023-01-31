@@ -32,7 +32,7 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
     let image = new Image();
     image.crossOrigin = "anonymous";
     image.src = url + "?v=" + new Date().getTime();
-    
+
     image.onload = () => {
       canvas.setBackgroundImage(
         new fabric.Image(image, {
@@ -45,15 +45,6 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
       );
     };
   };
-
-  //   canvas.setBackgroundImage(, canvas.renderAll.bind(canvas), {
-  //     width: canvas.width,
-  //     height: canvas.height,
-  //     originX: "left",
-  //     originY: "top",
-  //     crossOrigin: "anonymous",
-  //   });
-  // };
 
   const deleteSelectedObjects = () => {
     let selection = canvas.getActiveObject();
