@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { ErrorModal } from "../../redux/modules/UISlice";
 import { loginApi } from "../../apis/axios";
-import { Input } from "../common/Input";
+import { Input, WorningWord } from "../common/Input";
 
 const LonginForm = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const LonginForm = () => {
 
   return (
     <>
-      <StForm onSubmit={handleSubmit(onSubmit)}>
+      <LocalLoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="email">이메일</label>
           <input
@@ -56,6 +56,7 @@ const LonginForm = () => {
             {...register("email", { required: true, pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ })}
             aria-invalid={errors.email ? "true" : "false"}
           />
+          <WorningWord color={errors.email?.type}>이메일 형식에 맞지 않습니다.</WorningWord>
         </div>
         <div>
           <label htmlFor="password">비밀번호</label>
@@ -68,20 +69,21 @@ const LonginForm = () => {
             {...register("password", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
             aria-invalid={errors?.password ? "true" : "false"}
           />
+          <WorningWord color={errors.password?.type}>영문, 숫자 조합 8자리 이상을 적어주세요.</WorningWord>
         </div>
         <div>
           <StBtn disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}>
             로그인
           </StBtn>
         </div>
-      </StForm>
+      </LocalLoginForm>
     </>
   );
 };
 
 export default LonginForm;
 
-const StForm = styled.form`
+const LocalLoginForm = styled.form`
   div {
     padding-top: 20%;
   }
