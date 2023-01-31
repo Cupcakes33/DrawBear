@@ -8,7 +8,7 @@ export const Input = () => {
       border: none;
       border-radius: 10px;
       padding: 1rem;
-      transition: box-shadow 0.4s;
+      outline: none;
       ::placeholder {
         color: #dedede;
       }
@@ -16,17 +16,18 @@ export const Input = () => {
     .pass:focus {
       border: 1px solid #3cc7a5;
       box-shadow: 0 0 5px #3cc7a5;
-      outline: none;
+      transition: box-shadow 0.5s;
     }
     .fail:focus {
       border: 1px solid #ff5656;
       box-shadow: 0 0 5px #ff5656;
-      outline: none;
+      transition: box-shadow 0.5s;
     }
   `;
 };
 
 export const WorningWord = ({ children, color }) => {
+  console.log(color);
   return <ValidationText color={color ? "#ff5656" : "transparent"}>{children}</ValidationText>;
 };
 
