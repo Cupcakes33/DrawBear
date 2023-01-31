@@ -10,6 +10,8 @@ import CalendarWeek from "./CalendarWeek";
 import CalendarDay from "./CalendarDay";
 import ClalendarMonth from "./ClalendarMonth";
 import CalendarHeader from "./CalendarHeader";
+import loadingBear from "../../assets/images/loadingBear.webp";
+import { flex } from "../../UI/common";
 
 const CalendarModal = ({ children }) => {
   const today = {
@@ -55,9 +57,15 @@ const CalendarModal = ({ children }) => {
           <Modal.ContentBox XYcoordinate="bottom">
             <CalendarContainer>
               {isLoading ? (
-                <h2>로딩 중...</h2>
+                <ErrorScreen>
+                  <img src={loadingBear} alt="에러 곰돌이" />
+                  <span>로딩 중!</span>
+                </ErrorScreen>
               ) : isError ? (
-                <h2>서버 연결 실패</h2>
+                <ErrorScreen>
+                  <img src={loadingBear} alt="에러 곰돌이" />
+                  <span>2004년~2024년까지만 볼 수 있어요 ㅠㅠ</span>
+                </ErrorScreen>
               ) : (
                 <>
                   <CalendarHeader
@@ -107,4 +115,10 @@ const CalendarContainer = styled.section`
   border-top: none;
   border-radius: 20px 20px 0px 0px;
   background-color: white;
+`;
+
+const ErrorScreen = styled.div`
+  height: 100%;
+  ${flex("", "", "column")}
+  gap: 3rem;
 `;
