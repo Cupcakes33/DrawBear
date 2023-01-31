@@ -25,6 +25,7 @@ const UpdatePost = () => {
   const [weather, setWeather] = useState("");
   const params = useParams().id;
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   // const postsData = queryClient.getQueryData(["posts"]);
   const {
@@ -36,7 +37,13 @@ const UpdatePost = () => {
   const { mutate } = useMutation(postsApi.patch, {
     onSuccess: () => {
       queryClient.invalidateQueries("posts");
-      console.log("success");
+      dispatch(
+        ErrorModal({
+          isModal: true,
+          bigTxt: "성공적으로 수정했어요 !",
+          move: `/detail/${params}`,
+        })
+      );
     },
   });
 
