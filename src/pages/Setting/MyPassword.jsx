@@ -141,5 +141,5 @@ const MypageSection = styled(StSection)`
     font-size: 2.6rem;
     font-weight: 700;
   }
-  ${Input}
+  ${Input("#F5F5F5")}
 `;
