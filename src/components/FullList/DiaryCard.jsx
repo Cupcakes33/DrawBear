@@ -13,6 +13,7 @@ const DiaryCard = ({ postData }) => {
   const naigate = useNavigate();
   const {
     postId,
+    diaryId,
     nickname,
     title,
     image,
@@ -20,6 +21,8 @@ const DiaryCard = ({ postData }) => {
     profileImg,
     commentsCount,
   } = postData;
+
+  console.log(postData);
 
   const { mutate: bookmarkMutate } = useMutation({
     mutationFn: () => postsApi.bookmark(postId),
@@ -41,7 +44,7 @@ const DiaryCard = ({ postData }) => {
       <StTitleWrapper>
         <div className="postOptionbox">
           <h4 onClick={redirectDetailpage}>{title}</h4>
-          <ListPageDropdown />
+          <ListPageDropdown postId={postId} diaryId={diaryId} />
         </div>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />

@@ -28,7 +28,6 @@ const UpdatePost = () => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
-  // const postsData = queryClient.getQueryData(["posts"]);
   const {
     data: postsData,
     isError,
