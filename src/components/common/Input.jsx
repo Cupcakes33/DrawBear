@@ -1,16 +1,18 @@
 import styled, { css } from "styled-components";
 
-export const Input = () => {
+export const Input = (bgColor) => {
   return css`
     input {
+      display: block;
       width: 100%;
       height: 4.5rem;
+      background-color: ${`${bgColor}`};
       border: none;
+      outline: none;
       border-radius: 10px;
       padding: 1rem;
-      outline: none;
       ::placeholder {
-        color: #dedede;
+        color: #b3b3b3;
       }
     }
     .pass:focus {
@@ -27,7 +29,6 @@ export const Input = () => {
 };
 
 export const WorningWord = ({ children, color }) => {
-  console.log(color);
   return <ValidationText color={color ? "#ff5656" : "transparent"}>{children}</ValidationText>;
 };
 
