@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { MdPeopleAlt } from "react-icons/md";
 import { diaryType } from "../../redux/modules/diarySlice";
 import styled from "styled-components";
-import { useState } from "react";
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,15 +43,19 @@ const Footer = () => {
 
   const changeChatList = () => {
     queryClient.setQueryData(["footerIcons"], "chatlist");
-    console.log(diaries);
-    const result = diaries.find((diary) => {
-      if (diary.couple === 1) {
-        return navigate("/chatlist");
-      } else {
-        return navigate("/");
-      }
-    });
-    return result;
+    console.log(diaries.length);
+    if (diaries.length === 0) {
+      navigate("/nochatlist");
+    } else {
+      const result = diaries.find((diary) => {
+        if (diary?.couple === 1) {
+          return navigate("/chatlist");
+        } else {
+          return navigate("/nochatlist");
+        }
+      });
+      return result;
+    }
   };
 
   return (
