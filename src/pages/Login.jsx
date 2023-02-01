@@ -10,6 +10,17 @@ import { flex } from "../UI/common";
 
 const Login = () => {
   const queryClient = useQueryClient();
+  const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+  const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+
+  const naverLoginHandler = () => {
+    window.location.href = "http://localhost:4000/auth/naver";
+  };
+
+  const kakaoLoginHandler = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
 
   useEffect(() => {
     queryClient.clear();
@@ -31,9 +42,9 @@ const Login = () => {
         <hr />
       </BoundaryLine>
       <SocialLoginBox>
-        <img src={naver} alt="네이버 로그인" />
-        <img src={kakao} alt="카카오 로그인" />
-      </SocialLoginBox>
+        <img src={naver} alt="네이버 로그인" onClick={naverLoginHandler} />
+        <img src={kakao} alt="카카오 로그인" onClick={kakaoLoginHandler} />      
+        </SocialLoginBox>
     </CommonContainer>
   );
 };
