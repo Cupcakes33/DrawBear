@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/common/Button";
 import Buttons from "../components/common/Button/Buttons";
 
 const ButtonPreview = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Stdiv>
-        <Buttons.AddDiary />
+        <Buttons.AddDiary onClick={() => console.log(1)} />
         <Buttons.AddPost />
         <Buttons.AddComment />
       </Stdiv>
@@ -20,9 +22,14 @@ const ButtonPreview = () => {
         <Buttons.Bookmark isBookmarked />
         <Buttons.Option>수정</Buttons.Option>
         <Buttons.Option negative>삭제</Buttons.Option>
+        <Buttons.Navigate prev />
+        <Buttons.Navigate />
       </Stdiv>
       <Stdiv style={{ width: "360px", padding: "2.2rem" }}>
-        <Buttons.Withdraw>네, 탈퇴할게요</Buttons.Withdraw>
+        <Buttons.Full type="positive">로그인</Buttons.Full>
+      </Stdiv>
+      <Stdiv style={{ width: "360px", padding: "2.2rem" }}>
+        <Buttons.Full type="negative">네, 탈퇴할게요</Buttons.Full>
       </Stdiv>
     </>
   );
@@ -33,7 +40,7 @@ export default ButtonPreview;
 const Stdiv = styled.div`
   width: 100vh;
   height: 10vh;
-  margin-top: 20rem;
+  margin-top: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;

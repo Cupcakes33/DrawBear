@@ -51,7 +51,7 @@ ${({ shadow }) => {
     `;
   }}
 
-  ${({ size, innerPadding = "1rem 1rem" }) => {
+  ${({ size, innerPadding }) => {
     switch (size) {
       case "mini":
         return css`
