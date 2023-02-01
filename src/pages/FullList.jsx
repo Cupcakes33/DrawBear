@@ -226,7 +226,7 @@ const StSearchHeaderContents = styled.div`
     gap: 2rem;
     button {
       font-size: 1.5rem;
-      color: var(--positive);
+      color: ${({ theme }) => theme.color.button_primary};
       border: 0;
       outline: none;
       background-color: inherit;

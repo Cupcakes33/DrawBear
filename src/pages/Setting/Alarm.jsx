@@ -7,7 +7,7 @@ const Alarm = () => {
     <>
       <StContainer>
         <StHeader flex justify="flex-start">
-          <NavigateBtn prev sizeType="header" />
+          <NavigateBtn prev sizeType="header" link="/setting" />
           <h3>알림</h3>
         </StHeader>
         <AlarmListSection flex derection="column" justify="flex-start">

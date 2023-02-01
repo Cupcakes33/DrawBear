@@ -8,14 +8,15 @@ import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
-import useDispatchHook from "../../hooks/useDispatchHook";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../../redux/modules/UISlice";
 
 const MyProfileEdit = () => {
-  const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const { mutate } = useMutation((formData) => mypageApi.update(formData), {
     onSuccess: (success) => {
-      openAlertModal({ bigTxt: success.message, move: "/setting/profileEdit" }); //모달창에 전달하는 데이터
+      dispatch((ErrorModal({ isModal: true, bigTxt: success.message, move: "/setting/profileEdit" }))); //모달창에 전달하는 데이터
     },
   });
   const [nick, setNick] = useState("");

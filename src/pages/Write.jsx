@@ -12,7 +12,8 @@ import WeatherPicker from "../components/write/WeatherPicker";
 import Alert from "../components/common/modal/AlertModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
-import useDispatchHook from "../hooks/useDispatchHook";
+import { ErrorModal } from "../redux/modules/UISlice";
+import { useDispatch } from "react-redux";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -21,32 +22,32 @@ const Write = () => {
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
 
-  const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
   const diaryId = useParams().id;
 
   const { mutate } = useMutation(postsApi.post, {
     onSuccess: () => {
-      openAlertModal({
+      dispatch((ErrorModal({ isModal: true,
         bigTxt: "다이어리가 작성되었습니다.",
         move: `/list/${diaryId}`,
-      });
+      })));
     },
     onError: (error) => {
       const status = error?.response.request.status;
       status === 401 &&
-        openAlertModal({
+        dispatch((ErrorModal({ isModal: true,
           bigTxt: "인증되지 않은 사용자입니다.",
-        });
+        })));
 
       status === 404 &&
-        openAlertModal({
+        dispatch((ErrorModal({ isModal: true,
           bigTxt: "잘못된 접근입니다.",
-        });
+        })));
 
       status === 412 &&
-        openAlertModal({
+        dispatch((ErrorModal({ isModal: true,
           bigTxt: "아직 작성하지 않은 항목이 있습니다.",
-        });
+        })));
     },
   });
 
@@ -64,7 +65,7 @@ const Write = () => {
 
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
-    formData.append("weather", weather || "sunny");
+    formData.append("weather", weather || "sun");
     formData.append("tag", tags);
     mutate({ formData: formData, diaryId: diaryId }, {});
   };

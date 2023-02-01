@@ -10,11 +10,12 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../apis/axios";
 import { Input, WorningWord } from "../components/common/Input";
-import useDispatchHook from "../hooks/useDispatchHook";
+import { ErrorModal } from "../redux/modules/UISlice";
+import { useDispatch } from "react-redux";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
-  const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
   const [image, setImage] = useState({
     image_file: "",
     preview_URL: defaultImg,
@@ -56,13 +57,13 @@ const Signup = () => {
 
   const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
-      openAlertModal({ isModal: true, bigTxt: "회원가입 성공!", move: "/login" }); //모달창에 전달하는 데이터
+      dispatch(ErrorModal({ isModal: true, bigTxt: "회원가입 성공!", move: "/login" })); //모달창에 전달하는 데이터
     },
     onError: (error) => {
       const msg = error.response.data.message;
       const errorStatus = error.response.status;
 
-      if (errorStatus === 409) openAlertModal({ isModal: true, bigTxt: msg });
+      if (errorStatus === 409) dispatch(ErrorModal({ isModal: true, bigTxt: msg }));
     },
   });
 

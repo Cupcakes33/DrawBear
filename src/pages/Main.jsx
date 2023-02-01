@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
 import { StContainer, StHeader } from "../UI/common";
 import { mainApi } from "../apis/axios";
@@ -8,11 +8,11 @@ import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import BookmarkTab from "../components/main/BookmarkTab";
 import Loading from "../components/common/Loading";
-import useDispatchHook from "../hooks/useDispatchHook";
+import { ErrorModal } from "../redux/modules/UISlice";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
-  const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   const {
@@ -23,7 +23,7 @@ const Main = () => {
   } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
+      if (status === 400) dispatch((ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" })));
     },
   });
 

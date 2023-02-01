@@ -80,7 +80,7 @@ const UpdatePost = () => {
     return (
       <>
         <StHeaderTextWrapper>
-          <NavigateBtn prev />
+          <NavigateBtn prev link={`/detail/${params}`} />
           <span>다이어리 수정</span>
         </StHeaderTextWrapper>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
