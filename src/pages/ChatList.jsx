@@ -8,8 +8,6 @@ import { useDispatch } from "react-redux";
 import { ErrorModal } from "../redux/modules/UISlice";
 import NoChatList from "./NoChatList";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../redux/modules/UISlice";
 
 const chatData = [
   // {
@@ -46,11 +44,10 @@ const ChatList = () => {
   //     },
   //   }
   // );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(ErrorModal({ isModal: true, bigTxt: "준비중입니다.", move: "/" }));
-  }, [].length);
+  }, []);
   return (
     <>
       <StContainer bgColor="#ffffff">
