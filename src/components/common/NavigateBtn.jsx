@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
 const NavigateBtn = ({ prev, link, sizeType }) => {
-  console.log(link)
   const navigate = useNavigate();
 
   return (

@@ -42,7 +42,6 @@ const Detail = () => {
     comments,
   } = data;
 
-  console.log(diaryId);
   const { mutate: postMutate } = useMutation({
     mutationFn: (comments) => commentsApi.post(comments),
     onSuccess: () => {

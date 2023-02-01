@@ -22,7 +22,6 @@ const AccoutDelete = () => {
 
   const { mutate } = useMutation((inputData) => mypageApi.delete(inputData), {
     onError: (error) => {
-      console.log(error);
       if (error.response.status === 401) openAlertModal({ bigTxt: "비밀번호가 틀렸습니다." });
     },
     onSuccess: () => {
