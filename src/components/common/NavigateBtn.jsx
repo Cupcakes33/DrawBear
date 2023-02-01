@@ -10,7 +10,7 @@ const NavigateBtn = ({ prev, link, sizeType }) => {
       {prev ? (
         <GrPrevious
           onClick={() => {
-            navigate(-1);
+            navigate(`${link}`);
           }}
         />
       ) : (

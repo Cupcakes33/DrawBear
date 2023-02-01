@@ -1,54 +1,47 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { mainApi } from "../apis/axios";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Diary from "../components/main/Diary/Diary";
-import { ErrorModal } from "../redux/modules/UISlice";
 import { DisplayDiv, StHeader } from "../UI/common";
 import { TiPencil } from "react-icons/ti";
 import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
+import useDispatchHook from "../hooks/useDispatchHook";
 
 const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
+
 const UpdateDiary = () => {
-  const dispatch = useDispatch();
-  const { couple } = useSelector((state) => state.diarySlice);
-  const diaryTitleInputRef = useRef();
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
   const [selectedColor, setSelectedColor] = useState(updateDiaryData?.[0].outsideColor);
+  const { couple } = useSelector((state) => state.diarySlice);
+  const queryClient = useQueryClient();
+  const diaryTitleInputRef = useRef();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
+  const { openAlertModal } = useDispatchHook;
 
   const { mutate } = useMutation((updateData) => mainApi.update(updateData), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 500)
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "다이어리 생성에 실패하였습니다.",
-          })
-        );
-      else if (status === 404) dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리가 존재하지 않습니다." }));
-      else if (status === 401) dispatch(ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." }));
+      if (status === 500) openAlertModal({ bigTxt: "다이어리 생성에 실패하였습니다." });
+      else if (status === 404) openAlertModal({ bigTxt: "다이어리가 존재하지 않습니다." });
+      else if (status === 401) openAlertModal({ bigTxt: "권한이 없습니다." });
     },
     onSuccess: () => {
-      dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 수정 성공!", move: "/" }));
+      openAlertModal({ bigTxt: "다이어리 수정 성공!", move: "/" });
     },
   });
 
   const onUpdateDiaryHandler = () => {
     const diaryName = diaryTitleInputRef.current.value;
-    if (!diaryName) dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 이름을 작성해주세요!" }));
-    else if (!selectedColor) {
-      dispatch(ErrorModal({ isModal: true, bigTxt: "다이어리 색상을 선택해주세요!" }));
-    } else {
-      return mutate({ diaryName, selectedColor, couple, id });
-    }
+    if (!diaryName) openAlertModal({ bigTxt: "다이어리 이름을 작성해주세요!" });
+    else if (!selectedColor) openAlertModal({ bigTxt: "다이어리 색상을 선택해주세요!" });
+    else return mutate({ diaryName, selectedColor, couple, id });
   };
 
   useEffect(() => {

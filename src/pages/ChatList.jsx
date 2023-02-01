@@ -2,12 +2,15 @@ import { StContainer } from "../UI/common";
 import Footer from "../components/common/Footer";
 import styled from "styled-components";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../redux/modules/UISlice";
+
 const chatData = [
   {
     id: 1,
     nickname: "김철수",
-    lastChat:
-      "최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,",
+    lastChat: "최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,",
     profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
     time: "오전10시30분",
   },
@@ -19,9 +22,15 @@ const chatData = [
     time: "오전10시30분",
   },
 ];
+
 const ChatList = () => {
   const [chatList, setChatList] = useState([...chatData]);
-  console.log(chatList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(ErrorModal({ isModal: true, bigTxt: "준비중입니다.", move: "/" }));
+  }, []);
+
   return (
     <>
       <StContainer bgColor="#ffffff">

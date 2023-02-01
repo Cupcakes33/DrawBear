@@ -10,7 +10,7 @@ const InfoEdit = () => {
     <>
       <StContainer>
         <StHeader flex justify="flex-start">
-          <NavigateBtn prev sizeType="header" />
+          <NavigateBtn prev sizeType="header" link="/setting" />
           <h3>개인정보 수정</h3>
         </StHeader>
         <EditProfileSection flex derection="column" justify="flex-start">
