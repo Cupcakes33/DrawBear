@@ -4,6 +4,7 @@ import { TiDelete } from "react-icons/ti";
 
 const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
+
   const HashTagInputOnchangeHandler = (event) => {
     const { value } = event.target;
     // 6글자 이상이면 자르기
@@ -21,8 +22,8 @@ const HashTagInput = ({ tags, setTags }) => {
     // 중복 제거
     if (tags.includes(`# ${value}`)) return;
 
-    // 태그가 2개 이상일 경우 filter
-    if (tags.length > 2) {
+    // 태그가 4개 이상일 경우 filter
+    if (tags.length > 4) {
       const sliceTags = tags.slice(1);
       setTags([...sliceTags, `# ${value}`]);
     } else {
@@ -31,7 +32,6 @@ const HashTagInput = ({ tags, setTags }) => {
 
     // 입력값 초기화
     event.target.value = "";
-  
   };
 
   const removeHashTag = (targetIndex) => {
@@ -50,7 +50,7 @@ const HashTagInput = ({ tags, setTags }) => {
         onChange={HashTagInputOnchangeHandler}
         onKeyUp={HashTagInputKeyDownHandler}
         type="text"
-        placeholder="태그는 3개까지 입력이 가능해요 !"
+        placeholder="태그는 5개까지 입력이 가능해요 !"
       />
     </StHashTagContainer>
   );
@@ -61,23 +61,29 @@ export default HashTagInput;
 const StHashTagContainer = styled.div`
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
   gap: 0.5rem;
   width: 100%;
   min-height: 4rem;
-  border: 1px solid #d9d9d9;
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
+  background: #f5f5f5;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const StHashTagItem = styled.div`
   width: max-content;
+  white-space: nowrap;
   padding: 0.25rem 0.75rem;
-  border-radius: 5px;
-  background: #e9e9e9;
+  border-radius: 40px;
+  background: #cccccc;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.2rem;
 
   .remove {
     display: inline-flex;
@@ -97,7 +103,6 @@ const StHashTagItem = styled.div`
   }
 `;
 const StHashTagInput = styled.input`
-  
   flex-grow: 1;
   padding: 0.5rem 0.5rem;
   border: none;

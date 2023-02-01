@@ -7,7 +7,8 @@ import CreateDiary from "../pages/CreateDiary";
 import FullList from "../pages/FullList";
 import Invite from "../pages/Invite";
 import Detail from "../pages/Detail";
-import HashTagInput from "../components/common/HashTagInput";
+
+import UpdatePost from "../pages/UpdatePost";
 import UpdateDiary from "../pages/UpdateDiary";
 import ButtonPreview from "../pages/ButtonPreview";
 import Setting from "../pages/Setting/Setting";
@@ -18,17 +19,31 @@ import AccoutDelete from "../pages/Setting/AccoutDelete";
 import Alarm from "../pages/Setting/Alarm";
 import InfoEdit from "../pages/Setting/InfoEdit";
 import PrivateRoutes from "./PrivateRoutes";
+import Chatting from "../pages/Chatting";
+import { useSelector } from "react-redux";
+import ErrorHandlerModal from "../components/common/modal/ErrorHandlerModal";
+import ChatList from "../pages/ChatList";
+import NoChatList from "../pages/NoChatList";
+import KakaoLogin from "../components/socialLogin/KakaoLogin";
+import NaverLogin from "../components/socialLogin/NaverLogin";
 
 const Router = () => {
+  const { isModal } = useSelector((state) => state.UISlice.errorModal);
+
   return (
     <BrowserRouter>
       {/* <Header /> */}
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/kakaologin" element={<KakaoLogin />} />
+        <Route path="/naverlogin" element={<NaverLogin />} />
         <Route path="/signup" element={<Signup />} />
+
         <Route element={<PrivateRoutes />}>
-          <Route path="/test" element={<HashTagInput />} />
           <Route path="/" element={<Main />} />
+          <Route path="/chat" element={<Chatting />} />
+          <Route path="/nochatlist" element={<NoChatList />} />
+          <Route path="/chatlist" element={<ChatList />} />
           <Route path="/new" element={<CreateDiary />} />
           <Route path="/update">
             <Route path=":id" element={<UpdateDiary />} />
@@ -40,9 +55,12 @@ const Router = () => {
           <Route path="/list">
             <Route path=":id" element={<FullList />} />
           </Route>
-          <Route path="/invite" element={<Invite />} />
+          <Route path="/invite">
+            <Route path=":id" element={<Invite />} />
+          </Route>
           <Route path="/detail">
             <Route path=":id" element={<Detail />} />
+            <Route path=":id/update" element={<UpdatePost />} />
           </Route>
           <Route path="/buttonpreview" element={<ButtonPreview />} />
           <Route path="/setting" element={<Setting />} />
@@ -54,6 +72,7 @@ const Router = () => {
           <Route path="/setting/alarm" element={<Alarm />} />
         </Route>
       </Routes>
+      {isModal && <ErrorHandlerModal showModal />}
     </BrowserRouter>
   );
 };

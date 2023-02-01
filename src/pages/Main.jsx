@@ -1,21 +1,18 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
 import { StContainer, StHeader } from "../UI/common";
-import { showModal } from "../redux/modules/UISlice";
 import { mainApi } from "../apis/axios";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
-import Alert from "../components/common/modal/Alert";
-import ReactModal from "../components/common/modal/ReactModal";
-import DiarySetting from "../components/FullList/DiarySetting";
+import BookmarkTab from "../components/main/BookmarkTab";
+import Loading from "../components/common/Loading";
+import useDispatchHook from "../hooks/useDispatchHook";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
-  const { isModal } = useSelector((state) => state.UISlice);
-  const { diary } = useSelector((state) => state.diarySlice);
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook;
   const queryClient = useQueryClient();
 
   const {
@@ -26,13 +23,9 @@ const Main = () => {
   } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 401) {
-        dispatch(showModal({ isModal: true, content: "로그인 후 이용해주세요.", move: "/login" }));
-      } else if (status === 400)
-        return dispatch(showModal({ isModal: true, content: "일기장 조회에 실패했습니다.", move: "/login" }));
+      if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
     },
   });
-  const { diaries } = data;
 
   const diaryType = useCallback(
     (diaries) => {
@@ -56,9 +49,8 @@ const Main = () => {
 
   return (
     <>
-      {isModal && <Alert />}
       {isLoading ? (
-        <h2>로딩 중...</h2>
+        <Loading />
       ) : isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
@@ -67,14 +59,15 @@ const Main = () => {
             <StHeader flex>
               <h1>LOGO</h1>
             </StHeader>
-            {diaryType(diaries)?.length === 0 ? <NoDiary /> : <DiaryList diaryData={diaryType(diaries)} />}
+            {diaryType(data?.diaries)?.length === 0 ? (
+              <NoDiary />
+            ) : diaryTypes.bookmark === 1 ? (
+              <BookmarkTab diaryData={diaryType(data?.diaries)} />
+            ) : (
+              <DiaryList diaryData={diaryType(data?.diaries)} />
+            )}
             <Footer />
           </StContainer>
-          {diary.isModal && (
-            <ReactModal>
-              <DiarySetting diaryId={diary?.diaryId} queryClient={queryClient} />
-            </ReactModal>
-          )}
         </>
       )}
     </>

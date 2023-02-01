@@ -1,9 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Calendar from "../components/calendar/Calendar";
 import DiaryCard from "../components/FullList/DiaryCard";
-import DiarySetting from "../components/FullList/DiarySetting";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import Button from "../components/common/Button";
@@ -15,29 +13,37 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import DiarySettingModal from "../components/main/DiarySettingModal/DiarySettingModal";
+import CalendarModal from "../components/calendar/CalendarModal";
+import { useEffect } from "react";
+import FilterDropdown from "../components/common/dropdown/FilterDropdown";
+import Loading from "../components/common/Loading";
 
-const DiaryList = () => {
+const DiaryList = memo(() => {
   const navigate = useNavigate();
   const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
-  const [isModal, setIsModal] = useState(false);
-  const [isSettingModal, setIsSettingModal] = useState(false);
+  const [dateOrderedPosts, setDateOrderedPosts] = useState({});
+  const [filter, setFilter] = useState("최신순");
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
     diaryApi.get(diaryId)
   );
 
-  let filtedPosts = {};
-  if (!isLoading) {
-    data.forEach((item) => {
-      const temp = item.createdAt.slice(0, 10);
-      if (filtedPosts[temp]) {
-        filtedPosts[temp].push(item);
-      } else {
-        filtedPosts[temp] = [item];
-      }
-    });
-  }
+  const orderPostsByDate = (data) => {
+    const orderedPosts = {};
+    if (!isLoading) {
+      data.forEach((item) => {
+        const temp = item.createdAt.slice(0, 10);
+        if (orderedPosts[temp]) {
+          orderedPosts[temp].push(item);
+        } else {
+          orderedPosts[temp] = [item];
+        }
+      });
+    }
+    return orderedPosts;
+  };
 
   const locailDate = (date) => {
     return new Date(date).toLocaleDateString("ko-KR", {
@@ -51,12 +57,14 @@ const DiaryList = () => {
     return (
       <StDefaultHeaderContents>
         <div>
-          <NavigateBtn prev />
+          <NavigateBtn prev link="/" />
           <HeaderText>{diaryName}</HeaderText>
         </div>
         <div className="default-header-configBox">
           <BsSearch onClick={() => setChangeHeader(true)} />
-          <AiOutlineSetting onClick={() => setIsSettingModal(true)} />
+          <DiarySettingModal diaryName={diaryName} diaryId={diaryId}>
+            <AiOutlineSetting />
+          </DiarySettingModal>
         </div>
       </StDefaultHeaderContents>
     );
@@ -70,37 +78,81 @@ const DiaryList = () => {
         </div>
         <div>
           <BsSearch />
-          <FaRegCalendarAlt onClick={() => setIsModal(true)} />
+          <CalendarModal>
+            <FaRegCalendarAlt />
+          </CalendarModal>
           <button onClick={() => setChangeHeader(false)}>취소</button>
         </div>
       </StSearchHeaderContents>
     );
   }, []);
 
-  if (!data) return <div>로딩중</div>;
+  useEffect(() => {
+    if (!data) return;
+    setDateOrderedPosts(orderPostsByDate(data));
+  }, [data]);
+
+  if (!data) return <Loading />;
   return (
     <>
-      {isModal && <Calendar onClose={setIsModal} />}
-      {isSettingModal && <DiarySetting onClose={setIsSettingModal} diaryId={diaryId} />}
       <StContainer>
         <StHeader>
           {!changeHeader && defaultHeader()}
           {changeHeader && SearchHeader()}
         </StHeader>
-        <StSection>
-          <Filter>최신순</Filter>
-          {Object.keys(filtedPosts).map((date, n) => {
-            return (
-              <div key={`dateFilter${n}`}>
-                <h2>{locailDate(date)}</h2>
-                {filtedPosts[date].map((post, n) => {
-                  return <DiaryCard key={`postData${n}`} postData={post} />;
-                })}
-                <StDivisionLine />
-              </div>
-            );
-          })}
-        </StSection>
+        <StFilterContainer>
+          <FilterDropdown filter={filter} setFilter={setFilter} />
+        </StFilterContainer>
+        {filter === "최신순" && (
+          <StSection>
+            {Object.keys(dateOrderedPosts).map((date, n) => {
+              return (
+                <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                  <div className="orderedDate">{locailDate(date)}</div>
+                  {dateOrderedPosts[date].map((post, n) => {
+                    return <DiaryCard key={`postData${n}`} postData={post} />;
+                  })}
+                  <StDivisionLine />
+                </StDiaryCarsWrapper>
+              );
+            })}
+          </StSection>
+        )}
+        {filter === "오래된순" && (
+          <StSection>
+            {Object.keys(dateOrderedPosts)
+              .reverse()
+              .map((date, n) => {
+                return (
+                  <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                    <div className="orderedDate">{locailDate(date)}</div>
+                    {dateOrderedPosts[date].map((post, n) => {
+                      return <DiaryCard key={`postData${n}`} postData={post} />;
+                    })}
+                    <StDivisionLine />
+                  </StDiaryCarsWrapper>
+                );
+              })}
+          </StSection>
+        )}
+        {filter === "북마크" && (
+          <StSection>
+            {Object.keys(dateOrderedPosts).map((date, n) => {
+              return (
+                <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                  <div className="orderedDate">{locailDate(date)}</div>
+                  {dateOrderedPosts[date]
+                    .filter((post) => post.bookmark)
+                    .map((post, n) => {
+                      return <DiaryCard key={`postData${n}`} postData={post} />;
+                    })}
+                  <StDivisionLine />
+                </StDiaryCarsWrapper>
+              );
+            })}
+          </StSection>
+        )}
+
         <StNavigateWritePageBtnWrapper>
           <Button
             size="mini"
@@ -116,16 +168,9 @@ const DiaryList = () => {
       </StContainer>
     </>
   );
-};
+});
 
 export default DiaryList;
-
-const Filter = styled.div`
-  float: right;
-  margin-top: 3rem;
-  margin-right: 4rem;
-  font-size: 1.3rem;
-`;
 
 const StNavigateWritePageBtnWrapper = styled.div`
   position: fixed;
@@ -181,11 +226,31 @@ const StSearchHeaderContents = styled.div`
     gap: 2rem;
     button {
       font-size: 1.5rem;
-      color: ${({ theme }) => theme.color.button_primary};
+      color: var(--positive);
       border: 0;
       outline: none;
       background-color: inherit;
       cursor: pointer;
     }
   }
+`;
+
+const StDiaryCarsWrapper = styled.div`
+  .orderedDate {
+    width: min-content;
+    white-space: nowrap;
+    background: #f5f5f5;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.9rem;
+    font-weight: 700;
+    border-radius: 25px;
+    margin-bottom: 2rem;
+  }
+`;
+
+const StFilterContainer = styled.div`
+  position: absolute;
+  z-index: 10;
+  right: 2.2rem;
+  top: 7.5rem;
 `;

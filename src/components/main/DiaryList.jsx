@@ -1,24 +1,19 @@
-import { useState } from "react";
 import styled from "styled-components";
 import CreateDiaryModal from "./CreateDiaryModal";
 import Diaries from "./Diaries";
 import { BsPlusLg } from "react-icons/bs";
 
 const DiaryList = ({ diaryData }) => {
-  const [isModal, setIsModal] = useState(false);
   return (
     <>
       <StContainer>
         <Diaries diaryData={diaryData} />
-        <DiaryAddButoon
-          onClick={() => {
-            setIsModal(true);
-          }}
-        >
-          <BsPlusLg className="plus" />
-        </DiaryAddButoon>
+        <CreateDiaryModal>
+          <DiaryAddButoon>
+            <BsPlusLg className="plus" />
+          </DiaryAddButoon>
+        </CreateDiaryModal>
       </StContainer>
-      {isModal && <CreateDiaryModal onClose={setIsModal}></CreateDiaryModal>}
     </>
   );
 };

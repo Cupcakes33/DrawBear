@@ -13,6 +13,47 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
+export const flex = (jc = "", ai = "", fd = "") => {
+  const justifyContent = () => {
+    switch (jc) {
+      case "between":
+        return "space-between";
+      case "space-evenly":
+        return "space-evenly";
+      case "flex-start":
+        return "flex-start"
+      default:
+        return "center"
+    }
+  }
+
+  const alignItems = () => {
+    switch (ai) {
+      default:
+        return "center"
+    }
+  }
+
+  const flexdirection = () => {
+    switch (fd) {
+      case "column":
+        return "column";
+      case "row":
+        return "row";
+      default:
+        return ""
+    }
+  }
+
+  return css`
+  display: flex;
+  justify-content: ${justifyContent()};
+  align-items: ${alignItems()};
+  flex-direction: ${flexdirection()};
+  `
+}
+
+
 // display: flex;
 // flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
 // justify-content: ${({ justify = "center" }) => justify};
@@ -57,7 +98,7 @@ export const StSection = styled.section`
   min-height: calc(100vh - 13.2rem);
   background-color: white;
   position: relative;
-  overflow-x: scroll;
+  overflow-x: hidden;
   padding: 1rem;
   ${flexProps}
 `;

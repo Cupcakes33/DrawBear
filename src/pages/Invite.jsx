@@ -1,60 +1,113 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
-
-const userData = [
-  {
-    id: 1,
-    name: "김철수",
-    email: "abc@naver.com",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  },
-  {
-    id: 2,
-    name: "김영희",
-    email: "eieke@naver.com",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  },
-  {
-    id: 1,
-    name: "이수",
-    email: "3209@naver.com",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  },
-];
+import NavigateBtn from "../components/common/NavigateBtn";
+import { useRef, useState } from "react";
+import Toast from "./Toast";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { inviteApi, mypageApi } from "../apis/axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../redux/modules/UISlice";
+import io from "socket.io-client";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Invite = () => {
-  const navigate = useNavigate();
+  // const [showUserForm, setShowUserForm] = useState(false);
+  const [name, setName] = useState("");
+  const [isInvite, setIsInvite] = useState(false);
+  const [inviteUserInfo, setInviteUserInfo] = useState({});
+  const [hostUserInfo, setHostUserInfo] = useState({});
+  const [popup, setPopup] = useState(false);
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const socket = useRef(null);
+  const { id } = useParams();
+  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
+  const nameChangeHandle = (event) => {
+    setName(event.target.value);
+  };
+  const { mutate } = useMutation((name) => inviteApi.search(name), {
+    onError: (error) => {
+      const status = error?.response.status;
+      if (status === 404) {
+        dispatch(
+          ErrorModal({
+            isModal: true,
+            bigTxt: "닉네임을 입력해주세요",
+          })
+        );
+      }
+    },
+    onSuccess: ({ userInfo }) => {
+      setInviteUserInfo({ ...userInfo });
+      queryClient.setQueryData(["searchNickname"], userInfo);
+    },
+  });
+  const userSearchOnclickHandle = () => {
+    mutate(name);
+    setHostUserInfo({ ...data.userInfo });
+  };
+  const userInviteOnClickHandle = () => {
+    setIsInvite(!isInvite);
+    setPopup(!popup);
+    const inviteData = {
+      diaryId: id,
+      hostUserId: hostUserInfo.userId,
+      invitedUserId: inviteUserInfo.userId,
+    };
+    socket.current.emit("invited", inviteData);
+  };
+
+  useEffect(() => {
+    socket.current = io.connect("http://localhost:3002");
+    // return () => {
+    //   socket.current.disconnect();
+    // };
+  }, []);
   return (
     <StContainer>
-      <StHeader flexCenter>
-        <button
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          이전
-        </button>
+      <StHeader flex justify="flex-start">
+        <NavigateBtn prev sizeType="header" />
         <h3>같이 쓰는 멤버 초대</h3>
       </StHeader>
       <StInviteSection>
         <StSearchInputWrapper>
-          <input placeholder="초대 할 멤버의 아이디를 입력해주세요."></input>
-          <StSearchBtn />
+          <input
+            type="text"
+            onChange={nameChangeHandle}
+            value={name}
+            placeholder="초대 할 멤버의 닉네임을 입력해주세요."
+          ></input>
+          <StSearchBtn onClick={userSearchOnclickHandle} />
         </StSearchInputWrapper>
-        <StSearchUserInfoWrapper>
-          {userData.map((user) => (
-            <StSearchUserInfo key={`userId${user.id}`}>
-              <img src={user.profile} alt="profile" />
+        {Object.keys(inviteUserInfo).length !== 0 && (
+          <StSearchUserInfoWrapper>
+            <StSearchUserInfo key={`userId${inviteUserInfo.userId}`}>
+              <img src={inviteUserInfo.profileImg} alt="profile" />
               <div>
-                <span>{user.name}</span>
-                <span>{user.email}</span>
+                <span>{inviteUserInfo.nickname}</span>
+                <span>{inviteUserInfo.email}</span>
               </div>
-              <button>초대</button>
+              <StIsviteBtn
+                isinvite={isInvite.toString()}
+                disabled={isInvite ? true : false}
+                onClick={userInviteOnClickHandle}
+                type="button"
+              >
+                {isInvite ? "초대 중" : "초대하기"}
+              </StIsviteBtn>
             </StSearchUserInfo>
-          ))}
-        </StSearchUserInfoWrapper>
+            {popup && (
+              <Toast
+                nickName={inviteUserInfo.nickname}
+                setPopup={setPopup}
+                text="님을 초대하였습니다."
+              />
+            )}
+          </StSearchUserInfoWrapper>
+        )}
       </StInviteSection>
     </StContainer>
   );
@@ -136,15 +189,13 @@ const StSearchUserInfo = styled.div`
       }
     }
   }
-  button {
-    width: 5rem;
-    height: 3rem;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    background-color: #fff;
-    cursor: pointer;
-    &:hover {
-      background-color: #e5e5e5;
-    }
-  }
+`;
+const StIsviteBtn = styled.button`
+  width: 8.2rem;
+  height: 3rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  color: ${(props) => (props.isinvite === "false" ? "#FF7070" : "#9E9E9E")};
+  cursor: pointer;
 `;

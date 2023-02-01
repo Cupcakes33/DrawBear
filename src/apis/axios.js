@@ -23,9 +23,13 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    if (error.response.status === 401)
-      window.location.replace("https://finale-omega.vercel.app/login");
-    return Promise.reject(error);
+    const unauthorization = error.response.data.error;
+    if (unauthorization?.indexOf("로그인") >= 0) {
+      alert("로그인 후 이용가능합니다.");
+      return window.location.replace("http://localhost:3000/login");
+    }
+    // // window.location.replace("https://finale-omega.vercel.app/login");
+    else return Promise.reject(error);
   }
 );
 
@@ -56,6 +60,13 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/unregister", {
       currentPassword: inputData.password,
     });
+    return data;
+  },
+};
+
+export const inviteApi = {
+  search: async (nickName) => {
+    const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
     return data;
   },
 };
@@ -103,10 +114,6 @@ export const mainApi = {
 };
 
 export const diaryApi = {
-  post: async ({ formData, diaryId }) => {
-    await instance.post(`api/post/${diaryId}`, formData);
-  },
-
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/${diaryId}`);
     return data.posts;
@@ -114,16 +121,31 @@ export const diaryApi = {
 
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
-      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`
+      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
     );
     return data.response.body.items.item;
   },
 };
 
 export const postsApi = {
+  post: async ({ formData, diaryId }) => {
+    await instance.post(`api/post/${diaryId}`, formData);
+  },
+
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/detail/${diaryId}`);
     return data.posts;
+  },
+  delete: async (postId) => {
+    await instance.delete(`/api/post/${postId}`);
+  },
+  patch: async ({ formData, postId }) => {
+    await instance.patch(`/api/post/${postId}`, formData);
+  },
+
+  bookmark: async (postId) => {
+    const { data } = await instance.post(`/api/bookmark/post/${postId}`);
+    return data;
   },
 };
 
@@ -133,7 +155,7 @@ export const commentsApi = {
   },
 
   patch: async ({ comment, commentId }) => {
-    await instance.patch(`/api/comment/${commentId}`, comment);
+    await instance.patch(`/api/comment/${commentId}`, { comment: comment });
   },
 
   delete: async (commentId) => {
