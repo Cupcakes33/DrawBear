@@ -1,17 +1,14 @@
-import { StContainer, StSection, StHeader, flex } from "../../UI/common";
 import styled, { css } from "styled-components";
-import NavigateBtn from "../../components/common/NavigateBtn";
-import AccountDeleteBear from "../../assets/images/account_delete_bear.webp";
-import Button from "../../components/common/Button";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { mypageApi } from "../../apis/axios";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../../redux/modules/UISlice";
-import { GrPrevious } from "react-icons/gr";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { StContainer, StHeader } from "../../UI/common";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input, WorningWord } from "../../components/common/Input";
+import { GrPrevious } from "react-icons/gr";
+import { mypageApi } from "../../apis/axios";
+import { Input } from "../../components/common/Input";
+import AccountDeleteBear from "../../assets/images/account_delete_bear.webp";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const AccoutDelete = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -19,29 +16,18 @@ const AccoutDelete = () => {
     nickName: "",
   });
   const navigate = useNavigate();
+
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook;
+
   const { mutate } = useMutation((inputData) => mypageApi.delete(inputData), {
     onError: (error) => {
       console.log(error);
-      if (error.response.status === 401) {
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "비밀번호가 틀렸습니다.",
-          })
-        );
-      }
+      if (error.response.status === 401) openAlertModal({ bigTxt: "비밀번호가 틀렸습니다." });
     },
     onSuccess: () => {
-      dispatch(
-        ErrorModal({
-          isModal: true,
-          bigTxt: "탈퇴가 완료 되었습니다.",
-          move: "/login",
-        }),
-        localStorage.removeItem("token")
-      );
+      openAlertModal({ bigTxt: "탈퇴가 완료 되었습니다.", move: "/login" });
+      return localStorage.removeItem("token");
     },
   });
 

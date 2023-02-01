@@ -1,15 +1,16 @@
 import { StContainer, StSection, StHeader, DisplayDiv } from "../../UI/common";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { Input, WorningWord } from "../../components/common/Input";
+import { passwordApi } from "../../apis/axios";
 import styled from "styled-components";
 import Footer from "../../components/common/Footer";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { passwordApi } from "../../apis/axios";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../../redux/modules/UISlice";
-import { Input, WorningWord } from "../../components/common/Input";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const MyPassword = () => {
+  const { openAlertModal } = useDispatchHook;
+
   const {
     register,
     handleSubmit,
@@ -17,23 +18,13 @@ const MyPassword = () => {
     formState: { isSubmitting, isDirty, errors },
   } = useForm({ mode: "onChange" });
 
-  const dispatch = useDispatch();
-
   const { mutate } = useMutation((formData) => passwordApi.update(formData), {
     onSuccess: (data) => {
-      dispatch(ErrorModal({ isModal: true, bigTxt: data.message, move: "/setting" }));
+      openAlertModal({ bigTxt: data.message, move: "/setting" });
     },
     onError: (error) => {
       const errorStatus = error.response.status;
-
-      if (errorStatus === 401) {
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "현재 비밀번호가 틀렸습니다.",
-          })
-        );
-      }
+      if (errorStatus === 401) openAlertModal({ bigTxt: "현재 비밀번호가 틀렸습니다." });
     },
   });
 
