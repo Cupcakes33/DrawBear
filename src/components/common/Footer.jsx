@@ -7,7 +7,6 @@ import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
 import { diaryType } from "../../redux/modules/diarySlice";
 import styled from "styled-components";
-
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -58,23 +57,40 @@ const Footer = () => {
 
   return (
     <Container>
-      <button className={footerIconState === "solo" ? "icons selected" : "icons"} onClick={changeSoloView}>
+      <button
+        className={footerIconState === "solo" ? "icons selected" : "icons"}
+        onClick={changeSoloView}
+      >
         <BsFillPersonFill />
         <span>혼자 써요</span>
       </button>
-      <button className={footerIconState === "couple" ? "icons selected" : "icons"} onClick={changeCoupleView}>
+      <button
+        className={footerIconState === "couple" ? "icons selected" : "icons"}
+        onClick={changeCoupleView}
+      >
         <MdPeopleAlt />
         <span>같이 써요</span>
       </button>
-      <button className={footerIconState === "bookmark" ? "icons selected" : "icons"} onClick={changeFavoriteView}>
+      <button
+        className={footerIconState === "bookmark" ? "icons selected" : "icons"}
+        onClick={changeFavoriteView}
+      >
         <IoMdBookmark />
         <span>책갈피</span>
       </button>
-      <button className={footerIconState === "chatlist" ? "chaticons selected" : "chaticons"} onClick={changeChatList}>
+      <button
+        className={
+          footerIconState === "chatlist" ? "chaticons selected" : "chaticons"
+        }
+        onClick={changeChatList}
+      >
         <BsChatLeftTextFill />
         <span className="chatSpanTag">채팅</span>
       </button>
-      <button className={footerIconState === "setting" ? "icons selected" : "icons"} onClick={changeToSetting}>
+      <button
+        className={footerIconState === "setting" ? "icons selected" : "icons"}
+        onClick={changeToSetting}
+      >
         <MdMoreHoriz />
         <span>더보기</span>
       </button>

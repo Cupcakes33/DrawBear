@@ -4,36 +4,135 @@ import { AiOutlineArrowUp } from "react-icons/ai";
 import Button from "../components/common/Button";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { useState } from "react";
+import InviteSpeechbubble from "./InviteSpeechbubble";
 const InviteUserImgData = {
   id: 2,
-  nickname: "이수",
+  nickname: "아이유",
   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
 };
 const chatData = [
   {
     id: 1,
     nickname: "김철수",
-    txt: "ㅋㅋㅋㅋ뭐해",
+    txt: "ㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzz뭐해",
     profile: "",
+    time: "10시30분",
   },
   {
     id: 2,
-    nickname: "이수",
-    txt: "노래불러요",
+    nickname: "아이유",
+    txt: "ㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzz",
     profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+    time: "10시31분",
   },
-  {
-    id: 1,
-    nickname: "김철수",
-    txt: "무슨노래 좋아하시는데요?",
-    profile: "",
-  },
-  {
-    id: 1,
-    nickname: "김철수",
-    txt: "힙합? 가요? 발라드?",
-    profile: "",
-  },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "무슨노래 부르는데요?",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "왜요?",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "궁금해서요",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "잔소리요",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "아.. 네",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "좋아하는 노래 있으신가요?",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋ비밀입니다.",
+  //   profile: "",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "ㅋㅋㅋㅋ뭐해",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "노래불러요",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "무슨노래 부르는데요?",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "왜요?",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "궁금해서요",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "잔소리요",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "아.. 네",
+  //   profile: "",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "아이유",
+  //   txt: "좋아하는 노래 있으신가요?",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  // },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋ비밀입니다.",
+  //   profile: "",
+  // },
 ];
 const Chatting = () => {
   const [chatTxt, setChatTxt] = useState("");
@@ -48,41 +147,38 @@ const Chatting = () => {
     setChatTxt(txt);
   };
   return (
-    <>
-      <StContainer bgColor="#F8F8F8">
-        <ChatHeader>
-          <div>
-            <NavigateBtn prev link={"/chatlist"} sizeType="header" />
-          </div>
-          <div>{InviteUserImgData.nickname}</div>
-        </ChatHeader>
-        {chatData.map((chatinfo) => {
-          console.log(chatinfo);
-          const { id, nickname, txt, profile } = chatinfo;
-          return <ChatContent></ChatContent>;
-        })}
-        <ChatFooter>
-          <div>
-            <input
-              value={chatTxt}
-              onChange={chatTxtOnChageHandle}
-              placeholder="채팅입력.."
-            />
-          </div>
+    <StContainer bgColor="#F8F8F8">
+      <ChatHeader>
+        <div>
+          <NavigateBtn prev link={"/chatlist"} sizeType="header" />
+        </div>
+        <div>{InviteUserImgData.nickname}</div>
+      </ChatHeader>
+      <div style={{ height: "500px" }}>
+        <InviteSpeechbubble />
+      </div>
+      <ChatFooter>
+        <div>
+          <input
+            value={chatTxt}
+            onChange={chatTxtOnChageHandle}
+            placeholder="채팅입력.."
+          />
+        </div>
+        <div>
           <Button
             size="mini"
             color={btnColor}
             icon={<AiOutlineArrowUp />}
             round
           />
-        </ChatFooter>
-      </StContainer>
-    </>
+        </div>
+      </ChatFooter>
+    </StContainer>
   );
 };
 export default Chatting;
 const ChatHeader = styled.div`
-  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -106,10 +202,19 @@ const ChatHeader = styled.div`
     color: #242424;
   }
 `;
+
+const ChatBubble = styled.div`
+  display: flex;
+  padding: ${(props) => props.padding};
+`;
+const SpeeckPoint = styled.div`
+  border-top: ${(props) => props.borderTop};
+  border-right: ${(props) => props.borderRight};
+  border-left: ${(props) => props.borderLeft};
+`;
 const ChatFooter = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 0rem;
+  left: 0rem;
   width: 100%;
   height: 7.2rem;
   display: flex;
@@ -127,13 +232,19 @@ const ChatFooter = styled.div`
   }
 `;
 
-const ChatContent = styled.div`
-  & div {
-    top: 100px;
-  }
+// const ChatImg = styled.img`
+//   width: 50px;
+//   height: 50px;
+//   position: absolute;
+// `;
+const ChatUser = styled.div`
+  display: flex;
+  justify-content: ${(props) => props.justifyContent};
+  padding: ${(props) => props.padding};
 `;
-const ChatImg = styled.img`
-  width: 50px;
-  height: 50px;
-  position: absolute;
+const ChatTime = styled.div`
+  font-size: 0.1rem;
+`;
+const ChatWrapper = styled.div`
+  display: "flex";
 `;

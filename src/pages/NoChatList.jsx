@@ -1,24 +1,33 @@
 import styled from "styled-components";
-import { flex } from "../UI/common";
+import { flex, StContainer, StHeader } from "../UI/common";
 import NoDiaryBear from "../assets/images/noDiaryBear.webp";
-const NoChatList = () => {
+import Footer from "../components/common/Footer";
+const NoChatList = ({ h3txt = "아직 연결된 다이어리가 없어요" }) => {
   return (
     <>
-      <StContainer>
-        <StWrapper>
-          <h3>아직 연결된 커플 다이어리가 없어요</h3>
-          <img src={NoDiaryBear} alt="다이어리 없을 때 곰돌이 그림" />
-        </StWrapper>
+      <StContainer bgColor="#F8F8F8">
+        <StHeader flex>
+          <h1>LOGO</h1>
+        </StHeader>
+        <StNoChatContainer>
+          <StWrapper>
+            <h3>{h3txt}</h3>
+            <img src={NoDiaryBear} alt="다이어리 없을 때 곰돌이 그림" />
+          </StWrapper>
+        </StNoChatContainer>
+        <Footer />
       </StContainer>
     </>
   );
 };
 export default NoChatList;
 
-const StContainer = styled.div`
-  height: 85vh;
-  display: flex;
-  justify-content: center;
+const StNoChatContainer = styled.div`
+  & div {
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+  }
 `;
 const StWrapper = styled.div`
   ${flex("", "", "column")}
