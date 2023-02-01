@@ -72,7 +72,7 @@ const MyProfileEdit = () => {
       <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
-            <NavigateBtn prev sizeType="header" />
+            <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>프로필 수정</h3>
           </DisplayDiv>
           <span onClick={handleSubmit(onSubmit)}>수정</span>
