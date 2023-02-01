@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
 const NavigateBtn = ({ prev, link, sizeType }) => {
+  console.log(link)
   const navigate = useNavigate();
 
   return (
@@ -10,7 +11,7 @@ const NavigateBtn = ({ prev, link, sizeType }) => {
       {prev ? (
         <GrPrevious
           onClick={() => {
-            navigate(-1);
+            navigate(`${link}`);
           }}
         />
       ) : (

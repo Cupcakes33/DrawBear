@@ -85,7 +85,7 @@ const Detail = () => {
   return (
     <StContainer>
       <StHeader>
-        <NavigateBtn prev />
+        <NavigateBtn prev link={`/list/${diaryId}`} />
         <HeaderText>{diaryName}</HeaderText>
       </StHeader>
 

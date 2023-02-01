@@ -72,7 +72,7 @@ const Write = () => {
   const defaultHeader = () => {
     return (
       <>
-        <NavigateBtn prev />
+        <NavigateBtn prev link={`/list/${diaryId}`} />
         <h3>LOGO</h3>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
       </>

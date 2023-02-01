@@ -57,7 +57,7 @@ const DiaryList = memo(() => {
     return (
       <StDefaultHeaderContents>
         <div>
-          <NavigateBtn prev />
+          <NavigateBtn prev link="/" />
           <HeaderText>{diaryName}</HeaderText>
         </div>
         <div className="default-header-configBox">

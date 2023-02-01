@@ -36,7 +36,7 @@ const DiaryManage = () => {
       ) : (
         <StContainer>
           <StHeader flex justify="flex-start">
-            <NavigateBtn prev sizeType="header" />
+            <NavigateBtn prev sizeType="header" link="/setting/" />
             <h3>일기 설정</h3>
           </StHeader>
           <DiaryManagementSection flex derection="column" justify="flex-start">

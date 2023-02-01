@@ -37,7 +37,7 @@ const MyPassword = () => {
       <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
-            <NavigateBtn prev sizeType="header" />
+            <NavigateBtn prev sizeType="header" link="/setting/infoEdit/" />
             <h3>비밀번호 변경</h3>
           </DisplayDiv>
           <div>
