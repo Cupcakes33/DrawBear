@@ -12,6 +12,7 @@ import { ErrorModal } from "../redux/modules/UISlice";
 import io from "socket.io-client";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Footer from "../components/common/Footer";
 
 const Invite = () => {
   // const [showUserForm, setShowUserForm] = useState(false);
@@ -99,10 +100,17 @@ const Invite = () => {
                 {isInvite ? "초대 중" : "초대하기"}
               </StIsviteBtn>
             </StSearchUserInfo>
-            {popup && <Toast nickName={inviteUserInfo.nickname} setPopup={setPopup} text="님을 초대하였습니다." />}
+            {popup && (
+              <Toast
+                nickName={inviteUserInfo.nickname}
+                setPopup={setPopup}
+                text="님을 초대하였습니다."
+              />
+            )}
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>
+      <Footer />
     </StContainer>
   );
 };
