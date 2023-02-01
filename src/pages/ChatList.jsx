@@ -2,36 +2,62 @@ import { StContainer } from "../UI/common";
 import Footer from "../components/common/Footer";
 import styled from "styled-components";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { chatApi } from "../apis/axios";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../redux/modules/UISlice";
+import NoChatList from "./NoChatList";
 const chatData = [
-  {
-    id: 1,
-    nickname: "김철수",
-    lastChat:
-      "최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-    time: "오전10시30분",
-  },
-  {
-    id: 2,
-    nickname: "김영희",
-    lastChat: "최근대화 내용 입니다아ㅏ",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-    time: "오전10시30분",
-  },
+  // {
+  //   id: 1,
+  //   nickname: "김철수",
+  //   lastChat:
+  //     "최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,최근대화 내용 입니다아ㅏ,,,",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  //   time: "오전10시30분",
+  // },
+  // {
+  //   id: 2,
+  //   nickname: "김영희",
+  //   lastChat: "최근대화 내용 입니다아ㅏ",
+  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
+  //   time: "오전10시30분",
+  // },
 ];
+
 const ChatList = () => {
+  const dispatch = useDispatch();
   const [chatList, setChatList] = useState([...chatData]);
-  console.log(chatList);
+  // const { data, isLoading, isError, error } = useQuery(
+  //   ["chatList"],
+  //   chatApi.read,
+  //   {
+  //     onError: (error) => {
+  //       const { status } = error?.response.request;
+  //       if (status === 400) {
+  //         return dispatch(
+  //           ErrorModal({ isModal: true, bigTxt: "채팅 조회에 실패했습니다." })
+  //         );
+  //       }
+  //     },
+  //   }
+  // );
+  console.log(chatList.length);
   return (
     <>
       <StContainer bgColor="#ffffff">
         <ChatHeader>
           <span>채팅</span>
         </ChatHeader>
-        <ChatListContainer>
-          {chatList?.map((chat) => {
+        {chatList.length === 0 ? (
+          <NoChatList h3txt="채팅 목록이 없습니다." />
+        ) : (
+          <ChatListContainer>
+            {/* {chatList?.map((chat) => {
             const { id, lastChat, nickname, profile, time } = chat;
-            return (
+            return chatList.length === 0 ? (
+              <NoChatList />
+            ) : (
               <ChatContainer key={id}>
                 <img src={profile} />
                 <div>
@@ -41,8 +67,13 @@ const ChatList = () => {
                 <ChatTime>{time}</ChatTime>
               </ChatContainer>
             );
-          })}
-        </ChatListContainer>
+          })} */}
+          </ChatListContainer>
+        )}
+        {/* <ChatListContainer> */}
+        <NoChatList />
+
+        {/* </ChatListContainer> */}
         <Footer />
       </StContainer>
     </>
