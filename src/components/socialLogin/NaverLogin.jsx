@@ -6,25 +6,20 @@ const NaverLogin = () => {
 
   const naverLogin = () => {
     const login = new naver.LoginWithNaverId({
-      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-      clientSecret: process.env.REACT_APP_NAVER_CLIENT_SECRET,
-      callbackUrl: "http://localhost:3000/naverlogin",
+      clientId: process.env.REACT_APP_NAVER_ID,
+      clientSecret: process.env.REACT_APP_NAVER_SECRET,
+      callbackUrl: process.evnt.REACT_APP_NAVER_URL,
       isPopup: false,
       callbackHandle: true,
-      loginButton: { color: "green", type: 1, height: 20 },
+      // loginButton: { color: "green", type: 1, height: 20 },
     });
     login.init();
   };
-
-  useEffect(() => {
-    naverLogin();
-  }, []);
 
   const getNaverToken = () => {
     const code = new URL(document.location).searchParams.get("code");
     const state = new URL(document.location).searchParams.get("state");
     axios
-
       .post(
         `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&client_secret=${process.env.REACT_APP_NAVER_CLIENT_SECRET}&code=${code}&state=${state}`
       )
@@ -40,6 +35,11 @@ const NaverLogin = () => {
           });
       });
   };
+
+  useEffect(() => {
+    naverLogin();
+    getNaverToken();
+  }, []);
 
   const viewNaverToken = () => {
     const token = localStorage.getItem("token");
@@ -62,7 +62,6 @@ const NaverLogin = () => {
       });
   };
 
-
   const naverLogout = () => {
     const token = localStorage.getItem("token");
     axios
@@ -71,7 +70,6 @@ const NaverLogin = () => {
       )
       .then((res) => {
         console.log(res);
-        
       })
       .catch((err) => {
         console.log(err);
@@ -80,11 +78,11 @@ const NaverLogin = () => {
 
   return (
     <>
-      <div id="naverIdLogin" />
+      {/* <div id="naverIdLogin" />
       <button onClick={getNaverToken}>네이버 토큰 받기</button>
       <button onClick={viewNaverToken}>네이버 토큰 보기</button>
       <button onClick={naverLoginUserInfo}>네이버 유저 정보</button>
-      <button onClick={naverLogout}>네이버 로그아웃</button>
+      <button onClick={naverLogout}>네이버 로그아웃</button> */}
     </>
   );
 };

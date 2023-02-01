@@ -15,8 +15,14 @@ const Login = () => {
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
+  const NAVER_ID = process.env.REACT_APP_NAVER_ID;
+  // const NAVER_SECRET = process.env.REACT_APP_NAVER_SECRET;
+  const NAVER_URL = process.env.REACT_APP_NAVER_URL;
+
+  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_ID}&redirect_uri=${NAVER_URL}&state=asdf`;
+
   const naverLoginHandler = () => {
-    window.location.href = "http://localhost:4000/auth/naver";
+    window.location.href = NAVER_AUTH_URL;
   };
 
   const kakaoLoginHandler = () => {
@@ -43,26 +49,18 @@ const Login = () => {
         <hr />
       </BoundaryLine>
       <SocialLoginBox>
-        <AlertModal
+        {/* <AlertModal
           bigTxt={"준비중입니다."}
           // move={"/login"}
-        >
-          <img
-            src={naver}
-            alt="네이버 로그인"
-            // onClick={naverLoginHandler}
-          />
-        </AlertModal>
-        <AlertModal
+        > */}
+        <img src={naver} alt="네이버 로그인" onClick={naverLoginHandler} />
+        {/* </AlertModal> */}
+        {/* <AlertModal
           bigTxt={"준비중입니다."}
           // move={"/login"}
-        >
-          <img
-            src={kakao}
-            alt="카카오 로그인"
-            // onClick={kakaoLoginHandler}
-          />
-        </AlertModal>
+        > */}
+        <img src={kakao} alt="카카오 로그인" onClick={kakaoLoginHandler} />
+        {/* </AlertModal> */}
       </SocialLoginBox>
     </CommonContainer>
   );

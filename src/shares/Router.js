@@ -35,8 +35,8 @@ const Router = () => {
       {/* <Header /> */}
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/kakaologin" element={<KakaoLogin />} />
-        <Route path="/naverlogin" element={<NaverLogin />} />
+        <Route path="/api/auth/login/kakao/callback" element={<KakaoLogin />} />
+        <Route path="/api/auth/login/naver/callback" element={<NaverLogin />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route element={<PrivateRoutes />}>
