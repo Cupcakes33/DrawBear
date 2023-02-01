@@ -1,34 +1,29 @@
 import { useMutation } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { ErrorModal } from "../../redux/modules/UISlice";
 import { loginApi } from "../../apis/axios";
 import { Input, WorningWord } from "../common/Input";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const LonginForm = () => {
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
 
   const { mutate } = useMutation((inputData) => loginApi.login(inputData), {
     onError: (error) => {
       const { status } = error?.response?.request;
       if (status === undefined || null) return;
       else if (status === 412)
-        dispatch(
-          ErrorModal({ isModal: true, bigTxt: "로그인 실패", smallTxt: "이메일 또는 패스워드를 확인해주세요." })
-        );
+        openAlertModal({ bigTxt: "로그인 실패", smallTxt: "이메일 또는 패스워드를 확인해주세요." });
       else if (status === 400)
-        dispatch(
-          ErrorModal({ isModal: true, bigTxt: "로그인 실패", smallTxt: "해당 아이디는 소셜로그인으로 시도해주세요." })
-        );
-      else dispatch(ErrorModal({ isModal: true, bigTxt: "로그인 실패" }));
+        openAlertModal({ bigTxt: "로그인 실패", smallTxt: "해당 아이디는 소셜로그인으로 시도해주세요." });
+      else openAlertModal({ bigTxt: "로그인 실패" });
     },
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);
-      dispatch(ErrorModal({ isModal: true, bigTxt: "로그인 성공!", move: "/" }));
+      openAlertModal({ bigTxt: "로그인 성공!", move: "/" });
     },
   });
 

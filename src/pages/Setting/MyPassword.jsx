@@ -6,11 +6,10 @@ import { passwordApi } from "../../apis/axios";
 import styled from "styled-components";
 import Footer from "../../components/common/Footer";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { ErrorModal } from "../../redux/modules/UISlice";
-import { useDispatch } from "react-redux";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const MyPassword = () => {
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
 
   const {
     register,
@@ -21,11 +20,11 @@ const MyPassword = () => {
 
   const { mutate } = useMutation((formData) => passwordApi.update(formData), {
     onSuccess: (data) => {
-      dispatch((ErrorModal({ isModal: true, bigTxt: data.message, move: "/setting" })));
+      openAlertModal({ bigTxt: data.message, move: "/setting" });
     },
     onError: (error) => {
       const errorStatus = error.response.status;
-      if (errorStatus === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "현재 비밀번호가 틀렸습니다." })));
+      if (errorStatus === 401) openAlertModal({ bigTxt: "현재 비밀번호가 틀렸습니다." });
     },
   });
 

@@ -8,10 +8,11 @@ import Button from "../../components/common/Button";
 import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
 import { mainApi } from "../../apis/axios";
 import { diaryData } from "../../redux/modules/diarySlice";
-import { ErrorModal } from "../../redux/modules/UISlice";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const DiaryManage = () => {
   const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
 
   const {
     data = [],
@@ -21,8 +22,8 @@ const DiaryManage = () => {
   } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "로그인 후 이용해주세요.", move: "/login" })));
-      else if (status === 400) dispatch((ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" })));
+      if (status === 401) openAlertModal({ bigTxt: "로그인 후 이용해주세요.", move: "/login" });
+      else if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
     },
   });
 

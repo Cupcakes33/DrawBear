@@ -3,44 +3,48 @@ import styled from "styled-components";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { FiChevronDown } from "react-icons/fi";
 import YearSelectModal from "./YearSelectModal";
+import { useCallback } from "react";
 
 const CalendarHeader = (props) => {
   const { selectedMonth, setSelectedMonth, selectedYear, setSelectedYear, showMonth, setShowMonth } = props;
 
   // 달 이동 버튼 로직
 
-  const prevMonth = () => {
+  const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
       setSelectedMonth(12);
       setSelectedYear((prev) => prev - 1);
     } else {
       setSelectedMonth((prev) => prev - 1);
     }
-  };
+  }, [selectedMonth, setSelectedMonth, setSelectedYear]);
 
-  const nextMonth = () => {
+  const nextMonth = useCallback(() => {
     if (selectedMonth === 12) {
       setSelectedMonth(1);
       setSelectedYear((prev) => prev + 1);
     } else {
       setSelectedMonth((prev) => prev + 1);
     }
-  };
+  }, [selectedMonth, setSelectedMonth, setSelectedYear]);
 
-  const prevYear = () => {
+  const prevYear = useCallback(() => {
     setSelectedYear((prev) => prev - 1);
-  };
+  }, [setSelectedYear]);
 
-  const nextYear = () => {
+  const nextYear = useCallback(() => {
     setSelectedYear((prev) => prev + 1);
-  };
+  }, [setSelectedYear]);
 
   // 연도 선택
 
-  const onYearController = (year) => {
-    setSelectedYear(year);
-    setShowMonth(false);
-  };
+  const onYearController = useCallback(
+    (year) => {
+      setSelectedYear(year);
+      setShowMonth(false);
+    },
+    [setShowMonth, setSelectedYear]
+  );
 
   return (
     <CalendarHeaderBox>

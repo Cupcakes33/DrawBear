@@ -18,6 +18,7 @@ const Setting = () => {
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
   }, [data]);
+  
   return (
     <StContainer>
       <StHeader flex justify="space-between">

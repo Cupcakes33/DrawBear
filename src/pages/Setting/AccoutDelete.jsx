@@ -8,8 +8,7 @@ import { GrPrevious } from "react-icons/gr";
 import { mypageApi } from "../../apis/axios";
 import { Input } from "../../components/common/Input";
 import AccountDeleteBear from "../../assets/images/account_delete_bear.webp";
-import { ErrorModal } from "../../redux/modules/UISlice";
-import { useDispatch } from "react-redux";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const AccoutDelete = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -18,15 +17,15 @@ const AccoutDelete = () => {
   });
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
-  const dispatch = useDispatch();
+  const { data } = useQuery(["myProfileData"], mypageApi.read);
+  const { openAlertModal } = useDispatchHook();
 
   const { mutate } = useMutation((inputData) => mypageApi.delete(inputData), {
     onError: (error) => {
-      if (error.response.status === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "비밀번호가 틀렸습니다." })));
+      if (error.response.status === 401) openAlertModal({ bigTxt: "비밀번호가 틀렸습니다." });
     },
     onSuccess: () => {
-      dispatch((ErrorModal({ isModal: true, bigTxt: "탈퇴가 완료 되었습니다.", move: "/login" })));
+      openAlertModal({ bigTxt: "탈퇴가 완료 되었습니다.", move: "/login" });
       return localStorage.removeItem("token");
     },
   });
