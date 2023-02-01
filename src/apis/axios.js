@@ -24,13 +24,12 @@ instance.interceptors.response.use(
   },
   (error) => {
     const unauthorization = error.response.data.error;
-    console.log(error)
-
-    if (unauthorization.indexOf("로그인") !== -1)
-      // // window.location.replace("https://finale-omega.vercel.app/login");
-      alert("로그인 후 이용가능합니다.")
-    window.location.replace("http://localhost:3000/login");
-    return Promise.reject(error);
+    if (unauthorization?.indexOf("로그인") >= 0) {
+      alert("로그인 후 이용가능합니다.");
+      return window.location.replace("http://localhost:3000/login");
+    }
+    // // window.location.replace("https://finale-omega.vercel.app/login");
+    else return Promise.reject(error);
   }
 );
 
@@ -46,8 +45,6 @@ export const loginApi = {
   create: async (formData) => {
     await instance.post("/api/auth/signup", formData);
   },
-
-  
 };
 
 export const mypageApi = {
