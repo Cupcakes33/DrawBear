@@ -42,6 +42,8 @@ export const loginApi = {
   create: async (formData) => {
     await instance.post("/api/auth/signup", formData);
   },
+
+  
 };
 
 export const mypageApi = {
