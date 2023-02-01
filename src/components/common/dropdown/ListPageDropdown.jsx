@@ -89,6 +89,6 @@ const StMenu = styled.div`
     font-size: 1.4rem;
   }
   .deleteBtn {
-    color: ${(props) => props.theme.color.button_alart};
+    color: var(--negative);
   }
 `;

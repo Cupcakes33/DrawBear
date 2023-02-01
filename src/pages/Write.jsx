@@ -138,7 +138,6 @@ const Write = () => {
                 <span>오늘의 날씨는 ?</span>
                 <WeatherPicker weather={weather} setWeather={setWeather} />
               </StTextSectionBox>
-              
             </StTextSectionFrom>
           </StTextSection>
           <StCanvasSection flex justify="flex-start" derection="column">
@@ -196,7 +195,7 @@ const StTextSectionBox = styled.div`
   gap: 2.4rem;
 
   span {
-    font-size: ${({ theme }) => theme.font.base};
+    font-size: 1.4rem;
     white-space: nowrap;
   }
   input {

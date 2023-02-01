@@ -21,7 +21,6 @@ import { GrPrevious } from "react-icons/gr";
 
 import Loading from "../components/common/Loading";
 
-
 const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
   const [tags, setTags] = useState([]);
@@ -207,7 +206,7 @@ const StTextSectionBox = styled.div`
   gap: 2.4rem;
 
   span {
-    font-size: ${({ theme }) => theme.font.base};
+    font-size: 1.4rem;
     white-space: nowrap;
   }
   input {
