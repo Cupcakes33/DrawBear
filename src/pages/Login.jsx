@@ -11,14 +11,13 @@ import AlertModal from "../components/common/modal/AlertModal";
 
 const Login = () => {
   const queryClient = useQueryClient();
+  
   const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
   const NAVER_ID = process.env.REACT_APP_NAVER_ID;
-  // const NAVER_SECRET = process.env.REACT_APP_NAVER_SECRET;
   const NAVER_URL = process.env.REACT_APP_NAVER_URL;
-
   const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_ID}&redirect_uri=${NAVER_URL}&state=asdf`;
 
   const naverLoginHandler = () => {
