@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import DiaryDeleteModal from "../../components/Setting/DiaryDeleteModal";
@@ -11,6 +12,7 @@ import { diaryData } from "../../redux/modules/diarySlice";
 
 const DiaryManage = () => {
   const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
 
   const {
     data = [],
