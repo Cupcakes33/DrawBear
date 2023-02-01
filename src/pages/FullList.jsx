@@ -17,6 +17,7 @@ import DiarySettingModal from "../components/main/DiarySettingModal/DiarySetting
 import CalendarModal from "../components/calendar/CalendarModal";
 import { useEffect } from "react";
 import FilterDropdown from "../components/common/dropdown/FilterDropdown";
+import Loading from "../components/common/Loading";
 
 const DiaryList = memo(() => {
   const navigate = useNavigate();
@@ -89,10 +90,9 @@ const DiaryList = memo(() => {
   useEffect(() => {
     if (!data) return;
     setDateOrderedPosts(orderPostsByDate(data));
-    console.log(data);
   }, [data]);
 
-  if (!data) return <div>로딩중</div>;
+  if (!data) return <Loading />;
   return (
     <>
       <StContainer>

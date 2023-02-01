@@ -82,9 +82,7 @@ const MyProfileEdit = () => {
             <NavigateBtn prev sizeType="header" />
             <h3>프로필 수정</h3>
           </DisplayDiv>
-          <button onClick={handleSubmit(onSubmit)}>
-            <span>수정</span>
-          </button>
+          <span onClick={handleSubmit(onSubmit)}>수정</span>
         </StHeader>
         <form>
           <MyProfileSection flex derection="column" justify="flex-start">

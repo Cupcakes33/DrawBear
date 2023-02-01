@@ -6,7 +6,7 @@ import YearSelectModal from "./YearSelectModal";
 
 const CalendarHeader = (props) => {
   const { selectedMonth, setSelectedMonth, selectedYear, setSelectedYear, showMonth, setShowMonth } = props;
-  
+
   // 달 이동 버튼 로직
 
   const prevMonth = () => {
@@ -25,6 +25,14 @@ const CalendarHeader = (props) => {
     } else {
       setSelectedMonth((prev) => prev + 1);
     }
+  };
+
+  const prevYear = () => {
+    setSelectedYear((prev) => prev - 1);
+  };
+
+  const nextYear = () => {
+    setSelectedYear((prev) => prev + 1);
   };
 
   // 연도 선택
@@ -47,12 +55,11 @@ const CalendarHeader = (props) => {
           <FiChevronDown className="date-show-arrow" onClick={() => setShowMonth(true)} />
         )}
       </div>
-
       <div className="buttons">
-        <button onClick={() => prevMonth()}>
+        <button onClick={() => (showMonth ? prevYear() : prevMonth())}>
           <GrPrevious />
         </button>
-        <button onClick={() => nextMonth()}>
+        <button onClick={() => (showMonth ? nextYear() : nextMonth())}>
           <GrNext />
         </button>
       </div>

@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import { useEffect } from "react";
+import Loading from "../components/common/Loading";
 
 const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
@@ -90,7 +91,7 @@ const UpdatePost = () => {
     );
   };
 
-  if (isLoading) return <div>로딩중</div>;
+  if (isLoading) return <Loading />;
   if (isError) return <div>에러</div>;
   return (
     <>

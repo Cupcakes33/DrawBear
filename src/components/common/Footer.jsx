@@ -1,12 +1,13 @@
-import { IoIosSettings, IoMdBookmark } from "react-icons/io";
+import { IoMdBookmark } from "react-icons/io";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MdPeopleAlt } from "react-icons/md";
+import { MdMoreHoriz } from "react-icons/md";
 import { diaryType } from "../../redux/modules/diarySlice";
 import styled from "styled-components";
-import { useState } from "react";
+
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,14 +38,8 @@ const Footer = () => {
     navigate("/");
   };
 
-  const changeToSetting = () => {
-    queryClient.setQueryData(["footerIcons"], "setting");
-    navigate("/setting");
-  };
-
   const changeChatList = () => {
     queryClient.setQueryData(["footerIcons"], "chatlist");
-    console.log(diaries);
     const result = diaries.find((diary) => {
       if (diary.couple === 1) {
         return navigate("/chatlist");
@@ -55,43 +50,32 @@ const Footer = () => {
     return result;
   };
 
+  const changeToSetting = () => {
+    queryClient.setQueryData(["footerIcons"], "setting");
+    navigate("/setting");
+  };
+
   return (
     <Container>
-      <button onClick={changeSoloView}>
-        <BsFillPersonFill
-          className={footerIconState === "solo" ? "icons selected" : "icons"}
-        />
+      <button className={footerIconState === "solo" ? "icons selected" : "icons"} onClick={changeSoloView}>
+        <BsFillPersonFill />
         <span>혼자 써요</span>
       </button>
-      <button onClick={changeCoupleView}>
-        <MdPeopleAlt
-          className={footerIconState === "couple" ? "icons selected" : "icons"}
-        />
+      <button className={footerIconState === "couple" ? "icons selected" : "icons"} onClick={changeCoupleView}>
+        <MdPeopleAlt />
         <span>같이 써요</span>
       </button>
-      <button onClick={changeFavoriteView}>
-        <IoMdBookmark
-          className={
-            footerIconState === "bookmark" ? "icons selected" : "icons"
-          }
-        />
-        <span className="bookmark-text">책갈피</span>
+      <button className={footerIconState === "bookmark" ? "icons selected" : "icons"} onClick={changeFavoriteView}>
+        <IoMdBookmark />
+        <span>책갈피</span>
       </button>
-
-      <button onClick={changeChatList}>
-        <BsChatLeftTextFill
-          className={
-            footerIconState === "chatlist" ? "chaticons selected" : "chaticons"
-          }
-        />
+      <button className={footerIconState === "chatlist" ? "chaticons selected" : "chaticons"} onClick={changeChatList}>
+        <BsChatLeftTextFill />
         <span className="chatSpanTag">채팅</span>
       </button>
-
-      <button onClick={changeToSetting}>
-        <IoIosSettings
-          className={footerIconState === "setting" ? "icons selected" : "icons"}
-        />
-        <span>설정</span>
+      <button className={footerIconState === "setting" ? "icons selected" : "icons"} onClick={changeToSetting}>
+        <MdMoreHoriz />
+        <span>더보기</span>
       </button>
     </Container>
   );
