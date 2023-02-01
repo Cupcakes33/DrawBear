@@ -39,4 +39,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(./assets/images/background.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
