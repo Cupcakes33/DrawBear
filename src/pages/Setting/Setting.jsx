@@ -63,6 +63,7 @@ const Setting = () => {
 export default Setting;
 
 const StMypageSection = styled(StSection)`
+  background-color: var(--main_bg);
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {
