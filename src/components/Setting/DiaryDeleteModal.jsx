@@ -1,24 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import useDispatchHook from "../../hooks/useDispatchHook";
 import { mainApi } from "../../apis/axios";
+import { ErrorModal } from "../../redux/modules/UISlice";
 import { Modal } from "../common/modal/ReactModal";
 
 const ReconfirmAlertModal = ({ children, bigTxt }) => {
   const { diaryData } = useSelector((state) => state.diarySlice);
-  const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   const { data, mutate, isLoading } = useMutation((id) => mainApi.delete(id), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 404) openAlertModal({ bigTxt: "다이어리가 존재하지 않습니다." });
-      else if (status === 401) openAlertModal({ bigTxt: "권한이 없습니다." });
-      else if (status === 500) openAlertModal({ bigTxt: "다이어리 삭제에 실패하였습니다." });
+      if (status === 404) dispatch((ErrorModal({ isModal: true, bigTxt: "다이어리가 존재하지 않습니다." })));
+      else if (status === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." })));
+      else if (status === 500) dispatch((ErrorModal({ isModal: true, bigTxt: "다이어리 삭제에 실패하였습니다." })));
     },
     onSuccess: () => {
-      openAlertModal({ bigTxt: "다이어리를 삭제했어요.", smallTxt: "다이어리야 안녕!" });
+      dispatch((ErrorModal({ isModal: true, bigTxt: "다이어리를 삭제했어요.", smallTxt: "다이어리야 안녕!" })));
       const diaries = queryClient.getQueryData(["main"])?.diaries;
       queryClient.setQueryData(["main"], {
         diaries: diaries?.filter((diary) => diary.diaryId !== diaryData),

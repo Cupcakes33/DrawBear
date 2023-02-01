@@ -2,16 +2,15 @@ import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import DiaryDeleteModal from "../../components/Setting/DiaryDeleteModal";
-import useDispatchHook from "../../hooks/useDispatchHook";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import Loading from "../../components/common/Loading";
 import Button from "../../components/common/Button";
 import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
 import { mainApi } from "../../apis/axios";
 import { diaryData } from "../../redux/modules/diarySlice";
+import { ErrorModal } from "../../redux/modules/UISlice";
 
 const DiaryManage = () => {
-  const { openAlertModal } = useDispatchHook;
   const dispatch = useDispatch();
 
   const {
@@ -22,8 +21,8 @@ const DiaryManage = () => {
   } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 401) openAlertModal({ bigTxt: "로그인 후 이용해주세요.", move: "/login" });
-      else if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
+      if (status === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "로그인 후 이용해주세요.", move: "/login" })));
+      else if (status === 400) dispatch((ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" })));
     },
   });
 

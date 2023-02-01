@@ -22,8 +22,6 @@ const DiaryCard = ({ postData }) => {
     commentsCount,
   } = postData;
 
-  console.log(postData);
-
   const { mutate: bookmarkMutate } = useMutation({
     mutationFn: () => postsApi.bookmark(postId),
     onSuccess: () => {

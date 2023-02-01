@@ -25,11 +25,14 @@ instance.interceptors.response.use(
   (error) => {
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
+
       alert("로그인 후 이용가능합니다.");
       return window.location.replace("http://localhost:3000/login");
     }
-    // // window.location.replace("https://finale-omega.vercel.app/login");
-    else return Promise.reject(error);
+      
+      // window.location.replace("https://finale-omega.vercel.app/login");
+    // }
+    return Promise.reject(error);
   }
 );
 

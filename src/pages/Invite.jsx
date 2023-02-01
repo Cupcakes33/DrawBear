@@ -69,7 +69,7 @@ const Invite = () => {
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
-        <NavigateBtn prev sizeType="header" />
+        <NavigateBtn prev sizeType="header" link="/" />
         <h3>같이 쓰는 멤버 초대</h3>
       </StHeader>
       <StInviteSection>
@@ -99,13 +99,7 @@ const Invite = () => {
                 {isInvite ? "초대 중" : "초대하기"}
               </StIsviteBtn>
             </StSearchUserInfo>
-            {popup && (
-              <Toast
-                nickName={inviteUserInfo.nickname}
-                setPopup={setPopup}
-                text="님을 초대하였습니다."
-              />
-            )}
+            {popup && <Toast nickName={inviteUserInfo.nickname} setPopup={setPopup} text="님을 초대하였습니다." />}
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>

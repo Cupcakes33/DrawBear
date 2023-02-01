@@ -1,23 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { darken } from "polished";
+import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { mainApi } from "../../../apis/axios";
 import bookmarked from "../../../assets/images/bookmarked.webp";
 import unbookmarked from "../../../assets/images/unbookmarked.webp";
-import useDispatchHook from "../../../hooks/useDispatchHook";
+import { ErrorModal } from "../../../redux/modules/UISlice";
 
 const Diary = (props) => {
   const { size, bgColor, onClick, bookmark, diaryId } = props;
 
   const queryClient = useQueryClient();
-  const { openAlertModal } = useDispatchHook;
+  const dispatch = useDispatch();
 
   const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 401) openAlertModal({ bigTxt: "권한이 없습니다." });
-      else if (status === 404) openAlertModal({ bigTxt: "존재하지 않는 다이어리입니다." });
-      else if (status === 500) openAlertModal({ bigTxt: "북마크 저장 및 삭제에 실패했습니다." });
+      if (status === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." })));
+      else if (status === 404) dispatch((ErrorModal({ isModal: true, bigTxt: "존재하지 않는 다이어리입니다." })));
+      else if (status === 500) dispatch((ErrorModal({ isModal: true, bigTxt: "북마크 저장 및 삭제에 실패했습니다." })));
     },
     onSuccess: () => {
       const diaryData = queryClient.getQueryData(["main"])?.diaries;
