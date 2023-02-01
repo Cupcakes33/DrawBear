@@ -25,6 +25,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
     const holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
     const holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
     const postsDate = postsMonthFilterFn.map((post) => +post.createdAt.split("-")[2].split("T")[0]);
+    const todayDate = new Date().toLocaleDateString("en-US").split("/");
 
     const holidayCompareFn = (i) => {
       for (let h = 0; h <= holidayDate.length; h++) {
@@ -40,7 +41,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
 
     const dayColor = (i) => {
       if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
-      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 6) return "saturday";
+      else if (+todayDate[2] === selectedYear && +todayDate[0] === selectedMonth && +todayDate[1] === i) return "today";
     };
 
     for (const today of week) {
@@ -48,17 +49,18 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
       if (week[day] === today) {
         for (let i = 1; i <= lastDay; i++) {
           dayArr.push(
-            <button
-              key={i}
-              className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
-              onClick={() => selectedDatePostSearch(i)}
-            >
-              {i}
-            </button>
+            <div className="day-box" key={`${i}일`}>
+              <button
+                className={postedDayCompareFn(i) ? `${dayColor(i)} postedDay` : dayColor(i)}
+                onClick={() => selectedDatePostSearch(i)}
+              >
+                {i}
+              </button>
+            </div>
           );
         }
       } else {
-        dayArr.push(<div key={today}></div>);
+        dayArr.push(<div className="blank-day" key={today}></div>);
       }
     }
     return dayArr;
@@ -78,38 +80,45 @@ export default React.memo(CalendarDay);
 
 const DateBox = styled.div`
   margin-top: 2rem;
-  button {
+  .day-box {
+    text-align: center;
     float: left;
     width: calc(36rem / 7);
     margin-left: -0.3rem;
     margin-right: -0.3rem;
     height: 5rem;
+  }
+  button {
+    width: 3.5rem;
+    height: 3.5rem;
     border: none;
     background-color: transparent;
     color: #242424;
     cursor: pointer;
     :hover {
-      border: 1px solid black;
+      border: 1px solid #3cc7a6;
       border-radius: 100%;
     }
     :focus {
-      border: 1px solid black;
+      border: 1px solid #3cc7a6;
       border-radius: 100%;
-      background-color: black;
+      background-color: #3cc7a6;
       color: whitesmoke;
     }
   }
   .redDay {
     color: #ff5656;
   }
-  .saturday {
-    color: blue;
+  .today {
+    color: white;
+    border-radius: 100%;
+    background-color: #242424;
   }
   .postedDay {
     border-radius: 100%;
     background-color: #b3e9dc;
   }
-  div {
+  .blank-day {
     float: left;
     width: calc(36rem / 7);
     margin-left: -0.3rem;

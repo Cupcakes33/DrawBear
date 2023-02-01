@@ -8,6 +8,7 @@ import { mainApi } from "../../apis/axios";
 import { ErrorModal } from "../../redux/modules/UISlice";
 import { diaryData } from "../../redux/modules/diarySlice";
 import { useDispatch } from "react-redux";
+import Loading from "../../components/common/Loading";
 
 const DiaryManage = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const DiaryManage = () => {
   return (
     <>
       {isLoading ? (
-        <h2>로딩 중...</h2>
+        <Loading />
       ) : isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (

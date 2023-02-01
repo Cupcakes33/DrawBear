@@ -23,9 +23,13 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    if (error.response.status === 401)
-      // window.location.replace("https://finale-omega.vercel.app/login");
-      window.location.replace("http://localhost:3000/login");
+    const unauthorization = error.response.data.error;
+    console.log(error)
+
+    if (unauthorization.indexOf("로그인") !== -1)
+      // // window.location.replace("https://finale-omega.vercel.app/login");
+      alert("로그인 후 이용가능합니다.")
+    window.location.replace("http://localhost:3000/login");
     return Promise.reject(error);
   }
 );
@@ -120,7 +124,7 @@ export const diaryApi = {
 
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
-      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=20`
+      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
     );
     return data.response.body.items.item;
   },

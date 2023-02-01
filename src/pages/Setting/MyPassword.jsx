@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { passwordApi } from "../../apis/axios";
 import { useDispatch } from "react-redux";
 import { ErrorModal } from "../../redux/modules/UISlice";
+import { Input, WorningWord } from "../../components/common/Input";
 
 const MyPassword = () => {
   const {
@@ -57,6 +58,7 @@ const MyPassword = () => {
             <div className="PW-box current">
               <label>기존 비밀번호</label>
               <input
+                className={errors?.currentPW ? "fail" : "pass"}
                 id="currentPW"
                 type="password"
                 name="currentPW"
@@ -70,11 +72,12 @@ const MyPassword = () => {
                   },
                 })}
               />
-              {errors.currentPW && <small role="alert">{errors.currentPW.message}</small>}
+              <WorningWord color={errors?.currentPW}>{errors.currentPW?.message}</WorningWord>
             </div>
             <div className="PW-box changing">
               <label>새로 변경할 비밀번호</label>
               <input
+                className={errors?.password ? "fail" : "pass"}
                 id="password"
                 type="password"
                 name="password"
@@ -89,8 +92,9 @@ const MyPassword = () => {
                 })}
                 style={{ top: "33rem" }}
               />
-              {errors.password && <small role="alert">{errors.password.message}</small>}
+              <WorningWord color={errors?.password}>{errors.password?.message}</WorningWord>
               <input
+                className={errors?.passwordCheck ? "fail" : "pass"}
                 id="passwordCheck"
                 type="password"
                 name="passwordCheck"
@@ -106,7 +110,7 @@ const MyPassword = () => {
                 })}
                 style={{ top: "33rem" }}
               />
-              {errors.passwordCheck && <small role="alert">{errors.passwordCheck.message}</small>}
+              <WorningWord color={errors?.passwordCheck}>{errors.passwordCheck?.message}</WorningWord>
             </div>
           </MypageSection>
         </form>
@@ -137,30 +141,5 @@ const MypageSection = styled(StSection)`
     font-size: 2.6rem;
     font-weight: 700;
   }
-  span {
-    font-size: 1rem;
-    color: #ff5656;
-  }
-  input {
-    height: 4.5rem;
-    padding: 0 1rem;
-    background: #f5f5f5;
-    border-radius: 8px;
-    border: none;
-    :last-child {
-      margin-top: 2rem;
-    }
-  }
-  .pass:focus {
-    border: 1px solid #3cc7a5;
-    box-shadow: 0 0 5px #3cc7a5;
-    outline: none;
-    transition: box-shadow 0.4s;
-  }
-  .fail:focus {
-    border: 1px solid #ff5656;
-    box-shadow: 0 0 5px #ff5656;
-    outline: none;
-    transition: box-shadow 0.4s;
-  }
+  ${Input("#F5F5F5")}
 `;

@@ -6,7 +6,7 @@ const CalendarWeek = ({ week }) => {
   return (
     <WeekBox>
       {week.map((v, i) => (
-        <div key={`${i}요일`} className={v === "일" ? "weekday sunday" : v === "토" ? "weekday saturday" : "weekday"}>
+        <div key={`${i}요일`} className={v === "일" ? "weekday sunday" : "weekday"}>
           {v}
         </div>
       ))}
@@ -22,9 +22,6 @@ const WeekBox = styled.div`
     width: calc(36rem / 7);
     text-align: center;
     color: #242424;
-  }
-  .saturday {
-    color: blue;
   }
   .sunday {
     color: #ff5656;

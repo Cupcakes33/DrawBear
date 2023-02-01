@@ -130,7 +130,7 @@ const UpdateDiaryBox = styled.section`
   }
   .pencilIcon-box {
     position: absolute;
-    top: calc(50% - 18.25rem);
+    top: calc(50% - 18.75rem);
     left: calc(50% + 7.5rem);
   }
 `;

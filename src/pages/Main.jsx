@@ -8,6 +8,7 @@ import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import BookmarkTab from "../components/main/BookmarkTab";
+import Loading from "../components/common/Loading";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
@@ -52,7 +53,7 @@ const Main = () => {
   return (
     <>
       {isLoading ? (
-        <h2>로딩 중...</h2>
+        <Loading />
       ) : isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
