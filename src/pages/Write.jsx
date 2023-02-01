@@ -179,7 +179,7 @@ const StTextSectionBox = styled.div`
   gap: 2.4rem;
 
   span {
-    font-size: ${({ theme }) => theme.font.base};
+    font-size: 1.4rem;
     white-space: nowrap;
   }
   input {

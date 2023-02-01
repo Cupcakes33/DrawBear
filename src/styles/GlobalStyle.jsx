@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-
 const GlobalStyle = createGlobalStyle`
 
 
@@ -11,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-size: 1.6rem;
-    color: ${(props) => props.theme.color.font_main};
+    color: var(--black);
     -ms-overflow-style: none;
     scrollbar-width: none;
     font-family: 'Noto Sans KR', sans-serif;
@@ -19,19 +18,12 @@ const GlobalStyle = createGlobalStyle`
       display:none;
     }
   }
-/* 
-  input {
-    font-family: 
-  } */
 
   a {
     text-decoration:none;
     color: inherit;
   }
-  * {
-  /* font-family: 'ZigleTTF' !important; */
-  /* font-family: 'Noto Sans KR', sans-serif; */
-  }
+
 
 `;
 
