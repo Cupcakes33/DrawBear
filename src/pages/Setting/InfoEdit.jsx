@@ -3,6 +3,7 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
 import AlertModal from "../../components/common/modal/AlertModal";
+import Footer from "../../components/common/Footer";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const InfoEdit = () => {
             </div>
           </div>
         </EditProfileSection>
+        <Footer />
       </StContainer>
     </>
   );
@@ -41,6 +43,7 @@ const InfoEdit = () => {
 export default InfoEdit;
 
 const EditProfileSection = styled(StSection)`
+  background-color: var(--main_bg);
   overflow-x: hidden;
   .editProfileWrapper {
     width: 90%;
