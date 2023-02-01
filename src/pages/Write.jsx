@@ -117,7 +117,11 @@ const Write = () => {
               </StTextSectionBox>
               <StTextSectionBox className="textInputBox">
                 <span>제목</span>
-                <input type="text" name="title" placeholder="제목을 입력해주세요" />
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="제목을 입력해주세요"
+                />
               </StTextSectionBox>
               <StTextSectionBox className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
