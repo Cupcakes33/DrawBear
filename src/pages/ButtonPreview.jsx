@@ -1,180 +1,42 @@
+import styled from "styled-components";
 import Button from "../components/common/Button";
-import { BsBookmark } from "react-icons/bs";
-import { TiPencil } from "react-icons/ti";
-import { AiOutlineArrowUp } from "react-icons/ai";
-import Dropdown from "../components/common/dropdown/Dropdown";
-import ListPageDropdown from "../components/common/dropdown/ListPageDropdown";
+import Buttons from "../components/common/Button/Buttons";
 
 const ButtonPreview = () => {
   return (
     <>
-      <div style={{ display: "flex", gap: "20px" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Button size="mini" color="button_main" icon={<BsBookmark />}>
-            BUTTON
-          </Button>
-          <Button size="mini" color="button_main">
-            BUTTON
-          </Button>
-          <Button size="small" color="button_main">
-            BUTTON
-          </Button>
-          <Button size="medium" color="button_main">
-            BUTTON
-          </Button>
-          <Button size="large" color="button_main">
-            BUTTON
-          </Button>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Button size="mini" color="button_primary" icon={<BsBookmark />}>
-            BUTTON
-          </Button>
-          <Button size="mini" color="button_primary">
-            BUTTON
-          </Button>
-          <Button size="small" color="button_primary">
-            BUTTON
-          </Button>
-          <Button size="medium" color="button_primary">
-            BUTTON
-          </Button>
-          <Button size="large" color="button_primary">
-            BUTTON
-          </Button>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Button
-            size="mini"
-            color="button_primary"
-            icon={<BsBookmark />}
-            outlined
-          >
-            BUTTON
-          </Button>
-          <Button size="mini" color="button_primary" outlined>
-            BUTTON
-          </Button>
-          <Button size="small" color="button_primary" outlined>
-            BUTTON
-          </Button>
-          <Button size="medium" color="button_primary" outlined>
-            BUTTON
-          </Button>
-          <Button size="large" color="button_primary" outlined>
-            BUTTON
-          </Button>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Button size="mini" color="button_alart" icon={<BsBookmark />}>
-            BUTTON
-          </Button>
-          <Button size="mini" color="button_alart">
-            BUTTON
-          </Button>
-          <Button size="small" color="button_alart">
-            BUTTON
-          </Button>
-          <Button size="medium" color="button_alart">
-            BUTTON
-          </Button>
-          <Button size="large" color="button_alart">
-            BUTTON
-          </Button>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Button
-            size="mini"
-            color="button_alart"
-            icon={<BsBookmark />}
-            outlined
-          >
-            BUTTON
-          </Button>
-          <Button size="mini" color="button_alart" outlined>
-            BUTTON
-          </Button>
-          <Button size="small" color="button_alart" outlined>
-            BUTTON
-          </Button>
-          <Button size="medium" color="button_alart" outlined>
-            BUTTON
-          </Button>
-          <Button size="large" color="button_alart" outlined>
-            BUTTON
-          </Button>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Button size="mini" color="button_icon" icon={<TiPencil />} round />
-          <Button
-            size="mini"
-            color="button_primary"
-            icon={<TiPencil />}
-            round
-          />
-          <Button
-            size="mini"
-            color="button_icon"
-            icon={<AiOutlineArrowUp />}
-            round
-          />
-          <Button
-            size="mini"
-            color="button_primary"
-            icon={<AiOutlineArrowUp />}
-            round
-          />
-        </div>
-        <Button>Default</Button>
-      </div>
-      <Dropdown>
-        <Dropdown.Toggle>
-          <Button
-            size="mini"
-            color="button_primary"
-            icon={<TiPencil />}
-            round
-          />
-        </Dropdown.Toggle>
-        <Dropdown.Container>
-          <Dropdown.Wrapper>
-            <Dropdown.Menu>
-              <div
-                style={{
-                  width: "8rem",
-                  height: "4rem",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "1rem",
-                }}
-              >
-                <TiPencil />
-                <span style={{ fontSize: "1.4rem" }}>공부하기</span>
-              </div>
-            </Dropdown.Menu>
-            <Dropdown.Menu>
-              <div
-                style={{
-                  width: "8rem",
-                  height: "4rem",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "1rem",
-                }}
-              >
-                <TiPencil />
-                <span style={{ fontSize: "1.4rem" }}>공부하기</span>
-              </div>
-            </Dropdown.Menu>
-          </Dropdown.Wrapper>
-        </Dropdown.Container>
-      </Dropdown>
-      <ListPageDropdown />
+      <Stdiv>
+        <Buttons.AddDiary />
+        <Buttons.AddPost />
+        <Buttons.AddComment />
+      </Stdiv>
+      <Stdiv>
+        <Buttons.Medium>아니요</Buttons.Medium>
+        <Buttons.Medium type="negative">삭제할래요</Buttons.Medium>
+        <Buttons.Small>검색</Buttons.Small>
+        <Buttons.Invite>초대하기</Buttons.Invite>
+        <Buttons.Invite isInvited>초대 중</Buttons.Invite>
+        <Buttons.Bookmark />
+        <Buttons.Bookmark isBookmarked />
+        <Buttons.Option>수정</Buttons.Option>
+        <Buttons.Option negative>삭제</Buttons.Option>
+      </Stdiv>
+      <Stdiv style={{ width: "360px", padding: "2.2rem" }}>
+        <Buttons.Withdraw>네, 탈퇴할게요</Buttons.Withdraw>
+      </Stdiv>
     </>
   );
 };
 
 export default ButtonPreview;
+
+const Stdiv = styled.div`
+  width: 100vh;
+  height: 10vh;
+  margin-top: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--grayscale_3);
+`;
