@@ -40,7 +40,7 @@ const Footer = () => {
 
   const changeChatList = () => {
     queryClient.setQueryData(["footerIcons"], "chatlist");
-    navigate("/");
+    navigate("/chatlist");
     // const result = diaries.find((diary) => {
     //   if (diary.couple === 1) {
     //     return navigate("/chatlist");
