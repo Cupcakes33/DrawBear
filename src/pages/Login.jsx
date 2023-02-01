@@ -7,6 +7,7 @@ import CommonContainer from "../UI/CommonContainer";
 import naver from "../assets/images/naver.webp";
 import kakao from "../assets/images/kakao.webp";
 import { flex } from "../UI/common";
+import AlertModal from "../components/common/modal/AlertModal";
 
 const Login = () => {
   const queryClient = useQueryClient();
@@ -42,9 +43,27 @@ const Login = () => {
         <hr />
       </BoundaryLine>
       <SocialLoginBox>
-        <img src={naver} alt="네이버 로그인" onClick={naverLoginHandler} />
-        <img src={kakao} alt="카카오 로그인" onClick={kakaoLoginHandler} />      
-        </SocialLoginBox>
+        <AlertModal
+          bigTxt={"준비중입니다."}
+          // move={"/login"}
+        >
+          <img
+            src={naver}
+            alt="네이버 로그인"
+            // onClick={naverLoginHandler}
+          />
+        </AlertModal>
+        <AlertModal
+          bigTxt={"준비중입니다."}
+          // move={"/login"}
+        >
+          <img
+            src={kakao}
+            alt="카카오 로그인"
+            // onClick={kakaoLoginHandler}
+          />
+        </AlertModal>
+      </SocialLoginBox>
     </CommonContainer>
   );
 };

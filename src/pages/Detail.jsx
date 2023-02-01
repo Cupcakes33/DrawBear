@@ -42,7 +42,6 @@ const Detail = () => {
     comments,
   } = data;
 
-  console.log(diaryId);
   const { mutate: postMutate } = useMutation({
     mutationFn: (comments) => commentsApi.post(comments),
     onSuccess: () => {
@@ -85,7 +84,7 @@ const Detail = () => {
   return (
     <StContainer>
       <StHeader>
-        <NavigateBtn prev />
+        <NavigateBtn prev link={`/list/${diaryId}`} />
         <HeaderText>{diaryName}</HeaderText>
       </StHeader>
 

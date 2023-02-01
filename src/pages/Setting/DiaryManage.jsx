@@ -1,16 +1,17 @@
-import styled from "styled-components";
-import NavigateBtn from "../../components/common/NavigateBtn";
-import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
-import Button from "../../components/common/Button";
-import { useQuery } from "@tanstack/react-query";
-import DiaryDeleteModal from "../../components/Setting/DiaryDeleteModal";
-import { mainApi } from "../../apis/axios";
-import { ErrorModal } from "../../redux/modules/UISlice";
-import { diaryData } from "../../redux/modules/diarySlice";
 import { useDispatch } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
+import DiaryDeleteModal from "../../components/Setting/DiaryDeleteModal";
+import useDispatchHook from "../../hooks/useDispatchHook";
+import NavigateBtn from "../../components/common/NavigateBtn";
 import Loading from "../../components/common/Loading";
+import Button from "../../components/common/Button";
+import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
+import { mainApi } from "../../apis/axios";
+import { diaryData } from "../../redux/modules/diarySlice";
 
 const DiaryManage = () => {
+  const { openAlertModal } = useDispatchHook;
   const dispatch = useDispatch();
 
   const {
@@ -21,10 +22,8 @@ const DiaryManage = () => {
   } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 401) {
-        dispatch(ErrorModal({ isModal: true, bigTxt: "로그인 후 이용해주세요.", move: "/login" }));
-      } else if (status === 400)
-        return dispatch(ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" }));
+      if (status === 401) openAlertModal({ bigTxt: "로그인 후 이용해주세요.", move: "/login" });
+      else if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
     },
   });
 
@@ -37,7 +36,7 @@ const DiaryManage = () => {
       ) : (
         <StContainer>
           <StHeader flex justify="flex-start">
-            <NavigateBtn prev sizeType="header" />
+            <NavigateBtn prev sizeType="header" link="/setting/" />
             <h3>일기 설정</h3>
           </StHeader>
           <DiaryManagementSection flex derection="column" justify="flex-start">
