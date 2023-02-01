@@ -62,6 +62,7 @@ const Diary = (props) => {
 export default Diary;
 
 const DiaryIcon = styled.div`
+  margin-bottom: 1.3rem;
   ${({ size }) => {
     switch (size) {
       case "bookmark":

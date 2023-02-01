@@ -24,6 +24,8 @@ import { useSelector } from "react-redux";
 import ErrorHandlerModal from "../components/common/modal/ErrorHandlerModal";
 import ChatList from "../pages/ChatList";
 import NoChatList from "../pages/NoChatList";
+import KakaoLogin from "../components/socialLogin/KakaoLogin";
+import NaverLogin from "../components/socialLogin/NaverLogin";
 
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
@@ -33,7 +35,8 @@ const Router = () => {
       {/* <Header /> */}
       <Routes>
         <Route path="/login" element={<Login />} />
-
+        <Route path="/kakaologin" element={<KakaoLogin />} />
+        <Route path="/naverlogin" element={<NaverLogin />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route element={<PrivateRoutes />}>

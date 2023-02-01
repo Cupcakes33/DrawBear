@@ -2,8 +2,39 @@ import React from "react";
 import styled from "styled-components";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import Dropdown from "./Dropdown";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postsApi } from "../../../apis/axios";
+import { useDispatch } from "react-redux";
+import { ErrorModal } from "../../../redux/modules/UISlice";
+import AlertModal from "../modal/AlertModal";
 
-const ListPageDropdown = () => {
+const ListPageDropdown = ({ postId }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+
+  const { mutate: postDeleteMutate } = useMutation({
+    mutationFn: () => postsApi.delete(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["Allposts"]);
+      dispatch(
+        ErrorModal({
+          isModal: true,
+          bigTxt: "성공적으로 삭제했어요 !",
+        })
+      );
+    },
+  });
+
+  const postUpdateHandler = () => {
+    navigate(`/detail/${postId}/update`);
+  };
+
+  const postDeleteHandler = () => {
+    postDeleteMutate(postId);
+  };
+
   return (
     <Dropdown>
       <Dropdown.Toggle>
@@ -14,14 +45,21 @@ const ListPageDropdown = () => {
       <Dropdown.Container>
         <Dropdown.Wrapper>
           <Dropdown.Menu>
-            <StMenu>
+            <StMenu onClick={postUpdateHandler}>
               <span>수정</span>
             </StMenu>
           </Dropdown.Menu>
           <Dropdown.Menu>
-            <StMenu>
-              <span className="deleteBtn">삭제</span>
-            </StMenu>
+            <AlertModal
+              select
+              bigTxt={"정말 일기를 삭제할까요?"}
+              smallTxt={"삭제한 일기는 복구할 수 없어요"}
+              onClick={postDeleteHandler}
+            >
+              <StMenu>
+                <span className="deleteBtn">삭제</span>
+              </StMenu>
+            </AlertModal>
           </Dropdown.Menu>
         </Dropdown.Wrapper>
       </Dropdown.Container>

@@ -9,7 +9,6 @@ const NavigateBtn = ({ prev, link, sizeType }) => {
     <StNavigateBtnContainer sizeType={sizeType}>
       {prev ? (
         <GrPrevious
-          style={{ marginRight: "1rem" }}
           onClick={() => {
             navigate(-1);
           }}

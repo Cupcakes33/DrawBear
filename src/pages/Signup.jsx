@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { ErrorModal } from "../redux/modules/UISlice";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../apis/axios";
+import { Input, WorningWord } from "../components/common/Input";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -61,18 +62,14 @@ const Signup = () => {
       );
     },
     onError: (error) => {
-      
       const msg = error.response.data.message;
       const errorStatus = error.response.status;
-      
+
       if (errorStatus === 409) {
-      
         dispatch(ErrorModal({ isModal: true, bigTxt: msg }));
       }
     },
   });
-
-  
 
   return (
     <>
@@ -104,6 +101,7 @@ const Signup = () => {
               <div>
                 <label htmlFor="email">이메일</label>
                 <input
+                  className={errors.email ? "fail" : "pass"}
                   id="email"
                   type="email"
                   name="email"
@@ -117,11 +115,12 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.email && <small role="alert">{errors.email.message}</small>}
               </div>
+              <WorningWord color={errors.email}>{errors.email?.message}</WorningWord>
               <div>
                 <label htmlFor="password">비밀번호</label>
                 <input
+                  className={errors.password ? "fail" : "pass"}
                   id="password"
                   type="password"
                   name="password"
@@ -135,8 +134,9 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.password && <small role="alert">{errors.password.message}</small>}
+                <WorningWord color={errors.password}>{errors.password?.message}</WorningWord>
                 <input
+                  className={errors.passwordCheck ? "fail" : "pass"}
                   id="passwordCheck"
                   type="password"
                   name="passwordCheck"
@@ -151,8 +151,8 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.passwordCheck && <small role="alert">{errors.passwordCheck.message}</small>}
               </div>
+              <WorningWord color={errors.passwordCheck}>{errors.passwordCheck?.message}</WorningWord>
 
               <SignupButtonBox>
                 <button
@@ -202,6 +202,7 @@ const Signup = () => {
               <div className="nickInput-box">
                 <label>닉네임</label>
                 <input
+                  className={errors.nickname ? "fail" : "pass"}
                   id="nickname"
                   type="text"
                   name="nickname"
@@ -215,8 +216,8 @@ const Signup = () => {
                     },
                   })}
                 />
-                {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
               </div>
+              <WorningWord color={errors.nickname}>{errors.nickname?.message}</WorningWord>
               <SignupButtonBox>
                 <button type="submit" disabled={isSubmitting}>
                   회원가입
@@ -250,21 +251,7 @@ const SlideContainerForm = styled.form`
         return ``;
     }
   }}
-  input {
-    display: block;
-    width: 100%;
-    height: 5.2rem;
-    border: none;
-    border-radius: 10px;
-    margin-top: 1rem;
-    padding: 0 1rem;
-    ::placeholder {
-      color: #dedede;
-    }
-  }
-  small {
-    color: #ff5656;
-  }
+  ${Input}
 `;
 
 const BackButtonDiv = styled.div`

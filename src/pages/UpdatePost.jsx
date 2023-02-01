@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,9 +13,14 @@ import WeatherPicker from "../components/write/WeatherPicker";
 import { ErrorModal } from "../redux/modules/UISlice";
 import { useDispatch } from "react-redux";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import { useEffect } from "react";
+
+import { GrPrevious } from "react-icons/gr";
+
+import Loading from "../components/common/Loading";
+
 
 const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
@@ -25,8 +30,8 @@ const UpdatePost = () => {
   const [weather, setWeather] = useState("");
   const params = useParams().id;
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
-  // const postsData = queryClient.getQueryData(["posts"]);
   const {
     data: postsData,
     isError,
@@ -36,7 +41,13 @@ const UpdatePost = () => {
   const { mutate } = useMutation(postsApi.patch, {
     onSuccess: () => {
       queryClient.invalidateQueries("posts");
-      console.log("success");
+      dispatch(
+        ErrorModal({
+          isModal: true,
+          bigTxt: "성공적으로 수정했어요 !",
+          move: `/detail/${params}`,
+        })
+      );
     },
   });
 
@@ -59,7 +70,6 @@ const UpdatePost = () => {
 
     formData.get("title");
     formData.get("createdAt");
-
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
     formData.append("weather", weather || "sun");
@@ -70,8 +80,10 @@ const UpdatePost = () => {
   const defaultHeader = () => {
     return (
       <>
-        <NavigateBtn prev />
-        <h3>LOGO</h3>
+        <StHeaderTextWrapper>
+          <NavigateBtn prev />
+          <span>다이어리 수정</span>
+        </StHeaderTextWrapper>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
       </>
     );
@@ -80,7 +92,10 @@ const UpdatePost = () => {
   const drawingEndHeader = () => {
     return (
       <>
-        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
+        <StHeaderTextWrapper>
+          <GrPrevious onClick={() => setIsDrawingEnd(!isDrawingEnd)} />
+          <span>다이어리 수정</span>
+        </StHeaderTextWrapper>
         <span>
           <StWriteFormSubmitBtn type="submit" form="writeForm">
             수정
@@ -90,7 +105,7 @@ const UpdatePost = () => {
     );
   };
 
-  if (isLoading) return <div>로딩중</div>;
+  if (isLoading) return <Loading />;
   if (isError) return <div>에러</div>;
   return (
     <>
@@ -226,4 +241,10 @@ const StWriteFormSubmitBtn = styled.button`
   border: none;
   background-color: transparent;
   font-size: 1.6rem;
+`;
+
+const StHeaderTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;
