@@ -15,7 +15,6 @@ import { useParams } from "react-router-dom";
 import Footer from "../components/common/Footer";
 
 const Invite = () => {
-  // const [showUserForm, setShowUserForm] = useState(false);
   const [name, setName] = useState("");
   const [isInvite, setIsInvite] = useState(false);
   const [inviteUserInfo, setInviteUserInfo] = useState({});
@@ -25,7 +24,7 @@ const Invite = () => {
   const dispatch = useDispatch();
   const socket = useRef(null);
   const { id } = useParams();
-  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
+  const { data } = useQuery(["setting"], mypageApi.read);
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
@@ -54,18 +53,16 @@ const Invite = () => {
     setIsInvite(!isInvite);
     setPopup(!popup);
     const inviteData = {
-      diaryId: id,
+      diaryId: Number(id),
       hostUserId: hostUserInfo.userId,
       invitedUserId: inviteUserInfo.userId,
     };
+    console.log(inviteData);
     socket.current.emit("invited", inviteData);
   };
 
   useEffect(() => {
-    socket.current = io.connect("http://localhost:3002");
-    // return () => {
-    //   socket.current.disconnect();
-    // };
+    socket.current = io.connect("http://122.45.26.243:8080");
   }, []);
   return (
     <StContainer>
