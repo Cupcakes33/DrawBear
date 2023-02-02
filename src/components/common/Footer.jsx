@@ -6,6 +6,7 @@ import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { IoMdBookmark } from "react-icons/io";
 import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
+import { BsDot } from "react-icons/bs";
 import { diaryType } from "../../redux/modules/diarySlice";
 
 const Footer = () => {
@@ -66,6 +67,7 @@ const Footer = () => {
         className={footerIconState === "setting" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "setting", couple: 1, bookmark: 0, move: "/setting" })}
       >
+        <BsDot className="alarm-dot" />
         <MdMoreHoriz />
         <span>더보기</span>
       </button>
@@ -111,5 +113,12 @@ const Container = styled.div`
   }
   .chatSpanTag {
     margin: 0.5rem 0 -0.5rem 0;
+  }
+  .alarm-dot {
+    font-size: 3rem;
+    color: red;
+    position: fixed;
+    bottom: 4%;
+    right: calc(50% - 16.5rem);
   }
 `;
