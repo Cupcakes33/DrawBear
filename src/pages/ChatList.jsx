@@ -47,8 +47,7 @@ const ChatList = () => {
   // );
 
   useEffect(() => {
-    openAlertModal({ bigTxt: "준비중입니다.", move: "/" });
-    return;
+    openAlertModal({ bigTxt: "준비중입니다.", onClick: () => window.location.replace("http://localhost:3000/") });
   }, []);
   return (
     <>
