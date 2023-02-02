@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
@@ -33,6 +34,10 @@ const Footer = () => {
     // });
     // return result;
   };
+
+  useEffect(() => {
+    changeDiaryView({ icon: "solo", couple: 0, bookmark: 0 });
+  }, []);
 
   return (
     <Container>

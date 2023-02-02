@@ -20,9 +20,6 @@ const Main = () => {
       const { status } = error?.response.request;
       if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
     },
-    onSuccess: () => {
-      changeDiaryView({ icon: "solo", couple: 0, bookmark: 0 });
-    },
   });
 
   const diaryType = (diaries) => {
