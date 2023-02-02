@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { diaryApi } from "../../apis/axios";
-import { Modal } from "../common/modal/ReactModal";
 import CalendarWeek from "./CalendarWeek";
 import CalendarDay from "./CalendarDay";
 import ClalendarMonth from "./ClalendarMonth";
 import CalendarHeader from "./CalendarHeader";
 import loadingBear from "../../assets/images/loadingBear.webp";
+import { Modal } from "../common/modal/ReactModal";
 import { flex } from "../../UI/common";
 
 const CalendarModal = ({ children }) => {
@@ -28,7 +28,7 @@ const CalendarModal = ({ children }) => {
   const { data = [], isLoading, isError } = useQuery(["holiday", selectedYear], () => diaryApi.holiday(selectedYear));
   const holiday = data?.map((v) => v.locdate);
 
-  //활용할 날짜들 선언
+  //활용할 날짜 선언
 
   const week = useMemo(() => {
     return ["일", "월", "화", "수", "목", "금", "토"];
@@ -42,7 +42,7 @@ const CalendarModal = ({ children }) => {
     setShowMonth(false);
   };
 
-  // 선택한 날짜 일기 조회에 이용할 데이터 복사
+  // 날짜별 일기 조회에 이용하기 위해 데이터 원본을 복사
 
   useEffect(() => {
     const diaries = queryClient.getQueryData(["Allposts"]);

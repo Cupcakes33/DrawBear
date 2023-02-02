@@ -33,28 +33,13 @@ instance.interceptors.response.use(
     else return Promise.reject(error);
 
   }
-  // (error) => {
-  //   const unauthorization = error.response.data.error;
-  //   if (unauthorization?.indexOf("로그인") >= 0) {
-
-  //     alert("로그인 후 이용가능합니다.");
-  //     return window.location.replace("http://localhost:3000/login");
-  //   }
-
-  //     // window.location.replace("https://finale-omega.vercel.app/login");
-  //   // }
-  //   return Promise.reject(error);
-  // }
 );
 
 export const loginApi = {
-  login: async (inputData) => {
-    const { data } = await instance.post("/api/auth/login", {
+  login: (inputData) => instance.post("/api/auth/login", {
       email: inputData.email,
       password: inputData.password,
-    });
-    return data;
-  },
+    }),
 
   create: async (formData) => {
     await instance.post("/api/auth/signup", formData);

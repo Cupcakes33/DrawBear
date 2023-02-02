@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DiaryDeleteConfirmModal from "./DiaryDeleteConfirmModal";
 import { Modal } from "../../common/modal/ReactModal";
 
-const DiarySettingModal = ({ children, diaryId, diaryName }) => {
+const DiarySettingModal = ({ children, diaryId, diaryName, couple }) => {
   const navigate = useNavigate();
 
   return (
@@ -14,7 +14,7 @@ const DiarySettingModal = ({ children, diaryId, diaryName }) => {
           <Modal.BackDrop>
             <Modal.ContentBox XYcoordinate="bottom">
               <DiarySettingBox>
-                <div onClick={() => navigate(`/invite/${diaryId}`)}>같이 쓰는 멤버 초대</div>
+                {+couple === 1 && <div onClick={() => navigate(`/invite/${diaryId}`)}>같이 쓰는 멤버 초대</div>}
                 <hr />
                 <div onClick={() => navigate(`/update/${diaryId}`)}>다이어리 수정</div>
                 <hr />

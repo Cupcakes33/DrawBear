@@ -7,12 +7,10 @@ import Toast from "./Toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { inviteApi, mypageApi } from "../apis/axios";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../redux/modules/UISlice";
 import io from "socket.io-client";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Footer from "../components/common/Footer";
+import useDispatchHook from "../hooks/useDispatchHook";
 import Buttons from "../components/common/Button/Buttons";
 
 const Invite = () => {
@@ -22,7 +20,7 @@ const Invite = () => {
   const [hostUserInfo, setHostUserInfo] = useState({});
   const [popup, setPopup] = useState(false);
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
   const socket = useRef(null);
   const { id } = useParams();
   const { data } = useQuery(["setting"], mypageApi.read);
@@ -33,20 +31,12 @@ const Invite = () => {
     onError: (error) => {
       const status = error?.response.status;
       if (status === 404) {
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "닉네임을 입력해주세요",
-          })
-        );
+        openAlertModal({ isModal: true, bigTxt: "닉네임을 입력해주세요" });
       }
-      if (status === 400) {
-        dispatch(
-          ErrorModal({
-            isModal: true,
+      if (status === 500) {
+        openAlertModal({
             bigTxt: "다른 사람의 닉네임을 입력해주세요",
           })
-        );
         setName("");
       }
     },
@@ -120,7 +110,6 @@ const Invite = () => {
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>
-      <Footer />
     </StContainer>
   );
 };

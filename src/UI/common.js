@@ -13,9 +13,9 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
-export const flex = (jc = "", ai = "", fd = "") => {
-  const justifyContent = () => {
-    switch (jc) {
+export const flex = (justifyContent = "", alignItems = "", flexdirection = "") => {
+  const jc = () => {
+    switch (justifyContent) {
       case "between":
         return "space-between";
       case "space-evenly":
@@ -27,15 +27,15 @@ export const flex = (jc = "", ai = "", fd = "") => {
     }
   };
 
-  const alignItems = () => {
-    switch (ai) {
+  const ai = () => {
+    switch (alignItems) {
       default:
         return "center";
     }
   };
 
-  const flexdirection = () => {
-    switch (fd) {
+  const fd = () => {
+    switch (flexdirection) {
       case "column":
         return "column";
       case "row":
@@ -46,12 +46,13 @@ export const flex = (jc = "", ai = "", fd = "") => {
   };
 
   return css`
-    display: flex;
-    justify-content: ${justifyContent()};
-    align-items: ${alignItems()};
-    flex-direction: ${flexdirection()};
-  `;
-};
+  display: flex;
+  justify-content: ${jc()};
+  align-items: ${ai()};
+  flex-direction: ${fd()};
+  `
+}
+
 
 // display: flex;
 // flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
@@ -65,8 +66,8 @@ export const StContainer = styled.div`
   width: 36rem;
   height: 100%;
   min-height: 100vh;
-  border: 1px solid black;
-  background-color: ${(props) => props.bgColor};
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
+  background-color: ${(props) => props.bgColor ? props.bgColor : "#F8F8F8"};
   padding-top: ${(props) => props.top};
   overflow-x: hidden;
   ${flexProps}

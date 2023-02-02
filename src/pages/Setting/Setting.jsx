@@ -1,29 +1,37 @@
-import { StContainer, StSection, StHeader } from "../../UI/common";
-import styled from "styled-components";
-import Footer from "../../components/common/Footer";
-import NavigateBtn from "../../components/common/NavigateBtn";
-import { VscBell } from "react-icons/vsc";
-import { useNavigate } from "react-router-dom";
-import { TiPencil } from "react-icons/ti";
-import { mypageApi } from "../../apis/axios";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
+import { TiPencil } from "react-icons/ti";
+import { VscBell } from "react-icons/vsc";
+import { BsDot } from "react-icons/bs";
+import { StContainer, StSection, StHeader } from "../../UI/common";
+import { alarmApi, mypageApi } from "../../apis/axios";
+import NavigateBtn from "../../components/common/NavigateBtn";
+import Footer from "../../components/common/Footer";
 
 const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
   const navigate = useNavigate();
 
+  const { data: alarmData } = useQuery(["allAlarm"], alarmApi.read, {
+    refetchInterval: 3000,
+  });
   const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
     setMyProfileData(data?.userInfo);
   }, [data]);
+
   return (
     <StContainer>
       <StHeader flex justify="space-between">
-        <h3>설정</h3>
-        <VscBell fontSize="1.4em" onClick={() => navigate("/setting/alarm")} />
+        <h3>더보기</h3>
+        <AlarmDiv onClick={() => navigate("/setting/alarm")}>
+          {alarmData?.Notifications?.length !== 0 && <BsDot className="alarm-dot" />}
+          <VscBell className="alarm" />
+        </AlarmDiv>
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
@@ -62,6 +70,20 @@ const Setting = () => {
 };
 
 export default Setting;
+
+const AlarmDiv = styled.div`
+  cursor: pointer;
+  .alarm {
+    font-size: 2.5rem;
+  }
+  .alarm-dot {
+    font-size: 3rem;
+    color: red;
+    position: fixed;
+    top: 0.2%;
+    right: calc(50% - 17.2rem);
+  }
+`;
 
 const StMypageSection = styled(StSection)`
   background-color: var(--main_bg);

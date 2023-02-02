@@ -5,25 +5,19 @@ import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../../../apis/axios";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../../../redux/modules/UISlice";
 import AlertModal from "../modal/AlertModal";
+import useDispatchHook from "../../../hooks/useDispatchHook";
 
 const ListPageDropdown = ({ postId }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
 
   const { mutate: postDeleteMutate } = useMutation({
     mutationFn: () => postsApi.delete(postId),
     onSuccess: () => {
       queryClient.invalidateQueries(["Allposts"]);
-      dispatch(
-        ErrorModal({
-          isModal: true,
-          bigTxt: "성공적으로 삭제했어요 !",
-        })
-      );
+      openAlertModal({ bigTxt: "성공적으로 삭제했어요 !" });
     },
   });
 

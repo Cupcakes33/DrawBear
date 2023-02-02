@@ -3,10 +3,10 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
 import AlertModal from "../../components/common/modal/AlertModal";
-import Footer from "../../components/common/Footer";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
+
   return (
     <>
       <StContainer>
@@ -25,7 +25,7 @@ const InfoEdit = () => {
               bigTxt={"로그아웃하시겠어요?"}
               smallTxt={"다시 로그인해서 이용할 수 있어요."}
               move={"/login"}
-              onClick={() => localStorage.removeItem("token")}
+              onClick={() => window.location.replace("http://localhost:3000/login")}
             >
               <div>로그아웃</div>
             </AlertModal>
@@ -34,7 +34,6 @@ const InfoEdit = () => {
             </div>
           </div>
         </EditProfileSection>
-        <Footer />
       </StContainer>
     </>
   );
@@ -43,7 +42,6 @@ const InfoEdit = () => {
 export default InfoEdit;
 
 const EditProfileSection = styled(StSection)`
-  background-color: var(--main_bg);
   overflow-x: hidden;
   .editProfileWrapper {
     width: 90%;

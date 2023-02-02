@@ -8,15 +8,15 @@ import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../../redux/modules/UISlice";
+import useDispatchHook from "../../hooks/useDispatchHook";
+import { Input, WorningWord } from "../../components/common/Input";
 
 const MyProfileEdit = () => {
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const { mutate } = useMutation((formData) => mypageApi.update(formData), {
     onSuccess: (success) => {
-      dispatch((ErrorModal({ isModal: true, bigTxt: success.message, move: "/setting/profileEdit" }))); //모달창에 전달하는 데이터
+      openAlertModal({ bigTxt: success.message, move: "/setting/" }); //모달창에 전달하는 데이터
     },
   });
   const [nick, setNick] = useState("");
@@ -73,7 +73,7 @@ const MyProfileEdit = () => {
       <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
-            <NavigateBtn prev sizeType="header" />
+            <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>프로필 수정</h3>
           </DisplayDiv>
           <span onClick={handleSubmit(onSubmit)}>수정</span>
@@ -93,7 +93,7 @@ const MyProfileEdit = () => {
                 style={{ display: "none " }}
               ></input>
               <div className="myProfileInfoWrapper">
-                <img src={image.preview_URL} onClick={() => inputRef.click()} />
+                <img src={image.preview_URL} alt="" onClick={() => inputRef.click()} />
                 <div className="pencilIcon-box">
                   <Button type="button" onClick={() => inputRef.click()} icon={<TiPencil />} round></Button>
                 </div>
@@ -108,6 +108,7 @@ const MyProfileEdit = () => {
                 <span className="nickName_txt">닉네임</span>
                 <div className="nickName_container" style={{ flexDirection: "column" }}>
                   <input
+                    className={errors.nickname ? "fail" : "pass"}
                     id="nickname"
                     type="text"
                     name="nickname"
@@ -122,8 +123,12 @@ const MyProfileEdit = () => {
                       },
                     })}
                   />
-                  {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
                 </div>
+              </div>
+              <div>
+                <WorningWord color={errors?.nickname?.type} margin="-3rem 0 0 6.5rem">
+                  {errors.nickname?.message}
+                </WorningWord>
               </div>
             </AccountInfoBox>
           </MyProfileSection>
@@ -190,12 +195,5 @@ const AccountInfoBox = styled.div`
     font-size: 1.4rem;
     color: #8c8c8c;
   }
-  input {
-    width: 20rem;
-    height: 4.5rem;
-    padding: 0 1rem;
-    border: none;
-    border-radius: 8px;
-    background: #f5f5f5;
-  }
+  ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
 `;
