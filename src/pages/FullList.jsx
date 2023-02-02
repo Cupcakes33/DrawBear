@@ -6,7 +6,7 @@ import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import Button from "../components/common/Button";
 import { TiPencil } from "react-icons/ti";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { diaryApi } from "../apis/axios";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { BsSearch } from "react-icons/bs";
@@ -16,13 +16,18 @@ import DiarySettingModal from "../components/main/DiarySettingModal/DiarySetting
 import CalendarModal from "../components/calendar/CalendarModal";
 import FilterDropdown from "../components/common/dropdown/FilterDropdown";
 import Loading from "../components/common/Loading";
+import { useTransition } from "react";
+import SearchHeader from "../components/FullList/SearchHeader";
 
 const DiaryList = memo(() => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const [filter, setFilter] = useState("최신순");
+  const [searchValue, setSearchValue] = useState("");
+
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
     diaryApi.get(diaryId)
@@ -31,7 +36,6 @@ const DiaryList = memo(() => {
   const orderPostsByDate = (data) => {
     const orderedPosts = {};
     if (!isLoading) {
-      
       data.forEach((item) => {
         const temp = item.createdAt.slice(0, 10);
         if (orderedPosts[temp]) {
@@ -52,7 +56,7 @@ const DiaryList = memo(() => {
     });
   };
 
-  const defaultHeader = useCallback(() => {
+  const defaultHeader = () => {
     return (
       <StDefaultHeaderContents>
         <div>
@@ -67,24 +71,7 @@ const DiaryList = memo(() => {
         </div>
       </StDefaultHeaderContents>
     );
-  }, []);
-
-  const SearchHeader = useCallback(() => {
-    return (
-      <StSearchHeaderContents>
-        <div>
-          <StInput placeholder="일기 검색..." />
-        </div>
-        <div>
-          <BsSearch />
-          <CalendarModal>
-            <FaRegCalendarAlt />
-          </CalendarModal>
-          <button onClick={() => setChangeHeader(false)}>취소</button>
-        </div>
-      </StSearchHeaderContents>
-    );
-  }, []);
+  };
 
   useEffect(() => {
     if (!data) return;
@@ -97,7 +84,7 @@ const DiaryList = memo(() => {
       <StContainer>
         <StHeader>
           {!changeHeader && defaultHeader()}
-          {changeHeader && SearchHeader()}
+          {changeHeader && <SearchHeader setChangeHeader={setChangeHeader} />}
         </StHeader>
         <StFilterContainer>
           <FilterDropdown filter={filter} setFilter={setFilter} />
@@ -111,7 +98,9 @@ const DiaryList = memo(() => {
                     <StDiaryCarsWrapper key={`orderedPosts${n}`}>
                       <div className="orderedDate">{locailDate(date)}</div>
                       {dateOrderedPosts[date].map((post, n) => {
-                        return <DiaryCard key={`postData${n}`} postData={post} />;
+                        return (
+                          <DiaryCard key={`postData${n}`} postData={post} />
+                        );
                       })}
                       <StDivisionLine />
                     </StDiaryCarsWrapper>
@@ -125,7 +114,9 @@ const DiaryList = memo(() => {
                       <StDiaryCarsWrapper key={`orderedPosts${n}`}>
                         <div className="orderedDate">{locailDate(date)}</div>
                         {dateOrderedPosts[date].map((post, n) => {
-                          return <DiaryCard key={`postData${n}`} postData={post} />;
+                          return (
+                            <DiaryCard key={`postData${n}`} postData={post} />
+                          );
                         })}
                         <StDivisionLine />
                       </StDiaryCarsWrapper>
@@ -139,7 +130,9 @@ const DiaryList = memo(() => {
                       {dateOrderedPosts[date]
                         .filter((post) => post.bookmark)
                         .map((post, n) => {
-                          return <DiaryCard key={`postData${n}`} postData={post} />;
+                          return (
+                            <DiaryCard key={`postData${n}`} postData={post} />
+                          );
                         })}
                       <StDivisionLine />
                     </StDiaryCarsWrapper>
@@ -168,25 +161,12 @@ const DiaryList = memo(() => {
   );
 });
 
-export default DiaryList
-
+export default DiaryList;
 
 const StNavigateWritePageBtnWrapper = styled.div`
   position: fixed;
   right: calc(50% - 15.5rem);
   bottom: 3rem;
-`;
-
-const StInput = styled.input`
-  width: 20rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 15px;
-  outline: none;
-  background-color: #f0f0f0;
-  padding: 1rem 2rem;
-  :focus {
-  }
 `;
 
 const StDivisionLine = styled.div`
@@ -209,26 +189,6 @@ const StDefaultHeaderContents = styled.div`
     gap: 1.5rem;
     svg {
       font-size: 2rem;
-      cursor: pointer;
-    }
-  }
-`;
-
-const StSearchHeaderContents = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  div {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    button {
-      font-size: 1.5rem;
-      color: ${({ theme }) => theme.color.button_primary};
-      border: 0;
-      outline: none;
-      background-color: inherit;
       cursor: pointer;
     }
   }

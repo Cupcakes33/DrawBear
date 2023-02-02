@@ -25,12 +25,11 @@ instance.interceptors.response.use(
   (error) => {
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
-
       alert("로그인 후 이용가능합니다.");
       return window.location.replace("http://localhost:3000/login");
     }
-      
-      // window.location.replace("https://finale-omega.vercel.app/login");
+
+    // window.location.replace("https://finale-omega.vercel.app/login");
     // }
     return Promise.reject(error);
   }
@@ -127,6 +126,16 @@ export const diaryApi = {
       `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
     );
     return data.response.body.items.item;
+  },
+
+  search: async (payload) => {
+    console.log(payload)
+    const { diaryId, title } = payload;
+    const { data } = await instance.get(
+      `/api/post/${diaryId}/search?title=${title}`
+    );
+    console.log(data)
+    return data;
   },
 };
 
