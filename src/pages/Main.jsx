@@ -18,9 +18,11 @@ const Main = () => {
   const { data = [], isLoading } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
+      if (status === 400) openAlertModal({ bigTxt: "다이어리 조회에 실패했습니다.", move: "/login" });
     },
   });
+
+  console.log(data)
 
   const diaryType = (diaries) => {
     if (diaryTypes.couple === 0) {
