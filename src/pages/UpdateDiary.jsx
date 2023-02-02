@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { mainApi } from "../apis/axios";
@@ -12,13 +12,11 @@ import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Loading from "../components/common/Loading";
-import { diaryType } from "../redux/modules/diarySlice";
 
 const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
 
 const UpdateDiary = () => {
   const { couple } = useSelector((state) => state.diarySlice);
-  const dispatch = useDispatch();
   const { openAlertModal } = useDispatchHook();
   const queryClient = useQueryClient();
   const diaryTitleInputRef = useRef();
@@ -35,7 +33,6 @@ const UpdateDiary = () => {
       else if (status === 404) openAlertModal({ bigTxt: "다이어리가 존재하지 않습니다." });
     },
     onSuccess: () => {
-      dispatch(diaryType({ couple: 0, bookmark: 0 }));
       openAlertModal({ bigTxt: "다이어리 수정 성공!", move: "/" });
     },
   });

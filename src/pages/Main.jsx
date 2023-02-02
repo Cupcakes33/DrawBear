@@ -1,5 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { StContainer, StHeader } from "../UI/common";
 import { useSelector } from "react-redux";
 import { mainApi } from "../apis/axios";
@@ -14,18 +13,15 @@ import Loading from "../components/common/Loading";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
-  const { openAlertModal } = useDispatchHook();
-  const queryClient = useQueryClient();
+  const { openAlertModal, changeDiaryView } = useDispatchHook();
 
-  const {
-    data = [],
-    isError,
-    isLoading,
-    error,
-  } = useQuery(["main"], mainApi.read, {
+  const { data = [], isLoading } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
       if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
+    },
+    onSuccess: () => {
+      changeDiaryView({ icon: "solo", couple: 0, bookmark: 0 });
     },
   });
 
@@ -42,19 +38,13 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    queryClient.setQueryData(["footerIcons"], "solo");
-  }, []);
-
   return (
     <>
       {isLoading ? (
         <Loading />
-      ) : isError ? (
-        <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
         <>
-          <StContainer bgColor="#F8F8F8">
+          <StContainer>
             <StHeader flex>
               <LogoImg src={loadingBear} alt="로고 곰돌이" />
             </StHeader>
