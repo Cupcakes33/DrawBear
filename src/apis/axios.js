@@ -82,9 +82,14 @@ export const alarmApi = {
     return data;
   },
   patch: async ({ diaryId, notificationId }) => {
-    console.log(diaryId);
     const { data } = await instance.patch(
       `/api/diary/invite/${diaryId}/${notificationId}`
+    );
+    return data;
+  },
+  delete: async (notificationId) => {
+    const { data } = await instance.delete(
+      `/api/notification/${notificationId}`
     );
     return data;
   },

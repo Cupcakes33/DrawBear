@@ -6,32 +6,30 @@ import * as timeAgo from "timeago.js";
 import ko from "timeago.js/lib/lang/ko";
 import { alarmApi } from "../../apis/axios";
 import Buttons from "../../components/common/Button/Buttons";
-import Loading from "../../components/common/Loading";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { StContainer, StHeader, StSection } from "../../UI/common";
-import io from "socket.io-client";
+import { StContainer, StHeader } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
 
 const Alarm = () => {
   timeAgo.register("ko", ko);
   const navigate = useNavigate();
-  const {
-    data = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery(["Allalarm"], alarmApi.read);
+  const { data = [], isError, error } = useQuery(["Allalarm"], alarmApi.read);
   const { mutate: alarmAddMutate } = useMutation(alarmApi.patch, {
     onSuccess: () => {
       navigate("/");
     },
-    onError: (error) => {
-      console.log(error);
+  });
+  const { mutate: alarmDeleteMutate } = useMutation(alarmApi.delete, {
+    onSuccess: (success) => {
+      navigate("/setting/alarm");
     },
   });
   const diaryJoinOnclickHandle = (diaryId, notificationId) => {
     const diaryjoinData = { diaryId, notificationId };
     alarmAddMutate(diaryjoinData);
+  };
+  const diaryCancelOnclickHandle = (notificationId) => {
+    alarmDeleteMutate(notificationId);
   };
 
   useEffect(() => {}, [data]);
@@ -76,7 +74,12 @@ const Alarm = () => {
                   >
                     수락
                   </Buttons.Option>
-                  <Buttons.Option>거절</Buttons.Option>
+                  <Buttons.Option
+                    onClick={() => diaryCancelOnclickHandle(notificationId)}
+                    negative
+                  >
+                    거절
+                  </Buttons.Option>
                 </AlarmBtnContainer>
               </AlarmContainer>
             );
