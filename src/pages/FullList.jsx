@@ -1,24 +1,23 @@
-import React, { useCallback, useState, useEffect, memo } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
-import Button from "../components/common/Button";
+
 import { TiPencil } from "react-icons/ti";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import { diaryApi } from "../apis/axios";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
-import { FaRegCalendarAlt } from "react-icons/fa";
+
 import DiarySettingModal from "../components/main/DiarySettingModal/DiarySettingModal";
-import CalendarModal from "../components/calendar/CalendarModal";
 import FilterDropdown from "../components/common/dropdown/FilterDropdown";
 import Loading from "../components/common/Loading";
-import { useTransition } from "react";
 import SearchHeader from "../components/FullList/SearchHeader";
 import Buttons from "../components/common/Button/Buttons";
+import { BsTriangleFill } from "react-icons/bs";
 
 const DiaryList = memo(() => {
   const navigate = useNavigate();
@@ -26,6 +25,7 @@ const DiaryList = memo(() => {
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const [filter, setFilter] = useState("최신순");
+  const sectionRef = useRef(null);
 
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
@@ -88,8 +88,7 @@ const DiaryList = memo(() => {
         <StFilterContainer>
           <FilterDropdown filter={filter} setFilter={setFilter} />
         </StFilterContainer>
-        {/* 섹션 컴포넌트 height 100vh 로 바꾸기 */}
-        <StSection>
+        <StListPageSection ref={sectionRef}>
           {(() => {
             switch (filter) {
               case "최신순":
@@ -142,15 +141,18 @@ const DiaryList = memo(() => {
                 return null;
             }
           })()}
-        </StSection>
+        </StListPageSection>
 
-        <StNavigateWritePageBtnWrapper>
-          <Buttons.AddPost
-            onClick={() => {
-              navigate(`/write/${diaryId}`);
-            }}
-          />
-        </StNavigateWritePageBtnWrapper>
+        <StScrollTopButton
+          onClick={() => {
+            sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+        <StAddPostButton
+          onClick={() => {
+            navigate(`/write/${diaryId}`);
+          }}
+        />
       </StContainer>
     </>
   );
@@ -158,12 +160,29 @@ const DiaryList = memo(() => {
 
 export default DiaryList;
 
-const StNavigateWritePageBtnWrapper = styled.div`
+const StAddPostButton = styled(Buttons.AddPost)`
   position: fixed;
   right: calc(50% - 15.5rem);
   bottom: 3rem;
 `;
 
+const StScrollTopButton = styled(BsTriangleFill)`
+  position: absolute;
+  left: 50%;
+  bottom: 3rem;
+  width: 2rem;
+  height: 2rem;
+  transform: translateX(-50%);
+  cursor: pointer;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.7));
+`;
+
+const StListPageSection = styled(StSection)`
+  height: calc(100vh - 6rem);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 const StDivisionLine = styled.div`
   width: 100%;
   height: 0.5rem;
