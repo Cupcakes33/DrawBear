@@ -1,12 +1,13 @@
-import { IoMdBookmark } from "react-icons/io";
-import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
+import styled from "styled-components";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
+import { IoMdBookmark } from "react-icons/io";
 import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
 import { diaryType } from "../../redux/modules/diarySlice";
-import styled from "styled-components";
+
 const Footer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

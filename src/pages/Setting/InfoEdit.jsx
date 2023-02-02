@@ -6,6 +6,7 @@ import AlertModal from "../../components/common/modal/AlertModal";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
+  
   return (
     <>
       <StContainer>
