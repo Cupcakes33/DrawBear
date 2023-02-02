@@ -14,7 +14,6 @@ const ReconfirmAlertModal = ({ children, bigTxt }) => {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === 404) openAlertModal({ bigTxt: "다이어리가 존재하지 않습니다." });
-      else if (status === 401) openAlertModal({ bigTxt: "권한이 없습니다." });
       else if (status === 500) openAlertModal({ bigTxt: "다이어리 삭제에 실패하였습니다." });
     },
     onSuccess: () => {
