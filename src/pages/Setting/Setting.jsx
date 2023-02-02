@@ -9,14 +9,15 @@ import { mypageApi } from "../../apis/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-const myProfileData = {};
 const Setting = () => {
+  const [myProfileData, setMyProfileData] = useState({});
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
+  const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
+    setMyProfileData(data?.userInfo);
   }, [data]);
   return (
     <StContainer>
@@ -32,8 +33,8 @@ const Setting = () => {
               <TiPencil />
             </div>
           </div>
-          <span>{myProfileData.name}</span>
-          <span>{myProfileData.email}</span>
+          <span>{myProfileData?.nickname}</span>
+          <span>{myProfileData?.email}</span>
         </div>
         <ConfigOptionWrapper>
           <div>
@@ -63,6 +64,7 @@ const Setting = () => {
 export default Setting;
 
 const StMypageSection = styled(StSection)`
+  background-color: var(--main_bg);
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {
