@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import styled from "styled-components";
 import TimeAgo from "timeago-react";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 const Alarm = () => {
   timeAgo.register("ko", ko);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { data = [], isError, error } = useQuery(["Allalarm"], alarmApi.read);
   const { mutate: alarmAddMutate } = useMutation(alarmApi.patch, {
     onSuccess: () => {
@@ -20,8 +21,8 @@ const Alarm = () => {
     },
   });
   const { mutate: alarmDeleteMutate } = useMutation(alarmApi.delete, {
-    onSuccess: (success) => {
-      navigate("/setting/alarm");
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["Allalarm"] });
     },
   });
   const diaryJoinOnclickHandle = (diaryId, notificationId) => {
@@ -38,7 +39,7 @@ const Alarm = () => {
       {isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
-        <StContainer>
+        <StContainer bgColor="#f8f8f8">
           <StHeader flex justify="flex-start">
             <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>알림</h3>
@@ -115,6 +116,8 @@ const AlarmContainer = styled.div`
   width: 100%;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  background-color: var(--white);
+  margin: 2rem 0rem;
   &:hover {
     box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.36);
   }
