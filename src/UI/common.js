@@ -66,8 +66,8 @@ export const StContainer = styled.div`
   width: 36rem;
   height: 100%;
   min-height: 100vh;
-  border: 1px solid black;
-  background-color: ${(props) => props.bgColor};
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
+  background-color: ${(props) => props.bgColor ? props.bgColor : "#F8F8F8"};
   padding-top: ${(props) => props.top};
   overflow-x: hidden;
   ${flexProps}
