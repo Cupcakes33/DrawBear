@@ -33,7 +33,18 @@ const Alarm = () => {
   const diaryCancelOnclickHandle = (notificationId) => {
     alarmDeleteMutate(notificationId);
   };
-
+  const alarmMoveOnClickHandle = (code, notificationId) => {
+    console.log("alarmMoveOnClickHandle");
+    if (code === 4) {
+      queryClient.setQueryData(["footerIcons"], "couple");
+      navigate("/");
+      alarmDeleteMutate(notificationId);
+    } else if (code === 2) {
+      queryClient.setQueryData(["footerIcons"], "couple");
+      navigate(`/list/${notificationId}`);
+      alarmDeleteMutate(notificationId);
+    }
+  };
   useEffect(() => {}, [data]);
   return (
     <>
@@ -88,7 +99,11 @@ const Alarm = () => {
                   </AlarmContainer>
                 ) : (
                   <AlarmContainer key={index}>
-                    <AlarmTxtContainer>
+                    <AlarmTxtContainer
+                      onClick={() =>
+                        alarmMoveOnClickHandle(code, notificationId)
+                      }
+                    >
                       <div className="txt_container_n_btn">
                         {code === 2 && (
                           <>{audienceNickname}님이 다이어리를 작성했습니다.</>
