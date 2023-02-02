@@ -47,7 +47,7 @@ const ChatList = () => {
   // );
 
   useEffect(() => {
-    openAlertModal({ bigTxt: "준비중입니다.", onClick: () => window.location.replace("http://localhost:3000/") });
+    // openAlertModal({ bigTxt: "준비중입니다.", move: "/" });
   }, []);
   return (
     <>
@@ -56,7 +56,8 @@ const ChatList = () => {
           <span>채팅</span>
         </ChatHeader>
         {chatList.length === 0 ? (
-          <NoChatList h3txt="채팅 목록이 없습니다." />
+          // <NoChatList h3txt="채팅 목록이 없습니다." />
+          <NoChatList h3txt="준비 중입니다!" />
         ) : (
           <ChatListContainer>
             {/* {chatList?.map((chat) => {

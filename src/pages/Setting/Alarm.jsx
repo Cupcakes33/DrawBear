@@ -17,6 +17,7 @@ const Alarm = () => {
   const { data = [], isError, error } = useQuery(["Allalarm"], alarmApi.read);
   const { mutate: alarmAddMutate } = useMutation(alarmApi.patch, {
     onSuccess: () => {
+      queryClient.setQueryData(["footerIcons"], "couple");
       navigate("/");
     },
   });
@@ -60,25 +61,15 @@ const Alarm = () => {
               <AlarmContainer key={index}>
                 <AlarmTxtContainer>
                   <div className="AlarmTxtContainer">
-                    {audienceNickname}님이 {nickname} 님께 공유다이어리에
-                    초대하셨습니다.
+                    {audienceNickname}님이 {nickname} 님께 공유다이어리에 초대하셨습니다.
                   </div>
                   <div className="time_container">
                     <TimeAgo datetime={createdAt} locale="ko" />
                   </div>
                 </AlarmTxtContainer>
                 <AlarmBtnContainer>
-                  <Buttons.Option
-                    onClick={() =>
-                      diaryJoinOnclickHandle(diaryId, notificationId)
-                    }
-                  >
-                    수락
-                  </Buttons.Option>
-                  <Buttons.Option
-                    onClick={() => diaryCancelOnclickHandle(notificationId)}
-                    negative
-                  >
+                  <Buttons.Option onClick={() => diaryJoinOnclickHandle(diaryId, notificationId)}>수락</Buttons.Option>
+                  <Buttons.Option onClick={() => diaryCancelOnclickHandle(notificationId)} negative>
                     거절
                   </Buttons.Option>
                 </AlarmBtnContainer>
