@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LonginForm from "../components/login/LonginForm";
-import CommonContainer from "../UI/CommonContainer";
 import naver from "../assets/images/naver.webp";
 import kakao from "../assets/images/kakao.webp";
 import { flex, StContainer } from "../UI/common";

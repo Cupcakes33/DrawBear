@@ -21,9 +21,6 @@ const Main = () => {
       if (status === 400) openAlertModal({ bigTxt: "다이어리 조회에 실패했습니다.", move: "/login" });
     },
   });
-
-  console.log(data)
-
   const diaryType = (diaries) => {
     if (diaryTypes.couple === 0) {
       const soloDiary = diaries?.filter((diary) => diary.couple === 0);

@@ -6,7 +6,7 @@ import AlertModal from "../../components/common/modal/AlertModal";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
-  
+
   return (
     <>
       <StContainer>
@@ -25,7 +25,7 @@ const InfoEdit = () => {
               bigTxt={"로그아웃하시겠어요?"}
               smallTxt={"다시 로그인해서 이용할 수 있어요."}
               move={"/login"}
-              onClick={() => localStorage.removeItem("token")}
+              onClick={() => window.location.replace("http://localhost:3000/login")}
             >
               <div>로그아웃</div>
             </AlertModal>
