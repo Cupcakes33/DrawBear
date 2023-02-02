@@ -89,7 +89,9 @@ const DiaryList = memo(() => {
         <StFilterContainer>
           <FilterDropdown filter={filter} setFilter={setFilter} />
         </StFilterContainer>
+        {/* 섹션 컴포넌트 height 100vh 로 바꾸기 */}
         <StSection>
+          
           {(() => {
             switch (filter) {
               case "최신순":

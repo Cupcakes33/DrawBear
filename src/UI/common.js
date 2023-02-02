@@ -21,18 +21,18 @@ export const flex = (jc = "", ai = "", fd = "") => {
       case "space-evenly":
         return "space-evenly";
       case "flex-start":
-        return "flex-start"
+        return "flex-start";
       default:
-        return "center"
+        return "center";
     }
-  }
+  };
 
   const alignItems = () => {
     switch (ai) {
       default:
-        return "center"
+        return "center";
     }
-  }
+  };
 
   const flexdirection = () => {
     switch (fd) {
@@ -41,18 +41,17 @@ export const flex = (jc = "", ai = "", fd = "") => {
       case "row":
         return "row";
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   return css`
-  display: flex;
-  justify-content: ${justifyContent()};
-  align-items: ${alignItems()};
-  flex-direction: ${flexdirection()};
-  `
-}
-
+    display: flex;
+    justify-content: ${justifyContent()};
+    align-items: ${alignItems()};
+    flex-direction: ${flexdirection()};
+  `;
+};
 
 // display: flex;
 // flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
@@ -87,7 +86,7 @@ export const StHeader = styled.header`
   top: 0;
   ${flexProps}
   span {
-    color: #3CC7A6;
+    color: #3cc7a6;
     cursor: pointer;
   }
 `;
@@ -117,4 +116,4 @@ export const StFooter = styled.div`
 
 export const DisplayDiv = styled.div`
   ${flexProps}
-`
+`;

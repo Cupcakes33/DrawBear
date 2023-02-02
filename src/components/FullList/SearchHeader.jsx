@@ -11,8 +11,17 @@ const SearchHeader = ({ setChangeHeader }) => {
 
   const searchHandler = () => {
     const allPosts = queryClient.getQueryData(["Allposts_copy"]);
-    const filtedPosts = allPosts.filter((e) => e.title.includes(searchValue));
+    const filtedPosts = allPosts.filter(
+      (e) =>
+        e.title.includes(searchValue) ||
+        e.tag.replace(/ /g, "").includes(searchValue)
+    );
+
     queryClient.setQueryData(["Allposts"], filtedPosts);
+  };
+
+  const searchKeyDownHandler = (e) => {
+    if (e.key === "Enter") searchHandler();
   };
 
   return (
@@ -22,6 +31,7 @@ const SearchHeader = ({ setChangeHeader }) => {
           placeholder="일기 검색..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
+          onKeyDown={searchKeyDownHandler}
         />
       </div>
       <div>
