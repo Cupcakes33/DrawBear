@@ -1,19 +1,18 @@
 import styled from "styled-components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { IoMdBookmark } from "react-icons/io";
 import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
 import { BsDot } from "react-icons/bs";
-import { diaryType } from "../../redux/modules/diarySlice";
 import { alarmApi } from "../../apis/axios";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const Footer = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const { changeDiaryView } = useDispatchHook();
 
   const footerIconState = queryClient?.getQueryData(["footerIcons"]);
   // const { diaries } = queryClient?.getQueryData(["main"]);
@@ -21,12 +20,6 @@ const Footer = () => {
   const { data = [] } = useQuery(["allAlarm"], alarmApi.read, {
     refetchInterval: 3000,
   });
-
-  const changeDiaryView = ({ icon, couple, bookmark, move = "/" }) => {
-    queryClient.setQueryData(["footerIcons"], icon);
-    dispatch(diaryType({ couple, bookmark }));
-    navigate(move);
-  };
 
   const changeChatList = () => {
     queryClient.setQueryData(["footerIcons"], "chatlist");
