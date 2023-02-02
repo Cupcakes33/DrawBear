@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import styled from "styled-components";
+import TimeAgo from "timeago-react";
+import * as timeAgo from "timeago.js";
+import ko from "timeago.js/lib/lang/ko";
 import { alarmApi } from "../../apis/axios";
 import Buttons from "../../components/common/Button/Buttons";
 import Loading from "../../components/common/Loading";
@@ -8,6 +11,8 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 
 const Alarm = () => {
+  timeAgo.register("ko", ko);
+
   const {
     data = [],
     isLoading,
@@ -44,7 +49,9 @@ const Alarm = () => {
                     {audienceNickname}님이 {nickname} 님께 공유다이어리에
                     초대하셨습니다.
                   </div>
-                  <div className="time_container">1분전</div>
+                  <div className="time_container">
+                    <TimeAgo datetime={createdAt} locale="ko" />
+                  </div>
                 </AlarmTxtContainer>
                 <AlarmBtnContainer>
                   <Buttons.Option>수락</Buttons.Option>
