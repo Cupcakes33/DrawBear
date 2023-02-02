@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useDispatchHook from "../../../hooks/useDispatchHook";
 import { mainApi } from "../../../apis/axios";
 import DeleteConfirmBear from "../../../assets/images/DeleteConfirmBear.webp";
-import Button from "../../common/Button";
+import Buttons from "../../common/Button/Buttons";
 import { flex } from "../../../UI/common";
 import { Modal } from "../../common/modal/ReactModal";
 
@@ -43,13 +43,15 @@ const DiaryDeleteConfirmModal = ({ children, diaryName, diaryId }) => {
                 </div>
                 <div className="btn-box">
                   <Modal.Close>
-                    <Button size="medium" color="button_main">
-                      아니오
-                    </Button>
+                    <Buttons.Medium>아니요</Buttons.Medium>
                   </Modal.Close>
-                  <Button size="medium" color="button_alart" onClick={() => mutate(diaryId)}>
+
+                  <Buttons.Medium
+                    type="negative"
+                    onClick={() => mutate(diaryId)}
+                  >
                     삭제할래요
-                  </Button>
+                  </Buttons.Medium>
                 </div>
               </DeleteConfirmContainer>
             </Modal.ContentBox>

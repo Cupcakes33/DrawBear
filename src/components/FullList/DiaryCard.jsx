@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Card";
 import { useNavigate } from "react-router";
-import Button from "../common/Button";
-import { BsBookmark } from "react-icons/bs";
+
 import ListPageDropdown from "../common/dropdown/ListPageDropdown";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../../apis/axios";
+import Buttons from "../common/Button/Buttons";
 
 const DiaryCard = ({ postData }) => {
   const queryClient = useQueryClient();
@@ -25,7 +24,15 @@ const DiaryCard = ({ postData }) => {
   const { mutate: bookmarkMutate } = useMutation({
     mutationFn: () => postsApi.bookmark(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["Allposts"]);
+      const allPosts = queryClient.getQueryData(["Allposts"]);
+      const post = allPosts.filter((e) => e.postId === postId)[0];
+
+      queryClient.setQueryData(
+        ["Allposts"],
+        allPosts.map((e) =>
+          e === post ? { ...post, bookmark: !post.bookmark } : e
+        )
+      );
     },
   });
 
@@ -57,10 +64,8 @@ const DiaryCard = ({ postData }) => {
           <span>댓글 {commentsCount}</span>
         </div>
         <div>
-          <Button
-            size="mini"
-            icon={<BsBookmark />}
-            color={bookmark ? "button_primary" : "button_main"}
+          <Buttons.Bookmark
+            isBookmarked={bookmark}
             onClick={() => {
               bookmarkHandler(postId);
             }}

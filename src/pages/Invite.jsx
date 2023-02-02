@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useDispatchHook from "../hooks/useDispatchHook";
+import Buttons from "../components/common/Button/Buttons";
 
 const Invite = () => {
   const [name, setName] = useState("");
@@ -80,7 +81,7 @@ const Invite = () => {
             value={name}
             placeholder="초대 할 멤버의 닉네임을 입력해주세요."
           ></input>
-          <StSearchBtn onClick={userSearchOnclickHandle} />
+          <Buttons.Small onClick={userSearchOnclickHandle}>검색</Buttons.Small>
         </StSearchInputWrapper>
         {Object.keys(inviteUserInfo).length !== 0 && (
           <StSearchUserInfoWrapper>
@@ -130,6 +131,7 @@ const StSearchInputWrapper = styled.div`
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     padding: 1rem;
+    display: block;
     &:focus {
       outline: none;
       box-shadow: 0 0 0 2px palevioletred;

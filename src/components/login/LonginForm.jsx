@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { loginApi } from "../../apis/axios";
 import { Input, WorningWord } from "../common/Input";
+import Buttons from "../common/Button/Buttons";
 import useDispatchHook from "../../hooks/useDispatchHook";
 
 const LonginForm = () => {
@@ -47,10 +48,15 @@ const LonginForm = () => {
             id="email"
             name="email"
             placeholder="example@email.com"
-            {...register("email", { required: true, pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ })}
+            {...register("email", {
+              required: true,
+              pattern: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+            })}
             aria-invalid={errors.email ? "true" : "false"}
           />
-          <WorningWord color={errors.email?.type}>이메일 형식에 맞지 않습니다.</WorningWord>
+          <WorningWord color={errors.email?.type}>
+            이메일 형식에 맞지 않습니다.
+          </WorningWord>
         </div>
         <div>
           <label htmlFor="password">비밀번호</label>
@@ -60,15 +66,28 @@ const LonginForm = () => {
             id="password"
             name="password"
             placeholder="영문, 숫자 조합 8자리 이상"
-            {...register("password", { required: true, pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/ })}
+            {...register("password", {
+              required: true,
+              pattern: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
+            })}
             aria-invalid={errors?.password ? "true" : "false"}
           />
-          <WorningWord color={errors.password?.type}>영문, 숫자 조합 8자리 이상을 적어주세요.</WorningWord>
+          <WorningWord color={errors.password?.type}>
+            영문, 숫자 조합 8자리 이상을 적어주세요.
+          </WorningWord>
         </div>
         <div>
-          <StBtn disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}>
+          <Buttons.Full
+            type="positive"
+            disabled={
+              errors.email?.type === undefined &&
+              errors.password?.type === undefined
+                ? false
+                : true
+            }
+          >
             로그인
-          </StBtn>
+          </Buttons.Full>
         </div>
       </LocalLoginForm>
     </>
@@ -82,20 +101,4 @@ const LocalLoginForm = styled.form`
     padding-top: 20%;
   }
   ${Input}
-`;
-
-const StBtn = styled.button.attrs((props) => ({
-  disabled: props.disabled,
-}))`
-  width: 27rem;
-  height: 4.5rem;
-  color: white;
-  background-color: #3cc7a6;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  :disabled {
-    background-color: #b3e9dc;
-    cursor: default;
-  }
 `;

@@ -6,33 +6,25 @@ const userData = {
   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
   time: "10시31분",
 };
-const InviteSpeechbubble = () => {
+const InviteSpeechbubble = ({ bgcolor, rowreverse }) => {
   return (
-    <StSpeechContainer>
+    <StSpeechContainer rowreverse={rowreverse}>
       <div>
         <img src={userData.profile} />
       </div>
-      <div>
-        <div class="chatnickname">{userData.nickname}</div>
-        <ChatBubbleContainer>
-          <ChatBubbleWarrper>
-            <ChatPoint
-              borderTop={"15px solid #ffffff"}
-              borderLeft={"15px solid #F8F8F8"}
-            ></ChatPoint>
-            <ChatContext
-              bgcolor="#ffffff"
-              btrr="0.5rem"
-              bbrr="0.5rem"
-              bblr="0.5rem"
-              maxWidth="19rem"
-              boxShadow=".2rem .2rem #e8e8e8"
-              wordBreak="break-word"
-            >
-              {userData.txt}
-            </ChatContext>
-          </ChatBubbleWarrper>
-        </ChatBubbleContainer>
+      <div className="chatWrappper">
+        <div className="chatnickname">{userData.nickname}</div>
+        <ChatContext
+          bgcolor={bgcolor}
+          btrr="0.5rem"
+          bbrr="0.5rem"
+          bblr="0.5rem"
+          maxWidth="19rem"
+          boxShadow=".2rem .2rem #e8e8e8"
+          wordBreak="break-word"
+        >
+          {userData.txt}
+        </ChatContext>
       </div>
       <ChatTime fontsize="1rem" padding="10rem 0rem 0rem 0rem">
         {userData.time}
@@ -44,27 +36,26 @@ export default InviteSpeechbubble;
 
 const StSpeechContainer = styled.div`
   display: flex;
+  padding: 1rem;
+  flex-direction: ${(props) => props.rowreverse};
+  gap: 1rem;
   & img {
     width: 5rem;
     height: 5rem;
   }
-`;
-// const StSppechWrapper = styled.div`
-//   /* flex-direction: column; */
-// `;
-const ChatBubbleContainer = styled.div`
-  display: flex;
+  & .chatWrappper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 const ChatTime = styled.div`
   font-size: ${(props) => props.fontsize};
   padding: ${(props) => props.padding};
 `;
-const ChatPoint = styled.div`
-  border-top: ${(props) => props.borderTop};
-  border-right: ${(props) => props.borderRight};
-  border-left: ${(props) => props.borderLeft};
-`;
+
 const ChatContext = styled.div`
+  padding: 1rem;
   background-color: ${(props) => props.bgcolor};
   border-top-right-radius: ${(props) => props.btrr};
   border-bottom-right-radius: ${(props) => props.bbrr};
@@ -73,8 +64,4 @@ const ChatContext = styled.div`
   max-width: ${(props) => props.maxWidth};
   box-shadow: ${(props) => props.boxShadow};
   word-break: ${(props) => props.wordBreak};
-`;
-const ChatBubbleWarrper = styled.div`
-  display: flex;
-  padding: 1rem;
 `;

@@ -1,8 +1,12 @@
 import styled, { css } from "styled-components";
 import { lighten, darken } from "polished";
 
-const Button = ({ children, ...rest }) => {
-  return <StButton {...rest}>{children}</StButton>;
+const Button = ({ children, disabled, ...rest }) => {
+  return (
+    <StButton disabled={disabled} {...rest}>
+      {children}
+    </StButton>
+  );
 };
 
 const StButton = styled.button`
@@ -17,6 +21,13 @@ const StButton = styled.button`
   font-size: ${({ fs }) => fs};
   font-weight: ${({ fw }) => fw};
   white-space: nowrap;
+  ${({ disabled }) => {
+    if (!disabled) return;
+    return css`
+      pointer-events: none;
+      opacity: 0.3;
+    `;
+  }}
 
   ${({ bc }) => {
     return css`

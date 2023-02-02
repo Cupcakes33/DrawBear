@@ -21,18 +21,18 @@ export const flex = (justifyContent = "", alignItems = "", flexdirection = "") =
       case "space-evenly":
         return "space-evenly";
       case "flex-start":
-        return "flex-start"
+        return "flex-start";
       default:
-        return "center"
+        return "center";
     }
-  }
+  };
 
   const ai = () => {
     switch (alignItems) {
       default:
-        return "center"
+        return "center";
     }
-  }
+  };
 
   const fd = () => {
     switch (flexdirection) {
@@ -41,9 +41,9 @@ export const flex = (justifyContent = "", alignItems = "", flexdirection = "") =
       case "row":
         return "row";
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   return css`
   display: flex;
@@ -87,7 +87,7 @@ export const StHeader = styled.header`
   top: 0;
   ${flexProps}
   span {
-    color: #3CC7A6;
+    color: #3cc7a6;
     cursor: pointer;
   }
 `;
@@ -117,4 +117,4 @@ export const StFooter = styled.div`
 
 export const DisplayDiv = styled.div`
   ${flexProps}
-`
+`;
