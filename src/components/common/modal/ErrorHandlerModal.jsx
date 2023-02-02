@@ -4,14 +4,14 @@ import styled from "styled-components";
 import { ErrorModal } from "../../../redux/modules/UISlice";
 import { Modal } from "./ReactModal";
 
-const ErrorHandlerModal = ({ showModal, onClick }) => {
+const ErrorHandlerModal = ({ showModal }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { errorModal } = useSelector((state) => state.UISlice);
 
   const ConfirmReactionHandler = () => {
     dispatch(ErrorModal({ isModal: false }));
-    onClick && onClick();
+    errorModal?.onClick && errorModal?.onClick();
     navigate(errorModal?.move);
   };
 

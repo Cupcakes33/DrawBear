@@ -6,7 +6,8 @@ const initialState = {
     bigTxt: "",
     smallTxt: "",
     move: "",
-    diaryId: ""
+    diaryId: "",
+    onClick: ""
   },
 };
 
