@@ -41,7 +41,11 @@ const Footer = () => {
     <Container>
       <button
         className={
-          footerIconState === "solo" || (footerIconState === undefined && pathname !== "/setting")
+          footerIconState === "solo" ||
+          (footerIconState === undefined &&
+            pathname !== "/setting" &&
+            footerIconState === undefined &&
+            pathname !== "/chatlist")
             ? "icons selected"
             : "icons"
         }
@@ -64,7 +68,10 @@ const Footer = () => {
         <IoMdBookmark />
         <span>책갈피</span>
       </button>
-      <button className={footerIconState === "chatlist" ? "chaticons selected" : "chaticons"} onClick={changeChatList}>
+      <button
+        className={footerIconState === "chatlist" || pathname === "/chatlist" ? "chaticons selected" : "chaticons"}
+        onClick={changeChatList}
+      >
         <BsChatLeftTextFill />
         <span className="chatSpanTag">채팅</span>
       </button>
@@ -72,7 +79,7 @@ const Footer = () => {
         className={footerIconState === "setting" || pathname === "/setting" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "setting", couple: 1, bookmark: 0, move: "/setting" })}
       >
-        {data?.Notifications?.length !== 0 && <BsDot className="alarm-dot" />}
+        {data?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
         <MdMoreHoriz />
         <span>더보기</span>
       </button>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { flex } from "../../UI/common";
 import Diary from "./Diary/Diary";
 
 const BookmarkTab = ({ diaryData }) => {
@@ -28,10 +29,10 @@ const BookmarkTab = ({ diaryData }) => {
               invitedNickname === null ? (
                 <span>아직 혼자예요!</span>
               ) : (
-                <>
+                <ConnectedUserProfile>
                   <img src={invitedProfileImg} alt="상대방 프사" />
                   <span>{`${invitedNickname}님과 함께써요`}</span>
-                </>
+                </ConnectedUserProfile>
               )
             ) : null}
           </DiaryCardBox>
@@ -58,13 +59,15 @@ const DiaryCardBox = styled.div`
     margin-bottom: 0.5rem;
   }
   span {
-    display: flex;
-    justify-content: center;
     font-size: 1rem;
-    margin-top: -0.8rem;
   }
   img {
     width: 1.8rem;
     height: 1.8rem;
   }
+`;
+
+const ConnectedUserProfile = styled.div`
+  ${flex}
+  margin-top: -1rem;
 `;

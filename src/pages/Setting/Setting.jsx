@@ -29,7 +29,7 @@ const Setting = () => {
       <StHeader flex justify="space-between">
         <h3>더보기</h3>
         <AlarmDiv onClick={() => navigate("/setting/alarm")}>
-          {alarmData?.Notifications?.length !== 0 && <BsDot className="alarm-dot" />}
+          {alarmData?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
           <VscBell className="alarm" />
         </AlarmDiv>
       </StHeader>

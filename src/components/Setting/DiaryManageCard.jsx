@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { diaryData } from "../../redux/modules/diarySlice";
-import { DisplayDiv } from "../../UI/common";
+import { DisplayDiv, flex } from "../../UI/common";
 import Button from "../common/Button";
 import DiaryDeleteModal from "./DiaryDeleteModal";
 
@@ -37,10 +37,10 @@ const DiaryManageCard = ({ data }) => {
                 {invitedNickname === null ? (
                   <span>수락 대기중...</span>
                 ) : (
-                  <>
+                  <ConnectedUserProfile>
                     <img src={invitedProfileImg} alt="프사" />
                     <span>{invitedNickname}님과 함께써요</span>
-                  </>
+                  </ConnectedUserProfile>
                 )}
               </div>
               <div>
@@ -73,3 +73,10 @@ const SoloDiary = styled.div`
 `;
 
 const CoupleDiary = styled(SoloDiary)``;
+
+const ConnectedUserProfile = styled.div`
+  ${flex}
+  img {
+    width: 3rem;
+  }
+`;
