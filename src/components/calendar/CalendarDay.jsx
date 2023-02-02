@@ -1,5 +1,4 @@
 import React from "react";
-import { useMemo } from "react";
 import styled from "styled-components";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -10,13 +9,13 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
 
   // 선택된 년도와 달에 포스팅된 일기 선별하는 로직
 
-  const postsMonthFilterFn = useMemo(() => {
+  const postsMonthFilterFn = () => {
     const postsYear = queryClient
       ?.getQueryData(["Allposts_copy"])
       .filter((post) => +post.createdAt.split("-")[0] === selectedYear);
     const postsMonth = postsYear?.filter((post) => +post.createdAt.split("-")[1] === selectedMonth);
     return postsMonth;
-  }, [selectedYear, selectedMonth]);
+  };
 
   // 일 반환 로직
 
@@ -24,7 +23,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
     let dayArr = [];
     const holidayMonth = holiday.filter((v) => parseInt(String(v).substring(4, 6)) === selectedMonth);
     const holidayDate = holidayMonth.map((v) => parseInt(String(v).substring(6, 8)));
-    const postsDate = postsMonthFilterFn.map((post) => +post.createdAt.split("-")[2].split("T")[0]);
+    const postsDate = postsMonthFilterFn().map((post) => +post.createdAt.split("-")[2].split("T")[0]);
     const todayDate = new Date().toLocaleDateString("en-US").split("/");
 
     const holidayCompareFn = (i) => {
@@ -69,7 +68,7 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
   // 선택한 날짜의 일기 조회
 
   const selectedDatePostSearch = (i) => {
-    const selectedDayPost = postsMonthFilterFn.filter((post) => +post.createdAt.split("-")[2].split("T")[0] === i);
+    const selectedDayPost = postsMonthFilterFn().filter((post) => +post.createdAt.split("-")[2].split("T")[0] === i);
     queryClient.setQueryData(["Allposts"], selectedDayPost);
   };
 

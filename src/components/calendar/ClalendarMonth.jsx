@@ -1,14 +1,15 @@
 import React from "react";
+import { useMemo } from "react";
 import styled from "styled-components";
 
 const ClalendarMonth = ({ selectedYear, setSelectedMonth, setShowMonth, todayYear, todayMonth }) => {
-  const months = () => {
+  const months = useMemo(() => {
     let monthArr = [];
     for (let i = 1; i < 13; i++) {
       monthArr.push(i);
     }
     return monthArr;
-  };
+  }, []);
 
   const onMonthController = (month) => {
     setSelectedMonth(month);
@@ -22,7 +23,7 @@ const ClalendarMonth = ({ selectedYear, setSelectedMonth, setShowMonth, todayYea
 
   return (
     <MonthBox>
-      {months().map((month) => {
+      {months.map((month) => {
         return (
           <button
             key={month}

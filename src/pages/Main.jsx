@@ -29,21 +29,18 @@ const Main = () => {
     },
   });
 
-  const diaryType = useCallback(
-    (diaries) => {
-      if (diaryTypes.couple === 0) {
-        const soloDiary = diaries?.filter((diary) => diary.couple === 0);
-        return soloDiary;
-      } else if (diaryTypes.couple === 1) {
-        const coupleDiary = diaries?.filter((diary) => diary.couple === 1);
-        return coupleDiary;
-      } else if (diaryTypes.bookmark === 1) {
-        const favoriteDiary = diaries?.filter((diary) => diary.bookmark === 1);
-        return favoriteDiary;
-      }
-    },
-    [diaryTypes]
-  );
+  const diaryType = (diaries) => {
+    if (diaryTypes.couple === 0) {
+      const soloDiary = diaries?.filter((diary) => diary.couple === 0);
+      return soloDiary;
+    } else if (diaryTypes.couple === 1) {
+      const coupleDiary = diaries?.filter((diary) => diary.couple === 1);
+      return coupleDiary;
+    } else if (diaryTypes.bookmark === 1) {
+      const favoriteDiary = diaries?.filter((diary) => diary.bookmark === 1);
+      return favoriteDiary;
+    }
+  };
 
   useEffect(() => {
     queryClient.setQueryData(["footerIcons"], "solo");
