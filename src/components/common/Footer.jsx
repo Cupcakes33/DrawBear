@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { IoMdBookmark } from "react-icons/io";
 import { MdPeopleAlt } from "react-icons/md";
@@ -12,8 +11,11 @@ import useDispatchHook from "../../hooks/useDispatchHook";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const { changeDiaryView } = useDispatchHook();
+
+  const { pathname } = location;
 
   const footerIconState = queryClient?.getQueryData(["footerIcons"]);
   // const { diaries } = queryClient?.getQueryData(["main"]);
@@ -35,14 +37,14 @@ const Footer = () => {
     // return result;
   };
 
-  useEffect(() => {
-    changeDiaryView({ icon: "solo", couple: 0, bookmark: 0 });
-  }, []);
-
   return (
     <Container>
       <button
-        className={footerIconState === "solo" ? "icons selected" : "icons"}
+        className={
+          footerIconState === "solo" || (footerIconState === undefined && pathname !== "/setting")
+            ? "icons selected"
+            : "icons"
+        }
         onClick={() => changeDiaryView({ icon: "solo", couple: 0, bookmark: 0 })}
       >
         <BsFillPersonFill />
@@ -67,7 +69,7 @@ const Footer = () => {
         <span className="chatSpanTag">채팅</span>
       </button>
       <button
-        className={footerIconState === "setting" ? "icons selected" : "icons"}
+        className={footerIconState === "setting" || pathname === "/setting" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "setting", couple: 1, bookmark: 0, move: "/setting" })}
       >
         {data?.Notifications?.length !== 0 && <BsDot className="alarm-dot" />}

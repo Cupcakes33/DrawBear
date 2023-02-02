@@ -13,7 +13,7 @@ import Loading from "../components/common/Loading";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
-  const { openAlertModal, changeDiaryView } = useDispatchHook();
+  const { openAlertModal } = useDispatchHook();
 
   const { data = [], isLoading } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
