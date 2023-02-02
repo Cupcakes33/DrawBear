@@ -32,6 +32,12 @@ const Invite = () => {
       if (status === 404) {
         openAlertModal({ isModal: true, bigTxt: "닉네임을 입력해주세요" });
       }
+      if (status === 500) {
+        openAlertModal({
+            bigTxt: "다른 사람의 닉네임을 입력해주세요",
+          })
+        setName("");
+      }
     },
     onSuccess: ({ userInfo }) => {
       setInviteUserInfo({ ...userInfo });
@@ -56,6 +62,9 @@ const Invite = () => {
 
   useEffect(() => {
     socket.current = io.connect("http://122.45.26.243:8080");
+    return () => {
+      socket.current.disconnect();
+    };
   }, []);
   return (
     <StContainer>
