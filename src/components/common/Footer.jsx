@@ -13,27 +13,25 @@ const Footer = () => {
   const queryClient = useQueryClient();
 
   const footerIconState = queryClient?.getQueryData(["footerIcons"]);
-  const { diaries } = queryClient?.getQueryData(["main"]);
+  // const { diaries } = queryClient?.getQueryData(["main"]);
 
-  const diaryViewState = (state) => {
-    dispatch(diaryType(state));
+  const diaryState = ({ icon, couple, bookmark }) => {
+    queryClient.setQueryData(["footerIcons"], icon);
+    dispatch(diaryType({ couple, bookmark }));
   };
 
   const changeSoloView = () => {
-    queryClient.setQueryData(["footerIcons"], "solo");
-    diaryViewState({ couple: 0 });
+    diaryState({ icon: "solo", couple: 0 });
     navigate("/");
   };
 
   const changeCoupleView = () => {
-    queryClient.setQueryData(["footerIcons"], "couple");
-    diaryViewState({ couple: 1, bookmark: 0 });
+    diaryState({ icon: "couple", couple: 1, bookmark: 0 });
     navigate("/");
   };
 
   const changeFavoriteView = () => {
-    queryClient.setQueryData(["footerIcons"], "bookmark");
-    diaryViewState({ couple: 2, bookmark: 1 });
+    diaryState({ icon: "bookmark", couple: 2, bookmark: 1 });
     navigate("/");
   };
 
@@ -51,46 +49,29 @@ const Footer = () => {
   };
 
   const changeToSetting = () => {
-    queryClient.setQueryData(["footerIcons"], "setting");
+    diaryState({ icon: "setting" });
     navigate("/setting");
   };
 
   return (
     <Container>
-      <button
-        className={footerIconState === "solo" ? "icons selected" : "icons"}
-        onClick={changeSoloView}
-      >
+      <button className={footerIconState === "solo" ? "icons selected" : "icons"} onClick={changeSoloView}>
         <BsFillPersonFill />
         <span>혼자 써요</span>
       </button>
-      <button
-        className={footerIconState === "couple" ? "icons selected" : "icons"}
-        onClick={changeCoupleView}
-      >
+      <button className={footerIconState === "couple" ? "icons selected" : "icons"} onClick={changeCoupleView}>
         <MdPeopleAlt />
         <span>같이 써요</span>
       </button>
-      <button
-        className={footerIconState === "bookmark" ? "icons selected" : "icons"}
-        onClick={changeFavoriteView}
-      >
+      <button className={footerIconState === "bookmark" ? "icons selected" : "icons"} onClick={changeFavoriteView}>
         <IoMdBookmark />
         <span>책갈피</span>
       </button>
-      <button
-        className={
-          footerIconState === "chatlist" ? "chaticons selected" : "chaticons"
-        }
-        onClick={changeChatList}
-      >
+      <button className={footerIconState === "chatlist" ? "chaticons selected" : "chaticons"} onClick={changeChatList}>
         <BsChatLeftTextFill />
         <span className="chatSpanTag">채팅</span>
       </button>
-      <button
-        className={footerIconState === "setting" ? "icons selected" : "icons"}
-        onClick={changeToSetting}
-      >
+      <button className={footerIconState === "setting" ? "icons selected" : "icons"} onClick={changeToSetting}>
         <MdMoreHoriz />
         <span>더보기</span>
       </button>
