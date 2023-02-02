@@ -23,7 +23,14 @@ const Main = () => {
   } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 400) dispatch((ErrorModal({ isModal: true, bigTxt: "일기장 조회에 실패했습니다.", move: "/login" })));
+      if (status === 400)
+        dispatch(
+          ErrorModal({
+            isModal: true,
+            bigTxt: "일기장 조회에 실패했습니다.",
+            move: "/login",
+          })
+        );
     },
   });
 
@@ -61,7 +68,7 @@ const Main = () => {
             </StHeader>
             {diaryType(data?.diaries)?.length === 0 ? (
               <NoDiary />
-            ) : diaryTypes.bookmark === 1 ? (
+            ) : diaryTypes.bookmark ? (
               <BookmarkTab diaryData={diaryType(data?.diaries)} />
             ) : (
               <DiaryList diaryData={diaryType(data?.diaries)} />

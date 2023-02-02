@@ -18,15 +18,14 @@ import FilterDropdown from "../components/common/dropdown/FilterDropdown";
 import Loading from "../components/common/Loading";
 import { useTransition } from "react";
 import SearchHeader from "../components/FullList/SearchHeader";
+import Buttons from "../components/common/Button/Buttons";
 
 const DiaryList = memo(() => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const diaryName = localStorage.getItem("diaryName");
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const [filter, setFilter] = useState("최신순");
-  const [searchValue, setSearchValue] = useState("");
 
   const diaryId = useParams().id;
   const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
@@ -91,7 +90,6 @@ const DiaryList = memo(() => {
         </StFilterContainer>
         {/* 섹션 컴포넌트 height 100vh 로 바꾸기 */}
         <StSection>
-          
           {(() => {
             switch (filter) {
               case "최신순":
@@ -147,12 +145,7 @@ const DiaryList = memo(() => {
         </StSection>
 
         <StNavigateWritePageBtnWrapper>
-          <Button
-            size="mini"
-            color="button_primary"
-            fs="4rem"
-            icon={<TiPencil />}
-            round
+          <Buttons.AddPost
             onClick={() => {
               navigate(`/write/${diaryId}`);
             }}

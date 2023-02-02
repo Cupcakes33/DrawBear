@@ -11,7 +11,7 @@ import AlertModal from "../components/common/modal/AlertModal";
 
 const Login = () => {
   const queryClient = useQueryClient();
-  
+
   const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
@@ -48,18 +48,8 @@ const Login = () => {
         <hr />
       </BoundaryLine>
       <SocialLoginBox>
-        {/* <AlertModal
-          bigTxt={"준비중입니다."}
-          // move={"/login"}
-        > */}
         <img src={naver} alt="네이버 로그인" onClick={naverLoginHandler} />
-        {/* </AlertModal> */}
-        {/* <AlertModal
-          bigTxt={"준비중입니다."}
-          // move={"/login"}
-        > */}
         <img src={kakao} alt="카카오 로그인" onClick={kakaoLoginHandler} />
-        {/* </AlertModal> */}
       </SocialLoginBox>
     </CommonContainer>
   );

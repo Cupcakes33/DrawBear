@@ -115,7 +115,7 @@ const Bookmark = ({ isBookmarked, ...rest }) => {
   return (
     <Button
       fs="2rem"
-      bc="#f5f5f5"
+      bc="#ffffff"
       innerPadding="0.6rem"
       {...customProps}
       {...rest}
@@ -130,7 +130,7 @@ const Option = ({ children, negative, ...rest }) => {
   negative && (customProps.color = "#ff5656");
   return (
     <Button
-      fs="1.4rem"
+      fs="1.6rem"
       bc="#f5f5f5"
       innerPadding="0.7rem 1.9rem"
       {...customProps}
