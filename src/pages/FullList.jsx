@@ -22,6 +22,7 @@ import Loading from "../components/common/Loading";
 const DiaryList = memo(() => {
   const navigate = useNavigate();
   const diaryName = localStorage.getItem("diaryName");
+  const diaryCouple = localStorage.getItem("couple");
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const [filter, setFilter] = useState("최신순");
@@ -62,7 +63,7 @@ const DiaryList = memo(() => {
         </div>
         <div className="default-header-configBox">
           <BsSearch onClick={() => setChangeHeader(true)} />
-          <DiarySettingModal diaryName={diaryName} diaryId={diaryId}>
+          <DiarySettingModal diaryName={diaryName} diaryId={diaryId} couple={diaryCouple} >
             <AiOutlineSetting />
           </DiarySettingModal>
         </div>

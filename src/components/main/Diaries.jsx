@@ -26,13 +26,13 @@ const Diaries = ({ diaryData }) => {
         className="mySwiper"
       >
         {diaryData?.map((data) => {
-          const { diaryId, diaryName, bookmark, outsideColor } = data;
+          const { diaryId, diaryName, bookmark, outsideColor, couple } = data;
           return (
             <SwiperSlide key={`diary${diaryId}`}>
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{diaryName}</label>
-                  <DiarySettingModal diaryId={diaryId} diaryName={diaryName}>
+                  <DiarySettingModal diaryId={diaryId} diaryName={diaryName} couple={couple}>
                     <FiMoreVertical className="diaryMoreInfo" />
                   </DiarySettingModal>
                 </div>
@@ -44,7 +44,9 @@ const Diaries = ({ diaryData }) => {
                     onClick={() => {
                       navigate(`/list/${diaryId}`);
                       localStorage.removeItem("diaryName");
+                      localStorage.removeItem("couple");
                       localStorage.setItem("diaryName", diaryName);
+                      localStorage.setItem("couple", couple);
                     }}
                   ></Diary>
                 </div>
