@@ -1,12 +1,11 @@
-import { useCallback, useState, memo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useCallback, useState, useEffect, memo } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import Button from "../components/common/Button";
 import { TiPencil } from "react-icons/ti";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { diaryApi } from "../apis/axios";
 import NavigateBtn from "../components/common/NavigateBtn";
@@ -15,7 +14,6 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DiarySettingModal from "../components/main/DiarySettingModal/DiarySettingModal";
 import CalendarModal from "../components/calendar/CalendarModal";
-import { useEffect } from "react";
 import FilterDropdown from "../components/common/dropdown/FilterDropdown";
 import Loading from "../components/common/Loading";
 
@@ -33,7 +31,7 @@ const DiaryList = memo(() => {
   const orderPostsByDate = (data) => {
     const orderedPosts = {};
     if (!isLoading) {
-      console.log(data);
+      
       data.forEach((item) => {
         const temp = item.createdAt.slice(0, 10);
         if (orderedPosts[temp]) {
@@ -104,55 +102,54 @@ const DiaryList = memo(() => {
         <StFilterContainer>
           <FilterDropdown filter={filter} setFilter={setFilter} />
         </StFilterContainer>
-        {filter === "최신순" && (
-          <StSection>
-            {Object.keys(dateOrderedPosts).map((date, n) => {
-              return (
-                <StDiaryCarsWrapper key={`orderedPosts${n}`}>
-                  <div className="orderedDate">{locailDate(date)}</div>
-                  {dateOrderedPosts[date].map((post, n) => {
-                    return <DiaryCard key={`postData${n}`} postData={post} />;
-                  })}
-                  <StDivisionLine />
-                </StDiaryCarsWrapper>
-              );
-            })}
-          </StSection>
-        )}
-        {filter === "오래된순" && (
-          <StSection>
-            {Object.keys(dateOrderedPosts)
-              .reverse()
-              .map((date, n) => {
-                return (
-                  <StDiaryCarsWrapper key={`orderedPosts${n}`}>
-                    <div className="orderedDate">{locailDate(date)}</div>
-                    {dateOrderedPosts[date].map((post, n) => {
-                      return <DiaryCard key={`postData${n}`} postData={post} />;
-                    })}
-                    <StDivisionLine />
-                  </StDiaryCarsWrapper>
-                );
-              })}
-          </StSection>
-        )}
-        {filter === "북마크" && (
-          <StSection>
-            {Object.keys(dateOrderedPosts).map((date, n) => {
-              return (
-                <StDiaryCarsWrapper key={`orderedPosts${n}`}>
-                  <div className="orderedDate">{locailDate(date)}</div>
-                  {dateOrderedPosts[date]
-                    .filter((post) => post.bookmark)
-                    .map((post, n) => {
-                      return <DiaryCard key={`postData${n}`} postData={post} />;
-                    })}
-                  <StDivisionLine />
-                </StDiaryCarsWrapper>
-              );
-            })}
-          </StSection>
-        )}
+        <StSection>
+          {(() => {
+            switch (filter) {
+              case "최신순":
+                return Object.keys(dateOrderedPosts).map((date, n) => {
+                  return (
+                    <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                      <div className="orderedDate">{locailDate(date)}</div>
+                      {dateOrderedPosts[date].map((post, n) => {
+                        return <DiaryCard key={`postData${n}`} postData={post} />;
+                      })}
+                      <StDivisionLine />
+                    </StDiaryCarsWrapper>
+                  );
+                });
+              case "오래된순":
+                return Object.keys(dateOrderedPosts)
+                  .reverse()
+                  .map((date, n) => {
+                    return (
+                      <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                        <div className="orderedDate">{locailDate(date)}</div>
+                        {dateOrderedPosts[date].map((post, n) => {
+                          return <DiaryCard key={`postData${n}`} postData={post} />;
+                        })}
+                        <StDivisionLine />
+                      </StDiaryCarsWrapper>
+                    );
+                  });
+              case "북마크":
+                return Object.keys(dateOrderedPosts).map((date, n) => {
+                  return (
+                    <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                      <div className="orderedDate">{locailDate(date)}</div>
+                      {dateOrderedPosts[date]
+                        .filter((post) => post.bookmark)
+                        .map((post, n) => {
+                          return <DiaryCard key={`postData${n}`} postData={post} />;
+                        })}
+                      <StDivisionLine />
+                    </StDiaryCarsWrapper>
+                  );
+                });
+              default:
+                return null;
+            }
+          })()}
+        </StSection>
 
         <StNavigateWritePageBtnWrapper>
           <Button
@@ -171,7 +168,8 @@ const DiaryList = memo(() => {
   );
 });
 
-export default DiaryList;
+export default DiaryList
+
 
 const StNavigateWritePageBtnWrapper = styled.div`
   position: fixed;
