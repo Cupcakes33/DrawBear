@@ -33,6 +33,7 @@ const DiaryList = memo(() => {
   const orderPostsByDate = (data) => {
     const orderedPosts = {};
     if (!isLoading) {
+      console.log(data);
       data.forEach((item) => {
         const temp = item.createdAt.slice(0, 10);
         if (orderedPosts[temp]) {

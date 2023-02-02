@@ -25,7 +25,16 @@ const DiaryCard = ({ postData }) => {
   const { mutate: bookmarkMutate } = useMutation({
     mutationFn: () => postsApi.bookmark(postId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["Allposts"]);
+      const allPosts = queryClient.getQueryData(["Allposts"]);
+      const post = allPosts.filter((e) => e.postId === postId)[0];
+
+      queryClient.setQueryData(
+        ["Allposts"],
+        allPosts.map((e) =>
+          e === post ? { ...post, bookmark: !post.bookmark } : e
+        )
+      );
+    
     },
   });
 
