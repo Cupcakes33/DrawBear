@@ -13,9 +13,9 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
-export const flex = (jc = "", ai = "", fd = "") => {
-  const justifyContent = () => {
-    switch (jc) {
+export const flex = (justifyContent = "", alignItems = "", flexdirection = "") => {
+  const jc = () => {
+    switch (justifyContent) {
       case "between":
         return "space-between";
       case "space-evenly":
@@ -27,15 +27,15 @@ export const flex = (jc = "", ai = "", fd = "") => {
     }
   }
 
-  const alignItems = () => {
-    switch (ai) {
+  const ai = () => {
+    switch (alignItems) {
       default:
         return "center"
     }
   }
 
-  const flexdirection = () => {
-    switch (fd) {
+  const fd = () => {
+    switch (flexdirection) {
       case "column":
         return "column";
       case "row":
@@ -47,9 +47,9 @@ export const flex = (jc = "", ai = "", fd = "") => {
 
   return css`
   display: flex;
-  justify-content: ${justifyContent()};
-  align-items: ${alignItems()};
-  flex-direction: ${flexdirection()};
+  justify-content: ${jc()};
+  align-items: ${ai()};
+  flex-direction: ${fd()};
   `
 }
 
