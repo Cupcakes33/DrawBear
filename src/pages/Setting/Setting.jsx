@@ -6,7 +6,7 @@ import { TiPencil } from "react-icons/ti";
 import { VscBell } from "react-icons/vsc";
 import { BsDot } from "react-icons/bs";
 import { StContainer, StSection, StHeader } from "../../UI/common";
-import { mypageApi } from "../../apis/axios";
+import { alarmApi, mypageApi } from "../../apis/axios";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
 
@@ -14,6 +14,9 @@ const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
   const navigate = useNavigate();
 
+  const { data: alarmData } = useQuery(["allAlarm"], alarmApi.read, {
+    refetchInterval: 3000,
+  });
   const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
   useEffect(() => {
@@ -26,7 +29,7 @@ const Setting = () => {
       <StHeader flex justify="space-between">
         <h3>더보기</h3>
         <AlarmDiv onClick={() => navigate("/setting/alarm")}>
-          <BsDot className="alarm-dot" />
+          {alarmData?.Notifications?.length !== 0 && <BsDot className="alarm-dot" />}
           <VscBell className="alarm" />
         </AlarmDiv>
       </StHeader>

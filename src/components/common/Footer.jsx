@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
@@ -8,6 +8,7 @@ import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
 import { BsDot } from "react-icons/bs";
 import { diaryType } from "../../redux/modules/diarySlice";
+import { alarmApi } from "../../apis/axios";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ const Footer = () => {
 
   const footerIconState = queryClient?.getQueryData(["footerIcons"]);
   // const { diaries } = queryClient?.getQueryData(["main"]);
+
+  const { data = [] } = useQuery(["allAlarm"], alarmApi.read, {
+    refetchInterval: 3000,
+  });
 
   const changeDiaryView = ({ icon, couple, bookmark, move = "/" }) => {
     queryClient.setQueryData(["footerIcons"], icon);
@@ -67,7 +72,7 @@ const Footer = () => {
         className={footerIconState === "setting" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "setting", couple: 1, bookmark: 0, move: "/setting" })}
       >
-        <BsDot className="alarm-dot" />
+        {data?.Notifications?.length !== 0 && <BsDot className="alarm-dot" />}
         <MdMoreHoriz />
         <span>더보기</span>
       </button>
