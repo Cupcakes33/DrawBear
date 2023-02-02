@@ -6,7 +6,7 @@ import LonginForm from "../components/login/LonginForm";
 import CommonContainer from "../UI/CommonContainer";
 import naver from "../assets/images/naver.webp";
 import kakao from "../assets/images/kakao.webp";
-import { flex } from "../UI/common";
+import { flex, StContainer } from "../UI/common";
 import AlertModal from "../components/common/modal/AlertModal";
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
   }, [queryClient]);
 
   return (
-    <CommonContainer>
+    <StContainer bgColor="#eef3e3;">
       <LocalLoginBox>
         <h2>로그인</h2>
         <LonginForm />
@@ -64,7 +64,7 @@ const Login = () => {
           />
         </AlertModal>
       </SocialLoginBox>
-    </CommonContainer>
+    </StContainer>
   );
 };
 

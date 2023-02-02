@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
 
-export const Input = (bgColor, width) => {
+export const Input = (bgColor, width, margin) => {
   return css`
     input {
       display: block;
       width: ${width ? width : "100%"};
       height: 4.5rem;
+      margin: ${margin};
       background-color: ${`${bgColor}`};
       border: none;
       outline: none;
@@ -28,12 +29,17 @@ export const Input = (bgColor, width) => {
   `;
 };
 
-export const WorningWord = ({ children, color }) => {
-  return <ValidationText color={color ? "#ff5656" : "transparent"}>{children}</ValidationText>;
+export const WorningWord = ({ children, color, margin }) => {
+  return (
+    <ValidationText color={color ? "#ff5656" : "transparent"} margin={margin}>
+      {children}
+    </ValidationText>
+  );
 };
 
 const ValidationText = styled.small`
   color: ${({ color }) => color};
+  margin: ${({ margin }) => margin};
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

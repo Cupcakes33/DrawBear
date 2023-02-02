@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
 import useDispatchHook from "../../hooks/useDispatchHook";
+import { Input, WorningWord } from "../../components/common/Input";
 
 const MyProfileEdit = () => {
   const { openAlertModal } = useDispatchHook();
@@ -107,6 +108,7 @@ const MyProfileEdit = () => {
                 <span className="nickName_txt">닉네임</span>
                 <div className="nickName_container" style={{ flexDirection: "column" }}>
                   <input
+                    className={errors.nickname ? "fail" : "pass"}
                     id="nickname"
                     type="text"
                     name="nickname"
@@ -121,8 +123,12 @@ const MyProfileEdit = () => {
                       },
                     })}
                   />
-                  {errors.nickname && <small role="alert">{errors.nickname.message}</small>}
                 </div>
+              </div>
+              <div>
+                <WorningWord color={errors?.nickname?.type} margin="-3rem 0 0 6.5rem">
+                  {errors.nickname?.message}
+                </WorningWord>
               </div>
             </AccountInfoBox>
           </MyProfileSection>
@@ -189,12 +195,5 @@ const AccountInfoBox = styled.div`
     font-size: 1.4rem;
     color: #8c8c8c;
   }
-  input {
-    width: 20rem;
-    height: 4.5rem;
-    padding: 0 1rem;
-    border: none;
-    border-radius: 8px;
-    background: #f5f5f5;
-  }
+  ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
 `;

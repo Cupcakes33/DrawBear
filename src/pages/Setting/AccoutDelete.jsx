@@ -223,9 +223,6 @@ const AccountDeleteRightSection = styled.section`
     display: flex;
     align-items: center;
     padding-top: 10%;
-    input {
-      margin-left: 1.4rem;
-    }
-    ${Input("#F5F5F5", "105%")}
+    ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
   }
 `;
