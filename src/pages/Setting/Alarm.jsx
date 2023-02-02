@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import styled from "styled-components";
 import TimeAgo from "timeago-react";
@@ -9,16 +9,31 @@ import Buttons from "../../components/common/Button/Buttons";
 import Loading from "../../components/common/Loading";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
+import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 
 const Alarm = () => {
   timeAgo.register("ko", ko);
-
+  const navigate = useNavigate();
   const {
     data = [],
     isLoading,
     isError,
     error,
   } = useQuery(["Allalarm"], alarmApi.read);
+  const { mutate: alarmAddMutate } = useMutation(alarmApi.patch, {
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+  const diaryJoinOnclickHandle = (diaryId, notificationId) => {
+    const diaryjoinData = { diaryId, notificationId };
+    alarmAddMutate(diaryjoinData);
+  };
+
   useEffect(() => {}, [data]);
   return (
     <>
@@ -30,7 +45,7 @@ const Alarm = () => {
             <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>알림</h3>
           </StHeader>
-          {data.Notifications?.map((alarmdata) => {
+          {data.Notifications?.map((alarmdata, index) => {
             const {
               audienceId,
               audienceNickname,
@@ -43,7 +58,7 @@ const Alarm = () => {
               notificationId,
             } = alarmdata;
             return (
-              <AlarmContainer>
+              <AlarmContainer key={index}>
                 <AlarmTxtContainer>
                   <div className="AlarmTxtContainer">
                     {audienceNickname}님이 {nickname} 님께 공유다이어리에
@@ -54,8 +69,14 @@ const Alarm = () => {
                   </div>
                 </AlarmTxtContainer>
                 <AlarmBtnContainer>
-                  <Buttons.Option>수락</Buttons.Option>
-                  <Buttons.Option negative>거절</Buttons.Option>
+                  <Buttons.Option
+                    onClick={() =>
+                      diaryJoinOnclickHandle(diaryId, notificationId)
+                    }
+                  >
+                    수락
+                  </Buttons.Option>
+                  <Buttons.Option>거절</Buttons.Option>
                 </AlarmBtnContainer>
               </AlarmContainer>
             );
