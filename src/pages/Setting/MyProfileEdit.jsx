@@ -16,7 +16,7 @@ const MyProfileEdit = () => {
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
   const { mutate } = useMutation((formData) => mypageApi.update(formData), {
     onSuccess: (success) => {
-      openAlertModal({ bigTxt: success.message, move: "/setting/profileEdit" }); //모달창에 전달하는 데이터
+      openAlertModal({ bigTxt: success.message, move: "/setting/" }); //모달창에 전달하는 데이터
     },
   });
   const [nick, setNick] = useState("");
@@ -93,7 +93,7 @@ const MyProfileEdit = () => {
                 style={{ display: "none " }}
               ></input>
               <div className="myProfileInfoWrapper">
-                <img src={image.preview_URL} onClick={() => inputRef.click()} />
+                <img src={image.preview_URL} alt="" onClick={() => inputRef.click()} />
                 <div className="pencilIcon-box">
                   <Button type="button" onClick={() => inputRef.click()} icon={<TiPencil />} round></Button>
                 </div>

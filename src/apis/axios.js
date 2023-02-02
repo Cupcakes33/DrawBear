@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const instance = axios.create({
   // baseURL: process.env.REACT_APP_MY_API,
-  baseURL: "https://mylee.site",
+  baseURL: "http://122.45.26.243:8080",
   // withCredentials: true, // 로그인 후 로그인이 풀리는 문제를 해결하기 위함
 });
 
@@ -25,14 +25,11 @@ instance.interceptors.response.use(
   (error) => {
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
-
       alert("로그인 후 이용가능합니다.");
       return window.location.replace("http://localhost:3000/login");
     }
-      
-      // window.location.replace("https://finale-omega.vercel.app/login");
-    // }
-    return Promise.reject(error);
+    // // window.location.replace("https://finale-omega.vercel.app/login");
+    else return Promise.reject(error);
   }
 );
 
@@ -60,6 +57,13 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/unregister", {
       currentPassword: inputData.password,
     });
+    return data;
+  },
+};
+
+export const alarmApi = {
+  read: async () => {
+    const { data } = await instance.get("/api/notification/");
     return data;
   },
 };
