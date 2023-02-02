@@ -37,13 +37,10 @@ instance.interceptors.response.use(
 );
 
 export const loginApi = {
-  login: async (inputData) => {
-    const { data } = await instance.post("/api/auth/login", {
+  login: (inputData) => instance.post("/api/auth/login", {
       email: inputData.email,
       password: inputData.password,
-    });
-    return data;
-  },
+    }),
 
   create: async (formData) => {
     await instance.post("/api/auth/signup", formData);

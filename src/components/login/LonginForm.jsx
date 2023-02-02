@@ -8,8 +8,15 @@ import useDispatchHook from "../../hooks/useDispatchHook";
 const LonginForm = () => {
   const { openAlertModal } = useDispatchHook();
 
-  const { mutate } = useMutation((inputData) => loginApi.login(inputData), {
-    onError: (error) => {
+  const loginAxios = async (inputData) => {
+    try {
+      const { data } = await loginApi.login(inputData);
+      localStorage.setItem("token", data.token);
+      setTimeout(() => {
+        localStorage.clear();
+      }, 3600000);
+      return openAlertModal({ bigTxt: "로그인 성공!", move: "/" });
+    } catch (error) {
       const { status } = error?.response?.request;
       if (status === undefined || null) return;
       else if (status === 412)
@@ -17,15 +24,8 @@ const LonginForm = () => {
       else if (status === 400)
         openAlertModal({ bigTxt: "로그인 실패", smallTxt: "해당 아이디는 소셜로그인으로 시도해주세요." });
       else openAlertModal({ bigTxt: "로그인 실패" });
-    },
-    onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
-      setTimeout(() => {
-        localStorage.clear();
-      }, 3600000);
-      openAlertModal({ bigTxt: "로그인 성공!", move: "/" });
-    },
-  });
+    }
+  };
 
   const {
     register,
@@ -34,7 +34,7 @@ const LonginForm = () => {
   } = useForm();
 
   const onSubmit = (inputData) => {
-    return mutate(inputData);
+    return loginAxios(inputData);
   };
 
   return (
