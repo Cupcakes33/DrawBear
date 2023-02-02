@@ -1,19 +1,37 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import styled from "styled-components";
+import TimeAgo from "timeago-react";
+import * as timeAgo from "timeago.js";
+import ko from "timeago.js/lib/lang/ko";
 import { alarmApi } from "../../apis/axios";
 import Buttons from "../../components/common/Button/Buttons";
-import Loading from "../../components/common/Loading";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { StContainer, StHeader, StSection } from "../../UI/common";
+import { StContainer, StHeader } from "../../UI/common";
+import { useNavigate } from "react-router-dom";
 
 const Alarm = () => {
-  const {
-    data = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery(["Allalarm"], alarmApi.read);
+  timeAgo.register("ko", ko);
+  const navigate = useNavigate();
+  const { data = [], isError, error } = useQuery(["Allalarm"], alarmApi.read);
+  const { mutate: alarmAddMutate } = useMutation(alarmApi.patch, {
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
+  const { mutate: alarmDeleteMutate } = useMutation(alarmApi.delete, {
+    onSuccess: (success) => {
+      navigate("/setting/alarm");
+    },
+  });
+  const diaryJoinOnclickHandle = (diaryId, notificationId) => {
+    const diaryjoinData = { diaryId, notificationId };
+    alarmAddMutate(diaryjoinData);
+  };
+  const diaryCancelOnclickHandle = (notificationId) => {
+    alarmDeleteMutate(notificationId);
+  };
+
   useEffect(() => {}, [data]);
   return (
     <>
@@ -25,7 +43,7 @@ const Alarm = () => {
             <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>알림</h3>
           </StHeader>
-          {data.Notifications?.map((alarmdata) => {
+          {data.Notifications?.map((alarmdata, index) => {
             const {
               audienceId,
               audienceNickname,
@@ -38,17 +56,30 @@ const Alarm = () => {
               notificationId,
             } = alarmdata;
             return (
-              <AlarmContainer>
+              <AlarmContainer key={index}>
                 <AlarmTxtContainer>
                   <div className="AlarmTxtContainer">
                     {audienceNickname}님이 {nickname} 님께 공유다이어리에
                     초대하셨습니다.
                   </div>
-                  <div className="time_container">1분전</div>
+                  <div className="time_container">
+                    <TimeAgo datetime={createdAt} locale="ko" />
+                  </div>
                 </AlarmTxtContainer>
                 <AlarmBtnContainer>
-                  <Buttons.Option>수락</Buttons.Option>
-                  <Buttons.Option negative>거절</Buttons.Option>
+                  <Buttons.Option
+                    onClick={() =>
+                      diaryJoinOnclickHandle(diaryId, notificationId)
+                    }
+                  >
+                    수락
+                  </Buttons.Option>
+                  <Buttons.Option
+                    onClick={() => diaryCancelOnclickHandle(notificationId)}
+                    negative
+                  >
+                    거절
+                  </Buttons.Option>
                 </AlarmBtnContainer>
               </AlarmContainer>
             );
