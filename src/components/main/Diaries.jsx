@@ -32,7 +32,7 @@ const Diaries = ({ diaryData }) => {
             <SwiperSlide key={`diary${diaryId}`}>
               <DiaryShowContainer>
                 <div className="diaryTitle">
-                  <label>{diaryName}</label>
+                  <div>{diaryName}</div>
                   <DiarySettingModal diaryId={diaryId} diaryName={diaryName}>
                     <FiMoreVertical className="diaryMoreInfo" />
                   </DiarySettingModal>

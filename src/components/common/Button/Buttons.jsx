@@ -115,7 +115,7 @@ const Bookmark = ({ isBookmarked, ...rest }) => {
   return (
     <Button
       fs="2rem"
-      bc="#f5f5f5"
+      bc="#ffffff"
       innerPadding="0.6rem"
       {...customProps}
       {...rest}
@@ -169,6 +169,7 @@ const Navigate = ({ to, prev, ...rest }) => {
     </Button>
   );
 };
+
 const Buttons = {
   AddDiary,
   AddComment,

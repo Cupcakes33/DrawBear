@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { flex } from "../../../UI/common";
 import DeleteConfirmBear from "../../../assets/images/DeleteConfirmBear.webp";
-import Button from "../../common/Button";
+import Buttons from "../../common/Button/Buttons";
 import { Modal } from "../../common/modal/ReactModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { mainApi } from "../../../apis/axios";
@@ -16,12 +16,29 @@ const DiaryDeleteConfirmModal = ({ children, diaryName, diaryId }) => {
   const { data, mutate } = useMutation((id) => mainApi.delete(id), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 404) dispatch((ErrorModal({ isModal: true, bigTxt: "다이어리가 존재하지 않습니다." })));
-      else if (status === 401) dispatch((ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." })));
-      else if (status === 500) dispatch((ErrorModal({ isModal: true, bigTxt: "다이어리 삭제에 실패하였습니다." })));
+      if (status === 404)
+        dispatch(
+          ErrorModal({ isModal: true, bigTxt: "다이어리가 존재하지 않습니다." })
+        );
+      else if (status === 401)
+        dispatch(ErrorModal({ isModal: true, bigTxt: "권한이 없습니다." }));
+      else if (status === 500)
+        dispatch(
+          ErrorModal({
+            isModal: true,
+            bigTxt: "다이어리 삭제에 실패하였습니다.",
+          })
+        );
     },
     onSuccess: () => {
-      dispatch((ErrorModal({ isModal: true, bigTxt: "다이어리를 삭제했어요.", smallTxt: "다이어리야 안녕!", move: "/" })));
+      dispatch(
+        ErrorModal({
+          isModal: true,
+          bigTxt: "다이어리를 삭제했어요.",
+          smallTxt: "다이어리야 안녕!",
+          move: "/",
+        })
+      );
       const diaryData = queryClient.getQueryData(["main"])?.diaries;
       queryClient.setQueryData(["main"], {
         diaries: diaryData?.filter((diary) => diary.diaryId !== diaryId),
@@ -46,13 +63,15 @@ const DiaryDeleteConfirmModal = ({ children, diaryName, diaryId }) => {
                 </div>
                 <div className="btn-box">
                   <Modal.Close>
-                    <Button size="medium" color="button_main">
-                      아니오
-                    </Button>
+                    <Buttons.Medium>아니요</Buttons.Medium>
                   </Modal.Close>
-                  <Button size="medium" color="button_alart" onClick={() => mutate(diaryId)}>
+
+                  <Buttons.Medium
+                    type="negative"
+                    onClick={() => mutate(diaryId)}
+                  >
                     삭제할래요
-                  </Button>
+                  </Buttons.Medium>
                 </div>
               </DeleteConfirmContainer>
             </Modal.ContentBox>
