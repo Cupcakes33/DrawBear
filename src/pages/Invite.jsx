@@ -39,7 +39,7 @@ const Invite = () => {
           })
         );
       }
-      if (status === 500) {
+      if (status === 400) {
         dispatch(
           ErrorModal({
             isModal: true,
