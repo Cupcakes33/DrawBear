@@ -34,7 +34,6 @@ const Alarm = () => {
     alarmDeleteMutate(notificationId);
   };
   const alarmMoveOnClickHandle = (code, notificationId, diaryId, postId) => {
-    console.log("alarmMoveOnClickHandle");
     if (code === 4) {
       queryClient.setQueryData(["footerIcons"], "couple");
       navigate("/");
@@ -70,7 +69,6 @@ const Alarm = () => {
               nickname,
               notificationId,
             } = alarmdata;
-            console.log(alarmdata);
             return (
               <>
                 {code === 1 ? (

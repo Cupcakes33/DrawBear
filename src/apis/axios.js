@@ -144,12 +144,10 @@ export const diaryApi = {
   },
 
   search: async (payload) => {
-    console.log(payload);
     const { diaryId, title } = payload;
     const { data } = await instance.get(
       `/api/post/${diaryId}/search?title=${title}`
     );
-    console.log(data);
     return data;
   },
 };
