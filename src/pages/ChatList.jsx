@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { ErrorModal } from "../redux/modules/UISlice";
 import NoChatList from "./NoChatList";
 import { useEffect } from "react";
+import useDispatchHook from "../hooks/useDispatchHook";
 
 const chatData = [
   // {
@@ -28,7 +29,7 @@ const chatData = [
 ];
 
 const ChatList = () => {
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
   const [chatList, setChatList] = useState([...chatData]);
   // const { data, isLoading, isError, error } = useQuery(
   //   ["chatList"],
@@ -46,7 +47,7 @@ const ChatList = () => {
   // );
 
   useEffect(() => {
-    dispatch(ErrorModal({ isModal: true, bigTxt: "준비중입니다.", move: "/" }));
+    // openAlertModal({ bigTxt: "준비중입니다.", move: "/" });
   }, []);
   return (
     <>
@@ -55,7 +56,8 @@ const ChatList = () => {
           <span>채팅</span>
         </ChatHeader>
         {chatList.length === 0 ? (
-          <NoChatList h3txt="채팅 목록이 없습니다." />
+          // <NoChatList h3txt="채팅 목록이 없습니다." />
+          <NoChatList h3txt="준비 중입니다!" />
         ) : (
           <ChatListContainer>
             {/* {chatList?.map((chat) => {
@@ -76,7 +78,7 @@ const ChatList = () => {
           </ChatListContainer>
         )}
         {/* <ChatListContainer> */}
-        <NoChatList />
+        {/* <NoChatList /> */}
 
         {/* </ChatListContainer> */}
         <Footer />

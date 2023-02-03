@@ -11,26 +11,26 @@ import { TiPencil } from "react-icons/ti";
 import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
 import useDispatchHook from "../hooks/useDispatchHook";
+import Loading from "../components/common/Loading";
 
 const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
 
 const UpdateDiary = () => {
-  const [selectedColor, setSelectedColor] = useState(updateDiaryData?.[0].outsideColor);
   const { couple } = useSelector((state) => state.diarySlice);
+  const { openAlertModal } = useDispatchHook();
   const queryClient = useQueryClient();
   const diaryTitleInputRef = useRef();
   const navigate = useNavigate();
   const { id } = useParams();
 
   const updateDiaryData = queryClient?.getQueryData(["main"])?.diaries.filter((data) => data.diaryId === +id);
-  const { openAlertModal } = useDispatchHook;
+  const [selectedColor, setSelectedColor] = useState(updateDiaryData?.[0].outsideColor);
 
   const { mutate } = useMutation((updateData) => mainApi.update(updateData), {
     onError: (error) => {
       const status = error?.response.request.status;
       if (status === 500) openAlertModal({ bigTxt: "다이어리 생성에 실패하였습니다." });
       else if (status === 404) openAlertModal({ bigTxt: "다이어리가 존재하지 않습니다." });
-      else if (status === 401) openAlertModal({ bigTxt: "권한이 없습니다." });
     },
     onSuccess: () => {
       openAlertModal({ bigTxt: "다이어리 수정 성공!", move: "/" });
@@ -54,12 +54,12 @@ const UpdateDiary = () => {
   return (
     <>
       {updateDiaryData === undefined ? (
-        <h1>알 수 없는 에러! 3초 뒤 메인화면으로 이동합니다...</h1>
+        <Loading>알 수 없는 에러! 3초 뒤 메인화면으로 이동합니다...</Loading>
       ) : (
         <Container>
           <StHeader flex justify="space-between">
             <DisplayDiv flex>
-              <NavigateBtn prev sizeType="header" />
+              <NavigateBtn prev sizeType="header" link="/" />
               <h3>다이어리 수정</h3>
             </DisplayDiv>
             <div>

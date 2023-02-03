@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  holiday: [],
   diaryTypes: {
     couple: 0,
     bookmark: 0
@@ -11,8 +10,6 @@ const initialState = {
     diaryId: 0
   },
   couple: 0,
-  result: "",
-  isLoading: ""
 };
 
 const diarySlice = createSlice({

@@ -9,7 +9,7 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import useDispatchHook from "../../hooks/useDispatchHook";
 
 const MyPassword = () => {
-  const { openAlertModal } = useDispatchHook;
+  const { openAlertModal } = useDispatchHook();
 
   const {
     register,
@@ -40,9 +40,9 @@ const MyPassword = () => {
             <NavigateBtn prev sizeType="header" link="/setting/infoEdit/" />
             <h3>비밀번호 변경</h3>
           </DisplayDiv>
-          <div>
+          <span>
             <h3 onClick={handleSubmit(onSubmit)}>완료</h3>
-          </div>
+          </span>
         </StHeader>
         <form>
           <MypageSection flex derection="column" justify="flex-start">

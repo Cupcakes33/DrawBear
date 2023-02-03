@@ -1,15 +1,14 @@
-import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import Diary from "./Diary/Diary";
-import { FiMoreVertical } from "react-icons/fi";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.css";
-import { flex } from "../../UI/common";
 import DiarySettingModal from "./DiarySettingModal/DiarySettingModal";
+import Diary from "./Diary/Diary";
+import { flex } from "../../UI/common";
+import { FiMoreVertical } from "react-icons/fi";
 
 const Diaries = ({ diaryData }) => {
   const navigate = useNavigate();
@@ -27,13 +26,13 @@ const Diaries = ({ diaryData }) => {
         className="mySwiper"
       >
         {diaryData?.map((data) => {
-          const { diaryId, diaryName, bookmark, outsideColor } = data;
+          const { diaryId, diaryName, bookmark, outsideColor, couple } = data;
           return (
             <SwiperSlide key={`diary${diaryId}`}>
               <DiaryShowContainer>
                 <div className="diaryTitle">
                   <label>{diaryName}</label>
-                  <DiarySettingModal diaryId={diaryId} diaryName={diaryName}>
+                  <DiarySettingModal diaryId={diaryId} diaryName={diaryName} couple={couple}>
                     <FiMoreVertical className="diaryMoreInfo" />
                   </DiarySettingModal>
                 </div>
@@ -45,7 +44,9 @@ const Diaries = ({ diaryData }) => {
                     onClick={() => {
                       navigate(`/list/${diaryId}`);
                       localStorage.removeItem("diaryName");
+                      localStorage.removeItem("couple");
                       localStorage.setItem("diaryName", diaryName);
+                      localStorage.setItem("couple", couple);
                     }}
                   ></Diary>
                 </div>

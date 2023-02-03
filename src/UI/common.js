@@ -13,43 +13,43 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
-export const flex = (jc = "", ai = "", fd = "") => {
-  const justifyContent = () => {
-    switch (jc) {
+export const flex = (justifyContent = "", alignItems = "", flexdirection = "") => {
+  const jc = () => {
+    switch (justifyContent) {
       case "between":
         return "space-between";
       case "space-evenly":
         return "space-evenly";
       case "flex-start":
-        return "flex-start"
+        return "flex-start";
       default:
-        return "center"
+        return "center";
     }
-  }
+  };
 
-  const alignItems = () => {
-    switch (ai) {
+  const ai = () => {
+    switch (alignItems) {
       default:
-        return "center"
+        return "center";
     }
-  }
+  };
 
-  const flexdirection = () => {
-    switch (fd) {
+  const fd = () => {
+    switch (flexdirection) {
       case "column":
         return "column";
       case "row":
         return "row";
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   return css`
   display: flex;
-  justify-content: ${justifyContent()};
-  align-items: ${alignItems()};
-  flex-direction: ${flexdirection()};
+  justify-content: ${jc()};
+  align-items: ${ai()};
+  flex-direction: ${fd()};
   `
 }
 
@@ -66,8 +66,8 @@ export const StContainer = styled.div`
   width: 36rem;
   height: 100%;
   min-height: 100vh;
-  border: 1px solid black;
-  background-color: ${(props) => props.bgColor};
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
+  background-color: ${(props) => props.bgColor ? props.bgColor : "#F8F8F8"};
   padding-top: ${(props) => props.top};
   overflow-x: hidden;
   ${flexProps}
@@ -87,7 +87,7 @@ export const StHeader = styled.header`
   top: 0;
   ${flexProps}
   span {
-    color: #3CC7A6;
+    color: #3cc7a6;
     cursor: pointer;
   }
 `;
@@ -117,4 +117,4 @@ export const StFooter = styled.div`
 
 export const DisplayDiv = styled.div`
   ${flexProps}
-`
+`;

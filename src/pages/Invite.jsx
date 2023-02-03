@@ -7,24 +7,23 @@ import Toast from "./Toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { inviteApi, mypageApi } from "../apis/axios";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
-import { ErrorModal } from "../redux/modules/UISlice";
 import io from "socket.io-client";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import useDispatchHook from "../hooks/useDispatchHook";
+import Buttons from "../components/common/Button/Buttons";
 
 const Invite = () => {
-  // const [showUserForm, setShowUserForm] = useState(false);
   const [name, setName] = useState("");
   const [isInvite, setIsInvite] = useState(false);
   const [inviteUserInfo, setInviteUserInfo] = useState({});
   const [hostUserInfo, setHostUserInfo] = useState({});
   const [popup, setPopup] = useState(false);
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
   const socket = useRef(null);
   const { id } = useParams();
-  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
+  const { data } = useQuery(["setting"], mypageApi.read);
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
@@ -32,12 +31,13 @@ const Invite = () => {
     onError: (error) => {
       const status = error?.response.status;
       if (status === 404) {
-        dispatch(
-          ErrorModal({
-            isModal: true,
-            bigTxt: "닉네임을 입력해주세요",
+        openAlertModal({ isModal: true, bigTxt: "닉네임을 입력해주세요" });
+      }
+      if (status === 500) {
+        openAlertModal({
+            bigTxt: "다른 사람의 닉네임을 입력해주세요",
           })
-        );
+        setName("");
       }
     },
     onSuccess: ({ userInfo }) => {
@@ -53,7 +53,7 @@ const Invite = () => {
     setIsInvite(!isInvite);
     setPopup(!popup);
     const inviteData = {
-      diaryId: id,
+      diaryId: Number(id),
       hostUserId: hostUserInfo.userId,
       invitedUserId: inviteUserInfo.userId,
     };
@@ -61,15 +61,15 @@ const Invite = () => {
   };
 
   useEffect(() => {
-    socket.current = io.connect("http://localhost:3002");
-    // return () => {
-    //   socket.current.disconnect();
-    // };
+    socket.current = io.connect("http://122.45.26.243:8080");
+    return () => {
+      socket.current.disconnect();
+    };
   }, []);
   return (
     <StContainer>
       <StHeader flex justify="flex-start">
-        <NavigateBtn prev sizeType="header" />
+        <NavigateBtn prev sizeType="header" link="/" />
         <h3>같이 쓰는 멤버 초대</h3>
       </StHeader>
       <StInviteSection>
@@ -80,7 +80,7 @@ const Invite = () => {
             value={name}
             placeholder="초대 할 멤버의 닉네임을 입력해주세요."
           ></input>
-          <StSearchBtn onClick={userSearchOnclickHandle} />
+          <Buttons.Small onClick={userSearchOnclickHandle}>검색</Buttons.Small>
         </StSearchInputWrapper>
         {Object.keys(inviteUserInfo).length !== 0 && (
           <StSearchUserInfoWrapper>
@@ -130,6 +130,7 @@ const StSearchInputWrapper = styled.div`
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     padding: 1rem;
+    display: block;
     &:focus {
       outline: none;
       box-shadow: 0 0 0 2px palevioletred;

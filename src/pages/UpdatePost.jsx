@@ -10,9 +10,6 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 
-import { ErrorModal } from "../redux/modules/UISlice";
-import { useDispatch } from "react-redux";
-
 import { useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import { useEffect } from "react";
@@ -20,6 +17,7 @@ import { useEffect } from "react";
 import { GrPrevious } from "react-icons/gr";
 
 import Loading from "../components/common/Loading";
+import useDispatchHook from "../hooks/useDispatchHook";
 
 const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
@@ -29,7 +27,7 @@ const UpdatePost = () => {
   const [weather, setWeather] = useState("");
   const params = useParams().id;
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const { openAlertModal } = useDispatchHook();
 
   const {
     data: postsData,
@@ -38,15 +36,13 @@ const UpdatePost = () => {
   } = useQuery(["posts"], () => postsApi.get(params));
 
   const { mutate } = useMutation(postsApi.patch, {
+    onError: (err) => {
+      const status = err?.response.request.status;
+      status === 401 && openAlertModal({ bigTxt: "권한이 없습니다" });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries("posts");
-      dispatch(
-        ErrorModal({
-          isModal: true,
-          bigTxt: "성공적으로 수정했어요 !",
-          move: `/detail/${params}`,
-        })
-      );
+      openAlertModal({bigTxt: "성공적으로 수정했어요 !",move: `/detail/${params}`})
     },
   });
 
@@ -80,7 +76,7 @@ const UpdatePost = () => {
     return (
       <>
         <StHeaderTextWrapper>
-          <NavigateBtn prev />
+          <NavigateBtn prev link={`/detail/${params}`} />
           <span>다이어리 수정</span>
         </StHeaderTextWrapper>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>

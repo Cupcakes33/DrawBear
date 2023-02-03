@@ -27,6 +27,7 @@ import NoChatList from "../pages/NoChatList";
 import KakaoLogin from "../components/socialLogin/KakaoLogin";
 import NaverLogin from "../components/socialLogin/NaverLogin";
 
+
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
 
@@ -35,8 +36,8 @@ const Router = () => {
       {/* <Header /> */}
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/kakaologin" element={<KakaoLogin />} />
-        <Route path="/naverlogin" element={<NaverLogin />} />
+        <Route path="/api/auth/login/kakao/callback" element={<KakaoLogin />} />
+        <Route path="/api/auth/login/naver/callback" element={<NaverLogin />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route element={<PrivateRoutes />}>
@@ -71,6 +72,7 @@ const Router = () => {
           <Route path="/setting/delete" element={<AccoutDelete />} />
           <Route path="/setting/alarm" element={<Alarm />} />
         </Route>
+        
       </Routes>
       {isModal && <ErrorHandlerModal showModal />}
     </BrowserRouter>

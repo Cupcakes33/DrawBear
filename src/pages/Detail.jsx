@@ -13,6 +13,7 @@ import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { weatherIcon } from "../assets/images/weather";
 import AlertModal from "../components/common/modal/AlertModal";
+import Buttons from "../components/common/Button/Buttons";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const Detail = () => {
     nickname,
     commentsCount,
     comments,
+    bookmark,
   } = data;
 
   const { mutate: postMutate } = useMutation({
@@ -57,6 +59,13 @@ const Detail = () => {
     },
   });
 
+  const { mutate: postBookmarkMutate } = useMutation({
+    mutationFn: () => postsApi.bookmark(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   const commentsSubmitHandler = (event) => {
     event.preventDefault();
     const comment = event.target.children.comment.value.trim();
@@ -69,6 +78,10 @@ const Detail = () => {
     if (!date) return;
     const temp = date.slice(0, 10);
     return new Date(temp).toLocaleDateString("ko-KR");
+  };
+
+  const postBookmarkHandler = () => {
+    postBookmarkMutate();
   };
 
   const postDeleteHandler = () => {
@@ -121,29 +134,25 @@ const Detail = () => {
         </div>
 
         <div className="detailPageButtonWrapper">
-          <Button icon={<BsBookmark />} fs="2rem" />
-          <Button
-            size="small"
-            fs="2rem"
+          <Buttons.Bookmark
+            isBookmarked={bookmark}
+            onClick={postBookmarkHandler}
+          />
+          <Buttons.Option
             onClick={() => {
               navigate(-1);
             }}
           >
             목록
-          </Button>
-          <Button size="small" fs="2rem" onClick={postUpdateHandler}>
-            수정
-          </Button>
-
+          </Buttons.Option>
+          <Buttons.Option onClick={postUpdateHandler}>수정</Buttons.Option>
           <AlertModal
             select
             bigTxt={"정말 일기를 삭제할까요?"}
             smallTxt={"삭제한 일기는 복구할 수 없어요"}
             onClick={postDeleteHandler}
           >
-            <Button size="small" fs="2rem" fontColor="#FF7070">
-              삭제
-            </Button>
+            <Buttons.Option negative>삭제</Buttons.Option>
           </AlertModal>
         </div>
         <CommentBox>

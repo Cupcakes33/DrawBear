@@ -10,13 +10,12 @@ const Diary = (props) => {
   const { size, bgColor, onClick, bookmark, diaryId } = props;
 
   const queryClient = useQueryClient();
-  const { openAlertModal } = useDispatchHook;
+  const { openAlertModal } = useDispatchHook();
 
   const { mutate } = useMutation(["diary"], (diaryId) => mainApi.bookmark(diaryId), {
     onError: (error) => {
       const status = error?.response.request.status;
-      if (status === 401) openAlertModal({ bigTxt: "권한이 없습니다." });
-      else if (status === 404) openAlertModal({ bigTxt: "존재하지 않는 다이어리입니다." });
+      if (status === 404) openAlertModal({ bigTxt: "존재하지 않는 다이어리입니다." });
       else if (status === 500) openAlertModal({ bigTxt: "북마크 저장 및 삭제에 실패했습니다." });
     },
     onSuccess: () => {

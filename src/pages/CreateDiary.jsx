@@ -16,7 +16,7 @@ const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"]
 const CreateDiary = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const { couple } = useSelector((state) => state.diarySlice);
-  const { openAlertModal } = useDispatchHook;
+  const { openAlertModal } = useDispatchHook();
   const diaryTitleInputRef = useRef();
 
   const { mutate } = useMutation((addData) => mainApi.create(addData), {
@@ -41,7 +41,7 @@ const CreateDiary = () => {
       <Container>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
-            <NavigateBtn prev sizeType="header" />
+            <NavigateBtn prev sizeType="header" link="/" />
             <h3>다이어리 생성</h3>
           </DisplayDiv>
           <div>

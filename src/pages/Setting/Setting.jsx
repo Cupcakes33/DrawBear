@@ -1,28 +1,38 @@
-import { StContainer, StSection, StHeader } from "../../UI/common";
-import styled from "styled-components";
-import Footer from "../../components/common/Footer";
-import NavigateBtn from "../../components/common/NavigateBtn";
-import { VscBell } from "react-icons/vsc";
-import { useNavigate } from "react-router-dom";
-import { TiPencil } from "react-icons/ti";
-import { mypageApi } from "../../apis/axios";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
+import { TiPencil } from "react-icons/ti";
+import { VscBell } from "react-icons/vsc";
+import { BsDot } from "react-icons/bs";
+import { StContainer, StSection, StHeader } from "../../UI/common";
+import { alarmApi, mypageApi } from "../../apis/axios";
+import NavigateBtn from "../../components/common/NavigateBtn";
+import Footer from "../../components/common/Footer";
+import AlertModal from "../../components/common/modal/AlertModal";
 
-const myProfileData = {};
 const Setting = () => {
+  const [myProfileData, setMyProfileData] = useState({});
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(["setting"], mypageApi.read);
+  const { data: alarmData } = useQuery(["allAlarm"], alarmApi.read, {
+    refetchInterval: 3000,
+  });
+  const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
+    setMyProfileData(data?.userInfo);
   }, [data]);
+
   return (
     <StContainer>
       <StHeader flex justify="space-between">
-        <h3>설정</h3>
-        <VscBell fontSize="1.4em" onClick={() => navigate("/setting/alarm")} />
+        <h3>더보기</h3>
+        <AlarmDiv onClick={() => navigate("/setting/alarm")}>
+          {alarmData?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
+          <VscBell className="alarm" />
+        </AlarmDiv>
       </StHeader>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
@@ -32,8 +42,8 @@ const Setting = () => {
               <TiPencil />
             </div>
           </div>
-          <span>{myProfileData.name}</span>
-          <span>{myProfileData.email}</span>
+          <span>{myProfileData?.nickname}</span>
+          <span>{myProfileData?.email}</span>
         </div>
         <ConfigOptionWrapper>
           <div>
@@ -47,11 +57,15 @@ const Setting = () => {
           <div></div>
           <div>
             공지사항
-            <NavigateBtn link={""} />
+            <AlertModal bigTxt={"공지사항이 없어요!"} smallTxt={"그냥 허전해서 달아놓아보았어요!"}>
+              <NavigateBtn link={""} />
+            </AlertModal>
           </div>
           <div>
             문의하기
-            <NavigateBtn link={""} />
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform">
+              <NavigateBtn link={""} />
+            </a>
           </div>
         </ConfigOptionWrapper>
       </StMypageSection>
@@ -62,7 +76,22 @@ const Setting = () => {
 
 export default Setting;
 
+const AlarmDiv = styled.div`
+  cursor: pointer;
+  .alarm {
+    font-size: 2.5rem;
+  }
+  .alarm-dot {
+    font-size: 3rem;
+    color: red;
+    position: fixed;
+    top: 0.2%;
+    right: calc(50% - 17.2rem);
+  }
+`;
+
 const StMypageSection = styled(StSection)`
+  background-color: var(--main_bg);
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {

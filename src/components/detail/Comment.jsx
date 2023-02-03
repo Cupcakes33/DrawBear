@@ -9,6 +9,7 @@ import Button from "../common/Button";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { TfiPencil, TfiTrash } from "react-icons/tfi";
 import { commentsApi } from "../../apis/axios";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 // memo 를 적용하지 않았을 경우 리렌더링이 발생할 때마다 모든 댓글이 리렌더링 되는 문제가 발생.
 // memo 를 적용하여 댓글이 추가되거나 삭제될 때만 리렌더링 되도록 변경.
@@ -20,10 +21,15 @@ const Comment = memo(({ comments }) => {
   const [isDropdown, setIsDropdown] = useState(false);
   const [editCommentValue, setEditCommentValue] = useState("");
   const [isCommentEdit, setIsCommentEdit] = useState(false);
+  const { openAlertModal } = useDispatchHook();
 
   const { mutate: commentDeleteMutate } = useMutation(
     (inputData) => commentsApi.delete(inputData),
     {
+      onError: (err) => {
+        const status = err?.response.request.status;
+        status === 401 && openAlertModal({ bigTxt: "삭제 권한이 없습니다" });
+      },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
       },

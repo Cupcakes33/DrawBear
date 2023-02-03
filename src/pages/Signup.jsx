@@ -14,7 +14,7 @@ import useDispatchHook from "../hooks/useDispatchHook";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
-  const { openAlertModal } = useDispatchHook;
+  const { openAlertModal } = useDispatchHook();
   const [image, setImage] = useState({
     image_file: "",
     preview_URL: defaultImg,
@@ -56,13 +56,13 @@ const Signup = () => {
 
   const { mutate } = useMutation((formData) => loginApi.create(formData), {
     onSuccess: () => {
-      openAlertModal({ isModal: true, bigTxt: "회원가입 성공!", move: "/login" }); //모달창에 전달하는 데이터
+      openAlertModal({ bigTxt: "회원가입 성공!", move: "/login" }); //모달창에 전달하는 데이터
     },
     onError: (error) => {
       const msg = error.response.data.message;
       const errorStatus = error.response.status;
 
-      if (errorStatus === 409) openAlertModal({ isModal: true, bigTxt: msg });
+      if (errorStatus === 409) openAlertModal({ bigTxt: msg });
     },
   });
 
