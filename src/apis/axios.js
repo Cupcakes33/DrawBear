@@ -54,7 +54,7 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/profile", formData);
     return data;
   },
-  delete: async (inputData) => {
+  patch: async (inputData) => {
     const { data } = await instance.patch("/api/userInfo/unregister", {
       currentPassword: inputData.password,
     });
