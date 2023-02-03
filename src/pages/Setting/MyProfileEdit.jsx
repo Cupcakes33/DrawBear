@@ -195,5 +195,9 @@ const AccountInfoBox = styled.div`
     font-size: 1.4rem;
     color: #8c8c8c;
   }
+  .nickName_txt {
+    color: var(--black);
+    font-weight: 700;
+  }
   ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
 `;
