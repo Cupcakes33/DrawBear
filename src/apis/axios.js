@@ -54,7 +54,7 @@ export const mypageApi = {
     const { data } = await instance.patch("/api/userInfo/profile", formData);
     return data;
   },
-  delete: async (inputData) => {
+  patch: async (inputData) => {
     const { data } = await instance.patch("/api/userInfo/unregister", {
       currentPassword: inputData.password,
     });
@@ -138,7 +138,7 @@ export const diaryApi = {
 
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
-      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
+      `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
     );
     return data.response.body.items.item;
   },

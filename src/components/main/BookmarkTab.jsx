@@ -27,7 +27,7 @@ const BookmarkTab = ({ diaryData }) => {
             ></Diary>
             {couple === 1 ? (
               invitedNickname === null ? (
-                <span>아직 혼자예요!</span>
+                null
               ) : (
                 <ConnectedUserProfile>
                   <img src={invitedProfileImg} alt="상대방 프사" />
@@ -60,6 +60,11 @@ const DiaryCardBox = styled.div`
   }
   span {
     font-size: 1rem;
+  }
+  .not-couple {
+    /* margin: -2rem 0 ; */
+    display: flex;
+    
   }
   img {
     width: 1.8rem;
