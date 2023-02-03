@@ -9,6 +9,7 @@ import { StContainer, StSection, StHeader } from "../../UI/common";
 import { alarmApi, mypageApi } from "../../apis/axios";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
+import AlertModal from "../../components/common/modal/AlertModal";
 
 const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
@@ -56,11 +57,15 @@ const Setting = () => {
           <div></div>
           <div>
             공지사항
-            <NavigateBtn link={""} />
+            <AlertModal bigTxt={"공지사항이 없어요!"} smallTxt={"그냥 허전해서 달아놓아보았어요!"}>
+              <NavigateBtn link={""} />
+            </AlertModal>
           </div>
           <div>
             문의하기
-            <NavigateBtn link={""} />
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform">
+              <NavigateBtn link={""} />
+            </a>
           </div>
         </ConfigOptionWrapper>
       </StMypageSection>

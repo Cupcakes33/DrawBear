@@ -28,7 +28,6 @@ const Comment = memo(({ comments }) => {
     {
       onError: (err) => {
         const status = err?.response.request.status;
-        console.log(status);
         status === 401 && openAlertModal({ bigTxt: "삭제 권한이 없습니다" });
       },
       onSuccess: () => {

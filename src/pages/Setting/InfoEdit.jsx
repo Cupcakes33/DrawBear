@@ -25,7 +25,7 @@ const InfoEdit = () => {
               bigTxt={"로그아웃하시겠어요?"}
               smallTxt={"다시 로그인해서 이용할 수 있어요."}
               move={"/login"}
-              onClick={() => window.location.replace("http://localhost:3000/login")}
+              onClick={() => window.location.replace("https://finale-omega.vercel.app/login")}
             >
               <div>로그아웃</div>
             </AlertModal>

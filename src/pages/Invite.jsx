@@ -57,7 +57,6 @@ const Invite = () => {
       hostUserId: hostUserInfo.userId,
       invitedUserId: inviteUserInfo.userId,
     };
-    console.log(inviteData);
     socket.current.emit("invited", inviteData);
   };
 

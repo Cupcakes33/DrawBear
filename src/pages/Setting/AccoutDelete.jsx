@@ -20,9 +20,10 @@ const AccoutDelete = () => {
   const { data } = useQuery(["myProfileData"], mypageApi.read);
   const { openAlertModal } = useDispatchHook();
 
-  const { mutate } = useMutation((inputData) => mypageApi.delete(inputData), {
+  const { mutate } = useMutation((inputData) => mypageApi.patch(inputData), {
     onError: (error) => {
       if (error.response.status === 401) openAlertModal({ bigTxt: "비밀번호가 틀렸습니다." });
+      if (error.response.status === 404) openAlertModal({ bigTxt: "잘못된 요청입니다." });
     },
     onSuccess: () => {
       openAlertModal({ bigTxt: "탈퇴가 완료 되었습니다.", move: "/login" });
