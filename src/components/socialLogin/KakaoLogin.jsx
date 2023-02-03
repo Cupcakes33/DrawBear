@@ -7,6 +7,12 @@ const KakaoLogin = () => {
   const code = new URL(document.location.toString()).searchParams.get("code");
 
   const authKakaoLogin = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+      return;
+    }
+    
     const res = await instance.get(
       `api/auth/login/kakao/callback?code=${code}`
     );

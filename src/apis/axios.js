@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  // baseURL: process.env.REACT_APP_MY_API,
-  baseURL: "http://122.45.26.243:8080",
+  baseURL: process.env.REACT_APP_SERVER,
   // withCredentials: true, // 로그인 후 로그인이 풀리는 문제를 해결하기 위함
 });
 
@@ -31,12 +30,12 @@ instance.interceptors.response.use(
 
     // // window.location.replace("https://finale-omega.vercel.app/login");
     else return Promise.reject(error);
-
   }
 );
 
 export const loginApi = {
-  login: (inputData) => instance.post("/api/auth/login", {
+  login: (inputData) =>
+    instance.post("/api/auth/login", {
       email: inputData.email,
       password: inputData.password,
     }),
@@ -145,12 +144,12 @@ export const diaryApi = {
   },
 
   search: async (payload) => {
-    console.log(payload)
+    console.log(payload);
     const { diaryId, title } = payload;
     const { data } = await instance.get(
       `/api/post/${diaryId}/search?title=${title}`
     );
-    console.log(data)
+    console.log(data);
     return data;
   },
 };

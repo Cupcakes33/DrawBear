@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import LonginForm from "../components/login/LonginForm";
 import naver from "../assets/images/naver.webp";
@@ -30,7 +30,7 @@ const Login = () => {
   useEffect(() => {
     queryClient.clear();
     localStorage.removeItem("token");
-  }, [queryClient]);
+  }, []);
 
   return (
     <StContainer bgColor="#eef3e3;">
