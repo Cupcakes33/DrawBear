@@ -15,6 +15,10 @@ const ListPageDropdown = ({ postId }) => {
 
   const { mutate: postDeleteMutate } = useMutation({
     mutationFn: () => postsApi.delete(postId),
+    onError: (err) => {
+      const status = err?.response.request.status;
+      status === 401 && openAlertModal({ bigTxt: "권한이 없습니다" });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(["Allposts"]);
       openAlertModal({ bigTxt: "성공적으로 삭제했어요 !" });

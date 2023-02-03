@@ -36,6 +36,10 @@ const UpdatePost = () => {
   } = useQuery(["posts"], () => postsApi.get(params));
 
   const { mutate } = useMutation(postsApi.patch, {
+    onError: (err) => {
+      const status = err?.response.request.status;
+      status === 401 && openAlertModal({ bigTxt: "권한이 없습니다" });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries("posts");
       openAlertModal({bigTxt: "성공적으로 수정했어요 !",move: `/detail/${params}`})
