@@ -33,7 +33,7 @@ const Alarm = () => {
   const diaryCancelOnclickHandle = (notificationId) => {
     alarmDeleteMutate(notificationId);
   };
-  const alarmMoveOnClickHandle = (code, notificationId, diaryId) => {
+  const alarmMoveOnClickHandle = (code, notificationId, diaryId, postId) => {
     console.log("alarmMoveOnClickHandle");
     if (code === 4) {
       queryClient.setQueryData(["footerIcons"], "couple");
@@ -42,6 +42,9 @@ const Alarm = () => {
     } else if (code === 2) {
       queryClient.setQueryData(["footerIcons"], "couple");
       navigate(`/list/${diaryId}`);
+      alarmDeleteMutate(notificationId);
+    } else if (code === 3) {
+      navigate(`/detail/${postId}`);
       alarmDeleteMutate(notificationId);
     }
   };
@@ -58,16 +61,16 @@ const Alarm = () => {
           </StHeader>
           {data.Notifications?.map((alarmdata, index) => {
             const {
-              audienceId,
               audienceNickname,
               code,
-              confirm,
+              comment,
               createdAt,
               diaryId,
-              diaryName,
+              postId,
               nickname,
               notificationId,
             } = alarmdata;
+            console.log(alarmdata);
             return (
               <>
                 {code === 1 ? (
@@ -101,7 +104,12 @@ const Alarm = () => {
                   <AlarmContainer key={index}>
                     <AlarmTxtContainer
                       onClick={() =>
-                        alarmMoveOnClickHandle(code, notificationId, diaryId)
+                        alarmMoveOnClickHandle(
+                          code,
+                          notificationId,
+                          diaryId,
+                          postId
+                        )
                       }
                     >
                       <div className="txt_container_n_btn">
@@ -109,7 +117,10 @@ const Alarm = () => {
                           <>{audienceNickname}님이 다이어리를 작성했습니다.</>
                         )}
                         {code === 3 && (
-                          <>{audienceNickname}님이 댓글을 작성했습니다.</>
+                          <>
+                            {audienceNickname}님이 {comment} 라는 댓글을
+                            작성했습니다.
+                          </>
                         )}
                         {code === 4 && (
                           <>
