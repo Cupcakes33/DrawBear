@@ -33,7 +33,7 @@ const Alarm = () => {
   const diaryCancelOnclickHandle = (notificationId) => {
     alarmDeleteMutate(notificationId);
   };
-  const alarmMoveOnClickHandle = (code, notificationId) => {
+  const alarmMoveOnClickHandle = (code, notificationId, diaryId) => {
     console.log("alarmMoveOnClickHandle");
     if (code === 4) {
       queryClient.setQueryData(["footerIcons"], "couple");
@@ -41,7 +41,7 @@ const Alarm = () => {
       alarmDeleteMutate(notificationId);
     } else if (code === 2) {
       queryClient.setQueryData(["footerIcons"], "couple");
-      navigate(`/list/${notificationId}`);
+      navigate(`/list/${diaryId}`);
       alarmDeleteMutate(notificationId);
     }
   };
@@ -101,7 +101,7 @@ const Alarm = () => {
                   <AlarmContainer key={index}>
                     <AlarmTxtContainer
                       onClick={() =>
-                        alarmMoveOnClickHandle(code, notificationId)
+                        alarmMoveOnClickHandle(code, notificationId, diaryId)
                       }
                     >
                       <div className="txt_container_n_btn">
