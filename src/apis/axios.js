@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: process.env.REACT_APP_SERVER,
+  baseURL: process.env.REACT_APP_MY_API,
   // withCredentials: true, // 로그인 후 로그인이 풀리는 문제를 해결하기 위함
 });
 
@@ -25,10 +25,10 @@ instance.interceptors.response.use(
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
       alert("로그인 후 이용가능합니다.");
-      return window.location.replace("http://localhost:3000/login");
+      // return window.location.replace("http://localhost:3000/login");
+      return window.location.replace("https://finale-omega.vercel.app/login");
     }
 
-    // // window.location.replace("https://finale-omega.vercel.app/login");
     else return Promise.reject(error);
   }
 );
