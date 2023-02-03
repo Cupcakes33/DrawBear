@@ -52,7 +52,7 @@ const Login = () => {
           <img src={naver} alt="네이버 로그인" />
         </AlertModal>
         <AlertModal bigTxt={"점검 중이예요!"}>
-          <img src={kakao} alt="카카오 로그인" onClick={kakaoLoginHandler} />
+          <img src={kakao} alt="카카오 로그인" />
         </AlertModal>
       </SocialLoginBox>
     </StContainer>
