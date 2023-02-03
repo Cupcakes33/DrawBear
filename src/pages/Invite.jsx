@@ -35,8 +35,8 @@ const Invite = () => {
       }
       if (status === 500) {
         openAlertModal({
-            bigTxt: "다른 사람의 닉네임을 입력해주세요",
-          })
+          bigTxt: "다른 사람의 닉네임을 입력해주세요",
+        });
         setName("");
       }
     },
@@ -61,7 +61,7 @@ const Invite = () => {
   };
 
   useEffect(() => {
-    socket.current = io.connect("http://122.45.26.243:8080");
+    socket.current = io.connect(process.env.REACT_APP_MY_API);
     return () => {
       socket.current.disconnect();
     };
