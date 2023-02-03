@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LonginForm from "../components/login/LonginForm";
 import naver from "../assets/images/naver.webp";
@@ -10,6 +10,7 @@ import AlertModal from "../components/common/modal/AlertModal";
 
 const Login = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
@@ -29,7 +30,7 @@ const Login = () => {
 
   useEffect(() => {
     queryClient.clear();
-    localStorage.removeItem("token");
+    if (localStorage.getItem("token")) navigate("/");
   }, []);
 
   return (
@@ -51,9 +52,9 @@ const Login = () => {
           {/* <img src={naver} alt="네이버 로그인" onClick={naverLoginHandler} /> */}
           <img src={naver} alt="네이버 로그인" />
         </AlertModal>
-        <AlertModal bigTxt={"점검 중이예요!"}>
-          <img src={kakao} alt="카카오 로그인" />
-        </AlertModal>
+        {/* <AlertModal bigTxt={"점검 중이예요!"}> */}
+        <img src={kakao} alt="카카오 로그인" onClick={kakaoLoginHandler} />
+        {/* </AlertModal> */}
       </SocialLoginBox>
     </StContainer>
   );

@@ -3,9 +3,16 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
 import AlertModal from "../../components/common/modal/AlertModal";
+import useDispatchHook from "../../hooks/useDispatchHook";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
+  const { openAlertModal } = useDispatchHook();
+
+  const onLogoutHandler = () => {
+    localStorage.removeItem("token");
+    openAlertModal({ bigTxt: "로그아웃되었습니다.", move: "/login" });
+  };
 
   return (
     <>
@@ -25,7 +32,7 @@ const InfoEdit = () => {
               bigTxt={"로그아웃하시겠어요?"}
               smallTxt={"다시 로그인해서 이용할 수 있어요."}
               move={"/login"}
-              onClick={() => window.location.replace("https://finale-omega.vercel.app/login")}
+              onClick={onLogoutHandler}
             >
               <div>로그아웃</div>
             </AlertModal>
