@@ -26,9 +26,11 @@ const AlertModal = ({ showModal, children, bigTxt, smallTxt, select, move, onCli
                   <Modal.Close>
                     <button className="select cancel">취소</button>
                   </Modal.Close>
-                  <button className="select confirm" onClick={ConfirmReactionHandler}>
-                    확인
-                  </button>
+                  <Modal.Close>
+                    <button className="select confirm" onClick={ConfirmReactionHandler}>
+                      확인
+                    </button>
+                  </Modal.Close>
                 </SelectBtnBox>
               ) : move ? (
                 <button className="confirm" onClick={ConfirmReactionHandler}>

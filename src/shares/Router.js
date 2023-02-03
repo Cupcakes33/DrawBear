@@ -27,6 +27,7 @@ import NoChatList from "../pages/NoChatList";
 import KakaoLogin from "../components/socialLogin/KakaoLogin";
 import NaverLogin from "../components/socialLogin/NaverLogin";
 
+
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
 
@@ -71,6 +72,7 @@ const Router = () => {
           <Route path="/setting/delete" element={<AccoutDelete />} />
           <Route path="/setting/alarm" element={<Alarm />} />
         </Route>
+        
       </Routes>
       {isModal && <ErrorHandlerModal showModal />}
     </BrowserRouter>

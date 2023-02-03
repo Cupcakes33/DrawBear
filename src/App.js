@@ -15,7 +15,7 @@ function App() {
           <GlobalStyle />
           <Router />
         </ThemeProvider>
-        <ReactQueryDevtools />
+        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </>
   );

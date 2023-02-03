@@ -69,14 +69,14 @@ const Footer = () => {
         <span>책갈피</span>
       </button>
       <button
-        className={footerIconState === "chatlist" || pathname === "/chatlist" ? "chaticons selected" : "chaticons"}
+        className={pathname === "/chatlist" ? "chaticons selected" : "chaticons"}
         onClick={changeChatList}
       >
         <BsChatLeftTextFill />
         <span className="chatSpanTag">채팅</span>
       </button>
       <button
-        className={footerIconState === "setting" || pathname === "/setting" ? "icons selected" : "icons"}
+        className={pathname === "/setting" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "setting", couple: 1, bookmark: 0, move: "/setting" })}
       >
         {data?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
