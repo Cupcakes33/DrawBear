@@ -52,7 +52,9 @@ const Invite = () => {
     (inviteData) => inviteApi.invite(inviteData),
     {
       onError: (error) => {
-        console.log(error);
+        const status = error.response.status;
+        if (status === 401)
+          openAlertModal({ bigTxt: "이미 공유하고있는 다이어리 입니다." });
       },
       onSuccess: (success) => {
         setIsInvite(!isInvite);
