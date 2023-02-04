@@ -81,12 +81,14 @@ const Invite = () => {
       </StHeader>
       <StInviteSection>
         <StSearchInputWrapper>
-          <input
-            type="text"
-            onChange={nameChangeHandle}
-            value={name}
-            placeholder="초대 할 멤버의 닉네임을 입력해주세요."
-          ></input>
+          <div>
+            <input
+              type="text"
+              onChange={nameChangeHandle}
+              value={name}
+              placeholder="초대 할 멤버의 닉네임을 입력해주세요."
+            ></input>
+          </div>
           <Buttons.Small onClick={userSearchOnclickHandle}>검색</Buttons.Small>
         </StSearchInputWrapper>
         {Object.keys(inviteUserInfo).length !== 0 && (
@@ -127,10 +129,15 @@ const StInviteSection = styled(StSection)``;
 const StSearchInputWrapper = styled.div`
   display: flex;
   position: relative;
+  gap: 1rem;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 5rem;
+  & div {
+    width: 100%;
+    height: 100%;
+  }
   input {
     width: 100%;
     height: 100%;
