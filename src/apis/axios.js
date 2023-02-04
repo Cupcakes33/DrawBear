@@ -27,9 +27,7 @@ instance.interceptors.response.use(
       alert("로그인 후 이용가능합니다.");
       // return window.location.replace("http://localhost:3000/login");
       return window.location.replace("https://finale-omega.vercel.app/login");
-    }
-
-    else return Promise.reject(error);
+    } else return Promise.reject(error);
   }
 );
 
@@ -84,6 +82,12 @@ export const alarmApi = {
 export const inviteApi = {
   search: async (nickName) => {
     const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
+    return data;
+  },
+  invite: async ({ diaryId, invitedId }) => {
+    const { data } = await instance.patch(
+      `/api/diary/invite/${diaryId}/${invitedId}`
+    );
     return data;
   },
 };
