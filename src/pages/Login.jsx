@@ -31,7 +31,7 @@ const Login = () => {
   useEffect(() => {
     queryClient.clear();
     if (localStorage.getItem("token")) navigate("/");
-    else if (!localStorage.getItem("token")) return;
+    else if (!!localStorage.getItem("token")) return;
   }, []);
 
   return (
