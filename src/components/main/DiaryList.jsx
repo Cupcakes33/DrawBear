@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import CreateDiaryModal from "./CreateDiaryModal";
 import Diaries from "./Diaries";
@@ -9,7 +10,7 @@ const DiaryList = ({ diaryData }) => {
       <StContainer>
         <Diaries diaryData={diaryData} />
         <CreateDiaryModal>
-          <StAddDiaryButton/>
+          <StAddDiaryButton />
         </CreateDiaryModal>
       </StContainer>
     </>
@@ -25,8 +26,9 @@ const StContainer = styled.div`
   position: relative;
 `;
 
-const StAddDiaryButton = styled(Buttons.AddDiary)`
+const StAddDiaryButton = React.memo(styled(Buttons.AddDiary)`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-`;
+`);
+
