@@ -67,6 +67,10 @@ export const alarmApi = {
     const { data } = await instance.get("/api/notification/");
     return data;
   },
+  chatlist: async () => {
+    const { data } = await instance.get("/api/diary/share");
+    return data;
+  },
   patch: async ({ diaryId, notificationId }) => {
     const { data } = await instance.patch(
       `/api/diary/inviteAccept/${diaryId}/${notificationId}`
