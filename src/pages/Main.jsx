@@ -19,8 +19,10 @@ const Main = () => {
     onError: (error) => {
       const { status } = error?.response.request;
       if (status === 400) openAlertModal({ bigTxt: "다이어리 조회에 실패했습니다.", move: "/login" });
+      else if (status === 404) openAlertModal({ bigTxt: "다이어리 조회에 실패했습니다.", move: "/login" });
     },
   });
+
   const diaryType = (diaries) => {
     if (diaryTypes.couple === 0) {
       const soloDiary = diaries?.filter((diary) => diary.couple === 0);
