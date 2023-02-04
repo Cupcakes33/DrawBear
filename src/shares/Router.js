@@ -25,8 +25,7 @@ import Chatting from "../pages/Chatting";
 import ErrorHandlerModal from "../components/common/modal/ErrorHandlerModal";
 import ChatList from "../pages/ChatList";
 import NoChatList from "../pages/NoChatList";
-import KakaoLogin from "../components/socialLogin/KakaoLogin";
-import NaverLogin from "../components/socialLogin/NaverLogin";
+import KakaoLogin from "../components/login/KakaoLogin";
 
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
@@ -36,7 +35,6 @@ const Router = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/api/auth/login/kakao/callback" element={<KakaoLogin />} />
-        <Route path="/api/auth/login/naver/callback" element={<NaverLogin />} />
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/" element={<Main />} />
