@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
+import { BsChatLeftTextFill, BsCheckLg, BsFillPersonFill } from "react-icons/bs";
 import { IoMdBookmark } from "react-icons/io";
 import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
@@ -41,9 +41,9 @@ const Footer = () => {
     <Container>
       <button
         className={
-          icon === undefined ||
+          (icon === "solo" && pathname === "/") ||
           (icon === "chatlist" && pathname === "/") ||
-          (icon === "setting" && pathname !== "/setting" && pathname !== "/chatlist")
+          (icon === "setting" && pathname === "/" && pathname !== "/chatlist")
             ? "icons selected"
             : "icons"
         }
