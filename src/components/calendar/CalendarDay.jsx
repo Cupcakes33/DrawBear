@@ -39,8 +39,8 @@ const CalendarDay = ({ selectedYear, selectedMonth, holiday, week }) => {
     };
 
     const dayColor = (i) => {
-      if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
-      else if (+todayDate[2] === selectedYear && +todayDate[0] === selectedMonth && +todayDate[1] === i) return "today";
+      if (+todayDate[2] === selectedYear && +todayDate[0] === selectedMonth && +todayDate[1] === i) return "today";
+      else if (new Date(selectedYear, selectedMonth - 1, i).getDay() === 0 || holidayCompareFn(i)) return "redDay";
     };
 
     for (const today of week) {
@@ -108,14 +108,14 @@ const DateBox = styled.div`
   .redDay {
     color: #ff5656;
   }
+  .postedDay {
+    border-radius: 100%;
+    background-color: #b3e9dc;
+  }
   .today {
     color: white;
     border-radius: 100%;
     background-color: #242424;
-  }
-  .postedDay {
-    border-radius: 100%;
-    background-color: #b3e9dc;
   }
   .blank-day {
     float: left;
