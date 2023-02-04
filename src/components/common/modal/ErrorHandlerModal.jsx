@@ -27,9 +27,7 @@ const ErrorHandlerModal = ({ showModal }) => {
               </div>
               <hr />
               <Modal.Close>
-                <button className="confirm" onClick={ConfirmReactionHandler}>
-                  확인
-                </button>
+                <button onClick={ConfirmReactionHandler}>확인</button>
               </Modal.Close>
             </AlertBox>
           </Modal.ContentBox>
@@ -71,18 +69,11 @@ const AlertBox = styled.div`
   button {
     width: 100%;
     height: 4rem;
-    border: none;
-    background-color: white;
-    cursor: pointer;
-  }
-  .cancel {
-    border-right: 1px solid #d7d7d7;
-  }
-  .select {
-    width: 14rem;
-    color: #bdbdbd;
-  }
-  .confirm {
     color: #3cc7a6;
+    background-color: white;
+    border: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    cursor: pointer;
   }
 `;

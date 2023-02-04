@@ -87,12 +87,15 @@ const AlertBox = styled.div`
     background-color: white;
     cursor: pointer;
   }
-  .cancel {
-    border-right: 1px solid #d7d7d7;
-  }
   .select {
     width: 14rem;
     color: #bdbdbd;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+  .cancel {
+    border-right: 1px solid #d7d7d7;
+    border-bottom-right-radius: 0px;
   }
   .confirm {
     color: #3cc7a6;
