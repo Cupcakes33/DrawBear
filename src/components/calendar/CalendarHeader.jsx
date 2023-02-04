@@ -46,6 +46,11 @@ const CalendarHeader = (props) => {
     [setShowMonth, setSelectedYear]
   );
 
+  const onTodayMoveHandler = useCallback(() => {
+    setSelectedYear(props.today.year);
+    setSelectedMonth(props.today.month);
+  }, []);
+
   return (
     <CalendarHeaderBox>
       <div className="shown-date">
@@ -60,6 +65,7 @@ const CalendarHeader = (props) => {
         )}
       </div>
       <div className="buttons">
+        <button onClick={onTodayMoveHandler}>오늘</button>
         <button onClick={() => (showMonth ? prevYear() : prevMonth())}>
           <GrPrevious />
         </button>
