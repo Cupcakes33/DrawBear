@@ -105,7 +105,6 @@ const MyPassword = () => {
             </div>
           </MypageSection>
         </form>
-        <Footer />
       </StContainer>
     </>
   );

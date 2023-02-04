@@ -150,19 +150,19 @@ const Signup = () => {
               <WorningWord color={errors.passwordCheck}>{errors.passwordCheck?.message}</WorningWord>
 
               <SignupButtonBox>
-                <button
-                  disabled={
-                    errors.email?.type === undefined &&
-                    errors.password?.type === undefined &&
-                    errors.passwordCheck?.type === undefined
-                      ? false
-                      : true
-                  }
-                  type="button"
-                  onClick={onScreenChangeHandler}
-                >
-                  다음
-                </button>
+                {isDirty &&
+                watch("email") !== "" &&
+                watch("password") !== "" &&
+                watch("passwordCheck") !== "" &&
+                !errors.email &&
+                !errors.password &&
+                !errors.passwordCheck ? (
+                  <button type="button" onClick={onScreenChangeHandler}>
+                    다음
+                  </button>
+                ) : (
+                  <button disabled>다음</button>
+                )}
               </SignupButtonBox>
             </section>
           </PasswordSection>
@@ -207,12 +207,14 @@ const Signup = () => {
                     required: "닉네임은 필수 입력 입니다.",
                     minLength: {
                       value: 2,
-                      message: "2자리 이상 닉네임을 사용하세요.",
+                    },
+                    maxLength: {
+                      value: 7,
                     },
                   })}
                 />
               </div>
-              <WorningWord color={errors.nickname}>{errors.nickname?.message}</WorningWord>
+              <WorningWord color={errors.nickname}>2~7자리 닉네임을 사용하세요.</WorningWord>
               <SignupButtonBox>
                 <button type="submit" disabled={isSubmitting}>
                   회원가입

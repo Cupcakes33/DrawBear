@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   diaryTypes: {
+    icon: "solo",
     couple: 0,
     bookmark: 0
   },
@@ -17,6 +18,7 @@ const diarySlice = createSlice({
   initialState,
   reducers: {
     diaryType: (state, action) => {
+      state.diaryTypes.icon = action.payload.icon
       state.diaryTypes.couple = action.payload.couple
       state.diaryTypes.bookmark = action.payload.bookmark
     },

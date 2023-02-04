@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { IoMdBookmark } from "react-icons/io";
@@ -8,16 +8,16 @@ import { MdMoreHoriz } from "react-icons/md";
 import { BsDot } from "react-icons/bs";
 import { alarmApi } from "../../apis/axios";
 import useDispatchHook from "../../hooks/useDispatchHook";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const queryClient = useQueryClient();
+  const { icon } = useSelector((state) => state.diarySlice.diaryTypes);
   const { changeDiaryView } = useDispatchHook();
 
   const { pathname } = location;
 
-  const footerIconState = queryClient?.getQueryData(["footerIcons"]);
   // const { diaries } = queryClient?.getQueryData(["main"]);
 
   const { data = [] } = useQuery(["allAlarm"], alarmApi.read, {
@@ -25,7 +25,7 @@ const Footer = () => {
   });
 
   const changeChatList = () => {
-    queryClient.setQueryData(["footerIcons"], "chatlist");
+    changeDiaryView({ icon: "chatlist", couple: 0, bookmark: 0, move: "/chatlist" });
     navigate("/chatlist");
     // const result = diaries.find((diary) => {
     //   if (diary.couple === 1) {
@@ -41,11 +41,9 @@ const Footer = () => {
     <Container>
       <button
         className={
-          footerIconState === "solo" ||
-          (footerIconState === undefined &&
-            pathname !== "/setting" &&
-            footerIconState === undefined &&
-            pathname !== "/chatlist")
+          icon === undefined ||
+          (icon === "chatlist" && pathname === "/") ||
+          (icon === "setting" && pathname !== "/setting" && pathname !== "/chatlist")
             ? "icons selected"
             : "icons"
         }
@@ -55,29 +53,26 @@ const Footer = () => {
         <span>혼자 써요</span>
       </button>
       <button
-        className={footerIconState === "couple" ? "icons selected" : "icons"}
+        className={icon === "couple" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "couple", couple: 1, bookmark: 0 })}
       >
         <MdPeopleAlt />
         <span>같이 써요</span>
       </button>
       <button
-        className={footerIconState === "bookmark" ? "icons selected" : "icons"}
+        className={icon === "bookmark" ? "icons selected" : "icons"}
         onClick={() => changeDiaryView({ icon: "bookmark", couple: 2, bookmark: 1 })}
       >
         <IoMdBookmark />
         <span>책갈피</span>
       </button>
-      <button
-        className={pathname === "/chatlist" ? "chaticons selected" : "chaticons"}
-        onClick={changeChatList}
-      >
+      <button className={pathname === "/chatlist" ? "chaticons selected" : "chaticons"} onClick={changeChatList}>
         <BsChatLeftTextFill />
         <span className="chatSpanTag">채팅</span>
       </button>
       <button
         className={pathname === "/setting" ? "icons selected" : "icons"}
-        onClick={() => changeDiaryView({ icon: "setting", couple: 1, bookmark: 0, move: "/setting" })}
+        onClick={() => changeDiaryView({ icon: "setting", couple: 0, bookmark: 0, move: "/setting" })}
       >
         {data?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
         <MdMoreHoriz />

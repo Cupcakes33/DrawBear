@@ -46,13 +46,13 @@ const Setting = () => {
           <span>{myProfileData?.email}</span>
         </div>
         <ConfigOptionWrapper>
-          <div>
+          <div onClick={() => navigate("/setting/diaryManage")}>
             일기 설정
-            <NavigateBtn link={"/setting/diaryManage"} />
+            <NavigateBtn />
           </div>
-          <div>
+          <div onClick={() => navigate("/setting/infoEdit")}>
             개인정보 수정
-            <NavigateBtn link={"/setting/infoEdit"} />
+            <NavigateBtn />
           </div>
           <div></div>
           <div>
@@ -61,12 +61,16 @@ const Setting = () => {
               <NavigateBtn link={""} />
             </AlertModal>
           </div>
-          <div>
-            문의하기
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <div>
+              문의하기
               <NavigateBtn link={""} />
-            </a>
-          </div>
+            </div>
+          </a>
         </ConfigOptionWrapper>
       </StMypageSection>
       <Footer />
@@ -145,5 +149,6 @@ const ConfigOptionWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
   }
 `;

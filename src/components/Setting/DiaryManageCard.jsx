@@ -35,7 +35,7 @@ const DiaryManageCard = ({ data }) => {
             <DisplayDiv flex justify="space-between">
               <div>
                 {invitedNickname === null ? (
-                  <span>수락 대기중...</span>
+                  <span>아직 상대방이 없어요!</span>
                 ) : (
                   <ConnectedUserProfile>
                     <img src={invitedProfileImg} alt="프사" />

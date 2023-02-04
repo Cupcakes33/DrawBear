@@ -119,7 +119,9 @@ const MyProfileEdit = () => {
                     {...register("nickname", {
                       minLength: {
                         value: 2,
-                        message: "2자리 이상 닉네임을 사용하세요.",
+                      },
+                      maxLength: {
+                        value: 7,
                       },
                     })}
                   />
@@ -127,7 +129,7 @@ const MyProfileEdit = () => {
               </div>
               <div>
                 <WorningWord color={errors?.nickname?.type} margin="-3rem 0 0 6.5rem">
-                  {errors.nickname?.message}
+                  2~7자리 닉네임을 사용하세요.
                 </WorningWord>
               </div>
             </AccountInfoBox>
@@ -194,6 +196,10 @@ const AccountInfoBox = styled.div`
   span {
     font-size: 1.4rem;
     color: #8c8c8c;
+  }
+  .nickName_txt {
+    color: var(--black);
+    font-weight: 700;
   }
   ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
 `;
