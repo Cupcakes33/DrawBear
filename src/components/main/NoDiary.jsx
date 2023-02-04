@@ -51,10 +51,12 @@ const StWrapper = styled.div`
   ${flex("", "", "column")}
   .addDiary {
     ${flex("", "", "column")}
+    pointer-events : none;
   }
   img {
     width: 10.5rem;
     height: 11.5rem;
+    cursor: pointer;
   }
   h3 {
     font-size: 1.6rem;

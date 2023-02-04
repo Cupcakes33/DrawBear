@@ -27,7 +27,7 @@ instance.interceptors.response.use(
     if (unauthorization?.indexOf("로그인") >= 0) {
       localStorage.removeItem("token");
       alert("로그인 후 이용가능합니다.");
-      // return window.location.replace("http://localhost:3000/login");
+      // return window.location.replace("https://finale-omega.vercel.app/login");
       return window.location.replace("http://localhost:3000/login");
     }
 
