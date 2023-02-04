@@ -20,6 +20,7 @@ const Setting = () => {
   });
   const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
+
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
     setMyProfileData(data?.userInfo);
@@ -30,7 +31,9 @@ const Setting = () => {
       <StHeader flex justify="space-between">
         <h3>더보기</h3>
         <AlarmDiv onClick={() => navigate("/setting/alarm")}>
-          {alarmData?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
+          {alarmData?.Notifications?.length ? (
+            <BsDot className="alarm-dot" />
+          ) : null}
           <VscBell className="alarm" />
         </AlarmDiv>
       </StHeader>
@@ -46,26 +49,22 @@ const Setting = () => {
           <span>{myProfileData?.email}</span>
         </div>
         <ConfigOptionWrapper>
-          <div>
-            일기 설정
-            <NavigateBtn link={"/setting/diaryManage"} />
-          </div>
-          <div>
-            개인정보 수정
-            <NavigateBtn link={"/setting/infoEdit"} />
-          </div>
+          <div onClick={() => navigate("/setting/diaryManage")}>일기 설정</div>
+          <div onClick={() => navigate("/setting/infoEdit")}>개인정보 수정</div>
           <div></div>
           <div>
             공지사항
-            <AlertModal bigTxt={"공지사항이 없어요!"} smallTxt={"그냥 허전해서 달아놓아보았어요!"}>
+            <AlertModal
+              bigTxt={"공지사항이 없어요!"}
+              smallTxt={"그냥 허전해서 달아놓아보았어요!"}
+            >
               <NavigateBtn link={""} />
             </AlertModal>
           </div>
           <div>
-            문의하기
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform">
-              <NavigateBtn link={""} />
-            </a>
+            <Inquiry href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform">
+              문의하기
+            </Inquiry>
           </div>
         </ConfigOptionWrapper>
       </StMypageSection>
@@ -146,4 +145,8 @@ const ConfigOptionWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+`;
+const Inquiry = styled.a`
+  width: 100%;
+  display: block;
 `;
