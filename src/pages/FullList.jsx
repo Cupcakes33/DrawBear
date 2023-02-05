@@ -65,7 +65,11 @@ const DiaryList = memo(() => {
         </div>
         <div className="default-header-configBox">
           <BsSearch onClick={() => setChangeHeader(true)} />
-          <DiarySettingModal diaryName={diaryName} diaryId={diaryId} couple={diaryCouple} >
+          <DiarySettingModal
+            diaryName={diaryName}
+            diaryId={diaryId}
+            couple={diaryCouple}
+          >
             <AiOutlineSetting />
           </DiarySettingModal>
         </div>
@@ -181,7 +185,14 @@ const StScrollTopButton = styled(BsTriangleFill)`
 const StListPageSection = styled(StSection)`
   height: calc(100vh - 6rem);
   &::-webkit-scrollbar {
-    display: none;
+    width: 1rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--positive_2);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--grayscale_1);
   }
 `;
 const StDivisionLine = styled.div`
