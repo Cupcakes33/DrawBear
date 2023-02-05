@@ -21,6 +21,7 @@ const Write = () => {
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
   const dateRef = useRef();
+  const titleRef = useRef();
 
   const { openAlertModal } = useDispatchHook();
   const diaryId = useParams().id;
@@ -65,12 +66,19 @@ const Write = () => {
     mutate({ formData: formData, diaryId: diaryId }, {});
   };
 
+  const nextSectionHeaderHandler = useCallback(() => {
+    const title = titleRef.current.value;
+    if (!title)
+      return openAlertModal({ bigTxt: "아직 제목을 입력하지 않았어요 !" });
+    else setIsDrawingEnd(!isDrawingEnd);
+  }, []);
+
   const defaultHeader = () => {
     return (
       <>
         <NavigateBtn prev link={`/list/${diaryId}`} />
         <h3>LOGO</h3>
-        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
+        <span onClick={nextSectionHeaderHandler}>다음</span>
       </>
     );
   };
@@ -119,6 +127,7 @@ const Write = () => {
                 <input
                   type="text"
                   name="title"
+                  ref={titleRef}
                   placeholder="제목을 입력해주세요"
                 />
               </StTextSectionBox>
