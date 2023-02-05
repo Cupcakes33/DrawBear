@@ -78,7 +78,7 @@ const StWeatherPickerContainer = styled.div`
   }
 
   input:checked + img {
-    transform: scale(1.3);
+    animation: jello-horizontal 0.9s infinite both;
   }
 
   img {
