@@ -95,9 +95,14 @@ const Write = () => {
       </>
     );
   };
+  const preventTabKey = (event) => {
+    event.key === "Tab" && event.preventDefault();
+  };
 
   useEffect(() => {
     dateRef.current.value = new Date().toISOString().slice(0, 10);
+    document.addEventListener("keydown", preventTabKey);
+    return () => document.removeEventListener("keydown", preventTabKey);
   }, []);
 
   return (
