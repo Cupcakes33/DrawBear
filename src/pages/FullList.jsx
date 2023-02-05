@@ -60,7 +60,7 @@ const DiaryList = memo(() => {
 
   const listPageScrollhandler = (e) => {
     const { target } = e;
-    if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+    if (target.scrollTop / (target.scrollHeight - target.offsetHeight) >= 0.5) {
       setIsScrollBottom(true);
     } else {
       setIsScrollBottom(false);

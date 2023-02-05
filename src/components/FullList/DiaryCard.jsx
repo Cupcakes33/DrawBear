@@ -99,7 +99,7 @@ const StTitleWrapper = styled.div`
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      max-width: 20rem;
+      max-width: 15rem;
     }
   }
   .writerInfoBox {
