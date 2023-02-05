@@ -17,7 +17,7 @@ const NoDiary = () => {
           {icon === "bookmark" ? (
             <>
               <h3>즐겨찾기 한 다이어리가 없어요</h3>
-              <div className="addDiary">
+              <div className="addDiary bookmark">
                 <Diary size="bookmark" />
                 <span>책갈피 아이콘을 눌러 즐겨찾기 해보세요!</span>
               </div>
@@ -51,7 +51,10 @@ const StWrapper = styled.div`
   ${flex("", "", "column")}
   .addDiary {
     ${flex("", "", "column")}
-    pointer-events : none;
+    cursor: pointer;
+  }
+  .bookmark {
+    pointer-events: none;
   }
   img {
     width: 10.5rem;
