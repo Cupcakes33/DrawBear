@@ -135,6 +135,7 @@ const Write = () => {
                   type="text"
                   name="title"
                   ref={titleRef}
+                  maxLength="20"
                   placeholder="제목을 입력해주세요"
                 />
               </StTextSectionBox>
