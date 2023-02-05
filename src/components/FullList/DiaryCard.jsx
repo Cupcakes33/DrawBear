@@ -95,6 +95,12 @@ const StTitleWrapper = styled.div`
     flex-direction: row;
     align-items: center;
     gap: 1.2rem;
+    h4 {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 20rem;
+    }
   }
   .writerInfoBox {
     display: flex;
