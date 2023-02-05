@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
-import { TbBrush, TbBrushOff } from "react-icons/tb";
+import { TbBrush } from "react-icons/tb";
 import { BiSquare, BiCircle, BiText } from "react-icons/bi";
 import { GrSelect } from "react-icons/gr";
 import { RiImageAddFill, RiDeleteBinLine } from "react-icons/ri";
@@ -9,7 +9,6 @@ import { RiImageAddFill, RiDeleteBinLine } from "react-icons/ri";
 const Canvas = ({ canvas, setCanvas, canvasBg }) => {
   const [isDrawing, setIsDrawing] = useState(true);
   const [color, setColor] = useState("black");
-  const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
   const ImgInput = useRef();
 
@@ -23,10 +22,6 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
       width: 350,
       isDrawingMode: true,
       backgroundColor: "white",
-      freeDrawingBrush: {
-        color: color,
-        width: width,
-      },
     });
 
   const canvasBackground = (url) => {
@@ -60,6 +55,7 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
 
   useEffect(() => {
     if (!canvas) return;
+    canvas.freeDrawingBrush.width = 5;
     if (!canvasBg) return;
     canvasBackground(canvasBg);
   }, [canvas]);
@@ -166,12 +162,12 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
         />
         <input
           type="range"
-          defaultValue="1"
-          min="1"
-          max="10"
+          defaultValue="5"
+          step="3"
+          min="5"
+          max="17"
           onChange={(e) => {
             drawWidthHandler(e.target.value);
-            setWidth(e.target.value);
           }}
         />
 
@@ -205,9 +201,6 @@ const StDiv = styled.div`
   border-radius: 15px;
   overflow: hidden;
   border: 1px solid #d9d9d9;
-  /* top: 50%;
-  left: 50%; */
-  /* transform: translate(-50%, -50%); */
   position: relative;
 `;
 
