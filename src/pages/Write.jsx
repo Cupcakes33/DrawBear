@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
@@ -20,19 +20,29 @@ const Write = () => {
   const [contents, setContents] = useState("");
   const [isDrawingEnd, setIsDrawingEnd] = useState(false);
   const [weather, setWeather] = useState("");
+  const dateRef = useRef();
 
   const { openAlertModal } = useDispatchHook();
   const diaryId = useParams().id;
 
   const { mutate } = useMutation(postsApi.post, {
     onSuccess: () => {
-      openAlertModal({ bigTxt: "다이어리가 작성되었습니다.", move: `/list/${diaryId}` });
+      openAlertModal({
+        bigTxt: "다이어리가 작성되었습니다.",
+        move: `/list/${diaryId}`,
+      });
     },
     onError: (error) => {
       const status = error?.response.request.status;
-      status === 401 && openAlertModal({ bigTxt: "인증되지 않은 사용자입니다." });
-      status === 404 && openAlertModal({ isModal: true, bigTxt: "잘못된 접근입니다." });
-      status === 412 && openAlertModal({ isModal: true, bigTxt: "아직 작성하지 않은 항목이 있습니다." });
+      status === 401 &&
+        openAlertModal({ bigTxt: "인증되지 않은 사용자입니다." });
+      status === 404 &&
+        openAlertModal({ isModal: true, bigTxt: "잘못된 접근입니다." });
+      status === 412 &&
+        openAlertModal({
+          isModal: true,
+          bigTxt: "아직 작성하지 않은 항목이 있습니다.",
+        });
     },
   });
 
@@ -78,6 +88,10 @@ const Write = () => {
     );
   };
 
+  useEffect(() => {
+    dateRef.current.value = new Date().toISOString().slice(0, 10);
+  }, []);
+
   return (
     <>
       <StContainer>
@@ -94,7 +108,7 @@ const Write = () => {
             >
               <StTextSectionBox className="titleInputBox">
                 <span>날짜</span>
-                <input type="date" name="createdAt" />
+                <input type="date" name="createdAt" ref={dateRef} />
               </StTextSectionBox>
               <StTextSectionBox className="tagInputBox">
                 <span>태그</span>
@@ -102,7 +116,11 @@ const Write = () => {
               </StTextSectionBox>
               <StTextSectionBox className="textInputBox">
                 <span>제목</span>
-                <input type="text" name="title" placeholder="제목을 입력해주세요" />
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="제목을 입력해주세요"
+                />
               </StTextSectionBox>
               <StTextSectionBox className="weatherPickerBox">
                 <span>오늘의 날씨는 ?</span>
