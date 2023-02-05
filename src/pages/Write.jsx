@@ -53,6 +53,8 @@ const Write = () => {
 
   const writeFormSubmitHandler = (event) => {
     event.preventDefault();
+    if (!contents)
+      return openAlertModal({ bigTxt: "아직 내용을 입력하지 않았어요 !" });
     let blob = imgUrlConvertBlob(canvas);
     let formData = new FormData(event.target);
 
