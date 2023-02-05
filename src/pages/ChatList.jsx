@@ -26,8 +26,7 @@ const ChatList = () => {
       setChatList([...success.diaries]);
     },
   });
-  const chattingOnclickHandle = (userId, invitedProfileImg, diaryId) => {
-    console.log(userId, invitedProfileImg, diaryId);
+  const chattingOnclickHandle = (userId, diaryId) => {
     dispatch(viewChatList({ userId, diaryId }));
     navigate("/chat");
   };
@@ -37,7 +36,7 @@ const ChatList = () => {
         <ChatHeader>
           <ChatWarrper>
             <div>
-              <NavigateBtn />
+              <NavigateBtn prev link={"/"} sizeType="header" />
             </div>
             <div>채팅</div>
           </ChatWarrper>
@@ -50,7 +49,6 @@ const ChatList = () => {
           ) : (
             <>
               {chatList.map((chat, index) => {
-                console.log(chat);
                 const {
                   invitedNickname,
                   invitedId,
@@ -61,9 +59,7 @@ const ChatList = () => {
                 return (
                   <ChatContainer
                     key={index}
-                    onClick={() =>
-                      chattingOnclickHandle(userId, invitedProfileImg, diaryId)
-                    }
+                    onClick={() => chattingOnclickHandle(userId, diaryId)}
                   >
                     <ChatWrapper>
                       <div>
