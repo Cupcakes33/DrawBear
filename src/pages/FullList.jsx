@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, memo } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
@@ -26,6 +26,8 @@ const DiaryList = memo(() => {
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const [filter, setFilter] = useState("최신순");
+  const [isScrollBottom, setIsScrollBottom] = useState(false);
+
   const sectionRef = useRef(null);
 
   const diaryId = useParams().id;
@@ -54,6 +56,15 @@ const DiaryList = memo(() => {
       month: "long",
       day: "numeric",
     });
+  };
+
+  const listPageScrollhandler = (e) => {
+    const { target } = e;
+    if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
+      setIsScrollBottom(true);
+    } else {
+      setIsScrollBottom(false);
+    }
   };
 
   const defaultHeader = () => {
@@ -93,7 +104,7 @@ const DiaryList = memo(() => {
         <StFilterContainer>
           <FilterDropdown filter={filter} setFilter={setFilter} />
         </StFilterContainer>
-        <StListPageSection ref={sectionRef}>
+        <StListPageSection onScroll={listPageScrollhandler} ref={sectionRef}>
           {(() => {
             switch (filter) {
               case "최신순":
@@ -148,11 +159,16 @@ const DiaryList = memo(() => {
           })()}
         </StListPageSection>
 
-        <StScrollTopButton
-          onClick={() => {
-            sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
+        {isScrollBottom ? (
+          <>
+            <StScrollTopButton
+              onClick={() => {
+                sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          </>
+        ) : null}
+
         <StAddPostButton
           onClick={() => {
             navigate(`/write/${diaryId}`);
