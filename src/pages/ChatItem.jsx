@@ -1,11 +1,20 @@
 import styled from "styled-components";
 
-const InviteSpeechbubble = ({ User, chat, createdAt, bgcolor, rowreverse }) => {
+const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
+  console.log(chatInfo);
+  console.log(bgcolor);
+  console.log(rowreverse);
   return (
     <StSpeechContainer rowreverse={rowreverse}>
-      <div>{/* <img src={user.profileImg} /> */}</div>
+      <div>
+        {bgcolor === "#3CC7A6" ? <></> : <img src={chatInfo.User.profileImg} />}
+      </div>
       <div className="chatWrappper">
-        {/* <div className="chatnickname">{User.nickname}</div> */}
+        {bgcolor === "#3CC7A6" ? (
+          <></>
+        ) : (
+          <div className="chatnickname">{chatInfo.User.nickname}</div>
+        )}
         <ChatContext
           bgcolor={bgcolor}
           btrr="0.5rem"
@@ -15,16 +24,16 @@ const InviteSpeechbubble = ({ User, chat, createdAt, bgcolor, rowreverse }) => {
           boxShadow=".2rem .2rem #e8e8e8"
           wordBreak="break-word"
         >
-          {chat}
+          {chatInfo.chat}
         </ChatContext>
       </div>
       <ChatTime fontsize="1rem" padding="10rem 0rem 0rem 0rem">
-        {createdAt}
+        {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
       </ChatTime>
     </StSpeechContainer>
   );
 };
-export default InviteSpeechbubble;
+export default ChatItem;
 
 const StSpeechContainer = styled.div`
   display: flex;

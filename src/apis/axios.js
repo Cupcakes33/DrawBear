@@ -99,9 +99,10 @@ export const inviteApi = {
 };
 
 export const chattingApi = {
-  search: async (diaryId) => {
-    const { data } = await instance.get(`/api/chat/${diaryId}`);
-    return data.Chats;
+  search: async ({ diaryId, pageParam }) => {
+    const response = await instance.get(`/api/chat/${diaryId}/${pageParam}`);
+    const { Chats, isLast } = response.data;
+    return { Chats, nextPage: pageParam + 1, isLast };
   },
 };
 
