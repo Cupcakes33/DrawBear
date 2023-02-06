@@ -11,9 +11,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-size: 1.6rem;
     color: var(--black);
+    font-family: 'Noto Sans KR', sans-serif;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    font-family: 'Noto Sans KR', sans-serif;
     ::-webkit-scrollbar {
       display:none;
     }

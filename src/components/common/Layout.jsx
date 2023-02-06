@@ -27,4 +27,7 @@ const LayoutContainer = styled.div`
   box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
   background-color: ${(props) => (props.bgColor ? props.bgColor : "#F8F8F8")};
   overflow-x: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;

@@ -71,6 +71,7 @@ export const StHeader = styled.header`
   padding: 2rem;
   position: sticky;
   top: 0;
+  z-index: 10;
   ${flexProps}
   span {
     color: #3cc7a6;
