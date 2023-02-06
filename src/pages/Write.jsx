@@ -4,7 +4,7 @@ import { StContainer, StHeader, StSection } from "../UI/common";
 import { useMutation } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
-import Canvas from "../components/canvas/Canvas";
+import Canvas from "../components/common/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";

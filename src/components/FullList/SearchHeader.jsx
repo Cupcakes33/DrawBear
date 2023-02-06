@@ -2,8 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { useQueryClient } from "@tanstack/react-query";
-import CalendarModal from "../calendar/CalendarModal";
+import CalendarModal from "../common/calendar/CalendarModal";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { flex } from "../../UI/common";
+
 
 const SearchHeader = ({ setChangeHeader }) => {
   const queryClient = useQueryClient();
@@ -48,9 +50,7 @@ const SearchHeader = ({ setChangeHeader }) => {
 export default SearchHeader;
 
 const StSearchHeaderContents = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${flex("space-between", "")}
   width: 100%;
   div {
     display: flex;

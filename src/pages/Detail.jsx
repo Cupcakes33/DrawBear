@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Comment from "../components/detail/Comment";
 
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
+import { StHeader, StContainer, StSection, StFooter, flex } from "../UI/common";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -182,9 +182,7 @@ const StDetailPageSection = styled(StSection)`
   font-family: ZigleTTF;
 
   .detailPageTitleInfoWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "")}
     img {
       width: 5rem;
       height: 5rem;
@@ -217,15 +215,10 @@ const StDetailPageSection = styled(StSection)`
     }
   }
   .detailPageProfileInfoWrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "", "row")}
     margin-bottom: 1rem;
     .tagBox {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      ${flex("flex-start", "")}
       gap: 0.5rem;
 
       span {

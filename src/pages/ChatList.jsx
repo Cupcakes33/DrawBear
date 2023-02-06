@@ -64,7 +64,7 @@ const ChatList = () => {
                   >
                     <ChatWrapper>
                       <div>
-                        <img src={invitedProfileImg} />
+                        <img src={invitedProfileImg} alt="" />
                       </div>
                       <div>
                         <ChatNickName>{invitedNickname}</ChatNickName>

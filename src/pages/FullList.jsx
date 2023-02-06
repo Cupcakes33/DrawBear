@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { flex, StContainer, StHeader, StSection } from "../UI/common";
 
 import { TiPencil } from "react-icons/ti";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -221,9 +221,7 @@ const StDivisionLine = styled.div`
 `;
 
 const StDefaultHeaderContents = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${flex("space-between", "")}
   width: 100%;
   div {
     display: flex;

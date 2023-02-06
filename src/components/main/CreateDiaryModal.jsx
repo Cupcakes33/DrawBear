@@ -64,10 +64,8 @@ const Wrapper = styled.div`
   border-radius: 26px;
   .create-box {
     width: 100%;
+    ${flex}
     gap: 3.6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 `;
 
@@ -81,8 +79,7 @@ const CloseBtn = styled.button`
 `;
 
 const CuteBearBox = styled.div`
-  ${flex}
-  flex-direction: column;
+  ${flex("", "", "column")}
   cursor: pointer;
   img {
     width: 6.5rem;

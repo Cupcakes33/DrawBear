@@ -1,4 +1,4 @@
-import { StContainer, StSection, StHeader, DisplayDiv } from "../../UI/common";
+import { StContainer, StSection, StHeader, DisplayDiv, flex } from "../../UI/common";
 import styled from "styled-components";
 import Footer from "../../components/common/Footer";
 import NavigateBtn from "../../components/common/NavigateBtn";
@@ -162,9 +162,7 @@ const MyProfileSection = styled(StSection)`
     position: absolute;
     top: 17%;
     left: 55%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${flex("", "")}
   }
   .nickName-box {
     padding: 10%;

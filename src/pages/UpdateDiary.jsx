@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { mainApi } from "../apis/axios";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Diary from "../components/main/Diary/Diary";
-import { DisplayDiv, StHeader } from "../UI/common";
+import { DisplayDiv, flex, StHeader } from "../UI/common";
 import { TiPencil } from "react-icons/ti";
 import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
@@ -108,10 +108,7 @@ const UpdateDiaryBox = styled.section`
   width: 100%;
   height: calc(100% - 16.2rem);
   background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${flex("", "" , "column")}
   input {
     margin-bottom: 2rem;
     width: 20.3rem;
@@ -129,10 +126,7 @@ const UpdateDiaryBox = styled.section`
 `;
 
 const UpdateLogoBear = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${flex("", "" , "column")}
   position: absolute;
   top: 10%;
   left: calc(50% - 15rem);
@@ -154,9 +148,7 @@ const Footer = styled.footer`
   width: 100%;
   height: 7.2rem;
   background-color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  ${flex("space-evenly", "")}
 `;
 
 const ColorPicker = styled.button`

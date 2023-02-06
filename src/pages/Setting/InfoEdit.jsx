@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { StContainer, StHeader, StSection } from "../../UI/common";
+import { flex, StContainer, StHeader, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
 
 const InfoEdit = () => {
@@ -41,9 +41,7 @@ const EditProfileSection = styled(StSection)`
     font-size: 1.7rem;
     font-weight: 700;
     div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      ${flex("space-between", "")}
       cursor: pointer;
     }
     span {

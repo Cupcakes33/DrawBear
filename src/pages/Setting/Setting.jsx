@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { TiPencil } from "react-icons/ti";
 import { VscBell } from "react-icons/vsc";
 import { BsDot } from "react-icons/bs";
-import { StContainer, StSection, StHeader } from "../../UI/common";
+import { StContainer, StSection, StHeader, flex } from "../../UI/common";
 import { alarmApi, mypageApi } from "../../apis/axios";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
@@ -148,9 +148,7 @@ const StMypageSection = styled(StSection)`
       position: absolute;
       top: 14rem;
       left: 55%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      ${flex}
     }
     div {
       cursor: pointer;
@@ -178,8 +176,6 @@ const ConfigOptionWrapper = styled.div`
 const ConfigOptionBox = styled.div`
   font-size: 1.7rem;
   font-weight: 700;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${flex("space-between", "")}
   cursor: pointer;
 `;

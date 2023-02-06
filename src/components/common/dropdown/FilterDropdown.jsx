@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { GoTriangleDown } from "react-icons/go";
+import { flex } from "../../../UI/common";
 
 const FilterDropdown = ({ filter, setFilter }) => {
   const [open, setOpen] = useState(false);
@@ -63,17 +64,11 @@ const StFilterDropdownContainer = styled.div`
   position: relative;
   width: 10rem;
   height: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${flex("", "", "column")}
   gap: 0.5rem;
 
   .filterDropdownHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "", "row")}
     width: 100%;
     height: 100%;
     padding: 0.5rem 1rem;

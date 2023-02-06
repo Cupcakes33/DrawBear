@@ -61,7 +61,7 @@ const LocalLoginBox = styled.div`
 `;
 
 const BoundaryLine = styled.div`
-  ${flex("", "between", "")}
+  ${flex("space-between", "")}
   padding-top: 10%;
   span {
     margin: auto -2rem;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { StContainer, StHeader } from "../UI/common";
+import { flex, StContainer, StHeader } from "../UI/common";
 import defaultImg from "../assets/images/default_image.png";
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
@@ -305,9 +305,7 @@ const ProfileSection = styled.section`
     padding-top: 10%;
   }
   .profileImg-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${flex("", "")}
     padding-top: 20%;
     cursor: pointer;
     #profileImg {
