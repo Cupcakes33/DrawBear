@@ -1,0 +1,12 @@
+.tutorial-swiper {
+  width: 30rem;
+  height: 30rem;
+  padding-top: 0;
+}
+
+.swiper-button-prev {
+  color: #CCCCCC;
+}
+.swiper-button-next {
+  color: #CCCCCC;
+}

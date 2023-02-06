@@ -10,9 +10,13 @@ import { alarmApi, mypageApi } from "../../apis/axios";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
 import AlertModal from "../../components/common/modal/AlertModal";
+import useDispatchHook from "../../hooks/useDispatchHook";
+import { useDispatch } from "react-redux";
+import { __TutorialModal } from "../../redux/modules/UISlice";
 
 const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { data: alarmData } = useQuery(["allAlarm"], alarmApi.read, {
@@ -25,6 +29,13 @@ const Setting = () => {
     setProfileImg(data?.userInfo.profileImg);
     setMyProfileData(data?.userInfo);
   }, [data]);
+
+  const { openAlertModal } = useDispatchHook();
+
+  const onLogoutHandler = () => {
+    localStorage.removeItem("token");
+    openAlertModal({ bigTxt: "로그아웃되었습니다.", move: "/login" });
+  };
 
   return (
     <StContainer>
@@ -49,34 +60,47 @@ const Setting = () => {
           <span>{myProfileData?.email}</span>
         </div>
         <ConfigOptionWrapper>
-          <div onClick={() => navigate("/setting/diaryManage")}>
+          <ConfigOptionBox onClick={() => navigate("/setting/diaryManage")}>
             일기 설정
             <NavigateBtn />
-          </div>
-          <div onClick={() => navigate("/setting/infoEdit")}>
+          </ConfigOptionBox>
+          <ConfigOptionBox onClick={() => navigate("/setting/infoEdit")}>
             개인정보 수정
             <NavigateBtn />
-          </div>
+          </ConfigOptionBox>
+          <AlertModal
+            select
+            bigTxt={"로그아웃하시겠어요?"}
+            smallTxt={"다시 로그인해서 이용할 수 있어요."}
+            move={"/login"}
+            onClick={onLogoutHandler}
+          >
+            <ConfigOptionBox className="divInWrapper">로그아웃</ConfigOptionBox>
+          </AlertModal>
           <div></div>
-          <div>
-            공지사항
-            <AlertModal
-              bigTxt={"공지사항이 없어요!"}
-              smallTxt={"그냥 허전해서 달아놓아보았어요!"}
-            >
+          <AlertModal
+            bigTxt={"공지사항이 없어요!"}
+            smallTxt={"그냥 허전해서 달아놓아보았어요!"}
+          >
+            <ConfigOptionBox>
+              공지사항
               <NavigateBtn link={""} />
-            </AlertModal>
-          </div>
+            </ConfigOptionBox>
+          </AlertModal>
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform"
             rel="noopener noreferrer"
             target="_blank"
           >
-            <div>
+            <ConfigOptionBox>
               문의하기
               <NavigateBtn link={""} />
-            </div>
+            </ConfigOptionBox>
           </a>
+          <ConfigOptionBox onClick={() => dispatch(__TutorialModal(true))}>
+            튜토리얼 다시보기
+            <NavigateBtn link={""} />
+          </ConfigOptionBox>
         </ConfigOptionWrapper>
       </StMypageSection>
       <Footer />
@@ -149,16 +173,13 @@ const ConfigOptionWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 2rem;
-  div {
-    font-size: 1.7rem;
-    font-weight: 700;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
 `;
-const Inquiry = styled.a`
-  width: 100%;
-  display: block;
+
+const ConfigOptionBox = styled.div`
+  font-size: 1.7rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 `;

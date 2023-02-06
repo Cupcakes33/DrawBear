@@ -46,7 +46,7 @@ const DiaryManageCard = ({ data }) => {
               <div>
                 <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`} diaryId={diaryId}>
                   <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
-                    탈퇴하기
+                    연결끊기
                   </Button>
                 </DiaryDeleteModal>
               </div>

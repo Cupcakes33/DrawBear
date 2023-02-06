@@ -105,7 +105,7 @@ const MyProfileEdit = () => {
                 <span>{data?.userInfo.email}</span>
               </div>
               <div>
-                <span className="nickName_txt">닉네임</span>
+                <label>닉네임</label>
                 <div className="nickName_container" style={{ flexDirection: "column" }}>
                   <input
                     className={errors.nickname ? "fail" : "pass"}
@@ -187,19 +187,15 @@ const AccountInfoBox = styled.div`
   div {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.3rem;
   }
   label {
-    font-size: 2.6rem;
+    font-size: 2rem;
     font-weight: 700;
   }
   span {
     font-size: 1.4rem;
     color: #8c8c8c;
   }
-  .nickName_txt {
-    color: var(--black);
-    font-weight: 700;
-  }
-  ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
+  ${Input("#F5F5F5", "105%", "0 0 0 0.3rem")}
 `;

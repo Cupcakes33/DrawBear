@@ -75,6 +75,7 @@ const CalendarModal = ({ children }) => {
                     setSelectedMonth={setSelectedMonth}
                     setShowMonth={setShowMonth}
                     showMonth={showMonth}
+                    today={today}
                   />
                   {showMonth ? (
                     <ClalendarMonth

@@ -33,7 +33,7 @@ const ReconfirmAlertModal = ({ children, bigTxt }) => {
         <Modal>
           <Modal.Trigger>{children}</Modal.Trigger>
           <Modal.Portal>
-            <Modal.BackDrop notClose>
+            <Modal.BackDrop notClose transparent>
               <Modal.ContentBox>
                 <AlertBox>
                   <div className="text-box">
