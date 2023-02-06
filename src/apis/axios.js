@@ -17,12 +17,9 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use(
   (res) => {
-    res.headers["Authorization"] = getToken();
-    res.status === 401 && localStorage.removeItem("token");
     return res;
   },
   (error) => {
-    console.log(error);
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
       localStorage.removeItem("token");
