@@ -9,6 +9,7 @@ import useDispatchHook from "../hooks/useDispatchHook";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { viewChatList } from "../redux/modules/chatSlice";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../components/common/header/Header";
 
 const ChatList = () => {
   const [chatList, setChatList] = useState([]);
@@ -34,55 +35,35 @@ const ChatList = () => {
   };
   return (
     <>
-        <ChatHeader>
-          <ChatWarrper>
-            <div>
-              <NavigateBtn prev link={"/"} sizeType="header" />
-            </div>
-            <div>채팅</div>
-          </ChatWarrper>
-        </ChatHeader>
-        <ChatContent>
-          {chatList.length === 0 ? (
-            <NoChatList h3txt="채팅 목록이 없습니다." />
-          ) : (
-            <>
-              {chatList.map((chat, index) => {
-                const {
-                  invitedNickname,
-                  lastChat,
-                  invitedProfileImg,
-                  diaryId,
-                  time,
-                } = chat;
-                return (
-                  <ChatContainer
-                    key={index}
-                    onClick={() => chattingOnclickHandle(userId, diaryId)}
-                  >
-                    <ChatWrapper>
-                      <div>
-                        <img src={invitedProfileImg} alt="" />
-                      </div>
-                      <div>
-                        <ChatNickName>{invitedNickname}</ChatNickName>
-                        <ChatLastTxt>{lastChat}</ChatLastTxt>
-                      </div>
-                      <ChatTime>
-                        {time ? (
-                          new Date(time).toLocaleString().substr(12, 7)
-                        ) : (
-                          <></>
-                        )}
-                      </ChatTime>
-                    </ChatWrapper>
-                  </ChatContainer>
-                );
-              })}
-            </>
-          )}
-        </ChatContent>
-        <Footer />
+      <Header>
+        <Header.Back link={"/"}>채팅</Header.Back>
+      </Header>
+      <ChatContent>
+        {chatList.length === 0 ? (
+          <NoChatList h3txt="채팅 목록이 없습니다." />
+        ) : (
+          <>
+            {chatList.map((chat, index) => {
+              const { invitedNickname, lastChat, invitedProfileImg, diaryId, time } = chat;
+              return (
+                <ChatContainer key={index} onClick={() => chattingOnclickHandle(userId, diaryId)}>
+                  <ChatWrapper>
+                    <div>
+                      <img src={invitedProfileImg} alt="" />
+                    </div>
+                    <div>
+                      <ChatNickName>{invitedNickname}</ChatNickName>
+                      <ChatLastTxt>{lastChat}</ChatLastTxt>
+                    </div>
+                    <ChatTime>{time ? new Date(time).toLocaleString().substr(12, 7) : <></>}</ChatTime>
+                  </ChatWrapper>
+                </ChatContainer>
+              );
+            })}
+          </>
+        )}
+      </ChatContent>
+      <Footer />
     </>
   );
 };

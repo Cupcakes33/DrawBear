@@ -4,8 +4,7 @@ import { BsSearch } from "react-icons/bs";
 import { useQueryClient } from "@tanstack/react-query";
 import CalendarModal from "../common/calendar/CalendarModal";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { flex } from "../../UI/common";
-
+import { Header } from "../common/header/Header";
 
 const SearchHeader = ({ setChangeHeader }) => {
   const queryClient = useQueryClient();
@@ -14,9 +13,7 @@ const SearchHeader = ({ setChangeHeader }) => {
   const searchHandler = () => {
     const allPosts = queryClient.getQueryData(["Allposts_copy"]);
     const filtedPosts = allPosts.filter(
-      (e) =>
-        e.title.includes(searchValue) ||
-        e.tag.replace(/ /g, "").includes(searchValue)
+      (e) => e.title.includes(searchValue) || e.tag.replace(/ /g, "").includes(searchValue)
     );
 
     queryClient.setQueryData(["Allposts"], filtedPosts);
@@ -27,45 +24,27 @@ const SearchHeader = ({ setChangeHeader }) => {
   };
 
   return (
-    <StSearchHeaderContents>
-      <div>
+    <Header.SpaceBetween>
+      <Header.Back notBack>
         <StInput
           placeholder="일기 검색..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={searchKeyDownHandler}
         />
-      </div>
-      <div>
+      </Header.Back>
+      <Header.OnClickBtn color="#242424">
         <BsSearch onClick={searchHandler} />
         <CalendarModal>
           <FaRegCalendarAlt />
         </CalendarModal>
-        <button onClick={() => setChangeHeader(false)}>취소</button>
-      </div>
-    </StSearchHeaderContents>
+        <StButton onClick={() => setChangeHeader(false)}>취소</StButton>
+      </Header.OnClickBtn>
+    </Header.SpaceBetween>
   );
 };
 
 export default SearchHeader;
-
-const StSearchHeaderContents = styled.div`
-  ${flex("space-between", "")}
-  width: 100%;
-  div {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    button {
-      font-size: 1.5rem;
-      color: ${({ theme }) => theme.color.button_primary};
-      border: 0;
-      outline: none;
-      background-color: inherit;
-      cursor: pointer;
-    }
-  }
-`;
 
 const StInput = styled.input`
   width: 20rem;
@@ -77,4 +56,13 @@ const StInput = styled.input`
   padding: 1rem 2rem;
   :focus {
   }
+`;
+
+const StButton = styled.button`
+  font-size: 1.5rem;
+  color: #3cc7a6;
+  border: 0;
+  outline: none;
+  background-color: inherit;
+  cursor: pointer;
 `;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { flex, StHeader, StSection } from "../UI/common";
+import { flex, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { useRef, useState } from "react";
@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Buttons from "../components/common/Button/Buttons";
+import {Header} from "../components/common/header/Header";
 
 const Invite = () => {
   const [name, setName] = useState("");
@@ -77,10 +78,10 @@ const Invite = () => {
 
   return (
     <>
-      <StHeader flex justify="flex-start">
+      <Header flex justify="flex-start">
         <NavigateBtn prev sizeType="header" link="/" />
         <h3>같이 쓰는 멤버 초대</h3>
-      </StHeader>
+      </Header>
       <StInviteSection>
         <StSearchInputWrapper>
           <div>

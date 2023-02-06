@@ -10,9 +10,10 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 import WritePageSubmitHeader from "../components/write/WritePageSubmitHeader";
-import { StHeader, StSection } from "../UI/common";
+import { StSection } from "../UI/common";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import useDispatchHook from "../hooks/useDispatchHook";
+import {Header} from "../components/common/header/Header";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -93,7 +94,7 @@ const Write = () => {
 
   return (
     <>
-        <StHeader flex justify="space-between" aline="center">
+        <Header flex justify="space-between" aline="center">
           {isDrawingEnd ? (
             <WritePageSubmitHeader
               setIsDrawingEnd={setIsDrawingEnd}
@@ -108,7 +109,7 @@ const Write = () => {
               <span onClick={nextSectionHeaderHandler}>다음</span>
             </>
           )}
-        </StHeader>
+        </Header>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StTextSection>
             <StTextSectionFrom

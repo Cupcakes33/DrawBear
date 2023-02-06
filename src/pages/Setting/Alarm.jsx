@@ -7,8 +7,8 @@ import ko from "timeago.js/lib/lang/ko";
 import { alarmApi } from "../../apis/axios";
 import Buttons from "../../components/common/Button/Buttons";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { StHeader } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
+import {Header} from "../../components/common/header/Header";
 
 const Alarm = () => {
   timeAgo.register("ko", ko);
@@ -54,10 +54,10 @@ const Alarm = () => {
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
         <>
-          <StHeader flex justify="flex-start">
+          <Header flex justify="flex-start">
             <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>알림</h3>
-          </StHeader>
+          </Header>
           {data.Notifications?.map((alarmdata, index) => {
             const {
               audienceNickname,

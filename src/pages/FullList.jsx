@@ -1,14 +1,11 @@
 import React, { useRef, useState, useEffect, memo } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import styled, { css } from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
-import HeaderText from "../components/header/HeaderText";
-import { flex, StHeader, StSection } from "../UI/common";
+import { StSection } from "../UI/common";
 
-import { TiPencil } from "react-icons/ti";
-import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { diaryApi } from "../apis/axios";
-import NavigateBtn from "../components/common/NavigateBtn";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineSetting } from "react-icons/ai";
 
@@ -18,6 +15,7 @@ import Loading from "../components/common/Loading";
 import SearchHeader from "../components/FullList/SearchHeader";
 import Buttons from "../components/common/Button/Buttons";
 import { BsTriangleFill } from "react-icons/bs";
+import { Header } from "../components/common/header/Header";
 
 const DiaryList = memo(() => {
   const navigate = useNavigate();
@@ -31,9 +29,7 @@ const DiaryList = memo(() => {
   const sectionRef = useRef(null);
 
   const diaryId = useParams().id;
-  const { data, error, isError, isLoading } = useQuery(["Allposts"], () =>
-    diaryApi.get(diaryId)
-  );
+  const { data, error, isError, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
 
   const orderPostsByDate = (data) => {
     const orderedPosts = {};
@@ -69,22 +65,15 @@ const DiaryList = memo(() => {
 
   const defaultHeader = () => {
     return (
-      <StDefaultHeaderContents>
-        <div>
-          <NavigateBtn prev link="/" />
-          <HeaderText>{diaryName}</HeaderText>
-        </div>
-        <div className="default-header-configBox">
+      <Header.SpaceBetween>
+        <Header.Back link="/">{diaryName}</Header.Back>
+        <Header.OnClickBtn color="#242424" fontSize="2rem">
           <BsSearch onClick={() => setChangeHeader(true)} />
-          <DiarySettingModal
-            diaryName={diaryName}
-            diaryId={diaryId}
-            couple={diaryCouple}
-          >
+          <DiarySettingModal diaryName={diaryName} diaryId={diaryId} couple={diaryCouple}>
             <AiOutlineSetting />
           </DiarySettingModal>
-        </div>
-      </StDefaultHeaderContents>
+        </Header.OnClickBtn>
+      </Header.SpaceBetween>
     );
   };
 
@@ -96,83 +85,77 @@ const DiaryList = memo(() => {
   if (!data) return <Loading />;
   return (
     <>
-        <StHeader>
-          {!changeHeader && defaultHeader()}
-          {changeHeader && <SearchHeader setChangeHeader={setChangeHeader} />}
-        </StHeader>
-        <StFilterContainer>
-          <FilterDropdown filter={filter} setFilter={setFilter} />
-        </StFilterContainer>
-        <StListPageSection onScroll={listPageScrollhandler} ref={sectionRef}>
-          {(() => {
-            switch (filter) {
-              case "최신순":
-                return Object.keys(dateOrderedPosts).map((date, n) => {
+      <Header>
+        {!changeHeader && defaultHeader()}
+        {changeHeader && <SearchHeader setChangeHeader={setChangeHeader} />}
+      </Header>
+      <StFilterContainer>
+        <FilterDropdown filter={filter} setFilter={setFilter} />
+      </StFilterContainer>
+      <StListPageSection onScroll={listPageScrollhandler} ref={sectionRef}>
+        {(() => {
+          switch (filter) {
+            case "최신순":
+              return Object.keys(dateOrderedPosts).map((date, n) => {
+                return (
+                  <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                    <div className="orderedDate">{locailDate(date)}</div>
+                    {dateOrderedPosts[date].map((post, n) => {
+                      return <DiaryCard key={`postData${n}`} postData={post} />;
+                    })}
+                    <StDivisionLine />
+                  </StDiaryCarsWrapper>
+                );
+              });
+            case "오래된순":
+              return Object.keys(dateOrderedPosts)
+                .reverse()
+                .map((date, n) => {
                   return (
                     <StDiaryCarsWrapper key={`orderedPosts${n}`}>
                       <div className="orderedDate">{locailDate(date)}</div>
                       {dateOrderedPosts[date].map((post, n) => {
-                        return (
-                          <DiaryCard key={`postData${n}`} postData={post} />
-                        );
+                        return <DiaryCard key={`postData${n}`} postData={post} />;
                       })}
                       <StDivisionLine />
                     </StDiaryCarsWrapper>
                   );
                 });
-              case "오래된순":
-                return Object.keys(dateOrderedPosts)
-                  .reverse()
-                  .map((date, n) => {
-                    return (
-                      <StDiaryCarsWrapper key={`orderedPosts${n}`}>
-                        <div className="orderedDate">{locailDate(date)}</div>
-                        {dateOrderedPosts[date].map((post, n) => {
-                          return (
-                            <DiaryCard key={`postData${n}`} postData={post} />
-                          );
-                        })}
-                        <StDivisionLine />
-                      </StDiaryCarsWrapper>
-                    );
-                  });
-              case "북마크":
-                return Object.keys(dateOrderedPosts).map((date, n) => {
-                  return (
-                    <StDiaryCarsWrapper key={`orderedPosts${n}`}>
-                      <div className="orderedDate">{locailDate(date)}</div>
-                      {dateOrderedPosts[date]
-                        .filter((post) => post.bookmark)
-                        .map((post, n) => {
-                          return (
-                            <DiaryCard key={`postData${n}`} postData={post} />
-                          );
-                        })}
-                      <StDivisionLine />
-                    </StDiaryCarsWrapper>
-                  );
-                });
-              default:
-                return null;
-            }
-          })()}
-        </StListPageSection>
+            case "북마크":
+              return Object.keys(dateOrderedPosts).map((date, n) => {
+                return (
+                  <StDiaryCarsWrapper key={`orderedPosts${n}`}>
+                    <div className="orderedDate">{locailDate(date)}</div>
+                    {dateOrderedPosts[date]
+                      .filter((post) => post.bookmark)
+                      .map((post, n) => {
+                        return <DiaryCard key={`postData${n}`} postData={post} />;
+                      })}
+                    <StDivisionLine />
+                  </StDiaryCarsWrapper>
+                );
+              });
+            default:
+              return null;
+          }
+        })()}
+      </StListPageSection>
 
-        {isScrollBottom ? (
-          <>
-            <StScrollTopButton
-              onClick={() => {
-                sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            />
-          </>
-        ) : null}
+      {isScrollBottom ? (
+        <>
+          <StScrollTopButton
+            onClick={() => {
+              sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
+        </>
+      ) : null}
 
-        <StAddPostButton
-          onClick={() => {
-            navigate(`/write/${diaryId}`);
-          }}
-        />
+      <StAddPostButton
+        onClick={() => {
+          navigate(`/write/${diaryId}`);
+        }}
+      />
     </>
   );
 });
@@ -216,22 +199,6 @@ const StDivisionLine = styled.div`
   height: 1.5rem;
   background-color: var(--grayscale_2);
   margin: 2rem 0;
-`;
-
-const StDefaultHeaderContents = styled.div`
-  ${flex("space-between", "")}
-  width: 100%;
-  div {
-    display: flex;
-    align-items: center;
-  }
-  .default-header-configBox {
-    gap: 1.5rem;
-    svg {
-      font-size: 2rem;
-      cursor: pointer;
-    }
-  }
 `;
 
 const StDiaryCarsWrapper = styled.div`

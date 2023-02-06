@@ -1,28 +1,28 @@
 import styled from "styled-components";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { flex, StHeader, StSection } from "../../UI/common";
+import { flex, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../../components/common/header/Header";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
 
   return (
     <>
-        <StHeader flex justify="flex-start">
-          <NavigateBtn prev sizeType="header" link="/setting" />
-          <h3>개인정보 수정</h3>
-        </StHeader>
-        <EditProfileSection flex derection="column" justify="flex-start">
-          <div className="editProfileWrapper">
-            <div onClick={() => navigate("/setting/infoEdit/password")}>
-              비밀번호 변경
-              <NavigateBtn />
-            </div>
-            <div onClick={() => navigate("/setting/delete")}>
-              <span>회원 탈퇴</span>
-            </div>
+      <Header>
+        <Header.Back link="/setting">개인정보 수정</Header.Back>
+      </Header>
+      <EditProfileSection flex derection="column" justify="flex-start">
+        <div className="editProfileWrapper">
+          <div onClick={() => navigate("/setting/infoEdit/password")}>
+            비밀번호 변경
+            <NavigateBtn />
           </div>
-        </EditProfileSection>
+          <div onClick={() => navigate("/setting/delete")}>
+            <span>회원 탈퇴</span>
+          </div>
+        </div>
+      </EditProfileSection>
     </>
   );
 };

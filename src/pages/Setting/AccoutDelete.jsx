@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { StHeader } from "../../UI/common";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GrPrevious } from "react-icons/gr";
@@ -9,6 +8,7 @@ import { mypageApi } from "../../apis/axios";
 import { Input } from "../../components/common/Input";
 import AccountDeleteBear from "../../assets/images/account_delete_bear.webp";
 import useDispatchHook from "../../hooks/useDispatchHook";
+import { Header } from "../../components/common/header/Header";
 
 const AccoutDelete = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -53,7 +53,7 @@ const AccoutDelete = () => {
 
   return (
     <>
-      <StHeader flex justify="flex-start">
+      <Header>
         <BackButtonDiv>
           {screenChange ? (
             <GrPrevious onClick={onScreenChangeHandler} />
@@ -62,7 +62,7 @@ const AccoutDelete = () => {
           )}
         </BackButtonDiv>
         <h3>회원 탈퇴</h3>
-      </StHeader>
+      </Header>
       <SlideContainerForm screenChange={screenChange} onSubmit={handleSubmit(onSubmit)}>
         <AccountDeleteLeftSection>
           <section>
