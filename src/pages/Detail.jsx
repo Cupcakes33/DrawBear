@@ -1,15 +1,12 @@
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
-
 import HeaderText from "../components/header/HeaderText";
 import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
-import Button from "../components/common/Button";
 import borderLine from "../assets/images/borderLine.png";
-import { AiOutlineArrowUp } from "react-icons/ai";
 import { weatherIcon } from "../assets/images/weather";
 import AlertModal from "../components/common/modal/AlertModal";
 import Buttons from "../components/common/Button/Buttons";
