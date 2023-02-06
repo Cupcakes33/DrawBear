@@ -45,6 +45,8 @@ export const loginApi = {
   create: async (formData) => {
     await instance.post("/api/auth/signup", formData);
   },
+
+  tutorial: () => instance.get("")
 };
 
 export const mypageApi = {
