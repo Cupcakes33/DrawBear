@@ -11,9 +11,12 @@ import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
 import AlertModal from "../../components/common/modal/AlertModal";
 import useDispatchHook from "../../hooks/useDispatchHook";
+import { useDispatch } from "react-redux";
+import { __TutorialModal } from "../../redux/modules/UISlice";
 
 const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { data: alarmData } = useQuery(["allAlarm"], alarmApi.read, {
@@ -71,7 +74,7 @@ const Setting = () => {
           >
             <ConfigOptionBox className="divInWrapper">
               로그아웃
-              <NavigateBtn />
+              <NavigateBtn link={""} />
             </ConfigOptionBox>
           </AlertModal>
           <div></div>
@@ -91,6 +94,10 @@ const Setting = () => {
               <NavigateBtn link={""} />
             </ConfigOptionBox>
           </a>
+          <ConfigOptionBox onClick={() => dispatch(__TutorialModal(true))}>
+            튜토리얼 다시보기
+            <NavigateBtn link={""} />
+          </ConfigOptionBox>
         </ConfigOptionWrapper>
       </StMypageSection>
       <Footer />
