@@ -12,7 +12,6 @@ const ErrorHandlerModal = ({ showModal }) => {
 
   const ConfirmReactionHandler = () => {
     dispatch(ErrorModal({ isModal: false }));
-    errorModal?.onClick && errorModal?.onClick();
     navigate(errorModal?.move);
   };
 
