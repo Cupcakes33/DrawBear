@@ -10,8 +10,6 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { chattingApi } from "../apis/axios";
-import Loader from "./Loader";
-import Item from "./Item";
 
 const Chatting = () => {
   const socket = useRef(null);

@@ -9,7 +9,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavigateBtn from "../components/common/NavigateBtn";
 import Button from "../components/common/Button";
 import borderLine from "../assets/images/borderLine.png";
-import { BsBookmark } from "react-icons/bs";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import { weatherIcon } from "../assets/images/weather";
 import AlertModal from "../components/common/modal/AlertModal";
@@ -164,12 +163,7 @@ const Detail = () => {
       <DetailPageFooter>
         <form onSubmit={commentsSubmitHandler}>
           <input id="comment" placeholder="댓글 작성하기" />
-          <Button
-            size="mini"
-            color="button_icon"
-            icon={<AiOutlineArrowUp />}
-            round
-          />
+          <Buttons.AddComment />
         </form>
       </DetailPageFooter>
     </StContainer>
