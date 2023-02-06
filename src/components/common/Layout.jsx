@@ -5,16 +5,15 @@ const Layout = ({ children }) => {
   const location = useLocation();
 
   const { pathname } = location;
+  console.log(pathname.indexOf("setting"));
 
-  return (
-    <>
-      {pathname === "/login" || pathname === "/signup" ? (
-        <LayoutContainer bgColor="#eef3e3">{children}</LayoutContainer>
-      ) : (
-        <LayoutContainer>{children}</LayoutContainer>
-      )}
-    </>
-  );
+  const LayoutbackgrounColor = () => {
+    if (pathname === "/login" || pathname === "/signup") return "#eef3e3";
+    else if (pathname === "/") return "#F8F8F8";
+    else return "white";
+  };
+
+  return <LayoutContainer bgColor={LayoutbackgrounColor}>{children}</LayoutContainer>;
 };
 
 export default Layout;
@@ -25,7 +24,7 @@ const LayoutContainer = styled.div`
   height: 100%;
   min-height: 100vh;
   box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
-  background-color: ${(props) => (props.bgColor ? props.bgColor : "#F8F8F8")};
+  background-color: ${({ bgColor }) => bgColor};
   overflow-x: hidden;
   ::-webkit-scrollbar {
     display: none;

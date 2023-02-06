@@ -116,7 +116,7 @@ const Container = styled.div`
     font-size: 3rem;
     color: red;
     position: fixed;
-    bottom: 4%;
+    bottom: 50%;
     right: calc(50% - 16.5rem);
   }
 `;
