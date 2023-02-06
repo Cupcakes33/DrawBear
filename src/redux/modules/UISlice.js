@@ -22,11 +22,11 @@ const UISlice = createSlice({
     LoginModal: (state, action) => {
       state.loginModal = action.payload
     },
-    TutorialModal: (state, action) => {
+    __TutorialModal: (state, action) => {
       state.tutorialModal = action.payload
     },
   }
 })
 
-export const { ErrorModal, LoginModal, TutorialModal } = UISlice.actions
+export const { ErrorModal, LoginModal, __TutorialModal } = UISlice.actions
 export default UISlice.reducer

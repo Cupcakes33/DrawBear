@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { loginApi } from "../../apis/axios";
-import { LoginModal, TutorialModal } from "../../redux/modules/UISlice";
+import { LoginModal, __TutorialModal } from "../../redux/modules/UISlice";
 import { AlertModalCss } from "../common/modal/AlertModal";
 import { Modal } from "../common/modal/ReactModal";
 
@@ -10,20 +9,10 @@ const LoginSuccessModal = ({ showModal }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const tutorialAxios = async () => {
-    try {
-      await loginApi.tutorial();
-      return dispatch(TutorialModal(true));
-    } catch (error) {
-      const { status } = error?.response?.request;
-      console.log(status);
-    }
-  };
-
   const ConfirmReactionHandler = () => {
-    tutorialAxios();
     dispatch(LoginModal(false));
     navigate("/");
+    if (localStorage.getItem("tutorialDone") === null) dispatch(__TutorialModal(true));
   };
 
   return (
