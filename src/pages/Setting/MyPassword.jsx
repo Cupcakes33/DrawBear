@@ -2,9 +2,8 @@ import { StContainer, StSection, StHeader, DisplayDiv } from "../../UI/common";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { Input, WorningWord } from "../../components/common/Input";
-import { passwordApi } from "../../apis/axios";
+import { mypageApi } from "../../apis/axios";
 import styled from "styled-components";
-import Footer from "../../components/common/Footer";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import useDispatchHook from "../../hooks/useDispatchHook";
 
@@ -18,7 +17,7 @@ const MyPassword = () => {
     formState: { isSubmitting, isDirty, errors },
   } = useForm({ mode: "onChange" });
 
-  const { mutate } = useMutation((formData) => passwordApi.update(formData), {
+  const { mutate } = useMutation((formData) => mypageApi.PWupdate(formData), {
     onSuccess: (data) => {
       openAlertModal({ bigTxt: data.message, move: "/setting" });
     },
