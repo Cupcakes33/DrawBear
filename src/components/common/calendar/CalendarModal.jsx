@@ -4,14 +4,14 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
-import { diaryApi } from "../../apis/axios";
+import { diaryApi } from "../../../apis/axios";
 import CalendarWeek from "./CalendarWeek";
 import CalendarDay from "./CalendarDay";
 import ClalendarMonth from "./ClalendarMonth";
 import CalendarHeader from "./CalendarHeader";
-import loadingBear from "../../assets/images/loadingBear.webp";
-import { Modal } from "../common/modal/ReactModal";
-import { flex } from "../../UI/common";
+import loadingBear from "../../../assets/images/loadingBear.webp";
+import { Modal } from "../../common/modal/ReactModal";
+import { flex } from "../../../UI/common";
 
 const CalendarModal = ({ children }) => {
   const today = {
