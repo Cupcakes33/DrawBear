@@ -94,4 +94,5 @@ const CloseBtn = styled.button`
   font-size: 2.5rem;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 `;

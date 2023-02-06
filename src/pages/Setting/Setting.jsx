@@ -74,7 +74,6 @@ const Setting = () => {
           >
             <ConfigOptionBox className="divInWrapper">
               로그아웃
-              <NavigateBtn link={""} />
             </ConfigOptionBox>
           </AlertModal>
           <div></div>
