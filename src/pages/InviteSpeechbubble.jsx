@@ -1,19 +1,11 @@
 import styled from "styled-components";
-const userData = {
-  id: 2,
-  nickname: "아이유",
-  txt: "1234566789101112131415161718192021222324252627282930",
-  profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  time: "10시31분",
-};
-const InviteSpeechbubble = ({ bgcolor, rowreverse }) => {
+
+const InviteSpeechbubble = ({ User, chat, createdAt, bgcolor, rowreverse }) => {
   return (
     <StSpeechContainer rowreverse={rowreverse}>
-      <div>
-        <img src={userData.profile} />
-      </div>
+      <div>{/* <img src={user.profileImg} /> */}</div>
       <div className="chatWrappper">
-        <div className="chatnickname">{userData.nickname}</div>
+        {/* <div className="chatnickname">{User.nickname}</div> */}
         <ChatContext
           bgcolor={bgcolor}
           btrr="0.5rem"
@@ -23,11 +15,11 @@ const InviteSpeechbubble = ({ bgcolor, rowreverse }) => {
           boxShadow=".2rem .2rem #e8e8e8"
           wordBreak="break-word"
         >
-          {userData.txt}
+          {chat}
         </ChatContext>
       </div>
       <ChatTime fontsize="1rem" padding="10rem 0rem 0rem 0rem">
-        {userData.time}
+        {createdAt}
       </ChatTime>
     </StSpeechContainer>
   );
