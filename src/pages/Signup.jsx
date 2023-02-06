@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { StContainer, StHeader } from "../UI/common";
+import { flex } from "../UI/common";
 import defaultImg from "../assets/images/default_image.png";
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { loginApi } from "../apis/axios";
 import { Input, WorningWord } from "../components/common/Input";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Buttons from "../components/common/Button/Buttons";
+import {Header} from "../components/common/header/Header";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -67,7 +68,6 @@ const Signup = () => {
 
   return (
     <>
-      <StContainer bgColor="#EEF3E3;">
         <StSignupHeader>
           <BackButtonDiv>
             {screenChange ? (
@@ -238,14 +238,13 @@ const Signup = () => {
             </section>
           </ProfileSection>
         </SlideContainerForm>
-      </StContainer>
     </>
   );
 };
 
 export default Signup;
 
-const StSignupHeader = styled(StHeader)`
+const StSignupHeader = styled(Header)`
   background: var(--login_bg);
 `;
 
@@ -324,9 +323,7 @@ const ProfileSection = styled.section`
     padding-top: 10%;
   }
   .profileImg-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${flex("", "")}
     padding-top: 20%;
     cursor: pointer;
     #profileImg {

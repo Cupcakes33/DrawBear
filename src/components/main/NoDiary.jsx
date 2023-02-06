@@ -3,17 +3,15 @@ import CreateDiaryModal from "./CreateDiaryModal";
 import NoDiaryBear from "../../assets/images/noDiaryBear.webp";
 import { flex } from "../../UI/common";
 import { useSelector } from "react-redux";
-import useDispatchHook from "../../hooks/useDispatchHook";
 import Diary from "./Diary/Diary";
 
 const NoDiary = () => {
   const { icon } = useSelector((state) => state.diarySlice.diaryTypes);
-  const { changeDiaryView } = useDispatchHook();
 
   return (
     <>
-      <StContainer>
-        <StWrapper>
+      <NoDiaryBox>
+        <NoDiaryWrapper>
           {icon === "bookmark" ? (
             <>
               <h3>즐겨찾기 한 다이어리가 없어요</h3>
@@ -35,21 +33,21 @@ const NoDiary = () => {
               </CreateDiaryModal>
             </>
           )}
-        </StWrapper>
-      </StContainer>
+        </NoDiaryWrapper>
+      </NoDiaryBox>
     </>
   );
 };
 
 export default NoDiary;
 
-const StContainer = styled.div`
+const NoDiaryBox = styled.div`
   height: 85vh;
   display: flex;
   justify-content: center;
 `;
 
-const StWrapper = styled.div`
+const NoDiaryWrapper = styled.div`
   ${flex("", "", "column")}
   .addDiary {
     ${flex("", "", "column")}

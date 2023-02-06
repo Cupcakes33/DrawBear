@@ -7,19 +7,19 @@ import Buttons from "../common/Button/Buttons";
 const DiaryList = ({ diaryData }) => {
   return (
     <>
-      <StContainer>
+      <DiaryListBox>
         <Diaries diaryData={diaryData} />
         <CreateDiaryModal>
           <StAddDiaryButton />
         </CreateDiaryModal>
-      </StContainer>
+      </DiaryListBox>
     </>
   );
 };
 
 export default DiaryList;
 
-const StContainer = styled.div`
+const DiaryListBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

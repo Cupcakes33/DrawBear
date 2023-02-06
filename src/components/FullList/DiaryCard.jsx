@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../../apis/axios";
 import Buttons from "../common/Button/Buttons";
+import { flex } from "../../UI/common";
 
 const DiaryCard = ({ postData }) => {
   const queryClient = useQueryClient();
@@ -84,10 +85,7 @@ const StDiaryCardContainer = styled.div`
 `;
 const StTitleWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  ${flex("space-between", "", "row")}
   .postOptionbox {
     display: flex;
     flex-direction: row;
@@ -101,10 +99,7 @@ const StTitleWrapper = styled.div`
     }
   }
   .writerInfoBox {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    ${flex("space-between", "", "row")}
     gap: 1rem;
     img {
       width: 3rem;
@@ -124,10 +119,7 @@ const StImageWrapper = styled.div`
 
 const StConfigWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  ${flex("space-between", "", "row")}
   div:last-child {
     display: flex;
     flex-direction: row;

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import DiaryDeleteConfirmModal from "./DiaryDeleteConfirmModal";
 import { Modal } from "../../common/modal/ReactModal";
+import { flex } from "../../../UI/common";
 
 const DiarySettingModal = ({ children, diaryId, diaryName, couple }) => {
   const navigate = useNavigate();
@@ -38,9 +39,7 @@ const DiarySettingBox = styled.section`
   div {
     width: 36rem;
     height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${flex}
     font-weight: 700;
     cursor: pointer;
   }

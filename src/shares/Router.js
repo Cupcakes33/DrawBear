@@ -27,6 +27,7 @@ import ChatList from "../pages/ChatList";
 import NoChatList from "../pages/NoChatList";
 import KakaoLogin from "../components/login/KakaoLogin";
 import TutorialModal from "../components/main/Tutorial/TutorialModal";
+import Layout from "../components/common/Layout";
 
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
@@ -34,32 +35,34 @@ const Router = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/api/auth/login/kakao/callback" element={<KakaoLogin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route element={<PrivateRoutes />}>
-          <Route path="/" element={<Main />} />
-          <Route path="/chat" element={<Chatting />} />
-          <Route path="/nochatlist" element={<NoChatList />} />
-          <Route path="/chatlist" element={<ChatList />} />
-          <Route path="/new" element={<CreateDiary />} />
-          <Route path="/update/:id" element={<UpdateDiary />} />
-          <Route path="/write/:id" element={<Write />} />
-          <Route path="/list/:id" element={<FullList />} />
-          <Route path="/invite/:id" element={<Invite />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/detail/:id/update" element={<UpdatePost />} />
-          <Route path="/buttonpreview" element={<ButtonPreview />} />
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/setting/diaryManage" element={<DiaryManage />} />
-          <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
-          <Route path="/setting/infoEdit/" element={<InfoEdit />} />
-          <Route path="/setting/infoEdit/password" element={<MyPassword />} />
-          <Route path="/setting/delete" element={<AccoutDelete />} />
-          <Route path="/setting/alarm" element={<Alarm />} />
-        </Route>
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/api/auth/login/kakao/callback" element={<KakaoLogin />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route element={<PrivateRoutes />}>
+            <Route path="/" element={<Main />} />
+            <Route path="/chat" element={<Chatting />} />
+            <Route path="/nochatlist" element={<NoChatList />} />
+            <Route path="/chatlist" element={<ChatList />} />
+            <Route path="/new" element={<CreateDiary />} />
+            <Route path="/update/:id" element={<UpdateDiary />} />
+            <Route path="/write/:id" element={<Write />} />
+            <Route path="/list/:id" element={<FullList />} />
+            <Route path="/invite/:id" element={<Invite />} />
+            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/detail/:id/update" element={<UpdatePost />} />
+            <Route path="/buttonpreview" element={<ButtonPreview />} />
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/setting/diaryManage" element={<DiaryManage />} />
+            <Route path="/setting/profileEdit" element={<MyProfileEdit />} />
+            <Route path="/setting/infoEdit/" element={<InfoEdit />} />
+            <Route path="/setting/infoEdit/password" element={<MyPassword />} />
+            <Route path="/setting/delete" element={<AccoutDelete />} />
+            <Route path="/setting/alarm" element={<Alarm />} />
+          </Route>
+        </Routes>
+      </Layout>
       {isModal && <ErrorHandlerModal showModal />}
       {tutorialModal && <TutorialModal showModal />}
     </BrowserRouter>

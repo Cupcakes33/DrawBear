@@ -17,12 +17,9 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use(
   (res) => {
-    res.headers["Authorization"] = getToken();
-    res.status === 401 && localStorage.removeItem("token");
     return res;
   },
   (error) => {
-    console.log(error);
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
       localStorage.removeItem("token");
@@ -32,6 +29,8 @@ instance.interceptors.response.use(
     } else return Promise.reject(error);
   }
 );
+
+// 로그인 API
 
 export const loginApi = {
   login: (inputData) =>
@@ -45,76 +44,7 @@ export const loginApi = {
   },
 };
 
-export const mypageApi = {
-  read: async () => {
-    const { data } = await instance.get("/api/userInfo");
-    return data;
-  },
-  update: async (formData) => {
-    const { data } = await instance.patch("/api/userInfo/profile", formData);
-    return data;
-  },
-  patch: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/unregister", {
-      currentPassword: inputData.password,
-    });
-    return data;
-  },
-};
-
-export const alarmApi = {
-  read: async () => {
-    const { data } = await instance.get("/api/notification/");
-    return data;
-  },
-  chatlist: async () => {
-    const { data } = await instance.get("/api/diary/share");
-    return data;
-  },
-  patch: async ({ diaryId, notificationId }) => {
-    const { data } = await instance.patch(
-      `/api/diary/inviteAccept/${diaryId}/${notificationId}`
-    );
-    return data;
-  },
-  delete: async (notificationId) => {
-    const { data } = await instance.delete(
-      `/api/notification/${notificationId}`
-    );
-    return data;
-  },
-};
-
-export const inviteApi = {
-  search: async (nickName) => {
-    const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
-    return data;
-  },
-  invite: async ({ diaryId, invitedId }) => {
-    const { data } = await instance.patch(
-      `/api/diary/invite/${diaryId}/${invitedId}`
-    );
-    return data;
-  },
-};
-
-export const chattingApi = {
-  search: async (diaryId) => {
-    const { data } = await instance.get(`/api/chat/${diaryId}`);
-    return data.Chats;
-  },
-};
-
-export const passwordApi = {
-  update: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/password", {
-      currentPassword: inputData.currentPW,
-      changePassword: inputData.password,
-      confirmPassword: inputData.passwordCheck,
-    });
-    return data;
-  },
-};
+// 메인 페이지 다이어리 API
 
 export const mainApi = {
   read: async () => {
@@ -147,6 +77,8 @@ export const mainApi = {
   },
 };
 
+// 일기 조회 API
+
 export const diaryApi = {
   get: async (diaryId) => {
     const { data } = await instance.get(`/api/post/${diaryId}`);
@@ -168,6 +100,8 @@ export const diaryApi = {
     return data;
   },
 };
+
+// 일기 상세 조회 API
 
 export const postsApi = {
   post: async ({ formData, diaryId }) => {
@@ -191,6 +125,8 @@ export const postsApi = {
   },
 };
 
+// 댓글 API
+
 export const commentsApi = {
   post: async ({ comment, postId }) => {
     await instance.post(`/api/comment/${postId}`, { comment: comment });
@@ -202,5 +138,81 @@ export const commentsApi = {
 
   delete: async (commentId) => {
     await instance.delete(`/api/comment/${commentId}`);
+  },
+};
+
+// 더보기 페이지 API
+
+export const mypageApi = {
+  read: async () => {
+    const { data } = await instance.get("/api/userInfo");
+    return data;
+  },
+  update: async (formData) => {
+    const { data } = await instance.patch("/api/userInfo/profile", formData);
+    return data;
+  },
+  patch: async (inputData) => {
+    const { data } = await instance.patch("/api/userInfo/unregister", {
+      currentPassword: inputData.password,
+    });
+    return data;
+  },
+  PWupdate: async (inputData) => {
+    const { data } = await instance.patch("/api/userInfo/password", {
+      currentPassword: inputData.currentPW,
+      changePassword: inputData.password,
+      confirmPassword: inputData.passwordCheck,
+    });
+    return data;
+  },
+};
+
+// 알람 API
+
+export const alarmApi = {
+  read: async () => {
+    const { data } = await instance.get("/api/notification/");
+    return data;
+  },
+  chatlist: async () => {
+    const { data } = await instance.get("/api/diary/share");
+    return data;
+  },
+  patch: async ({ diaryId, notificationId }) => {
+    const { data } = await instance.patch(
+      `/api/diary/inviteAccept/${diaryId}/${notificationId}`
+    );
+    return data;
+  },
+  delete: async (notificationId) => {
+    const { data } = await instance.delete(
+      `/api/notification/${notificationId}`
+    );
+    return data;
+  },
+};
+
+// 초대 API
+
+export const inviteApi = {
+  search: async (nickName) => {
+    const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
+    return data;
+  },
+  invite: async ({ diaryId, invitedId }) => {
+    const { data } = await instance.patch(
+      `/api/diary/invite/${diaryId}/${invitedId}`
+    );
+    return data;
+  },
+};
+
+// 채팅 API
+
+export const chattingApi = {
+  search: async (diaryId) => {
+    const { data } = await instance.get(`/api/chat/${diaryId}`);
+    return data.Chats;
   },
 };

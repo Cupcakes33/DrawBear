@@ -1,10 +1,10 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { StSection } from "../UI/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
-import Canvas from "../components/canvas/Canvas";
+import Canvas from "../components/common/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
@@ -18,6 +18,7 @@ import { GrPrevious } from "react-icons/gr";
 
 import Loading from "../components/common/Loading";
 import useDispatchHook from "../hooks/useDispatchHook";
+import {Header} from "../components/common/header/Header";
 
 const UpdatePost = () => {
   const [canvas, setCanvas] = useState("");
@@ -104,10 +105,9 @@ const UpdatePost = () => {
   if (isError) return <div>에러</div>;
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="space-between" aline="center">
+        <Header flex justify="space-between" aline="center">
           {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
-        </StHeader>
+        </Header>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StTextSection>
             <StTextSectionFrom
@@ -152,7 +152,6 @@ const UpdatePost = () => {
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
-      </StContainer>
     </>
   );
 };

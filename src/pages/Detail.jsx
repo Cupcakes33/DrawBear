@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
-import HeaderText from "../components/header/HeaderText";
-import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
+import { StSection, StFooter, flex } from "../UI/common";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
-import NavigateBtn from "../components/common/NavigateBtn";
 import borderLine from "../assets/images/borderLine.png";
 import { weatherIcon } from "../assets/images/weather";
 import AlertModal from "../components/common/modal/AlertModal";
 import Buttons from "../components/common/Button/Buttons";
+import { Header } from "../components/common/header/Header";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -17,12 +16,7 @@ const Detail = () => {
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
 
-  const {
-    data = {},
-    error,
-    isError,
-    isLoading,
-  } = useQuery(["posts"], () => postsApi.get(params));
+  const { data = {}, error, isError, isLoading } = useQuery(["posts"], () => postsApi.get(params));
 
   const {
     postId,
@@ -91,11 +85,10 @@ const Detail = () => {
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
-    <StContainer>
-      <StHeader>
-        <NavigateBtn prev link={`/list/${diaryId}`} />
-        <HeaderText>{diaryName}</HeaderText>
-      </StHeader>
+    <>
+      <Header>
+        <Header.Back link={`/list/${diaryId}`}>{diaryName}</Header.Back>
+      </Header>
 
       <StDetailPageSection>
         <div className="detailPageTitleInfoWrapper">
@@ -123,17 +116,11 @@ const Detail = () => {
           <img src={image} alt="그림" />
         </div>
         <div className="detailPageContentWrapper">
-          <div
-            dangerouslySetInnerHTML={{ __html: content }}
-            className="content"
-          />
+          <div dangerouslySetInnerHTML={{ __html: content }} className="content" />
         </div>
 
         <div className="detailPageButtonWrapper">
-          <Buttons.Bookmark
-            isBookmarked={bookmark}
-            onClick={postBookmarkHandler}
-          />
+          <Buttons.Bookmark isBookmarked={bookmark} onClick={postBookmarkHandler} />
           <Buttons.Option
             onClick={() => {
               navigate(-1);
@@ -163,7 +150,7 @@ const Detail = () => {
           <Buttons.AddComment />
         </form>
       </DetailPageFooter>
-    </StContainer>
+    </>
   );
 };
 
@@ -173,9 +160,7 @@ const StDetailPageSection = styled(StSection)`
   font-family: ZigleTTF;
 
   .detailPageTitleInfoWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "")}
     img {
       width: 5rem;
       height: 5rem;
@@ -208,15 +193,10 @@ const StDetailPageSection = styled(StSection)`
     }
   }
   .detailPageProfileInfoWrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "", "row")}
     margin-bottom: 1rem;
     .tagBox {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      ${flex("flex-start", "")}
       gap: 0.5rem;
 
       span {

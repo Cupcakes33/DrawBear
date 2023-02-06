@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BsChatLeftTextFill, BsCheckLg, BsFillPersonFill } from "react-icons/bs";
+import { BsChatLeftTextFill, BsFillPersonFill } from "react-icons/bs";
 import { IoMdBookmark } from "react-icons/io";
 import { MdPeopleAlt } from "react-icons/md";
 import { MdMoreHoriz } from "react-icons/md";
@@ -18,8 +18,6 @@ const Footer = () => {
 
   const { pathname } = location;
 
-  // const { diaries } = queryClient?.getQueryData(["main"]);
-
   const { data = [] } = useQuery(["allAlarm"], alarmApi.read, {
     refetchInterval: 3000,
   });
@@ -27,14 +25,6 @@ const Footer = () => {
   const changeChatList = () => {
     changeDiaryView({ icon: "chatlist", couple: 0, bookmark: 0, move: "/chatlist" });
     navigate("/chatlist");
-    // const result = diaries.find((diary) => {
-    //   if (diary.couple === 1) {
-    //     return navigate("/chatlist");
-    //   } else {
-    //     return navigate("/");
-    //   }
-    // });
-    // return result;
   };
 
   return (
@@ -85,10 +75,11 @@ const Footer = () => {
 export default Footer;
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36rem;
   height: 7.2rem;
   display: flex;
   justify-content: space-evenly;
@@ -125,7 +116,7 @@ const Container = styled.div`
     font-size: 3rem;
     color: red;
     position: fixed;
-    bottom: 4%;
+    bottom: 50%;
     right: calc(50% - 16.5rem);
   }
 `;

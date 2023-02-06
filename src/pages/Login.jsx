@@ -3,10 +3,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LonginForm from "../components/login/LonginForm";
-import { flex, StContainer } from "../UI/common";
+import { flex } from "../UI/common";
 import SocialLogin from "../components/login/SocialLogin";
 import { useSelector } from "react-redux";
 import LoginSuccessModal from "../components/login/LoginSuccessModal";
+import Layout from "../components/common/Layout";
 
 const Login = () => {
   const queryClient = useQueryClient();
@@ -21,21 +22,19 @@ const Login = () => {
 
   return (
     <>
-      <StContainer bgColor="#eef3e3;">
-        <LocalLoginBox>
-          <h2>로그인</h2>
-          <LonginForm />
-          <div className="signup-box">
-            아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
-          </div>
-        </LocalLoginBox>
-        <BoundaryLine>
-          <hr />
-          <span>간편로그인</span>
-          <hr />
-        </BoundaryLine>
-        <SocialLogin />
-      </StContainer>
+      <LocalLoginBox>
+        <h2>로그인</h2>
+        <LonginForm />
+        <div className="signup-box">
+          아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
+        </div>
+      </LocalLoginBox>
+      <BoundaryLine>
+        <hr />
+        <span>간편로그인</span>
+        <hr />
+      </BoundaryLine>
+      <SocialLogin />
       {loginModal && <LoginSuccessModal showModal />}
     </>
   );
@@ -61,7 +60,7 @@ const LocalLoginBox = styled.div`
 `;
 
 const BoundaryLine = styled.div`
-  ${flex("", "between", "")}
+  ${flex("space-between", "")}
   padding-top: 10%;
   span {
     margin: auto -2rem;

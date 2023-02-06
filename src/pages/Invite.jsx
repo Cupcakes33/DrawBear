@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { flex, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { useRef, useState } from "react";
@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Buttons from "../components/common/Button/Buttons";
+import {Header} from "../components/common/header/Header";
 
 const Invite = () => {
   const [name, setName] = useState("");
@@ -76,11 +77,11 @@ const Invite = () => {
   };
 
   return (
-    <StContainer>
-      <StHeader flex justify="flex-start">
+    <>
+      <Header flex justify="flex-start">
         <NavigateBtn prev sizeType="header" link="/" />
         <h3>같이 쓰는 멤버 초대</h3>
-      </StHeader>
+      </Header>
       <StInviteSection>
         <StSearchInputWrapper>
           <div>
@@ -120,7 +121,7 @@ const Invite = () => {
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>
-    </StContainer>
+    </>
   );
 };
 
@@ -129,11 +130,9 @@ export default Invite;
 const StInviteSection = styled(StSection)``;
 
 const StSearchInputWrapper = styled.div`
-  display: flex;
+  ${flex("", "")}
   position: relative;
   gap: 1rem;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 5rem;
   & div {
@@ -175,9 +174,7 @@ const StSearchUserInfoWrapper = styled.div`
 `;
 
 const StSearchUserInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${flex("space-between", "")}
   width: 100%;
   height: 5rem;
   padding: 0 1rem;
@@ -190,10 +187,7 @@ const StSearchUserInfo = styled.div`
     margin-right: 1rem;
   }
   div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    ${flex("", "flex-start", "column")}
     width: 100%;
     height: 100%;
     span {

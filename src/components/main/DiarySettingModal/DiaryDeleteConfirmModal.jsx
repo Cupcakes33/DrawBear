@@ -65,8 +65,7 @@ const DiaryDeleteConfirmModal = ({ children, diaryName, diaryId }) => {
 export default DiaryDeleteConfirmModal;
 
 const DeleteConfirmContainer = styled.div`
-  ${flex}
-  flex-direction: column;
+  ${flex("", "", "column")}
   text-align: center;
   width: 29.7rem;
   height: 38.1rem;

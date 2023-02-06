@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { diaryData } from "../../redux/modules/diarySlice";
-import { DisplayDiv, flex } from "../../UI/common";
+import { __diaryData } from "../../redux/modules/diarySlice";
+import { flex } from "../../UI/common";
 import Buttons from "../common/Button/Buttons";
 import DiaryDeleteModal from "./DiaryDeleteModal";
 
@@ -12,8 +12,7 @@ const DiaryManageCard = ({ data }) => {
   return (
     <>
       {data.diaries?.map((diary) => {
-        const { diaryId, diaryName, invitedNickname, invitedProfileImg } =
-          diary;
+        const { diaryId, diaryName, invitedNickname, invitedProfileImg } = diary;
         return diary.couple === 0 ? (
           <SoloDiary key={`diary_${diaryId}`}>
             <h1>{diaryName}</h1>
@@ -23,9 +22,7 @@ const DiaryManageCard = ({ data }) => {
               </div>
               <div>
                 <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`}>
-                  <Buttons.Invite onClick={() => dispatch(diaryData(diaryId))}>
-                    삭제하기
-                  </Buttons.Invite>
+                  <Buttons.Invite onClick={() => dispatch(__diaryData(diaryId))}>삭제하기</Buttons.Invite>
                 </DiaryDeleteModal>
               </div>
             </DisplayDiv>
@@ -45,13 +42,8 @@ const DiaryManageCard = ({ data }) => {
                 )}
               </div>
               <div>
-                <DiaryDeleteModal
-                  bigTxt={`${diaryName}을(를) 삭제하시겠어요?`}
-                  diaryId={diaryId}
-                >
-                  <Buttons.Invite onClick={() => dispatch(diaryData(diaryId))}>
-                    연결끊기
-                  </Buttons.Invite>
+                <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`} diaryId={diaryId}>
+                  <Buttons.Invite onClick={() => dispatch(__diaryData(diaryId))}>연결끊기</Buttons.Invite>
                 </DiaryDeleteModal>
               </div>
             </DisplayDiv>
@@ -83,4 +75,8 @@ const ConnectedUserProfile = styled.div`
   img {
     width: 3rem;
   }
+`;
+
+const DisplayDiv = styled.div`
+  ${flex("space-between", "")}
 `;

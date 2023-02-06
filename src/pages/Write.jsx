@@ -4,15 +4,16 @@ import { useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
-import Canvas from "../components/canvas/Canvas";
+import Canvas from "../components/common/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 import WritePageSubmitHeader from "../components/write/WritePageSubmitHeader";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { StSection } from "../UI/common";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import useDispatchHook from "../hooks/useDispatchHook";
+import {Header} from "../components/common/header/Header";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -93,8 +94,7 @@ const Write = () => {
 
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="space-between" aline="center">
+        <Header flex justify="space-between" aline="center">
           {isDrawingEnd ? (
             <WritePageSubmitHeader
               setIsDrawingEnd={setIsDrawingEnd}
@@ -109,7 +109,7 @@ const Write = () => {
               <span onClick={nextSectionHeaderHandler}>다음</span>
             </>
           )}
-        </StHeader>
+        </Header>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StTextSection>
             <StTextSectionFrom
@@ -147,7 +147,6 @@ const Write = () => {
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
-      </StContainer>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { LoginModal, __TutorialModal } from "../../redux/modules/UISlice";
+import { __LoginModal, __TutorialModal } from "../../redux/modules/UISlice";
 import { AlertModalCss } from "../common/modal/AlertModal";
 import { Modal } from "../common/modal/ReactModal";
 
@@ -10,7 +10,7 @@ const LoginSuccessModal = ({ showModal }) => {
   const dispatch = useDispatch();
 
   const ConfirmReactionHandler = () => {
-    dispatch(LoginModal(false));
+    dispatch(__LoginModal(false));
     navigate("/");
     if (localStorage.getItem("tutorialDone") === null) dispatch(__TutorialModal(true));
   };
