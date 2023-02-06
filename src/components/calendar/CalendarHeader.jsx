@@ -4,9 +4,12 @@ import { GrPrevious, GrNext } from "react-icons/gr";
 import { FiChevronDown } from "react-icons/fi";
 import YearSelectModal from "./YearSelectModal";
 import { useCallback } from "react";
+import { flex } from "../../UI/common";
+import { useQueryClient } from "@tanstack/react-query";
 
 const CalendarHeader = (props) => {
   const { selectedMonth, setSelectedMonth, selectedYear, setSelectedYear, showMonth, setShowMonth } = props;
+  const queryClient = useQueryClient();
 
   // 달 이동 버튼 로직
 
@@ -46,6 +49,10 @@ const CalendarHeader = (props) => {
     [setShowMonth, setSelectedYear]
   );
 
+  const AllListSearchHandler = () => {
+    queryClient.setQueryData(["Allposts"], queryClient.getQueryData(["Allposts_copy"]));
+  };
+
   const onTodayMoveHandler = useCallback(() => {
     setSelectedYear(props.today.year);
     setSelectedMonth(props.today.month);
@@ -65,7 +72,10 @@ const CalendarHeader = (props) => {
         )}
       </div>
       <div className="buttons">
-        <button onClick={onTodayMoveHandler}>오늘</button>
+        <SearchBox>
+          <button onClick={AllListSearchHandler}>전체글</button>
+          <button onClick={onTodayMoveHandler}>오늘</button>
+        </SearchBox>
         <button onClick={() => (showMonth ? prevYear() : prevMonth())}>
           <GrPrevious />
         </button>
@@ -104,5 +114,19 @@ const CalendarHeaderBox = styled.div`
     background-color: inherit;
     cursor: pointer;
     font-size: 2rem;
+  }
+`;
+
+const SearchBox = styled.div`
+  ${flex}
+  gap: 0.8rem;
+  margin-right: -0.8rem;
+  border-radius: 5px;
+  button {
+    color: #9b9b9b;
+    font-size: 1rem;
+    width: 3.7rem;
+    height: 2.3rem;
+    background-color: #f2f2f2;
   }
 `;
