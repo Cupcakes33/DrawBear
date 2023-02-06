@@ -98,6 +98,13 @@ export const inviteApi = {
   },
 };
 
+export const chattingApi = {
+  search: async (diaryId) => {
+    const { data } = await instance.get(`/api/chat/${diaryId}`);
+    return data.Chats;
+  },
+};
+
 export const passwordApi = {
   update: async (inputData) => {
     const { data } = await instance.patch("/api/userInfo/password", {
