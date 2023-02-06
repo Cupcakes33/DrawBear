@@ -121,7 +121,6 @@ const ChatWrapper = styled.div`
   width: 100%;
   display: flex;
   position: absolute;
-  top: 50%;
   & img {
     width: 5.2rem;
     height: 5.2rem;
