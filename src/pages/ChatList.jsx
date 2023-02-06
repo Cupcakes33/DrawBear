@@ -23,7 +23,6 @@ const ChatList = () => {
   });
   const { data } = useQuery(["chatlist"], alarmApi.chatlist, {
     onError: (error) => {
-      console.log(error);
     },
     onSuccess: (success) => {
       setChatList([...success.diaries]);

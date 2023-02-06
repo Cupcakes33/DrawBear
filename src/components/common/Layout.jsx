@@ -5,7 +5,6 @@ const Layout = ({ children }) => {
   const location = useLocation();
 
   const { pathname } = location;
-  console.log(pathname.indexOf("setting"));
 
   const LayoutbackgrounColor = () => {
     if (pathname === "/login" || pathname === "/signup") return "#eef3e3";

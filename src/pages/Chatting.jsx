@@ -32,7 +32,6 @@ const Chatting = () => {
     setMessage(txt);
   };
   const messageSendOnclick = () => {
-    console.log(socketData);
     setMessage("txt");
     socket.current.emit("chat_message", socketData);
   };
@@ -41,8 +40,6 @@ const Chatting = () => {
       setChattingInfo([...success]);
     },
   });
-  console.log(chattingInfo);
-  console.log(userId);
   // const { data, isLoading, isError, error } = useQuery(["chatInfo"], () =>
   //   chattingApi.search(diaryId)
   // );
@@ -83,8 +80,6 @@ const Chatting = () => {
   useEffect(() => {
     socket.current._callbacks = {};
     socket.current.on("receiveMessage", (message) => {
-      console.log(socket);
-      console.log(message);
       // setMessageList((prev) => [...prev, message]);
     });
     // socket?.current?.on("welcome", (user) =>
