@@ -16,7 +16,7 @@ const HashTagInput = ({ tags, setTags }) => {
   const HashTagInputKeyDownHandler = (event) => {
     const { value } = event.target;
 
-    if (event.key !== "Enter") return;
+    if (event.key !== " ") return;
     if (!value.trim()) return;
 
     // 중복 제거
@@ -50,7 +50,7 @@ const HashTagInput = ({ tags, setTags }) => {
         onChange={HashTagInputOnchangeHandler}
         onKeyUp={HashTagInputKeyDownHandler}
         type="text"
-        placeholder="태그는 5개까지 입력이 가능해요 !"
+        placeholder="띄워쓰기로 태그를 추가할 수 있어요!"
       />
     </StHashTagContainer>
   );

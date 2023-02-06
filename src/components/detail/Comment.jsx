@@ -118,39 +118,40 @@ const Comment = memo(({ comments }) => {
                 </span>
               </EditOptionBox>
             ) : (
-              <Button
-                className="commentOptionBtn"
-                round
-                fs="2rem"
-                icon={<BiDotsVerticalRounded />}
-                onClick={() => {
-                  setCommentId(comment.commentId);
-                  setIsDropdown(!isDropdown);
-                }}
-              />
+              <StDropdownBox>
+                <Button
+                  className="commentOptionBtn"
+                  round
+                  fs="2rem"
+                  icon={<BiDotsVerticalRounded />}
+                  onClick={() => {
+                    setCommentId(comment.commentId);
+                    setIsDropdown(!isDropdown);
+                  }}
+                />
+                <StOptionDropdown
+                  isDropdown={isDropdown && commentId === comment.commentId}
+                >
+                  <li
+                    onClick={() => {
+                      updateCommentMode(comment.comment);
+                    }}
+                  >
+                    <TfiPencil />
+                    <span>수정</span>
+                  </li>
+
+                  <li
+                    onClick={() => {
+                      deleteComment(comment.commentId);
+                    }}
+                  >
+                    <TfiTrash />
+                    <span>삭제</span>
+                  </li>
+                </StOptionDropdown>
+              </StDropdownBox>
             )}
-
-            <StOptionDropdown
-              isDropdown={isDropdown && commentId === comment.commentId}
-            >
-              <li
-                onClick={() => {
-                  updateCommentMode(comment.comment);
-                }}
-              >
-                <TfiPencil />
-                <span>수정</span>
-              </li>
-
-              <li
-                onClick={() => {
-                  deleteComment(comment.commentId);
-                }}
-              >
-                <TfiTrash />
-                <span>삭제</span>
-              </li>
-            </StOptionDropdown>
           </StCommentContainer>
         ))}
     </>
@@ -159,11 +160,15 @@ const Comment = memo(({ comments }) => {
 
 export default Comment;
 
+const StDropdownBox = styled.div`
+  position: relative;
+`;
+
 const StOptionDropdown = styled.ul`
   z-index: 3;
   position: absolute;
   display: ${(props) => (props.isDropdown ? "flex" : "none")};
-  bottom: -150%;
+  bottom: -9rem;
   right: 1rem;
   width: 8rem;
   flex-direction: column;
@@ -216,9 +221,6 @@ const StCommentContainer = styled.div`
     transform: translateY(-50%);
   }
   &:hover {
-    .commentOptionBtn {
-      /* display: block; */
-    }
     .commentOptionBtn:hover {
       background-color: #f0f0f0;
     }
@@ -230,6 +232,7 @@ const StCommentContainer = styled.div`
 
 const StCommentWrapper = styled.div`
   flex-grow: 1;
+  position: relative;
 `;
 
 const StCommentNicknameBox = styled.div`
@@ -252,6 +255,9 @@ const StCommentContentBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  span {
+    width: 90%;
+  }
   input {
     width: 100%;
     outline: none;

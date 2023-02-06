@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
-import { TbBrush, TbBrushOff } from "react-icons/tb";
+import { TbBrush } from "react-icons/tb";
 import { BiSquare, BiCircle, BiText } from "react-icons/bi";
+import { GrSelect } from "react-icons/gr";
 import { RiImageAddFill, RiDeleteBinLine } from "react-icons/ri";
 
 const Canvas = ({ canvas, setCanvas, canvasBg }) => {
-  // const [canvas, setCanvas] = useState("");
-  const [isDrawing, setIsDrawing] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(true);
   const [color, setColor] = useState("black");
-  const [width, setWidth] = useState(5);
   const canvasRef = useRef(null);
-  const productImgInput = useRef();
+  const ImgInput = useRef();
 
   useEffect(() => {
     setCanvas(initCanvas());
@@ -21,11 +20,8 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
     new fabric.Canvas(canvasRef.current, {
       height: 350,
       width: 350,
+      isDrawingMode: true,
       backgroundColor: "white",
-      freeDrawingBrush: {
-        color: color,
-        width: width,
-      },
     });
 
   const canvasBackground = (url) => {
@@ -59,20 +55,9 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
 
   useEffect(() => {
     if (!canvas) return;
+    canvas.freeDrawingBrush.width = 5;
     if (!canvasBg) return;
     canvasBackground(canvasBg);
-
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Delete") {
-        deleteSelectedObjects();
-      }
-    });
-    return () =>
-      window.removeEventListener("keydown", (e) => {
-        if (e.key === "Delete") {
-          deleteSelectedObjects();
-        }
-      });
   }, [canvas]);
 
   const freeDrawHandler = () => {
@@ -90,21 +75,8 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
   };
 
   const clearButtonHandler = () => {
-    canvas.clear();
+    deleteSelectedObjects();
   };
-
-  // const bgUpload = (e) => {
-  //   const { files } = e.target;
-  //   const urlFile = URL.createObjectURL(files[0]);
-
-  //   canvas.setBackgroundImage(urlFile, canvas.renderAll.bind(canvas), {
-  //     width: canvas.width,
-  //     height: canvas.height,
-  //     originX: "left",
-  //     originY: "top",
-  //   });
-  //   e.target.value = "";
-  // };
 
   const imgUpload = (e) => {
     const { files } = e.target;
@@ -162,7 +134,7 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
         {isDrawing ? (
           <TbBrush onClick={freeDrawHandler} />
         ) : (
-          <TbBrushOff onClick={freeDrawHandler} />
+          <GrSelect onClick={freeDrawHandler} />
         )}
         <BiSquare
           onClick={() => {
@@ -190,25 +162,14 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
         />
         <input
           type="range"
-          defaultValue="1"
-          min="1"
-          max="10"
+          defaultValue="5"
+          step="3"
+          min="5"
+          max="17"
           onChange={(e) => {
             drawWidthHandler(e.target.value);
-            setWidth(e.target.value);
           }}
         />
-
-        {/* <input
-          style={{ display: "none" }}
-          accept="image/*"
-          id="files"
-          name="img_url"
-          type="file"
-          content_type="multipart/form-data"
-          ref={bgImgInput}
-          onChange={bgUpload}
-        /> */}
 
         <input
           style={{ display: "none" }}
@@ -217,20 +178,13 @@ const Canvas = ({ canvas, setCanvas, canvasBg }) => {
           name="img_url"
           type="file"
           content_type="multipart/form-data"
-          ref={productImgInput}
+          ref={ImgInput}
           onChange={imgUpload}
         />
 
-        <div>
-          {/* <BiImage
-            onClick={() => {
-              bgImgInput.current.click();
-            }}
-          /> */}
-        </div>
         <RiImageAddFill
           onClick={() => {
-            productImgInput.current.click();
+            ImgInput.current.click();
           }}
         />
         <RiDeleteBinLine onClick={clearButtonHandler} />
@@ -247,9 +201,6 @@ const StDiv = styled.div`
   border-radius: 15px;
   overflow: hidden;
   border: 1px solid #d9d9d9;
-  /* top: 50%;
-  left: 50%; */
-  /* transform: translate(-50%, -50%); */
   position: relative;
 `;
 

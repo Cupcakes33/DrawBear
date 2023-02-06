@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, memo } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
 import { StContainer, StHeader, StSection } from "../UI/common";
@@ -26,6 +26,8 @@ const DiaryList = memo(() => {
   const [changeHeader, setChangeHeader] = useState(false);
   const [dateOrderedPosts, setDateOrderedPosts] = useState({});
   const [filter, setFilter] = useState("최신순");
+  const [isScrollBottom, setIsScrollBottom] = useState(false);
+
   const sectionRef = useRef(null);
 
   const diaryId = useParams().id;
@@ -56,6 +58,15 @@ const DiaryList = memo(() => {
     });
   };
 
+  const listPageScrollhandler = (e) => {
+    const { target } = e;
+    if (target.scrollTop / (target.scrollHeight - target.offsetHeight) >= 0.5) {
+      setIsScrollBottom(true);
+    } else {
+      setIsScrollBottom(false);
+    }
+  };
+
   const defaultHeader = () => {
     return (
       <StDefaultHeaderContents>
@@ -65,7 +76,11 @@ const DiaryList = memo(() => {
         </div>
         <div className="default-header-configBox">
           <BsSearch onClick={() => setChangeHeader(true)} />
-          <DiarySettingModal diaryName={diaryName} diaryId={diaryId} couple={diaryCouple} >
+          <DiarySettingModal
+            diaryName={diaryName}
+            diaryId={diaryId}
+            couple={diaryCouple}
+          >
             <AiOutlineSetting />
           </DiarySettingModal>
         </div>
@@ -89,7 +104,7 @@ const DiaryList = memo(() => {
         <StFilterContainer>
           <FilterDropdown filter={filter} setFilter={setFilter} />
         </StFilterContainer>
-        <StListPageSection ref={sectionRef}>
+        <StListPageSection onScroll={listPageScrollhandler} ref={sectionRef}>
           {(() => {
             switch (filter) {
               case "최신순":
@@ -144,11 +159,16 @@ const DiaryList = memo(() => {
           })()}
         </StListPageSection>
 
-        <StScrollTopButton
-          onClick={() => {
-            sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
+        {isScrollBottom ? (
+          <>
+            <StScrollTopButton
+              onClick={() => {
+                sectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          </>
+        ) : null}
+
         <StAddPostButton
           onClick={() => {
             navigate(`/write/${diaryId}`);
@@ -181,13 +201,22 @@ const StScrollTopButton = styled(BsTriangleFill)`
 const StListPageSection = styled(StSection)`
   height: calc(100vh - 6rem);
   &::-webkit-scrollbar {
-    display: none;
+    width: 1rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--positive_2);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--grayscale_1);
   }
 `;
 const StDivisionLine = styled.div`
+  position: absolute;
+  left: 0;
   width: 100%;
-  height: 0.5rem;
-  background-color: #e5e5e5;
+  height: 1.5rem;
+  background-color: var(--grayscale_2);
   margin: 2rem 0;
 `;
 
@@ -210,6 +239,10 @@ const StDefaultHeaderContents = styled.div`
 `;
 
 const StDiaryCarsWrapper = styled.div`
+  margin-top: 8rem;
+  &:first-child {
+    margin-top: 3rem;
+  }
   .orderedDate {
     width: min-content;
     white-space: nowrap;

@@ -7,17 +7,17 @@ const KakaoLogin = () => {
   const code = new URL(document.location.toString()).searchParams.get("code");
 
   const authKakaoLogin = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    try {
+      const res = await instance.get(
+        `api/auth/login/kakao/callback?code=${code}`
+      );
+      localStorage.setItem("token", res.data.token);
       navigate("/");
-      return;
+    } catch (err) {
+      if (err.response.status === 500) {
+        navigate("/login");
+      }
     }
-    
-    const res = await instance.get(
-      `api/auth/login/kakao/callback?code=${code}`
-    );
-    localStorage.setItem("token", res.data.token);
-    navigate("/");
   };
 
   useEffect(() => {

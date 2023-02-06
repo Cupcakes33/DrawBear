@@ -4,7 +4,7 @@ import { TiPencil } from "react-icons/ti";
 import { FaArrowUp } from "react-icons/fa";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-
+import { BsStar, BsStarFill } from "react-icons/bs";
 const AddDiary = ({ ...rest }) => {
   return (
     <Button
@@ -110,7 +110,7 @@ const Invite = ({ children, isInvited, ...rest }) => {
 const Bookmark = ({ isBookmarked, ...rest }) => {
   const customProps = {};
   isBookmarked
-    ? (customProps.color = "#3cc7a6")
+    ? (customProps.color = "#FFd88D")
     : (customProps.color = "#cccccc");
   return (
     <Button
@@ -120,7 +120,7 @@ const Bookmark = ({ isBookmarked, ...rest }) => {
       {...customProps}
       {...rest}
     >
-      {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
+      {isBookmarked ? <BsStarFill /> : <BsStar />}
     </Button>
   );
 };
