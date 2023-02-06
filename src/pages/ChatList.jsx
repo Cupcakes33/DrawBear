@@ -3,21 +3,24 @@ import Footer from "../components/common/Footer";
 import styled from "styled-components";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { alarmApi } from "../apis/axios";
+import { alarmApi, mypageApi } from "../apis/axios";
 import { useDispatch } from "react-redux";
-import { ErrorModal } from "../redux/modules/UISlice";
 import NoChatList from "./NoChatList";
-import { useEffect } from "react";
 import useDispatchHook from "../hooks/useDispatchHook";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { viewChatList } from "../redux/modules/chatSlice";
 import { useNavigate } from "react-router-dom";
 
 const ChatList = () => {
-  const { openAlertModal } = useDispatchHook();
   const [chatList, setChatList] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+  const userInfo = useQuery(["read"], mypageApi.read, {
+    onSuccess: (success) => {
+      setUserId(success.userInfo.userId);
+    },
+  });
   const { data } = useQuery(["chatlist"], alarmApi.chatlist, {
     onError: (error) => {
       console.log(error);
@@ -41,9 +44,7 @@ const ChatList = () => {
             <div>채팅</div>
           </ChatWarrper>
         </ChatHeader>
-        <div
-          style={{ backgroundColor: "yellow", width: "100%", height: "60rem" }}
-        >
+        <ChatContent>
           {chatList.length === 0 ? (
             <NoChatList h3txt="채팅 목록이 없습니다." />
           ) : (
@@ -51,10 +52,10 @@ const ChatList = () => {
               {chatList.map((chat, index) => {
                 const {
                   invitedNickname,
-                  invitedId,
+                  lastChat,
                   invitedProfileImg,
                   diaryId,
-                  userId,
+                  time,
                 } = chat;
                 return (
                   <ChatContainer
@@ -67,26 +68,31 @@ const ChatList = () => {
                       </div>
                       <div>
                         <ChatNickName>{invitedNickname}</ChatNickName>
-                        <ChatLastTxt>tttt</ChatLastTxt>
+                        <ChatLastTxt>{lastChat}</ChatLastTxt>
                       </div>
-                      <ChatTime>10시30분</ChatTime>
+                      <ChatTime>
+                        {time ? (
+                          new Date(time).toLocaleString().substr(12, 7)
+                        ) : (
+                          <></>
+                        )}
+                      </ChatTime>
                     </ChatWrapper>
                   </ChatContainer>
                 );
               })}
             </>
           )}
-        </div>
-        <div
-          style={{ backgroundColor: "green", width: "100%", height: "6rem" }}
-        ></div>
+        </ChatContent>
+        <Footer />
       </StContainer>
     </>
   );
 };
 export default ChatList;
 const ChatHeader = styled.div`
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 7.2rem;
 `;
@@ -98,26 +104,27 @@ const ChatWarrper = styled.div`
   top: 50%;
   transform: translate(0, -50%);
 `;
+const ChatContent = styled.div`
+  width: 100%;
+  height: calc(100vh - 6rem);
+  overflow-x: hidden;
+`;
 const ChatContainer = styled.div`
   width: 100%;
-  height: 7rem;
-  border: 1px solid red;
+  height: 8rem;
   position: relative;
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
-  border-radius: 10px;
 `;
 const ChatWrapper = styled.div`
   width: 100%;
   display: flex;
-  border: 1px solid black;
   position: absolute;
   top: 50%;
-  transform: translate(0, -50%);
   & img {
-    width: 4rem;
-    height: 4rem;
+    width: 5.2rem;
+    height: 5.2rem;
     border-radius: 50%;
     margin-right: 1rem;
   }
