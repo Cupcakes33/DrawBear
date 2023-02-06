@@ -6,6 +6,7 @@ import YearSelectModal from "./YearSelectModal";
 import { useCallback } from "react";
 import { flex } from "../../../UI/common";
 import { useQueryClient } from "@tanstack/react-query";
+import { BsQuestionCircle } from "react-icons/bs";
 
 const CalendarHeader = (props) => {
   const { selectedMonth, setSelectedMonth, selectedYear, setSelectedYear, showMonth, setShowMonth } = props;
@@ -60,6 +61,10 @@ const CalendarHeader = (props) => {
 
   return (
     <CalendarHeaderBox>
+      <TooltipBox>
+        <BsQuestionCircle />
+        <span className="tooltiptext">공휴일은 2004년~2024년까지만 볼 수 있어요!</span>
+      </TooltipBox>
       <div className="shown-date">
         <h3>{`${selectedYear}년`}</h3>
         {showMonth ? null : <h3>{`${selectedMonth}월`}</h3>}
@@ -114,6 +119,25 @@ const CalendarHeaderBox = styled.div`
     background-color: inherit;
     cursor: pointer;
     font-size: 2rem;
+  }
+`;
+
+const TooltipBox = styled.div`
+  position: relative;
+  display: block;
+  .tooltiptext {
+    visibility: hidden;
+    width: 20rem;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 1rem;
+    position: absolute;
+    z-index: 1;
+  }
+  :hover .tooltiptext {
+    visibility: visible;
   }
 `;
 
