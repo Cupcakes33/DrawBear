@@ -2,17 +2,9 @@ import styled from "styled-components";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import { StContainer, StHeader, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
-import AlertModal from "../../components/common/modal/AlertModal";
-import useDispatchHook from "../../hooks/useDispatchHook";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
-  const { openAlertModal } = useDispatchHook();
-
-  const onLogoutHandler = () => {
-    localStorage.removeItem("token");
-    openAlertModal({ bigTxt: "로그아웃되었습니다.", move: "/login" });
-  };
 
   return (
     <>
@@ -27,15 +19,6 @@ const InfoEdit = () => {
               비밀번호 변경
               <NavigateBtn />
             </div>
-            <AlertModal
-              select
-              bigTxt={"로그아웃하시겠어요?"}
-              smallTxt={"다시 로그인해서 이용할 수 있어요."}
-              move={"/login"}
-              onClick={onLogoutHandler}
-            >
-              <div>로그아웃</div>
-            </AlertModal>
             <div onClick={() => navigate("/setting/delete")}>
               <span>회원 탈퇴</span>
             </div>
