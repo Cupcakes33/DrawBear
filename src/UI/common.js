@@ -20,7 +20,7 @@ export const flex = (
 ) => {
   const jc = () => {
     switch (justifyContent) {
-      case "between":
+      case "space-between":
         return "space-between";
       case "space-evenly":
         return "space-evenly";
@@ -33,6 +33,8 @@ export const flex = (
 
   const ai = () => {
     switch (alignItems) {
+      case "flex-start":
+        return "flex-start";
       default:
         return "center";
     }

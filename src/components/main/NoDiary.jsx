@@ -3,12 +3,10 @@ import CreateDiaryModal from "./CreateDiaryModal";
 import NoDiaryBear from "../../assets/images/noDiaryBear.webp";
 import { flex } from "../../UI/common";
 import { useSelector } from "react-redux";
-import useDispatchHook from "../../hooks/useDispatchHook";
 import Diary from "./Diary/Diary";
 
 const NoDiary = () => {
   const { icon } = useSelector((state) => state.diarySlice.diaryTypes);
-  const { changeDiaryView } = useDispatchHook();
 
   return (
     <>

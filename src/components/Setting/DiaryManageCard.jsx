@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { diaryData } from "../../redux/modules/diarySlice";
+import { __diaryData } from "../../redux/modules/diarySlice";
 import { DisplayDiv, flex } from "../../UI/common";
 import Button from "../common/Button";
 import DiaryDeleteModal from "./DiaryDeleteModal";
@@ -22,7 +22,7 @@ const DiaryManageCard = ({ data }) => {
               </div>
               <div>
                 <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`}>
-                  <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
+                  <Button size="small" onClick={() => dispatch(__diaryData(diaryId))}>
                     삭제하기
                   </Button>
                 </DiaryDeleteModal>
@@ -45,7 +45,7 @@ const DiaryManageCard = ({ data }) => {
               </div>
               <div>
                 <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`} diaryId={diaryId}>
-                  <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
+                  <Button size="small" onClick={() => dispatch(__diaryData(diaryId))}>
                     연결끊기
                   </Button>
                 </DiaryDeleteModal>

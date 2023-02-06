@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addDiary } from "../../redux/modules/diarySlice";
+import { __addDiary } from "../../redux/modules/diarySlice";
 import soloDiaryBear from "../../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../../assets/images/coupleDiaryBear.webp";
 import { Modal } from "../common/modal/ReactModal";
@@ -27,7 +27,7 @@ const CreateDiaryModal = ({ children }) => {
                     src={soloDiaryBear}
                     alt="솔로 다이어리 곰돌이 그림"
                     onClick={() => {
-                      dispatch(addDiary(0));
+                      dispatch(__addDiary(0));
                       navigate("/new");
                     }}
                   />
@@ -38,7 +38,7 @@ const CreateDiaryModal = ({ children }) => {
                     src={coupleDiaryBear}
                     alt="커플 다이어리 곰돌이 그림"
                     onClick={() => {
-                      dispatch(addDiary(1));
+                      dispatch(__addDiary(1));
                       navigate("/new");
                     }}
                   />
