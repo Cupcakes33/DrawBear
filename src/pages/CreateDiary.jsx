@@ -38,7 +38,7 @@ const CreateDiary = () => {
 
   return (
     <>
-      <Container>
+      <CreateDiaryContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
             <NavigateBtn prev sizeType="header" link="/" />
@@ -70,17 +70,17 @@ const CreateDiary = () => {
             );
           })}
         </Footer>
-      </Container>
+      </CreateDiaryContainer>
     </>
   );
 };
 
 export default CreateDiary;
 
-const Container = styled.div`
+const CreateDiaryContainer = styled.div`
   width: 36rem;
   height: 100vh;
-  border: 1px solid black;
+  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
   background-color: white;
   position: relative;
 `;

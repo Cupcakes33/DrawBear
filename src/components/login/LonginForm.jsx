@@ -4,8 +4,11 @@ import { loginApi } from "../../apis/axios";
 import { Input, WorningWord } from "../common/Input";
 import Buttons from "../common/Button/Buttons";
 import useDispatchHook from "../../hooks/useDispatchHook";
+import { useDispatch } from "react-redux";
+import { LoginModal } from "../../redux/modules/UISlice";
 
 const LonginForm = () => {
+  const dispatch = useDispatch();
   const { openAlertModal } = useDispatchHook();
 
   const loginAxios = async (inputData) => {
@@ -15,7 +18,7 @@ const LonginForm = () => {
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);
-      return openAlertModal({ bigTxt: "로그인 성공!", move: "/" });
+      return dispatch(LoginModal(true));
     } catch (error) {
       const { status } = error?.response?.request;
       if (status === undefined || null) return;
@@ -54,9 +57,7 @@ const LonginForm = () => {
             })}
             aria-invalid={errors.email ? "true" : "false"}
           />
-          <WorningWord color={errors.email?.type}>
-            이메일 형식에 맞지 않습니다.
-          </WorningWord>
+          <WorningWord color={errors.email?.type}>이메일 형식에 맞지 않습니다.</WorningWord>
         </div>
         <div>
           <label htmlFor="password">비밀번호</label>
@@ -72,19 +73,12 @@ const LonginForm = () => {
             })}
             aria-invalid={errors?.password ? "true" : "false"}
           />
-          <WorningWord color={errors.password?.type}>
-            영문, 숫자 조합 8자리 이상을 적어주세요.
-          </WorningWord>
+          <WorningWord color={errors.password?.type}>영문, 숫자 조합 8자리 이상을 적어주세요.</WorningWord>
         </div>
         <div>
           <Buttons.Full
             type="positive"
-            disabled={
-              errors.email?.type === undefined &&
-              errors.password?.type === undefined
-                ? false
-                : true
-            }
+            disabled={errors.email?.type === undefined && errors.password?.type === undefined ? false : true}
           >
             로그인
           </Buttons.Full>

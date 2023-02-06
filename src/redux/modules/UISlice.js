@@ -7,8 +7,9 @@ const initialState = {
     smallTxt: "",
     move: "",
     diaryId: "",
-    onClick: ""
   },
+  loginModal: false,
+  tutorialModal: false,
 };
 
 const UISlice = createSlice({
@@ -18,8 +19,14 @@ const UISlice = createSlice({
     ErrorModal: (state, action) => {
       state.errorModal = action.payload
     },
+    LoginModal: (state, action) => {
+      state.loginModal = action.payload
+    },
+    __TutorialModal: (state, action) => {
+      state.tutorialModal = action.payload
+    },
   }
 })
 
-export const { ErrorModal } = UISlice.actions
+export const { ErrorModal, LoginModal, __TutorialModal } = UISlice.actions
 export default UISlice.reducer

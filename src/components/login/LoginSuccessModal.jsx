@@ -1,18 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ErrorModal } from "../../../redux/modules/UISlice";
-import { AlertModalCss } from "./AlertModal";
-import { Modal } from "./ReactModal";
+import { LoginModal, __TutorialModal } from "../../redux/modules/UISlice";
+import { AlertModalCss } from "../common/modal/AlertModal";
+import { Modal } from "../common/modal/ReactModal";
 
-const ErrorHandlerModal = ({ showModal }) => {
+const LoginSuccessModal = ({ showModal }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { errorModal } = useSelector((state) => state.UISlice);
 
   const ConfirmReactionHandler = () => {
-    dispatch(ErrorModal({ isModal: false }));
-    navigate(errorModal?.move);
+    dispatch(LoginModal(false));
+    navigate("/");
+    if (localStorage.getItem("tutorialDone") === null) dispatch(__TutorialModal(true));
   };
 
   return (
@@ -22,8 +22,7 @@ const ErrorHandlerModal = ({ showModal }) => {
           <Modal.ContentBox>
             <AlertBox>
               <div className="text-box">
-                <h4>{errorModal?.bigTxt}</h4>
-                <p>{errorModal?.smallTxt}</p>
+                <h4>로그인 성공!</h4>
               </div>
               <hr />
               <Modal.Close>
@@ -37,7 +36,7 @@ const ErrorHandlerModal = ({ showModal }) => {
   );
 };
 
-export default ErrorHandlerModal;
+export default LoginSuccessModal;
 
 const AlertBox = styled.div`
   ${AlertModalCss}

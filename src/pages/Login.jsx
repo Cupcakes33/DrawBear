@@ -5,10 +5,13 @@ import styled from "styled-components";
 import LonginForm from "../components/login/LonginForm";
 import { flex, StContainer } from "../UI/common";
 import SocialLogin from "../components/login/SocialLogin";
+import { useSelector } from "react-redux";
+import LoginSuccessModal from "../components/login/LoginSuccessModal";
 
 const Login = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { loginModal } = useSelector((state) => state.UISlice);
 
   useEffect(() => {
     queryClient.clear();
@@ -17,21 +20,24 @@ const Login = () => {
   }, []);
 
   return (
-    <StContainer bgColor="#eef3e3;">
-      <LocalLoginBox>
-        <h2>로그인</h2>
-        <LonginForm />
-        <div className="signup-box">
-          아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
-        </div>
-      </LocalLoginBox>
-      <BoundaryLine>
-        <hr />
-        <span>간편로그인</span>
-        <hr />
-      </BoundaryLine>
-      <SocialLogin />
-    </StContainer>
+    <>
+      <StContainer bgColor="#eef3e3;">
+        <LocalLoginBox>
+          <h2>로그인</h2>
+          <LonginForm />
+          <div className="signup-box">
+            아직 계정이 없으세요? <Link to="/signup">회원가입 {`>`} </Link>
+          </div>
+        </LocalLoginBox>
+        <BoundaryLine>
+          <hr />
+          <span>간편로그인</span>
+          <hr />
+        </BoundaryLine>
+        <SocialLogin />
+      </StContainer>
+      {loginModal && <LoginSuccessModal showModal />}
+    </>
   );
 };
 

@@ -26,9 +26,11 @@ import ErrorHandlerModal from "../components/common/modal/ErrorHandlerModal";
 import ChatList from "../pages/ChatList";
 import NoChatList from "../pages/NoChatList";
 import KakaoLogin from "../components/login/KakaoLogin";
+import TutorialModal from "../components/main/Tutorial/TutorialModal";
 
 const Router = () => {
   const { isModal } = useSelector((state) => state.UISlice.errorModal);
+  const { tutorialModal } = useSelector((state) => state.UISlice);
 
   return (
     <BrowserRouter>
@@ -59,6 +61,7 @@ const Router = () => {
         </Route>
       </Routes>
       {isModal && <ErrorHandlerModal showModal />}
+      {tutorialModal && <TutorialModal showModal />}
     </BrowserRouter>
   );
 };

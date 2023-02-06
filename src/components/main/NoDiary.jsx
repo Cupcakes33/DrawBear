@@ -17,9 +17,9 @@ const NoDiary = () => {
           {icon === "bookmark" ? (
             <>
               <h3>즐겨찾기 한 다이어리가 없어요</h3>
-              <div className="addDiary">
+              <div className="addDiary bookmark">
                 <Diary size="bookmark" />
-                <span>책갈피 아이콘을 눌러 즐겨찾기 해보세요!</span>
+                <label>책갈피 아이콘을 눌러 즐겨찾기 해보세요!</label>
               </div>
             </>
           ) : (
@@ -28,7 +28,9 @@ const NoDiary = () => {
               <CreateDiaryModal>
                 <div className="addDiary">
                   <img src={NoDiaryBear} alt="다이어리 없을 때 곰돌이 그림" />
-                  <span>여기를 눌러 첫 다이어리를 만들어보세요</span>
+                  <label>
+                    <span>+ 여기를 클릭</span>해서 첫 다이어리를 만들어보세요
+                  </label>
                 </div>
               </CreateDiaryModal>
             </>
@@ -51,7 +53,10 @@ const StWrapper = styled.div`
   ${flex("", "", "column")}
   .addDiary {
     ${flex("", "", "column")}
-    pointer-events : none;
+    cursor: pointer;
+  }
+  .bookmark {
+    pointer-events: none;
   }
   img {
     width: 10.5rem;
@@ -61,10 +66,13 @@ const StWrapper = styled.div`
   h3 {
     font-size: 1.6rem;
     margin-bottom: 1.6rem;
+    color: #c1c1c1;
+  }
+  label {
+    font-size: 1.2rem;
+    margin-top: 1.4rem;
   }
   span {
-    font-size: 0.8rem;
-    margin-top: 1.4rem;
-    color: #c1c1c1;
+    font-weight: 700;
   }
 `;

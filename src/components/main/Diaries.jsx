@@ -23,7 +23,7 @@ const Diaries = ({ diaryData }) => {
           clickable: true,
         }}
         modules={[Pagination]}
-        className="mySwiper"
+        className="diary-swiper"
       >
         {diaryData?.map((data) => {
           const { diaryId, diaryName, bookmark, outsideColor, couple } = data;

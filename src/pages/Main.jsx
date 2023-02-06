@@ -15,6 +15,7 @@ const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const { openAlertModal } = useDispatchHook();
 
+
   const { data = [], isLoading } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
