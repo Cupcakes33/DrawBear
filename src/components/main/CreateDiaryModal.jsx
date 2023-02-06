@@ -77,6 +77,7 @@ const CloseBtn = styled.button`
   font-size: 2rem;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 `;
 
 const CuteBearBox = styled.div`

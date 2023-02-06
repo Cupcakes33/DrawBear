@@ -29,7 +29,7 @@ const LoginSuccessModal = ({ showModal }) => {
   return (
     <Modal showModal={showModal}>
       <Modal.Portal>
-        <Modal.BackDrop notClose>
+        <Modal.BackDrop notClose transparent>
           <Modal.ContentBox>
             <AlertBox>
               <div className="text-box">

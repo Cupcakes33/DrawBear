@@ -13,7 +13,7 @@ const AlertModal = ({ showModal, children, bigTxt, smallTxt, select, move, onCli
     <Modal showModal={showModal}>
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Portal>
-        <Modal.BackDrop notClose>
+        <Modal.BackDrop notClose transparent>
           <Modal.ContentBox>
             <AlertBox>
               <div className="text-box">
