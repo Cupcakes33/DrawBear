@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-
-import ListPageDropdown from "../common/dropdown/ListPageDropdown";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../../apis/axios";
 import Buttons from "../common/Button/Buttons";
@@ -12,7 +10,6 @@ const DiaryCard = ({ postData }) => {
   const naigate = useNavigate();
   const {
     postId,
-    diaryId,
     nickname,
     title,
     image,
@@ -51,7 +48,6 @@ const DiaryCard = ({ postData }) => {
       <StTitleWrapper>
         <div className="postOptionbox">
           <h4 onClick={redirectDetailpage}>{title}</h4>
-          <ListPageDropdown postId={postId} diaryId={diaryId} />
         </div>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />
