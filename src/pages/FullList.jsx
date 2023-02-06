@@ -212,9 +212,11 @@ const StListPageSection = styled(StSection)`
   }
 `;
 const StDivisionLine = styled.div`
+  position: absolute;
+  left: 0;
   width: 100%;
-  height: 0.5rem;
-  background-color: #e5e5e5;
+  height: 1.5rem;
+  background-color: var(--grayscale_2);
   margin: 2rem 0;
 `;
 
@@ -237,6 +239,10 @@ const StDefaultHeaderContents = styled.div`
 `;
 
 const StDiaryCarsWrapper = styled.div`
+  margin-top: 8rem;
+  &:first-child {
+    margin-top: 3rem;
+  }
   .orderedDate {
     width: min-content;
     white-space: nowrap;

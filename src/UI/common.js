@@ -13,7 +13,11 @@ export const flexProps = css`
   align-items: ${(props) => props.align};
 `;
 
-export const flex = (justifyContent = "", alignItems = "", flexdirection = "") => {
+export const flex = (
+  justifyContent = "",
+  alignItems = "",
+  flexdirection = ""
+) => {
   const jc = () => {
     switch (justifyContent) {
       case "between":
@@ -46,13 +50,12 @@ export const flex = (justifyContent = "", alignItems = "", flexdirection = "") =
   };
 
   return css`
-  display: flex;
-  justify-content: ${jc()};
-  align-items: ${ai()};
-  flex-direction: ${fd()};
-  `
-}
-
+    display: flex;
+    justify-content: ${jc()};
+    align-items: ${ai()};
+    flex-direction: ${fd()};
+  `;
+};
 
 // display: flex;
 // flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
@@ -67,7 +70,7 @@ export const StContainer = styled.div`
   height: 100%;
   min-height: 100vh;
   box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
-  background-color: ${(props) => props.bgColor ? props.bgColor : "#F8F8F8"};
+  background-color: ${(props) => (props.bgColor ? props.bgColor : "#F8F8F8")};
   padding-top: ${(props) => props.top};
   overflow-x: hidden;
   ${flexProps}
@@ -90,6 +93,7 @@ export const StHeader = styled.header`
     color: #3cc7a6;
     cursor: pointer;
   }
+  background: white;
 `;
 
 export const StSection = styled.section`

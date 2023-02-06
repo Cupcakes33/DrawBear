@@ -9,10 +9,11 @@ import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
-import Alert from "../components/common/modal/AlertModal";
+import WritePageTutorialModal from "../components/write/WritePageTutorialModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import useDispatchHook from "../hooks/useDispatchHook";
+import { BsQuestionLg } from "react-icons/bs";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -89,11 +90,15 @@ const Write = () => {
     return (
       <>
         <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
-        <span>
+        <StDrawindEndHeaderOptionBox>
+          <WritePageTutorialModal>
+            <StQuestionIcon />
+          </WritePageTutorialModal>
+
           <StWriteFormSubmitBtn type="submit" form="writeForm">
             완성
           </StWriteFormSubmitBtn>
-        </span>
+        </StDrawindEndHeaderOptionBox>
       </>
     );
   };
@@ -234,4 +239,15 @@ const StWriteFormSubmitBtn = styled.button`
   border: none;
   background-color: transparent;
   font-size: 1.6rem;
+`;
+
+const StDrawindEndHeaderOptionBox = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const StQuestionIcon = styled(BsQuestionLg)`
+  font-size: 2.4rem;
+  color: var(--grayscale_5);
+  cursor: pointer;
 `;

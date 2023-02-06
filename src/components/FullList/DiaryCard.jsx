@@ -44,6 +44,8 @@ const DiaryCard = ({ postData }) => {
     naigate(`/detail/${postId}`);
   };
 
+  
+
   return (
     <StDiaryCardContainer>
       <StTitleWrapper>

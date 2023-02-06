@@ -18,8 +18,16 @@ const Main = () => {
   const { data = [], isLoading } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
       const { status } = error?.response.request;
-      if (status === 400) openAlertModal({ bigTxt: "다이어리 조회에 실패했습니다.", move: "/login" });
-      else if (status === 404) openAlertModal({ bigTxt: "다이어리 조회에 실패했습니다.", move: "/login" });
+      if (status === 400)
+        openAlertModal({
+          bigTxt: "다이어리 조회에 실패했습니다.",
+          move: "/login",
+        });
+      else if (status === 404)
+        openAlertModal({
+          bigTxt: "다이어리 조회에 실패했습니다.",
+          move: "/login",
+        });
     },
   });
 
@@ -43,9 +51,9 @@ const Main = () => {
       ) : (
         <>
           <StContainer>
-            <StHeader flex>
+            <StMainHeader flex>
               <LogoImg src={loadingBear} alt="로고 곰돌이" />
-            </StHeader>
+            </StMainHeader>
             {diaryType(data?.diaries)?.length === 0 ? (
               <NoDiary />
             ) : diaryTypes.bookmark ? (
@@ -66,4 +74,8 @@ export default Main;
 const LogoImg = styled.img`
   width: 5.2rem;
   padding-top: 10%;
+`;
+
+const StMainHeader = styled(StHeader)`
+  background: var(--grayscale_1);
 `;

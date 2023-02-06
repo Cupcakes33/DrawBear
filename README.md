@@ -88,7 +88,7 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"/>
 <img src="https://img.shields.io/badge/Redux Toolkit-764ABC?style=for-the-badge&logo=Redux&logoColor=white"/>
 <img src="https://img.shields.io/badge/react_query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
-
+<br>
 <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white"/>
 <img src="https://img.shields.io/badge/styledcomponent-DB7093?style=for-the-badge&logo=styledcomponent&logoColor=white">
 <img src="https://img.shields.io/badge/socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white">
@@ -114,20 +114,19 @@
 
 <br>
 
-
 ## 🔆 트러블슈팅
-  
+
   <br>
 
 ## 👻 쓰곰 그리곰의 팀원들
 
-| Role       | Name   | Github                         |
-| ---------- | ------ | ------------------------------ |
-| ❤️ BE   | 이민용 | https://github.com/ludin-lee  |
-| BE         | 김진솔 | https://github.com/Jinsol-Dev |
-| 🧡 FE | 최지현 | https://github.com/jhchoi1182     |
-| FE         | 우주호 | https://github.com/Cupcakes33  |
-| FE         | 박혜민 | https://github.com/hyemin0303    |
-| DE      | 조윤영 |                                |
+| Role  | Name   | Github                        |
+| ----- | ------ | ----------------------------- |
+| ❤️ BE | 이민용 | https://github.com/ludin-lee  |
+| BE    | 김진솔 | https://github.com/Jinsol-Dev |
+| 🧡 FE | 최지현 | https://github.com/jhchoi1182 |
+| FE    | 우주호 | https://github.com/Cupcakes33 |
+| FE    | 박혜민 | https://github.com/hyemin0303 |
+| DE    | 조윤영 |                               |
 
 <br>
