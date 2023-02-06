@@ -59,27 +59,6 @@ export const flex = (
   `;
 };
 
-export const StWrapper = styled.div`
-  width: 31.2rem;
-  /* margin: 1.8rem auto; */
-`;
-
-export const StHeader = styled.header`
-  display: flex;
-  width: 100%;
-  height: 6rem;
-  padding: 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  ${flexProps}
-  span {
-    color: #3cc7a6;
-    cursor: pointer;
-  }
-  background: white;
-`;
-
 export const StSection = styled.section`
   width: 100%;
   height: 100%;
@@ -101,8 +80,4 @@ export const StFooter = styled.div`
   width: 100%;
   height: 7.2rem;
   background-color: #f8f8f8;
-`;
-
-export const DisplayDiv = styled.div`
-  ${flexProps}
 `;
