@@ -22,16 +22,14 @@ instance.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log(error)
+    console.log(error);
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
       localStorage.removeItem("token");
       alert("로그인 후 이용가능합니다.");
-      // return window.location.replace("https://finale-omega.vercel.app/login");
       return window.location.replace("http://localhost:3000/login");
-    }
-
-    else return Promise.reject(error);
+      // return window.location.replace("https://finale-omega.vercel.app/login");
+    } else return Promise.reject(error);
   }
 );
 
@@ -69,9 +67,13 @@ export const alarmApi = {
     const { data } = await instance.get("/api/notification/");
     return data;
   },
+  chatlist: async () => {
+    const { data } = await instance.get("/api/diary/share");
+    return data;
+  },
   patch: async ({ diaryId, notificationId }) => {
     const { data } = await instance.patch(
-      `/api/diary/invite/${diaryId}/${notificationId}`
+      `/api/diary/inviteAccept/${diaryId}/${notificationId}`
     );
     return data;
   },
@@ -87,6 +89,19 @@ export const inviteApi = {
   search: async (nickName) => {
     const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
     return data;
+  },
+  invite: async ({ diaryId, invitedId }) => {
+    const { data } = await instance.patch(
+      `/api/diary/invite/${diaryId}/${invitedId}`
+    );
+    return data;
+  },
+};
+
+export const chattingApi = {
+  search: async (diaryId) => {
+    const { data } = await instance.get(`/api/chat/${diaryId}`);
+    return data.Chats;
   },
 };
 

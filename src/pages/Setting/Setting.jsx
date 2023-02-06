@@ -24,6 +24,7 @@ const Setting = () => {
   });
   const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
+
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
     setMyProfileData(data?.userInfo);
@@ -41,7 +42,9 @@ const Setting = () => {
       <StHeader flex justify="space-between">
         <h3>더보기</h3>
         <AlarmDiv onClick={() => navigate("/setting/alarm")}>
-          {alarmData?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
+          {alarmData?.Notifications?.length ? (
+            <BsDot className="alarm-dot" />
+          ) : null}
           <VscBell className="alarm" />
         </AlarmDiv>
       </StHeader>
@@ -72,12 +75,13 @@ const Setting = () => {
             move={"/login"}
             onClick={onLogoutHandler}
           >
-            <ConfigOptionBox className="divInWrapper">
-              로그아웃
-            </ConfigOptionBox>
+            <ConfigOptionBox className="divInWrapper">로그아웃</ConfigOptionBox>
           </AlertModal>
           <div></div>
-          <AlertModal bigTxt={"공지사항이 없어요!"} smallTxt={"그냥 허전해서 달아놓아보았어요!"}>
+          <AlertModal
+            bigTxt={"공지사항이 없어요!"}
+            smallTxt={"그냥 허전해서 달아놓아보았어요!"}
+          >
             <ConfigOptionBox>
               공지사항
               <NavigateBtn link={""} />
