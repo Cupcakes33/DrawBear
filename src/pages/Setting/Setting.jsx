@@ -13,6 +13,8 @@ import AlertModal from "../../components/common/modal/AlertModal";
 import useDispatchHook from "../../hooks/useDispatchHook";
 import { useDispatch } from "react-redux";
 import { __TutorialModal } from "../../redux/modules/UISlice";
+import { AiOutlineSetting } from "react-icons/ai";
+import Buttons from "../../components/common/Button/Buttons";
 
 const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
@@ -53,7 +55,7 @@ const Setting = () => {
           <div onClick={() => navigate("/setting/profileEdit")}>
             <img src={profileImg} alt="myProfileImg" />
             <div className="pencilIcon-box">
-              <TiPencil />
+              <Buttons.ProfileSetting/>
             </div>
           </div>
           <span>{myProfileData?.nickname}</span>
