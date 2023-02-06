@@ -10,6 +10,7 @@ import useDispatchHook from "../../hooks/useDispatchHook";
 import { Input, WorningWord } from "../../components/common/Input";
 import Buttons from "../../components/common/Button/Buttons";
 
+
 const MyProfileEdit = () => {
   const { openAlertModal } = useDispatchHook();
   const { data, isLoading } = useQuery(["myProfileData"], mypageApi.read);
@@ -160,6 +161,7 @@ const MyProfileSection = styled(StSection)`
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -168,8 +170,8 @@ const MyProfileSection = styled(StSection)`
   }
   .profile-edit {
     position: absolute;
-    top: 17%;
-    left: 55%;
+    bottom: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
