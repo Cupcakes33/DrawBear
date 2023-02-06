@@ -59,25 +59,6 @@ export const flex = (
   `;
 };
 
-// display: flex;
-// flex-direction: ${({ row = "row" }) => (row ? "row" : "column")};
-// justify-content: ${({ justify = "center" }) => justify};
-// align-items: ${({ align = "center" }) => align};
-// gap: ${({ gap }) => `${gap}px`};
-// `;
-
-export const StContainer = styled.div`
-  position: relative;
-  width: 36rem;
-  height: 100%;
-  min-height: 100vh;
-  box-shadow: 0px 4px 26px rgba(0, 0, 0, 0.1);
-  background-color: ${(props) => (props.bgColor ? props.bgColor : "#F8F8F8")};
-  padding-top: ${(props) => props.top};
-  overflow-x: hidden;
-  ${flexProps}
-`;
-
 export const StWrapper = styled.div`
   width: 31.2rem;
   /* margin: 1.8rem auto; */

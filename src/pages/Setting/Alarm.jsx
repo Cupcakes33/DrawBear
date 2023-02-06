@@ -7,7 +7,7 @@ import ko from "timeago.js/lib/lang/ko";
 import { alarmApi } from "../../apis/axios";
 import Buttons from "../../components/common/Button/Buttons";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { StContainer, StHeader } from "../../UI/common";
+import { StHeader } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
 
 const Alarm = () => {
@@ -53,7 +53,7 @@ const Alarm = () => {
       {isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
-        <StContainer bgColor="#f8f8f8">
+        <>
           <StHeader flex justify="flex-start">
             <NavigateBtn prev sizeType="header" link="/setting" />
             <h3>알림</h3>
@@ -140,7 +140,7 @@ const Alarm = () => {
               // 초대 수락: 4
             );
           })}
-        </StContainer>
+        </>
       )}
     </>
   );

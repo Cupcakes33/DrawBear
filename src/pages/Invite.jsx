@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { flex, StContainer, StHeader, StSection } from "../UI/common";
+import { flex, StHeader, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { useRef, useState } from "react";
@@ -76,7 +76,7 @@ const Invite = () => {
   };
 
   return (
-    <StContainer>
+    <>
       <StHeader flex justify="flex-start">
         <NavigateBtn prev sizeType="header" link="/" />
         <h3>같이 쓰는 멤버 초대</h3>
@@ -120,7 +120,7 @@ const Invite = () => {
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>
-    </StContainer>
+    </>
   );
 };
 

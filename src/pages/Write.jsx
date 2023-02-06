@@ -10,7 +10,7 @@ import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 import WritePageSubmitHeader from "../components/write/WritePageSubmitHeader";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { StHeader, StSection } from "../UI/common";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import useDispatchHook from "../hooks/useDispatchHook";
 
@@ -93,7 +93,6 @@ const Write = () => {
 
   return (
     <>
-      <StContainer>
         <StHeader flex justify="space-between" aline="center">
           {isDrawingEnd ? (
             <WritePageSubmitHeader
@@ -147,7 +146,6 @@ const Write = () => {
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
-      </StContainer>
     </>
   );
 };

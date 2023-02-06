@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { StContainer } from "../UI/common";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Button from "../components/common/Button";
 import NavigateBtn from "../components/common/NavigateBtn";
@@ -93,7 +92,7 @@ const Chatting = () => {
     // );
   }, [socket.current]);
   return (
-    <StContainer bgColor="#F8F8F8">
+    <>
       <ChatHeader>
         <div>
           <NavigateBtn prev link={"/chatlist"} sizeType="header" />
@@ -129,22 +128,13 @@ const Chatting = () => {
       </div>
       <ChatFooter>
         <div>
-          <input
-            value={message}
-            onChange={messageOnChangeHandle}
-            placeholder="채팅입력.."
-          />
+          <input value={message} onChange={messageOnChangeHandle} placeholder="채팅입력.." />
         </div>
         <div onClick={messageSendOnclick}>
-          <Button
-            size="mini"
-            color={btnColor}
-            icon={<AiOutlineArrowUp />}
-            round
-          />
+          <Button size="mini" color={btnColor} icon={<AiOutlineArrowUp />} round />
         </div>
       </ChatFooter>
-    </StContainer>
+    </>
   );
 };
 export default Chatting;

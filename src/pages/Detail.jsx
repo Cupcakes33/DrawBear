@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
 import HeaderText from "../components/header/HeaderText";
-import { StHeader, StContainer, StSection, StFooter, flex } from "../UI/common";
+import { StHeader, StSection, StFooter, flex } from "../UI/common";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -91,7 +91,7 @@ const Detail = () => {
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
-    <StContainer>
+    <>
       <StHeader>
         <NavigateBtn prev link={`/list/${diaryId}`} />
         <HeaderText>{diaryName}</HeaderText>
@@ -163,7 +163,7 @@ const Detail = () => {
           <Buttons.AddComment />
         </form>
       </DetailPageFooter>
-    </StContainer>
+    </>
   );
 };
 

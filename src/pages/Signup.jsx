@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { flex, StContainer, StHeader } from "../UI/common";
+import { flex, StHeader } from "../UI/common";
 import defaultImg from "../assets/images/default_image.png";
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +67,6 @@ const Signup = () => {
 
   return (
     <>
-      <StContainer bgColor="#EEF3E3;">
         <StSignupHeader>
           <BackButtonDiv>
             {screenChange ? (
@@ -238,7 +237,6 @@ const Signup = () => {
             </section>
           </ProfileSection>
         </SlideContainerForm>
-      </StContainer>
     </>
   );
 };

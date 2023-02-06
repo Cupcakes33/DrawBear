@@ -1,18 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { flex, StContainer } from "../../UI/common";
+import { flex } from "../../UI/common";
 import loadingBear from "../../assets/images/loadingBear.webp";
 
 const Loading = ({ children }) => {
   return (
-    <StContainer bgColor="#EEF3E3">
       <LoadingContainer>
         <div className="loading-box">
           <img src={loadingBear} alt="로딩 곰돌이" />
           <h2>{children ? children : "로딩 중..."}</h2>
         </div>
       </LoadingContainer>
-    </StContainer>
   );
 };
 

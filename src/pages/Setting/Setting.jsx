@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { TiPencil } from "react-icons/ti";
 import { VscBell } from "react-icons/vsc";
 import { BsDot } from "react-icons/bs";
-import { StContainer, StSection, StHeader, flex } from "../../UI/common";
+import { StSection, StHeader, flex } from "../../UI/common";
 import { alarmApi, mypageApi } from "../../apis/axios";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
@@ -40,7 +40,7 @@ const Setting = () => {
   };
 
   return (
-    <StContainer>
+    <>
       <StHeader flex justify="space-between">
         <h3>더보기</h3>
         <AlarmDiv onClick={() => navigate("/setting/alarm")}>
@@ -106,7 +106,7 @@ const Setting = () => {
         </ConfigOptionWrapper>
       </StMypageSection>
       <Footer />
-    </StContainer>
+    </>
   );
 };
 

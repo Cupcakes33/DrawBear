@@ -10,8 +10,8 @@ const NoDiary = () => {
 
   return (
     <>
-      <StContainer>
-        <StWrapper>
+      <NoDiaryBox>
+        <NoDiaryWrapper>
           {icon === "bookmark" ? (
             <>
               <h3>즐겨찾기 한 다이어리가 없어요</h3>
@@ -33,21 +33,21 @@ const NoDiary = () => {
               </CreateDiaryModal>
             </>
           )}
-        </StWrapper>
-      </StContainer>
+        </NoDiaryWrapper>
+      </NoDiaryBox>
     </>
   );
 };
 
 export default NoDiary;
 
-const StContainer = styled.div`
+const NoDiaryBox = styled.div`
   height: 85vh;
   display: flex;
   justify-content: center;
 `;
 
-const StWrapper = styled.div`
+const NoDiaryWrapper = styled.div`
   ${flex("", "", "column")}
   .addDiary {
     ${flex("", "", "column")}

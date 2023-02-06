@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { StContainer, StHeader, StSection } from "../../UI/common";
+import { StHeader, StSection } from "../../UI/common";
 import { mainApi } from "../../apis/axios";
 import DiaryManageCard from "../../components/Setting/DiaryManageCard";
 import useDispatchHook from "../../hooks/useDispatchHook";
@@ -29,7 +29,7 @@ const DiaryManage = () => {
       ) : isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
-        <StContainer>
+        <>
           <StHeader flex justify="flex-start">
             <NavigateBtn prev sizeType="header" link="/setting/" />
             <h3>일기 설정</h3>
@@ -37,7 +37,7 @@ const DiaryManage = () => {
           <DiaryManagementSection flex derection="column" justify="flex-start">
             <DiaryManageCard data={data} />
           </DiaryManagementSection>
-        </StContainer>
+        </>
       )}
     </>
   );

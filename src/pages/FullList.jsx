@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import DiaryCard from "../components/FullList/DiaryCard";
 import HeaderText from "../components/header/HeaderText";
-import { flex, StContainer, StHeader, StSection } from "../UI/common";
+import { flex, StHeader, StSection } from "../UI/common";
 
 import { TiPencil } from "react-icons/ti";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -96,7 +96,6 @@ const DiaryList = memo(() => {
   if (!data) return <Loading />;
   return (
     <>
-      <StContainer>
         <StHeader>
           {!changeHeader && defaultHeader()}
           {changeHeader && <SearchHeader setChangeHeader={setChangeHeader} />}
@@ -174,7 +173,6 @@ const DiaryList = memo(() => {
             navigate(`/write/${diaryId}`);
           }}
         />
-      </StContainer>
     </>
   );
 });

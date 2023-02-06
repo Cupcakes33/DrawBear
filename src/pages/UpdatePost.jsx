@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { StHeader, StSection } from "../UI/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
@@ -104,7 +104,6 @@ const UpdatePost = () => {
   if (isError) return <div>에러</div>;
   return (
     <>
-      <StContainer>
         <StHeader flex justify="space-between" aline="center">
           {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
         </StHeader>
@@ -152,7 +151,6 @@ const UpdatePost = () => {
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
-      </StContainer>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { StContainer, StSection, StHeader, DisplayDiv } from "../../UI/common";
+import { StSection, StHeader, DisplayDiv } from "../../UI/common";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { Input, WorningWord } from "../../components/common/Input";
@@ -33,7 +33,6 @@ const MyPassword = () => {
 
   return (
     <>
-      <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
             <NavigateBtn prev sizeType="header" link="/setting/infoEdit/" />
@@ -104,7 +103,6 @@ const MyPassword = () => {
             </div>
           </MypageSection>
         </form>
-      </StContainer>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { StContainer, StSection, StHeader, DisplayDiv, flex } from "../../UI/common";
+import { StSection, StHeader, DisplayDiv, flex } from "../../UI/common";
 import styled from "styled-components";
 import Footer from "../../components/common/Footer";
 import NavigateBtn from "../../components/common/NavigateBtn";
@@ -70,7 +70,6 @@ const MyProfileEdit = () => {
 
   return (
     <>
-      <StContainer>
         <StHeader flex justify="space-between">
           <DisplayDiv flex>
             <NavigateBtn prev sizeType="header" link="/setting" />
@@ -150,7 +149,6 @@ const MyProfileEdit = () => {
           </MyProfileSection>
         </form>
         <Footer />
-      </StContainer>
     </>
   );
 };

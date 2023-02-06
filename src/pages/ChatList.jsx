@@ -1,4 +1,3 @@
-import { StContainer } from "../UI/common";
 import Footer from "../components/common/Footer";
 import styled from "styled-components";
 import { useState } from "react";
@@ -35,7 +34,6 @@ const ChatList = () => {
   };
   return (
     <>
-      <StContainer bgColor="#ffffff">
         <ChatHeader>
           <ChatWarrper>
             <div>
@@ -85,7 +83,6 @@ const ChatList = () => {
           )}
         </ChatContent>
         <Footer />
-      </StContainer>
     </>
   );
 };
