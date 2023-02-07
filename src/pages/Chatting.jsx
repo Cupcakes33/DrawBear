@@ -8,6 +8,7 @@ import io from "socket.io-client";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
 import BeforChat from "./BeforChat";
+import ChatItem from "./ChatItem";
 
 const Chatting = () => {
   const socket = useRef(null);
@@ -56,16 +57,42 @@ const Chatting = () => {
       </ChatHeader>
       {/* <BeforChat diaryId={diaryId} userId={userId}></BeforChat> */}
       <div>
-        <ul>
-          {messageList.map((msg, index) => {
-            const { message, nickname, profileImg, time, userId } = msg;
+        {messageList.map((msg, index) => {
+          const {
+            message,
+            nickname,
+            profileImg,
+            time,
+            userId: msg_userId,
+          } = msg;
+          const chatInfo = {
+            User: {
+              profileImg,
+              nickname,
+            },
+            chat: message,
+            createdAt: time,
+            userId,
+          };
+          if (userId === msg_userId) {
             return (
-              <>
-                <div key={index}>{msg.message}</div>
-              </>
+              <ChatItem
+                key={`messageList${index}`}
+                chatInfo={chatInfo}
+                bgcolor="#3CC7A6"
+                rowreverse="row-reverse"
+              ></ChatItem>
             );
-          })}
-        </ul>
+          } else {
+            return (
+              <ChatItem
+                key={`messageList${index}`}
+                chatInfo={chatInfo}
+                bgcolor="#ffffff"
+              ></ChatItem>
+            );
+          }
+        })}
       </div>
 
       <ChatFooter>
