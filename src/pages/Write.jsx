@@ -89,13 +89,13 @@ const Write = () => {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
   `;
 
   return (
     <>
-        <Header flex justify="space-between" aline="center">
-          {isDrawingEnd ? (
+        <Header>
+          <Header.SpaceBetween>
+            {isDrawingEnd ? (
             <WritePageSubmitHeader
               setIsDrawingEnd={setIsDrawingEnd}
               isDrawingEnd={isDrawingEnd}
@@ -103,12 +103,13 @@ const Write = () => {
           ) : (
             <>
               <StDiv>
-                <NavigateBtn prev link={`/list/${diaryId}`} />
-                <h4>다이어리 생성</h4>
+                <NavigateBtn prev sizeType="header" link={`/list/${diaryId}`} />
+                <h3>다이어리 생성</h3>
               </StDiv>
-              <span onClick={nextSectionHeaderHandler}>다음</span>
+              <Header.OnClickBtn onClick={nextSectionHeaderHandler}>다음</Header.OnClickBtn>
             </>
           )}
+          </Header.SpaceBetween>
         </Header>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StTextSection>
