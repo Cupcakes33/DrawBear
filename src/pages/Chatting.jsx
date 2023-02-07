@@ -12,7 +12,10 @@ import ChatItem from "./ChatItem";
 
 const Chatting = () => {
   const socket = useRef(null);
-  const { diaryId, userId } = useSelector((state) => state.chatSlice);
+  const ref = useRef();
+  const { diaryId, userId, invitedNickname } = useSelector(
+    (state) => state.chatSlice
+  );
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const socketData = { message, diaryId, userId };
@@ -28,9 +31,9 @@ const Chatting = () => {
     setMessage(txt);
   };
   const messageSendOnclick = () => {
-    socket.current.emit("chat_message", socketData);
-    console.log(socketData);
-    setMessageList((prev) => [...prev, socketData]);
+    socket.current.emit("chat_message", socketData, () => {
+      setMessageList((prev) => [...prev, socketData]);
+    });
     setMessage("");
   };
 
@@ -44,20 +47,25 @@ const Chatting = () => {
   useEffect(() => {
     socket.current._callbacks = {};
     socket.current.on("receiveMessage", (message) => {
-      console.log(message);
       setMessageList((prev) => [...prev, message]);
     });
   }, [socket.current]);
+
+  useEffect(() => {
+    ref.current.scrollTo(0, ref.current.scrollHeight);
+  }, [messageList]);
+
   return (
     <StContainer bgColor="#F8F8F8">
       <ChatHeader>
         <div>
           <NavigateBtn prev link={"/chatlist"} sizeType="header" />
         </div>
+        <div>{invitedNickname}</div>
       </ChatHeader>
       <ChatContent>
         {/* <BeforChat diaryId={diaryId} userId={userId}></BeforChat> */}
-        <ChatWrapper>
+        <ChatWrapper ref={ref} style={{ border: "1px solid red" }}>
           {messageList.map((msg, index) => {
             const {
               message,
@@ -73,7 +81,7 @@ const Chatting = () => {
               },
               chat: message,
               createdAt: time,
-              userId,
+              msg_userId,
             };
             if (userId === msg_userId) {
               return (
@@ -143,14 +151,10 @@ const ChatHeader = styled.div`
 `;
 
 const ChatWrapper = styled.div`
-  flex: 1;
-  overflow: auto;
   display: flex;
-  flex-direction: column-reverse;
-  ::before {
-    display: block;
-    flex: 1;
-  }
+  flex-direction: column;
+  height: 80rem;
+  overflow: auto;
 `;
 const ChatContent = styled.div`
   display: flex;

@@ -29,8 +29,8 @@ const ChatList = () => {
       setChatList([...success.diaries]);
     },
   });
-  const chattingOnclickHandle = (userId, diaryId) => {
-    dispatch(viewChatList({ userId, diaryId }));
+  const chattingOnclickHandle = (userId, diaryId, invitedNickname) => {
+    dispatch(viewChatList({ userId, diaryId, invitedNickname }));
     navigate("/chat");
   };
   return (
@@ -60,7 +60,9 @@ const ChatList = () => {
                 return (
                   <ChatContainer
                     key={index}
-                    onClick={() => chattingOnclickHandle(userId, diaryId)}
+                    onClick={() =>
+                      chattingOnclickHandle(userId, diaryId, invitedNickname)
+                    }
                   >
                     <ChatWrapper>
                       <div>

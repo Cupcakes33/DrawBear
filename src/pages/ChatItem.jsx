@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
 const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
-  console.log(chatInfo);
-  console.log(bgcolor);
-  console.log(rowreverse);
   return (
     <StSpeechContainer rowreverse={rowreverse}>
       <div>
@@ -27,9 +24,15 @@ const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
           {chatInfo.chat}
         </ChatContext>
       </div>
-      <ChatTime fontsize="1rem" padding="10rem 0rem 0rem 0rem">
-        {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
-      </ChatTime>
+      <div>
+        {bgcolor === "#3CC7A6" ? (
+          <></>
+        ) : (
+          <ChatTime fontsize="1rem" padding="10rem 0rem 0rem 0rem">
+            {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
+          </ChatTime>
+        )}
+      </div>
     </StSpeechContainer>
   );
 };
