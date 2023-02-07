@@ -55,46 +55,47 @@ const Chatting = () => {
           <NavigateBtn prev link={"/chatlist"} sizeType="header" />
         </div>
       </ChatHeader>
-      {/* <BeforChat diaryId={diaryId} userId={userId}></BeforChat> */}
-      <div>
-        {messageList.map((msg, index) => {
-          const {
-            message,
-            nickname,
-            profileImg,
-            time,
-            userId: msg_userId,
-          } = msg;
-          const chatInfo = {
-            User: {
-              profileImg,
+      <ChatContent>
+        {/* <BeforChat diaryId={diaryId} userId={userId}></BeforChat> */}
+        <ChatWrapper>
+          {messageList.map((msg, index) => {
+            const {
+              message,
               nickname,
-            },
-            chat: message,
-            createdAt: time,
-            userId,
-          };
-          if (userId === msg_userId) {
-            return (
-              <ChatItem
-                key={`messageList${index}`}
-                chatInfo={chatInfo}
-                bgcolor="#3CC7A6"
-                rowreverse="row-reverse"
-              ></ChatItem>
-            );
-          } else {
-            return (
-              <ChatItem
-                key={`messageList${index}`}
-                chatInfo={chatInfo}
-                bgcolor="#ffffff"
-              ></ChatItem>
-            );
-          }
-        })}
-      </div>
-
+              profileImg,
+              time,
+              userId: msg_userId,
+            } = msg;
+            const chatInfo = {
+              User: {
+                profileImg,
+                nickname,
+              },
+              chat: message,
+              createdAt: time,
+              userId,
+            };
+            if (userId === msg_userId) {
+              return (
+                <ChatItem
+                  key={`messageList${index}`}
+                  chatInfo={chatInfo}
+                  bgcolor="#3CC7A6"
+                  rowreverse="row-reverse"
+                ></ChatItem>
+              );
+            } else {
+              return (
+                <ChatItem
+                  key={`messageList${index}`}
+                  chatInfo={chatInfo}
+                  bgcolor="#ffffff"
+                ></ChatItem>
+              );
+            }
+          })}
+        </ChatWrapper>
+      </ChatContent>
       <ChatFooter>
         <div>
           <input
@@ -141,6 +142,20 @@ const ChatHeader = styled.div`
   }
 `;
 
+const ChatWrapper = styled.div`
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  ::before {
+    display: block;
+    flex: 1;
+  }
+`;
+const ChatContent = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
 const ChatBubble = styled.div`
   display: flex;
   padding: ${(props) => props.padding};
@@ -183,7 +198,4 @@ const ChatUser = styled.div`
 `;
 const ChatTime = styled.div`
   font-size: 0.1rem;
-`;
-const ChatWrapper = styled.div`
-  display: "flex";
 `;
