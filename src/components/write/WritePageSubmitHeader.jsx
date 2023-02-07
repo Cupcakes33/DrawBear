@@ -5,7 +5,7 @@ import { BsQuestionLg } from "react-icons/bs";
 const WritePageSubmitHeader = ({ setIsDrawingEnd, isDrawingEnd }) => {
   return (
     <>
-      <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
+      <h3 onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</h3>
       <StDrawindEndHeaderOptionBox>
         <WritePageTutorialModal>
           <StQuestionIcon />
