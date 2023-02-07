@@ -106,8 +106,11 @@ const ChatWarrper = styled.div`
 `;
 const ChatContent = styled.div`
   width: 100%;
-  height: calc(100vh - 6rem);
+  height: 80rem;
   overflow-x: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const ChatContainer = styled.div`
   width: 100%;
