@@ -27,13 +27,15 @@ const Chatting = () => {
     setMessage(txt);
   };
   const messageSendOnclick = () => {
-    console.log(socketData);
-    setMessage("txt");
     socket.current.emit("chat_message", socketData);
+    console.log(socketData);
+    setMessageList((prev) => [...prev, socketData]);
+    setMessage("");
   };
 
   useEffect(() => {
     socket.current = io.connect("https://mylee.site");
+    socket.current.emit("join", diaryId);
     return () => {
       socket.current.disconnect();
     };
@@ -41,7 +43,6 @@ const Chatting = () => {
   useEffect(() => {
     socket.current._callbacks = {};
     socket.current.on("receiveMessage", (message) => {
-      console.log(socket);
       console.log(message);
       setMessageList((prev) => [...prev, message]);
     });
@@ -53,7 +54,20 @@ const Chatting = () => {
           <NavigateBtn prev link={"/chatlist"} sizeType="header" />
         </div>
       </ChatHeader>
-      <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
+      {/* <BeforChat diaryId={diaryId} userId={userId}></BeforChat> */}
+      <div>
+        <ul>
+          {messageList.map((msg, index) => {
+            const { message, nickname, profileImg, time, userId } = msg;
+            return (
+              <>
+                <div key={index}>{msg.message}</div>
+              </>
+            );
+          })}
+        </ul>
+      </div>
+
       <ChatFooter>
         <div>
           <input
