@@ -13,7 +13,7 @@ import WritePageSubmitHeader from "../components/write/WritePageSubmitHeader";
 import { StSection } from "../UI/common";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import useDispatchHook from "../hooks/useDispatchHook";
-import {Header} from "../components/common/header/Header";
+import { Header } from "../components/common/header/Header";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -85,73 +85,86 @@ const Write = () => {
     return () => document.removeEventListener("keydown", preventTabKey);
   }, []);
 
-  const StDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
-  `;
-
   return (
     <>
-        <Header flex justify="space-between" aline="center">
-          {isDrawingEnd ? (
-            <WritePageSubmitHeader
-              setIsDrawingEnd={setIsDrawingEnd}
-              isDrawingEnd={isDrawingEnd}
-            />
-          ) : (
-            <>
-              <StDiv>
-                <NavigateBtn prev link={`/list/${diaryId}`} />
-                <h4>다이어리 생성</h4>
-              </StDiv>
-              <span onClick={nextSectionHeaderHandler}>다음</span>
-            </>
-          )}
-        </Header>
-        <StSlideWrapper isDrawingEnd={isDrawingEnd}>
-          <StTextSection>
-            <StTextSectionFrom
-              id="writeForm"
-              onSubmit={writeFormSubmitHandler}
-              onKeyDown={formEnterKeyPrevent}
-              encType="multipart/form-data"
-            >
-              <StTextSectionBox className="titleInputBox">
-                <span>날짜</span>
-                <input type="date" name="createdAt" ref={dateRef} />
-              </StTextSectionBox>
-              <StTextSectionBox className="tagInputBox">
-                <span>태그</span>
-                <HashTagInput tags={tags} setTags={setTags} />
-              </StTextSectionBox>
-              <StTextSectionBox className="textInputBox">
-                <span>제목</span>
-                <input
-                  type="text"
-                  name="title"
-                  ref={titleRef}
-                  maxLength="20"
-                  placeholder="제목을 입력해주세요"
-                />
-              </StTextSectionBox>
-              <StTextSectionBox className="weatherPickerBox">
-                <span>오늘의 날씨는 ?</span>
-                <WeatherPicker weather={weather} setWeather={setWeather} />
-              </StTextSectionBox>
-            </StTextSectionFrom>
-          </StTextSection>
-          <StCanvasSection flex justify="flex-start" derection="column">
-            <Canvas canvas={canvas} setCanvas={setCanvas} />
-            <TextEditor contents={contents} setContents={setContents} />
-          </StCanvasSection>
-        </StSlideWrapper>
+      <Header flex justify="space-between" aline="center">
+        {isDrawingEnd ? (
+          <WritePageSubmitHeader
+            setIsDrawingEnd={setIsDrawingEnd}
+            isDrawingEnd={isDrawingEnd}
+          />
+        ) : (
+          <StDefaultHeaderBox>
+            <div className="default-header-aline">
+              <NavigateBtn prev link={`/list/${diaryId}`} />
+              <h4>다이어리 생성</h4>
+            </div>
+            <span onClick={nextSectionHeaderHandler}>다음</span>
+          </StDefaultHeaderBox>
+        )}
+      </Header>
+      <StSlideWrapper isDrawingEnd={isDrawingEnd}>
+        <StTextSection>
+          <StTextSectionFrom
+            id="writeForm"
+            onSubmit={writeFormSubmitHandler}
+            onKeyDown={formEnterKeyPrevent}
+            encType="multipart/form-data"
+          >
+            <StTextSectionBox className="titleInputBox">
+              <span>날짜</span>
+              <input type="date" name="createdAt" ref={dateRef} />
+            </StTextSectionBox>
+            <StTextSectionBox className="tagInputBox">
+              <span>태그</span>
+              <HashTagInput tags={tags} setTags={setTags} />
+            </StTextSectionBox>
+            <StTextSectionBox className="textInputBox">
+              <span>제목</span>
+              <input
+                type="text"
+                name="title"
+                ref={titleRef}
+                maxLength="20"
+                placeholder="제목을 입력해주세요"
+              />
+            </StTextSectionBox>
+            <StTextSectionBox className="weatherPickerBox">
+              <span>오늘의 날씨는 ?</span>
+              <WeatherPicker weather={weather} setWeather={setWeather} />
+            </StTextSectionBox>
+          </StTextSectionFrom>
+        </StTextSection>
+        <StCanvasSection flex justify="flex-start" derection="column">
+          <Canvas canvas={canvas} setCanvas={setCanvas} />
+          <TextEditor contents={contents} setContents={setContents} />
+        </StCanvasSection>
+      </StSlideWrapper>
     </>
   );
 };
 
 export default Write;
+
+const StDefaultHeaderBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .default-header-aline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  span {
+    cursor: pointer;
+    color: var(--positive);
+  }
+`;
 
 const StCanvasSection = styled(StSection)`
   min-height: calc(100vh - 6rem);
