@@ -6,7 +6,6 @@ import { alarmApi, mypageApi } from "../apis/axios";
 import { useDispatch } from "react-redux";
 import NoChatList from "./NoChatList";
 import useDispatchHook from "../hooks/useDispatchHook";
-import NavigateBtn from "../components/common/NavigateBtn";
 import { viewChatList } from "../redux/modules/chatSlice";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/common/header/Header";
@@ -33,34 +32,18 @@ const ChatList = () => {
   };
   return (
     <>
-      <ChatHeader>
-        <ChatWarrper>
-          <div>
-            <NavigateBtn prev link={"/"} sizeType="header" />
-          </div>
-          <div>채팅</div>
-        </ChatWarrper>
-      </ChatHeader>
+      <Header>
+        <Header.Back link={"/"}>채팅</Header.Back>
+      </Header>
       <ChatContent>
         {chatList.length === 0 ? (
           <NoChatList h3txt="채팅 목록이 없습니다." />
         ) : (
           <>
             {chatList.map((chat, index) => {
-              const {
-                invitedNickname,
-                lastChat,
-                invitedProfileImg,
-                diaryId,
-                time,
-              } = chat;
+              const { invitedNickname, lastChat, invitedProfileImg, diaryId, time } = chat;
               return (
-                <ChatContainer
-                  key={index}
-                  onClick={() =>
-                    chattingOnclickHandle(userId, diaryId, invitedNickname)
-                  }
-                >
+                <ChatContainer key={index} onClick={() => chattingOnclickHandle(userId, diaryId, invitedNickname)}>
                   <ChatWrapper>
                     <div>
                       <img src={invitedProfileImg} />
@@ -69,13 +52,7 @@ const ChatList = () => {
                       <ChatNickName>{invitedNickname}</ChatNickName>
                       <ChatLastTxt>{lastChat}</ChatLastTxt>
                     </div>
-                    <ChatTime>
-                      {time ? (
-                        new Date(time).toLocaleString().substr(12, 7)
-                      ) : (
-                        <></>
-                      )}
-                    </ChatTime>
+                    <ChatTime>{time ? new Date(time).toLocaleString().substr(12, 7) : <></>}</ChatTime>
                   </ChatWrapper>
                 </ChatContainer>
               );
@@ -88,12 +65,7 @@ const ChatList = () => {
   );
 };
 export default ChatList;
-const ChatHeader = styled.div`
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 7.2rem;
-`;
+
 const ChatWarrper = styled.div`
   position: absolute;
   display: flex;
@@ -104,7 +76,8 @@ const ChatWarrper = styled.div`
 `;
 const ChatContent = styled.div`
   width: 100%;
-  height: 80rem;
+  height: calc(100vh - 7.2rem);
+  padding-bottom: 7.2rem;
   overflow-x: hidden;
   ::-webkit-scrollbar {
     display: none;

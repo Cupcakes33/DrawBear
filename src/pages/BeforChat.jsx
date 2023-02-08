@@ -8,31 +8,34 @@ import ChatItem from "./ChatItem";
 import styled from "styled-components";
 import { backgrounds } from "polished";
 const BeforChat = ({ diaryId, userId }) => {
+
   // const [infi, setInfi] = useState({
   //   diaryId,
   //   pageParam: 1,
   // });
 
-  const { ref, inView } = useInView(
-  //   {
-  //   threshold: 0,
-  //   triggerOnce: true,
-  // }
-  );
+  const { ref, inView } =
+    useInView();
+    //   {
+    //   threshold: 0,
+    //   triggerOnce: true,
+    // }
 
-  const { data, error, status, fetchNextPage, fetchPreviousPage, isFetchingNextPage, hasNextPage, hasPreviousPage } = useInfiniteQuery(
-    ["chattings"],
-    ({ pageParam }) => chattingApi.search({ diaryId, pageParam }),
-    {
-      getPreviousPageParam: (lastPage) => {
-        // console.log(lastPage)
-        return !!lastPage.isLast ? lastPage.nextPage : undefined;
+  const { data, error, status, fetchNextPage, fetchPreviousPage, isFetchingNextPage, hasNextPage, hasPreviousPage } =
+    useInfiniteQuery(
+      ["chattings", diaryId],
+      ({ pageParam }) => chattingApi.search({ diaryId, pageParam }),
+      {
+        getPreviousPageParam: (firstPage) => {
+          console.log(firstPage.prevCursor)
+          // return firstPage.prevCursor  ?? undefined
+          return !!firstPage.isLast ? firstPage.nextPage : undefined;
+        },
       },
-    },
-    {
-      staleTime: 1000,
-    }
-  );
+      {
+        staleTime: 1000,
+      }
+    );
 
   useEffect(() => {
     if (inView) {
@@ -44,7 +47,7 @@ const BeforChat = ({ diaryId, userId }) => {
   if (status === "error") return <h2> Error : {error.toString()} </h2>;
   return (
     <>
-      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
+      <div ref={ref}></div>
       <InfiniteScroll hasMore={hasPreviousPage} loadMore={fetchPreviousPage}>
         {data?.pages?.map((page) => {
           console.log(page);
