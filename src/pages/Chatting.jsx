@@ -11,6 +11,7 @@ import ChatItem from "./ChatItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { chattingApi } from "../apis/axios";
 import { useInView } from "react-intersection-observer";
+import { useCallback } from "react";
 
 const Chatting = () => {
   const socket = useRef(null);
@@ -18,6 +19,7 @@ const Chatting = () => {
   const { diaryId, userId, invitedNickname } = useSelector((state) => state.chatSlice);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [scrollRef , setScrollRef ] = useState(0);
   const socketData = { message, diaryId, userId };
   const [btnColor, setBtnColor] = useState("button_icon");
   const [infi, setInfi] = useState({
