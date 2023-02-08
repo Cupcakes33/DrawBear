@@ -15,9 +15,7 @@ import { useInView } from "react-intersection-observer";
 const Chatting = () => {
   const socket = useRef(null);
   const ref = useRef();
-  const { diaryId, userId, invitedNickname } = useSelector(
-    (state) => state.chatSlice
-  );
+  const { diaryId, userId, invitedNickname } = useSelector((state) => state.chatSlice);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const socketData = { message, diaryId, userId };
@@ -51,14 +49,12 @@ const Chatting = () => {
     setMessage("");
   };
 
-  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
+  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ["chattings"],
     () => chattingApi.search(infi),
 
     {
-      getNextPageParam: (lastPage) =>
-      !lastPage.isLast ? lastPage.nextPage : undefined,
+      getNextPageParam: (lastPage) => (!lastPage.isLast ? lastPage.nextPage : undefined),
     },
     {
       staleTime: 1000,
@@ -104,13 +100,7 @@ const Chatting = () => {
             ref={inViewref}
           ></div> */}
           {messageList.map((msg, index) => {
-                        const {
-                          message,
-                          nickname,
-                          profileImg,
-                          time,
-                          userId: msg_userId,
-                        } = msg;
+            const { message, nickname, profileImg, time, userId: msg_userId } = msg;
             const chatInfo = {
               User: {
                 profileImg,
@@ -130,13 +120,7 @@ const Chatting = () => {
                 ></ChatItem>
               );
             } else {
-              return (
-                <ChatItem
-                  key={`messageList${index}`}
-                  chatInfo={chatInfo}
-                  bgcolor="#ffffff"
-                ></ChatItem>
-              );
+              return <ChatItem key={`messageList${index}`} chatInfo={chatInfo} bgcolor="#ffffff"></ChatItem>;
             }
           })}
         </ChatWrapper>
@@ -151,12 +135,7 @@ const Chatting = () => {
           />
         </div>
         <div onClick={messageSendOnclick}>
-          <Button
-            size="mini"
-            color={btnColor}
-            icon={<AiOutlineArrowUp />}
-            round
-          />
+          <Button size="mini" color={btnColor} icon={<AiOutlineArrowUp />} round />
         </div>
       </ChatFooter>
     </>
@@ -191,13 +170,14 @@ const ChatHeader = styled.div`
 const ChatWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80rem;
+  height: calc(100vh - 7.2rem);
   overflow: auto;
 `;
 const ChatContent = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80rem;
+  height: calc(100vh - 7.2rem);
+  padding-bottom: 7.2rem;
 `;
 const ChatBubble = styled.div`
   display: flex;

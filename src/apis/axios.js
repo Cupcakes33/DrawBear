@@ -220,7 +220,9 @@ export const inviteApi = {
 // 채팅 API
 
 export const chattingApi = {
-  search: async ({ diaryId, pageParam }) => {
+  search: async ({ diaryId, pageParam = 1 }) => {
+    console.log(diaryId)
+    console.log(pageParam)
     const response = await instance.get(`/api/chat/${diaryId}/${pageParam}`);
     const { Chats, isLast } = response.data;
     return { Chats, nextPage: pageParam + 1, isLast };

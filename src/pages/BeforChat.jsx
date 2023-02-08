@@ -8,15 +8,17 @@ import ChatItem from "./ChatItem";
 import styled from "styled-components";
 import { backgrounds } from "polished";
 const BeforChat = ({ diaryId, userId }) => {
-  const [infi, setInfi] = useState({
-    diaryId,
-    pageParam: 1,
-  });
+  // const [infi, setInfi] = useState({
+  //   diaryId,
+  //   pageParam: 1,
+  // });
 
-  const { ref, inView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-  });
+  const { ref, inView } = useInView(
+  //   {
+  //   threshold: 0.3,
+  //   triggerOnce: true,
+  // }
+  );
   const {
     data,
     error,
@@ -27,10 +29,13 @@ const BeforChat = ({ diaryId, userId }) => {
     hasNextPage,
   } = useInfiniteQuery(
     ["chattings"],
-    () => chattingApi.search(infi),
+    ({pageParam}) => chattingApi.search({diaryId, pageParam}),
     {
-      getNextPageParam: (lastPage) =>
-        !lastPage.isLast ? lastPage.nextPage : undefined,
+      getPreviousPageParam: (lastPage) => {
+
+        // console.log(lastPage)
+        return !!lastPage.isLast ? lastPage.nextPage : undefined
+      }
     },
     {
       staleTime: 1000,
@@ -39,7 +44,7 @@ const BeforChat = ({ diaryId, userId }) => {
 
   useEffect(() => {
     if (inView) {
-      fetchNextPage();
+      fetchPreviousPage();
     }
   }, [inView]);
 
@@ -47,14 +52,13 @@ const BeforChat = ({ diaryId, userId }) => {
   if (status === "error") return <h2> Error : {error.toString()} </h2>;
   return (
     <>
-      {/* <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div> */}
-      <button onClick={() => fetchNextPage()}>버튼</button>
+      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
           {data?.pages[0]?.Chats.length !== 0 ? (
             data?.pages?.map((page) => {
-              console.log(page);
+              // console.log(page);
               return page?.Chats?.map((chatInfo, index) => {
-                console.log(chatInfo);
+                // console.log(chatInfo);
                 if (userId === chatInfo.userId) {
                   return (
                     <ChatItem
