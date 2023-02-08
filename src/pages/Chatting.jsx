@@ -8,6 +8,9 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 import BeforChat from "./BeforChat";
 import ChatItem from "./ChatItem";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { chattingApi } from "../apis/axios";
+import { useInView } from "react-intersection-observer";
 
 const Chatting = () => {
   const socket = useRef(null);
@@ -19,7 +22,19 @@ const Chatting = () => {
   const [messageList, setMessageList] = useState([]);
   const socketData = { message, diaryId, userId };
   const [btnColor, setBtnColor] = useState("button_icon");
-
+  const [infi, setInfi] = useState({
+    diaryId,
+    pageParam: 1,
+  });
+  const { inViewref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+  });
+  const onKeyPressEventHandle = (event) => {
+    if (event.key === "Enter") {
+      messageSendOnclick();
+    }
+  };
   const messageOnChangeHandle = (event) => {
     let txt = event.target.value;
     if (txt.length === 0) {
@@ -35,6 +50,25 @@ const Chatting = () => {
     });
     setMessage("");
   };
+
+  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["chattings"],
+      () => chattingApi.search(infi),
+
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.isLast ? lastPage.nextPage : undefined,
+      },
+      {
+        staleTime: 1000,
+      }
+    );
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   useEffect(() => {
     socket.current = io.connect("https://mylee.site");
@@ -65,6 +99,10 @@ const Chatting = () => {
       <ChatContent>
         <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
         <ChatWrapper ref={ref}>
+          {/* <div
+            style={{ height: "100px", backgroundColor: "red" }}
+            ref={inViewref}
+          ></div> */}
           {messageList.map((msg, index) => {
             const {
               message,
@@ -107,11 +145,12 @@ const Chatting = () => {
         <div>
           <input
             value={message}
+            onKeyPress={onKeyPressEventHandle}
             onChange={messageOnChangeHandle}
             placeholder="채팅입력.."
           />
         </div>
-        <div onClick={messageSendOnclick}>
+        <div onClick={messageSendOnclick} onkeypres>
           <Button
             size="mini"
             color={btnColor}
@@ -158,6 +197,7 @@ const ChatWrapper = styled.div`
 const ChatContent = styled.div`
   display: flex;
   flex-direction: column;
+  height: 80rem;
 `;
 const ChatBubble = styled.div`
   display: flex;
