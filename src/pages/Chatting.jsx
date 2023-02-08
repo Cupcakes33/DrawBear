@@ -53,17 +53,17 @@ const Chatting = () => {
 
   const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
-      ["chattings"],
-      () => chattingApi.search(infi),
+    ["chattings"],
+    () => chattingApi.search(infi),
 
-      {
-        getNextPageParam: (lastPage) =>
-          !lastPage.isLast ? lastPage.nextPage : undefined,
-      },
-      {
-        staleTime: 1000,
-      }
-    );
+    {
+      getNextPageParam: (lastPage) =>
+      !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+    {
+      staleTime: 1000,
+    }
+  );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -71,7 +71,7 @@ const Chatting = () => {
   }, [inView]);
 
   useEffect(() => {
-    socket.current = io.connect("https://mylee.site");
+    socket.current = io.connect(process.env.REACT_APP_MY_API);
     socket.current.emit("join", diaryId);
     return () => {
       socket.current.disconnect();
@@ -97,20 +97,20 @@ const Chatting = () => {
         <div>{invitedNickname}</div>
       </ChatHeader>
       <ChatContent>
-        <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
         <ChatWrapper ref={ref}>
+          <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
           {/* <div
             style={{ height: "100px", backgroundColor: "red" }}
             ref={inViewref}
           ></div> */}
           {messageList.map((msg, index) => {
-            const {
-              message,
-              nickname,
-              profileImg,
-              time,
-              userId: msg_userId,
-            } = msg;
+                        const {
+                          message,
+                          nickname,
+                          profileImg,
+                          time,
+                          userId: msg_userId,
+                        } = msg;
             const chatInfo = {
               User: {
                 profileImg,

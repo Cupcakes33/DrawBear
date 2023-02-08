@@ -48,7 +48,6 @@ const BeforChat = ({ diaryId, userId }) => {
     <>
       <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
-        <InfinitContent>
           {data?.pages[0]?.Chats.length !== 0 ? (
             data?.pages?.map((page) => {
               console.log(page);
@@ -79,13 +78,8 @@ const BeforChat = ({ diaryId, userId }) => {
               <div>카톡내용없음</div>
             </>
           )}
-        </InfinitContent>
       </InfiniteScroll>
     </>
   );
 };
 export default BeforChat;
-const InfinitContent = styled.div`
-  width: 100%;
-  height: 60rem;
-`;
