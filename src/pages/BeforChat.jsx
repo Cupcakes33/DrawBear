@@ -13,10 +13,9 @@ const BeforChat = ({ diaryId, userId }) => {
     pageParam: 1,
   });
   const { ref, inView } = useInView({
-    threshold: 0.9,
+    threshold: 0,
     triggerOnce: true,
   });
-  console.log(diaryId);
   const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
       ["chattings"],
@@ -26,7 +25,7 @@ const BeforChat = ({ diaryId, userId }) => {
           !lastPage.isLast ? lastPage.nextPage : undefined,
       },
       {
-        staleTime: 60000,
+        staleTime: 1000,
       }
     );
 
@@ -43,7 +42,9 @@ const BeforChat = ({ diaryId, userId }) => {
         <InfinitContent>
           {data?.pages[0]?.Chats.length !== 0 ? (
             data?.pages?.map((page) => {
+              console.log(page);
               return page?.Chats?.map((chatInfo, index) => {
+                console.log(chatInfo);
                 if (userId === chatInfo.userId) {
                   return (
                     <ChatItem
@@ -71,7 +72,7 @@ const BeforChat = ({ diaryId, userId }) => {
           )}
         </InfinitContent>
       </InfiniteScroll>
-      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>;
+      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
     </>
   );
 };

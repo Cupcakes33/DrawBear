@@ -56,7 +56,8 @@ const Chatting = () => {
   }, [messageList]);
 
   return (
-    <StContainer bgColor="#F8F8F8">
+    // <StContainer bgColor="#F8F8F8">
+    <>
       <ChatHeader>
         <div>
           <NavigateBtn prev link={"/chatlist"} sizeType="header" />
@@ -64,8 +65,8 @@ const Chatting = () => {
         <div>{invitedNickname}</div>
       </ChatHeader>
       <ChatContent>
-        {/* <BeforChat diaryId={diaryId} userId={userId}></BeforChat> */}
-        <ChatWrapper ref={ref} style={{ border: "1px solid red" }}>
+        <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
+        <ChatWrapper ref={ref}>
           {messageList.map((msg, index) => {
             const {
               message,
@@ -121,7 +122,8 @@ const Chatting = () => {
           />
         </div>
       </ChatFooter>
-    </StContainer>
+    </>
+    // </StContainer>
   );
 };
 export default Chatting;
@@ -158,7 +160,7 @@ const ChatWrapper = styled.div`
 `;
 const ChatContent = styled.div`
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
 `;
 const ChatBubble = styled.div`
   display: flex;
