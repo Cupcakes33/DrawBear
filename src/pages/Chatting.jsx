@@ -150,7 +150,7 @@ const Chatting = () => {
             placeholder="채팅입력.."
           />
         </div>
-        <div onClick={messageSendOnclick} onkeypres>
+        <div onClick={messageSendOnclick}>
           <Button
             size="mini"
             color={btnColor}

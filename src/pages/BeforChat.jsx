@@ -22,6 +22,7 @@ const BeforChat = ({ diaryId, userId }) => {
     error,
     status,
     fetchNextPage,
+    fetchPreviousPage,
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery(
@@ -46,7 +47,8 @@ const BeforChat = ({ diaryId, userId }) => {
   if (status === "error") return <h2> Error : {error.toString()} </h2>;
   return (
     <>
-      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
+      {/* <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div> */}
+      <button onClick={() => fetchNextPage()}>버튼</button>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
           {data?.pages[0]?.Chats.length !== 0 ? (
             data?.pages?.map((page) => {
