@@ -4,12 +4,10 @@ import styled from "styled-components";
 import TimeAgo from "timeago-react";
 import * as timeAgo from "timeago.js";
 import ko from "timeago.js/lib/lang/ko";
-import Button from "../common/Button";
-
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import { TfiPencil, TfiTrash } from "react-icons/tfi";
 import { commentsApi } from "../../apis/axios";
 import useDispatchHook from "../../hooks/useDispatchHook";
+import Buttons from "../common/Button/Buttons";
 
 // memo 를 적용하지 않았을 경우 리렌더링이 발생할 때마다 모든 댓글이 리렌더링 되는 문제가 발생.
 // memo 를 적용하여 댓글이 추가되거나 삭제될 때만 리렌더링 되도록 변경.
@@ -119,11 +117,7 @@ const Comment = memo(({ comments }) => {
               </EditOptionBox>
             ) : (
               <StDropdownBox>
-                <Button
-                  className="commentOptionBtn"
-                  round
-                  fs="2rem"
-                  icon={<BiDotsVerticalRounded />}
+                <Buttons.CommentDropdownSwitch
                   onClick={() => {
                     setCommentId(comment.commentId);
                     setIsDropdown(!isDropdown);
@@ -168,8 +162,8 @@ const StOptionDropdown = styled.ul`
   z-index: 3;
   position: absolute;
   display: ${(props) => (props.isDropdown ? "flex" : "none")};
-  bottom: -9rem;
-  right: 1rem;
+  bottom: -7rem;
+  right: 2rem;
   width: 8rem;
   flex-direction: column;
   align-items: center;

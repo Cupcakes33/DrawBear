@@ -4,14 +4,14 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
-import { diaryApi } from "../../apis/axios";
+import { diaryApi } from "../../../apis/axios";
 import CalendarWeek from "./CalendarWeek";
 import CalendarDay from "./CalendarDay";
 import ClalendarMonth from "./ClalendarMonth";
 import CalendarHeader from "./CalendarHeader";
-import loadingBear from "../../assets/images/loadingBear.webp";
-import { Modal } from "../common/modal/ReactModal";
-import { flex } from "../../UI/common";
+import loadingBear from "../../../assets/images/loadingBear.webp";
+import { Modal } from "../../common/modal/ReactModal";
+import { flex } from "../../../UI/common";
 
 const CalendarModal = ({ children }) => {
   const today = {
@@ -25,7 +25,7 @@ const CalendarModal = ({ children }) => {
 
   // 공휴일 API
 
-  const { data = [], isLoading, isError } = useQuery(["holiday", selectedYear], () => diaryApi.holiday(selectedYear));
+  const { data = [], isLoading } = useQuery(["holiday", selectedYear], () => diaryApi.holiday(selectedYear));
   const holiday = data?.map((v) => v.locdate);
 
   //활용할 날짜 선언
@@ -60,11 +60,6 @@ const CalendarModal = ({ children }) => {
                 <ErrorScreen>
                   <img src={loadingBear} alt="에러 곰돌이" />
                   <span>로딩 중!</span>
-                </ErrorScreen>
-              ) : isError ? (
-                <ErrorScreen>
-                  <img src={loadingBear} alt="에러 곰돌이" />
-                  <span>2004년~2024년까지만 볼 수 있어요 ㅠㅠ</span>
                 </ErrorScreen>
               ) : (
                 <>

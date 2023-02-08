@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { StContainer } from "../UI/common";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Button from "../components/common/Button";
 import NavigateBtn from "../components/common/NavigateBtn";
@@ -56,7 +55,6 @@ const Chatting = () => {
   }, [messageList]);
 
   return (
-    // <StContainer bgColor="#F8F8F8">
     <>
       <ChatHeader>
         <div>
@@ -123,7 +121,6 @@ const Chatting = () => {
         </div>
       </ChatFooter>
     </>
-    // </StContainer>
   );
 };
 export default Chatting;

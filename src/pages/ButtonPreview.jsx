@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../components/common/Button";
 import Buttons from "../components/common/Button/Buttons";
+import { flex } from "../UI/common";
 
 const ButtonPreview = () => {
-  const navigate = useNavigate();
   return (
     <>
       <Stdiv>
@@ -41,9 +39,7 @@ const Stdiv = styled.div`
   width: 100vh;
   height: 10vh;
   margin-top: 10rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flex}
   gap: 10px;
   background-color: var(--grayscale_3);
 `;

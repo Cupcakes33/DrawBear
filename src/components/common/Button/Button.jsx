@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { lighten, darken } from "polished";
+import { flex } from "../../../UI/common";
 
 const Button = ({ children, disabled, ...rest }) => {
   return (
@@ -10,9 +11,7 @@ const Button = ({ children, disabled, ...rest }) => {
 };
 
 const StButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flex}
   cursor: pointer;
   border: none;
   border-radius: 6px;

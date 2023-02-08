@@ -1,4 +1,3 @@
-import { StContainer } from "../UI/common";
 import Footer from "../components/common/Footer";
 import styled from "styled-components";
 import { useState } from "react";
@@ -10,6 +9,7 @@ import useDispatchHook from "../hooks/useDispatchHook";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { viewChatList } from "../redux/modules/chatSlice";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../components/common/header/Header";
 
 const ChatList = () => {
   const [chatList, setChatList] = useState([]);
@@ -22,9 +22,7 @@ const ChatList = () => {
     },
   });
   const { data } = useQuery(["chatlist"], alarmApi.chatlist, {
-    onError: (error) => {
-      console.log(error);
-    },
+    onError: (error) => {},
     onSuccess: (success) => {
       setChatList([...success.diaries]);
     },

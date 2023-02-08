@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { weatherIcon } from "../../assets/images/weather";
+import { flex } from "../../UI/common";
 
 const WeatherPicker = ({ weather, setWeather }) => {
   const handleChange = (e) => {
@@ -59,18 +60,12 @@ export default WeatherPicker;
 
 const StWeatherPickerContainer = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  ${flex("space-evenly", "", "row")}
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
   gap: 10px;
 
   label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    ${flex("", "", "column")}
     cursor: pointer;
   }
   input[type="radio"] {

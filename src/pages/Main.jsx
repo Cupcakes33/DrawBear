@@ -1,20 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { StContainer, StHeader } from "../UI/common";
 import { useSelector } from "react-redux";
 import { mainApi } from "../apis/axios";
-import styled from "styled-components";
 import DiaryList from "../components/main/DiaryList";
 import NoDiary from "../components/main/NoDiary";
 import Footer from "../components/common/Footer";
 import BookmarkTab from "../components/main/BookmarkTab";
 import useDispatchHook from "../hooks/useDispatchHook";
-import loadingBear from "../assets/images/loadingBear.webp";
 import Loading from "../components/common/Loading";
+import LogoHeader from "../components/common/header/LogoHeader";
 
 const Main = () => {
   const { diaryTypes } = useSelector((state) => state.diarySlice);
   const { openAlertModal } = useDispatchHook();
-
 
   const { data = [], isLoading } = useQuery(["main"], mainApi.read, {
     onError: (error) => {
@@ -51,19 +48,15 @@ const Main = () => {
         <Loading />
       ) : (
         <>
-          <StContainer>
-            <StMainHeader flex>
-              <LogoImg src={loadingBear} alt="로고 곰돌이" />
-            </StMainHeader>
-            {diaryType(data?.diaries)?.length === 0 ? (
-              <NoDiary />
-            ) : diaryTypes.bookmark ? (
-              <BookmarkTab diaryData={diaryType(data?.diaries)} />
-            ) : (
-              <DiaryList diaryData={diaryType(data?.diaries)} />
-            )}
-            <Footer />
-          </StContainer>
+          <LogoHeader />
+          {diaryType(data?.diaries)?.length === 0 ? (
+            <NoDiary />
+          ) : diaryTypes.bookmark ? (
+            <BookmarkTab diaryData={diaryType(data?.diaries)} />
+          ) : (
+            <DiaryList diaryData={diaryType(data?.diaries)} />
+          )}
+          <Footer />
         </>
       )}
     </>
@@ -71,12 +64,3 @@ const Main = () => {
 };
 
 export default Main;
-
-const LogoImg = styled.img`
-  width: 5.2rem;
-  padding-top: 10%;
-`;
-
-const StMainHeader = styled(StHeader)`
-  background: var(--grayscale_1);
-`;

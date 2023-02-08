@@ -5,7 +5,7 @@ import { Input, WorningWord } from "../common/Input";
 import Buttons from "../common/Button/Buttons";
 import useDispatchHook from "../../hooks/useDispatchHook";
 import { useDispatch } from "react-redux";
-import { LoginModal } from "../../redux/modules/UISlice";
+import { __LoginModal } from "../../redux/modules/UISlice";
 
 const LonginForm = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const LonginForm = () => {
       setTimeout(() => {
         localStorage.clear();
       }, 3600000);
-      return dispatch(LoginModal(true));
+      return dispatch(__LoginModal(true));
     } catch (error) {
       const { status } = error?.response?.request;
       if (status === undefined || null) return;

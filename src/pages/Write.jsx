@@ -1,19 +1,19 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
-import Canvas from "../components/canvas/Canvas";
+import Canvas from "../components/common/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
 import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
-import WritePageTutorialModal from "../components/write/WritePageTutorialModal";
-import { useNavigate, useParams } from "react-router-dom";
+import WritePageSubmitHeader from "../components/write/WritePageSubmitHeader";
+import { StSection } from "../UI/common";
 import { imgUrlConvertBlob } from "../utils/imgUrlConvertBlob";
 import useDispatchHook from "../hooks/useDispatchHook";
-import { BsQuestionLg } from "react-icons/bs";
+import {Header} from "../components/common/header/Header";
 
 const Write = () => {
   const [canvas, setCanvas] = useState("");
@@ -61,7 +61,6 @@ const Write = () => {
 
     formData.get("title");
     formData.get("createdAt");
-
     formData.append("image", blob, "img.file");
     formData.append("content", contents);
     formData.append("weather", weather || "sun");
@@ -76,32 +75,6 @@ const Write = () => {
     else setIsDrawingEnd(!isDrawingEnd);
   }, []);
 
-  const defaultHeader = () => {
-    return (
-      <>
-        <NavigateBtn prev link={`/list/${diaryId}`} />
-        <h3>LOGO</h3>
-        <span onClick={nextSectionHeaderHandler}>다음</span>
-      </>
-    );
-  };
-
-  const drawingEndHeader = () => {
-    return (
-      <>
-        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
-        <StDrawindEndHeaderOptionBox>
-          <WritePageTutorialModal>
-            <StQuestionIcon />
-          </WritePageTutorialModal>
-
-          <StWriteFormSubmitBtn type="submit" form="writeForm">
-            완성
-          </StWriteFormSubmitBtn>
-        </StDrawindEndHeaderOptionBox>
-      </>
-    );
-  };
   const preventTabKey = (event) => {
     event.key === "Tab" && event.preventDefault();
   };
@@ -112,12 +85,32 @@ const Write = () => {
     return () => document.removeEventListener("keydown", preventTabKey);
   }, []);
 
+  const StDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  `;
+
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="space-between" aline="center">
-          {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
-        </StHeader>
+        <Header>
+          <Header.SpaceBetween>
+            {isDrawingEnd ? (
+            <WritePageSubmitHeader
+              setIsDrawingEnd={setIsDrawingEnd}
+              isDrawingEnd={isDrawingEnd}
+            />
+          ) : (
+            <>
+              <StDiv>
+                <NavigateBtn prev sizeType="header" link={`/list/${diaryId}`} />
+                <h3>다이어리 생성</h3>
+              </StDiv>
+              <Header.OnClickBtn onClick={nextSectionHeaderHandler}>다음</Header.OnClickBtn>
+            </>
+          )}
+          </Header.SpaceBetween>
+        </Header>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StTextSection>
             <StTextSectionFrom
@@ -155,7 +148,6 @@ const Write = () => {
             <TextEditor contents={contents} setContents={setContents} />
           </StCanvasSection>
         </StSlideWrapper>
-      </StContainer>
     </>
   );
 };
@@ -231,23 +223,4 @@ const StSlideWrapper = styled.div`
     css`
       transform: translateX(-50%);
     `}
-`;
-
-const StWriteFormSubmitBtn = styled.button`
-  color: #3cc7a6;
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  font-size: 1.6rem;
-`;
-
-const StDrawindEndHeaderOptionBox = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-const StQuestionIcon = styled(BsQuestionLg)`
-  font-size: 2.4rem;
-  color: var(--grayscale_5);
-  cursor: pointer;
 `;

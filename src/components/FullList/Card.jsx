@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { flex } from "../../UI/common";
 
 const Card = () => {
   const naigate = useNavigate();
@@ -41,9 +42,7 @@ export default Card;
 
 const StBox = styled.div`
   .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ${flex}
     width: 100%;
     height: 12.8rem;
     margin-top: 0.7rem;

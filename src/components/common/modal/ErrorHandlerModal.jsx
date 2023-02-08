@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ErrorModal } from "../../../redux/modules/UISlice";
+import { __ErrorModal } from "../../../redux/modules/UISlice";
 import { AlertModalCss } from "./AlertModal";
 import { Modal } from "./ReactModal";
 
@@ -11,7 +11,7 @@ const ErrorHandlerModal = ({ showModal }) => {
   const { errorModal } = useSelector((state) => state.UISlice);
 
   const ConfirmReactionHandler = () => {
-    dispatch(ErrorModal({ isModal: false }));
+    dispatch(__ErrorModal({ isModal: false }));
     navigate(errorModal?.move);
   };
 

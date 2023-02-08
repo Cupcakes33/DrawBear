@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { TiDelete } from "react-icons/ti";
+import { flex } from "../../UI/common";
 
 const HashTagInput = ({ tags, setTags }) => {
   // const [tags, setTags] = useState([]);
@@ -80,9 +81,7 @@ const StHashTagItem = styled.div`
   padding: 0.25rem 0.75rem;
   border-radius: 40px;
   background: #cccccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${flex}
   font-size: 1.2rem;
 
   .remove {

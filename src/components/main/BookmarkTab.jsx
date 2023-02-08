@@ -47,10 +47,11 @@ const BookmarkTab = ({ diaryData }) => {
 export default BookmarkTab;
 
 const BookmarkSection = styled.section`
+  position: absolute;
   display: flex;
   flex-wrap: wrap;
   gap: 2.4rem;
-  padding: 3rem;
+  padding: 3rem 3rem 10.6rem 3rem;
 `;
 
 const DiaryCardBox = styled.div`

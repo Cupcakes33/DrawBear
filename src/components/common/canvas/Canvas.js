@@ -5,6 +5,7 @@ import { TbBrush } from "react-icons/tb";
 import { BiSquare, BiCircle, BiText } from "react-icons/bi";
 import { GrSelect } from "react-icons/gr";
 import { RiImageAddFill, RiDeleteBinLine } from "react-icons/ri";
+import { flex } from "../../../UI/common";
 
 const Canvas = ({ canvas, setCanvas, canvasBg }) => {
   const [isDrawing, setIsDrawing] = useState(true);
@@ -207,11 +208,8 @@ const StDiv = styled.div`
 const StMenu = styled.div`
   width: 100%;
   height: 3rem;
-  display: flex;
-  flex-direction: row;
+  ${flex("space-evenly", "", "row")}
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
   font-size: 2rem;
   margin: 1rem 0;
 `;

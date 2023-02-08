@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { StContainer, StHeader, StSection } from "../../UI/common";
+import { StSection } from "../../UI/common";
 import { mainApi } from "../../apis/axios";
 import DiaryManageCard from "../../components/Setting/DiaryManageCard";
 import useDispatchHook from "../../hooks/useDispatchHook";
-import NavigateBtn from "../../components/common/NavigateBtn";
 import Loading from "../../components/common/Loading";
+import { Header } from "../../components/common/header/Header";
 
 const DiaryManage = () => {
   const { openAlertModal } = useDispatchHook();
@@ -29,15 +29,14 @@ const DiaryManage = () => {
       ) : isError ? (
         <h2>{`${error?.response.status} ERROR`}</h2>
       ) : (
-        <StContainer>
-          <StHeader flex justify="flex-start">
-            <NavigateBtn prev sizeType="header" link="/setting/" />
-            <h3>일기 설정</h3>
-          </StHeader>
+        <>
+          <Header>
+            <Header.Back link="/setting/">일기 설정</Header.Back>
+          </Header>
           <DiaryManagementSection flex derection="column" justify="flex-start">
             <DiaryManageCard data={data} />
           </DiaryManagementSection>
-        </StContainer>
+        </>
       )}
     </>
   );
@@ -46,8 +45,12 @@ const DiaryManage = () => {
 export default DiaryManage;
 
 const DiaryManagementSection = styled(StSection)`
-  margin-top: 2.1rem;
+  position: absolute;
+  margin-top: 1.5rem;
   overflow-x: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   span {
     margin-left: 0.8rem;
     font-weight: 700;

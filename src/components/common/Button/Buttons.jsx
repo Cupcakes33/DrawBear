@@ -1,10 +1,11 @@
 import Button from "./Button";
-import { BsPlus, BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { BsPlus, BsStar, BsStarFill } from "react-icons/bs";
 import { TiPencil } from "react-icons/ti";
 import { FaArrowUp } from "react-icons/fa";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import { BsStar, BsStarFill } from "react-icons/bs";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { AiOutlineSetting } from "react-icons/ai";
 const AddDiary = ({ ...rest }) => {
   return (
     <Button
@@ -48,6 +49,36 @@ const AddComment = ({ ...rest }) => {
       {...rest}
     >
       <FaArrowUp />
+    </Button>
+  );
+};
+
+const ProfileSetting = ({ ...rest }) => {
+  return (
+    <Button
+      fs="2rem"
+      bc="#cccccc"
+      color="#f8f8f8"
+      innerPadding=".8rem"
+      round
+      {...rest}
+    >
+      <AiOutlineSetting />
+    </Button>
+  );
+};
+
+const CommentDropdownSwitch = ({ ...rest }) => {
+  return (
+    <Button
+      fs="2rem"
+      bc="white"
+      color="#cccccc"
+      innerPadding=".8rem"
+      round
+      {...rest}
+    >
+      <BiDotsVerticalRounded />
     </Button>
   );
 };
@@ -174,6 +205,8 @@ const Buttons = {
   AddDiary,
   AddComment,
   AddPost,
+  CommentDropdownSwitch,
+  ProfileSetting,
   Medium,
   Small,
   Invite,
