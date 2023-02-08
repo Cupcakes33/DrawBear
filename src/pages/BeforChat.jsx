@@ -15,27 +15,19 @@ const BeforChat = ({ diaryId, userId }) => {
 
   const { ref, inView } = useInView(
   //   {
-  //   threshold: 0.3,
+  //   threshold: 0,
   //   triggerOnce: true,
   // }
   );
-  const {
-    data,
-    error,
-    status,
-    fetchNextPage,
-    fetchPreviousPage,
-    isFetchingNextPage,
-    hasNextPage,
-  } = useInfiniteQuery(
+
+  const { data, error, status, fetchNextPage, fetchPreviousPage, isFetchingNextPage, hasNextPage, hasPreviousPage } = useInfiniteQuery(
     ["chattings"],
-    ({pageParam}) => chattingApi.search({diaryId, pageParam}),
+    ({ pageParam }) => chattingApi.search({ diaryId, pageParam }),
     {
       getPreviousPageParam: (lastPage) => {
-
         // console.log(lastPage)
-        return !!lastPage.isLast ? lastPage.nextPage : undefined
-      }
+        return !!lastPage.isLast ? lastPage.nextPage : undefined;
+      },
     },
     {
       staleTime: 1000,
@@ -53,37 +45,18 @@ const BeforChat = ({ diaryId, userId }) => {
   return (
     <>
       <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
-      <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
-          {data?.pages[0]?.Chats.length !== 0 ? (
-            data?.pages?.map((page) => {
-              // console.log(page);
-              return page?.Chats?.map((chatInfo, index) => {
-                // console.log(chatInfo);
-                if (userId === chatInfo.userId) {
-                  return (
-                    <ChatItem
-                      chatInfo={chatInfo}
-                      bgcolor="#3CC7A6"
-                      rowreverse="row-reverse"
-                      key={index}
-                    ></ChatItem>
-                  );
-                } else {
-                  return (
-                    <ChatItem
-                      chatInfo={chatInfo}
-                      key={index}
-                      bgcolor="#ffffff"
-                    ></ChatItem>
-                  );
-                }
-              });
-            })
-          ) : (
-            <>
-              <div>카톡내용없음</div>
-            </>
-          )}
+      <InfiniteScroll hasMore={hasPreviousPage} loadMore={fetchPreviousPage}>
+        {data?.pages?.map((page) => {
+          console.log(page);
+          return page?.Chats?.map((chatInfo, index) => {
+            // console.log(chatInfo);
+            if (userId === chatInfo.userId) {
+              return <ChatItem chatInfo={chatInfo} bgcolor="#3CC7A6" rowreverse="row-reverse" key={index}></ChatItem>;
+            } else {
+              return <ChatItem chatInfo={chatInfo} key={index} bgcolor="#ffffff"></ChatItem>;
+            }
+          });
+        })}
       </InfiniteScroll>
     </>
   );
