@@ -33,59 +33,57 @@ const ChatList = () => {
   };
   return (
     <>
-      <StContainer bgColor="#ffffff">
-        <ChatHeader>
-          <ChatWarrper>
-            <div>
-              <NavigateBtn prev link={"/"} sizeType="header" />
-            </div>
-            <div>채팅</div>
-          </ChatWarrper>
-        </ChatHeader>
-        <ChatContent>
-          {chatList.length === 0 ? (
-            <NoChatList h3txt="채팅 목록이 없습니다." />
-          ) : (
-            <>
-              {chatList.map((chat, index) => {
-                const {
-                  invitedNickname,
-                  lastChat,
-                  invitedProfileImg,
-                  diaryId,
-                  time,
-                } = chat;
-                return (
-                  <ChatContainer
-                    key={index}
-                    onClick={() =>
-                      chattingOnclickHandle(userId, diaryId, invitedNickname)
-                    }
-                  >
-                    <ChatWrapper>
-                      <div>
-                        <img src={invitedProfileImg} />
-                      </div>
-                      <div>
-                        <ChatNickName>{invitedNickname}</ChatNickName>
-                        <ChatLastTxt>{lastChat}</ChatLastTxt>
-                      </div>
-                      <ChatTime>
-                        {time ? (
-                          new Date(time).toLocaleString().substr(12, 7)
-                        ) : (
-                          <></>
-                        )}
-                      </ChatTime>
-                    </ChatWrapper>
-                  </ChatContainer>
-                );
-              })}
-            </>
-          )}
-        </ChatContent>
-        <Footer />
-      </StContainer>
+      <ChatHeader>
+        <ChatWarrper>
+          <div>
+            <NavigateBtn prev link={"/"} sizeType="header" />
+          </div>
+          <div>채팅</div>
+        </ChatWarrper>
+      </ChatHeader>
+      <ChatContent>
+        {chatList.length === 0 ? (
+          <NoChatList h3txt="채팅 목록이 없습니다." />
+        ) : (
+          <>
+            {chatList.map((chat, index) => {
+              const {
+                invitedNickname,
+                lastChat,
+                invitedProfileImg,
+                diaryId,
+                time,
+              } = chat;
+              return (
+                <ChatContainer
+                  key={index}
+                  onClick={() =>
+                    chattingOnclickHandle(userId, diaryId, invitedNickname)
+                  }
+                >
+                  <ChatWrapper>
+                    <div>
+                      <img src={invitedProfileImg} />
+                    </div>
+                    <div>
+                      <ChatNickName>{invitedNickname}</ChatNickName>
+                      <ChatLastTxt>{lastChat}</ChatLastTxt>
+                    </div>
+                    <ChatTime>
+                      {time ? (
+                        new Date(time).toLocaleString().substr(12, 7)
+                      ) : (
+                        <></>
+                      )}
+                    </ChatTime>
+                  </ChatWrapper>
+                </ChatContainer>
+              );
+            })}
+          </>
+        )}
+      </ChatContent>
+      <Footer />
     </>
   );
 };
