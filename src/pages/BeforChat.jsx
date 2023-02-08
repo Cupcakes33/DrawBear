@@ -12,32 +12,41 @@ const BeforChat = ({ diaryId, userId }) => {
     diaryId,
     pageParam: 1,
   });
+
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
   });
-  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["chattings"],
-      () => chattingApi.search(infi),
-      {
-        getNextPageParam: (lastPage) =>
-          !lastPage.isLast ? lastPage.nextPage : undefined,
-      },
-      {
-        staleTime: 1000,
-      }
-    );
+  const {
+    data,
+    error,
+    status,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ["chattings"],
+    () => chattingApi.search(infi),
+    {
+      getNextPageParam: (lastPage) =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+    {
+      staleTime: 1000,
+    }
+  );
 
   useEffect(() => {
     if (inView) {
+      fetchNextPage();
     }
   }, [inView]);
 
-  if (isLoading) return <h2> 로딩중 .. </h2>;
-  if (isError) return <h2> Error : {error.toString()} </h2>;
+  if (status === "loading") return <h2> 로딩중 .. </h2>;
+  if (status === "error") return <h2> Error : {error.toString()} </h2>;
   return (
     <>
+      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
       <InfiniteScroll hasMore={hasNextPage} loadMore={fetchNextPage}>
         <InfinitContent>
           {data?.pages[0]?.Chats.length !== 0 ? (
@@ -72,11 +81,11 @@ const BeforChat = ({ diaryId, userId }) => {
           )}
         </InfinitContent>
       </InfiniteScroll>
-      <div style={{ height: "100px", backgroundColor: "red" }} ref={ref}></div>
     </>
   );
 };
 export default BeforChat;
 const InfinitContent = styled.div`
   width: 100%;
+  height: 60rem;
 `;
