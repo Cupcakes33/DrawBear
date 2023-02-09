@@ -6,7 +6,6 @@ import { alarmApi, mypageApi } from "../apis/axios";
 import { useDispatch } from "react-redux";
 import NoChatList from "./NoChatList";
 import useDispatchHook from "../hooks/useDispatchHook";
-import NavigateBtn from "../components/common/NavigateBtn";
 import { viewChatList } from "../redux/modules/chatSlice";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/common/header/Header";
@@ -22,14 +21,13 @@ const ChatList = () => {
     },
   });
   const { data } = useQuery(["chatlist"], alarmApi.chatlist, {
-    onError: (error) => {
-    },
+    onError: (error) => {},
     onSuccess: (success) => {
       setChatList([...success.diaries]);
     },
   });
-  const chattingOnclickHandle = (userId, diaryId) => {
-    dispatch(viewChatList({ userId, diaryId }));
+  const chattingOnclickHandle = (userId, diaryId, invitedNickname) => {
+    dispatch(viewChatList({ userId, diaryId, invitedNickname }));
     navigate("/chat");
   };
   return (
@@ -45,10 +43,10 @@ const ChatList = () => {
             {chatList.map((chat, index) => {
               const { invitedNickname, lastChat, invitedProfileImg, diaryId, time } = chat;
               return (
-                <ChatContainer key={index} onClick={() => chattingOnclickHandle(userId, diaryId)}>
+                <ChatContainer key={index} onClick={() => chattingOnclickHandle(userId, diaryId, invitedNickname)}>
                   <ChatWrapper>
                     <div>
-                      <img src={invitedProfileImg} alt="" />
+                      <img src={invitedProfileImg} />
                     </div>
                     <div>
                       <ChatNickName>{invitedNickname}</ChatNickName>
@@ -67,12 +65,7 @@ const ChatList = () => {
   );
 };
 export default ChatList;
-const ChatHeader = styled.div`
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 7.2rem;
-`;
+
 const ChatWarrper = styled.div`
   position: absolute;
   display: flex;
@@ -83,8 +76,12 @@ const ChatWarrper = styled.div`
 `;
 const ChatContent = styled.div`
   width: 100%;
-  height: calc(100vh - 6rem);
+  height: calc(100vh - 7.2rem);
+  padding-bottom: 7.2rem;
   overflow-x: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const ChatContainer = styled.div`
   width: 100%;
@@ -98,7 +95,6 @@ const ChatWrapper = styled.div`
   width: 100%;
   display: flex;
   position: absolute;
-  top: 50%;
   & img {
     width: 5.2rem;
     height: 5.2rem;

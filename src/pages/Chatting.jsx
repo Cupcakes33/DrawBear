@@ -1,27 +1,38 @@
 import styled from "styled-components";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Button from "../components/common/Button";
-import NavigateBtn from "../components/common/NavigateBtn";
 import { useEffect, useState } from "react";
-import InviteSpeechbubble from "./InviteSpeechbubble";
 import io from "socket.io-client";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
+import BeforChat from "./BeforChat";
+import ChatItem from "./ChatItem";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { chattingApi } from "../apis/axios";
-// import Loader from "./Loader";
-// import Item from "./Item";
+import { useInView } from "react-intersection-observer";
+import {Header} from "../components/common/header/Header"
 
 const Chatting = () => {
   const socket = useRef(null);
-  const { diaryId, userId } = useSelector((state) => state.chatSlice);
+  const ref = useRef();
+  const { diaryId, userId, invitedNickname } = useSelector((state) => state.chatSlice);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const socketData = { message, diaryId, userId };
   const [btnColor, setBtnColor] = useState("button_icon");
-
-  const [chattingInfo, setChattingInfo] = useState([]);
-
+  const [infi, setInfi] = useState({
+    diaryId,
+    pageParam: 1,
+  });
+  const { inViewref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+  });
+  const onKeyPressEventHandle = (event) => {
+    if (event.key === "Enter") {
+      messageSendOnclick();
+    }
+  };
   const messageOnChangeHandle = (event) => {
     let txt = event.target.value;
     if (txt.length === 0) {
@@ -32,98 +43,93 @@ const Chatting = () => {
     setMessage(txt);
   };
   const messageSendOnclick = () => {
-    setMessage("txt");
-    socket.current.emit("chat_message", socketData);
+    socket.current.emit("chat_message", socketData, () => {
+      setMessageList((prev) => [...prev, socketData]);
+    });
+    setMessage("");
   };
-  const { data } = useQuery(["chatInfo"], () => chattingApi.search(diaryId), {
-    onSuccess: (success) => {
-      setChattingInfo([...success]);
-    },
-  });
-  // const { data, isLoading, isError, error } = useQuery(["chatInfo"], () =>
-  //   chattingApi.search(diaryId)
-  // );
-  // console.log(data);
-  // const [dateOrderedPosts, setDateOrderedPosts] = useState({});
-  // const orderChatsByDate = (data) => {
-  //   const orderedChats = {};
-  //   if (!isLoading) {
-  //     data.forEach((item) => {
-  //       const temp = item.slice(0, 10); //날짜
-  //       if (orderedChats[temp]) {
-  //         orderedChats[temp].push(item);
-  //       } else {
-  //         orderedChats[temp] = [item];
-  //       }
-  //     });
-  //   }
-  //   return orderedChats;
-  // };
 
-  // const locailDate = (date) => {
-  //   return new Date(date).toLocaleDateString("ko-KR", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
-  // };
-  ///////
+  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    ["chattings"],
+    () => chattingApi.search(infi),
+
+    {
+      getNextPageParam: (lastPage) => (!lastPage.isLast ? lastPage.nextPage : undefined),
+    },
+    {
+      staleTime: 1000,
+    }
+  );
   useEffect(() => {
-    if (!data) return;
-  });
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
   useEffect(() => {
-    socket.current = io.connect("https://mylee.site");
+    socket.current = io.connect(process.env.REACT_APP_MY_API);
+    socket.current.emit("join", diaryId);
     return () => {
       socket.current.disconnect();
     };
-  }, [data]);
+  }, []);
   useEffect(() => {
     socket.current._callbacks = {};
     socket.current.on("receiveMessage", (message) => {
-      // setMessageList((prev) => [...prev, message]);
+      setMessageList((prev) => [...prev, message]);
     });
-    // socket?.current?.on("welcome", (user) =>
-    //   showMessage(`${user} 이 접속하셨습니다.`)
-    // );
   }, [socket.current]);
+
+  useEffect(() => {
+    ref.current.scrollTo(0, ref.current.scrollHeight);
+  }, [messageList]);
+
   return (
     <>
-      <ChatHeader>
-        <div>
-          <NavigateBtn prev link={"/chatlist"} sizeType="header" />
-        </div>
-        {/* <div>{InviteUserImgData.nickname}</div> */}
-      </ChatHeader>
-      <div>
-        {chattingInfo.map((chatInfo, index) => {
-          if (chatInfo.userId === userId) {
-            //본인이 작성한 경우
-            return (
-              <InviteSpeechbubble
-                key={index}
-                user={chatInfo.User}
-                chat={chatInfo.chat}
-                createdAt={chatInfo.createdAt}
-                bgcolor="#3CC7A6"
-                rowreverse="rowreverse"
-              />
-            );
-          } else {
-            //상대방이 작성한 경우
-            return (
-              <InviteSpeechbubble
-                key={index}
-                chatInfo={chatInfo}
-                bgcolor="#ffffff"
-                // rowreverse="rowreverse"
-              />
-            );
-          }
-        })}
-      </div>
+    <Header>
+      <Header.Back link={"/chatlist"}>{invitedNickname}</Header.Back>
+    </Header>
+      <ChatContent>
+        <ChatWrapper ref={ref}>
+          <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
+          {/* <div
+            style={{ height: "100px", backgroundColor: "red" }}
+            ref={inViewref}
+          ></div> */}
+          {messageList.map((msg, index) => {
+            const { message, nickname, profileImg, time, userId: msg_userId } = msg;
+            const chatInfo = {
+              User: {
+                profileImg,
+                nickname,
+              },
+              chat: message,
+              createdAt: time,
+              msg_userId,
+            };
+            if (userId === msg_userId) {
+              return (
+                <ChatItem
+                  key={`messageList${index}`}
+                  chatInfo={chatInfo}
+                  bgcolor="#3CC7A6"
+                  rowreverse="row-reverse"
+                ></ChatItem>
+              );
+            } else {
+              return <ChatItem key={`messageList${index}`} chatInfo={chatInfo} bgcolor="#ffffff"></ChatItem>;
+            }
+          })}
+        </ChatWrapper>
+      </ChatContent>
       <ChatFooter>
         <div>
-          <input value={message} onChange={messageOnChangeHandle} placeholder="채팅입력.." />
+          <input
+            value={message}
+            onKeyPress={onKeyPressEventHandle}
+            onChange={messageOnChangeHandle}
+            placeholder="채팅입력.."
+          />
         </div>
         <div onClick={messageSendOnclick}>
           <Button size="mini" color={btnColor} icon={<AiOutlineArrowUp />} round />
@@ -133,31 +139,19 @@ const Chatting = () => {
   );
 };
 export default Chatting;
-const ChatHeader = styled.div`
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 7.2rem;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: white;
-  border-radius: 20px 20px 0px 0px;
-  & div {
-    left: 1rem;
-    position: absolute;
-  }
-  & div:last-child {
-    left: 5rem;
-    position: absolute;
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.7rem;
-    color: #242424;
-  }
-`;
 
+const ChatWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 7.2rem);
+  overflow: auto;
+`;
+const ChatContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 7.2rem);
+  padding-bottom: 7.2rem;
+`;
 const ChatBubble = styled.div`
   display: flex;
   padding: ${(props) => props.padding};
@@ -200,7 +194,4 @@ const ChatUser = styled.div`
 `;
 const ChatTime = styled.div`
   font-size: 0.1rem;
-`;
-const ChatWrapper = styled.div`
-  display: "flex";
 `;

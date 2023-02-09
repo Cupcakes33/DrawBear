@@ -44,7 +44,16 @@ export const loginApi = {
   },
 };
 
-// 메인 페이지 다이어리 API
+export const passwordApi = {
+  update: async (inputData) => {
+    const { data } = await instance.patch("/api/userInfo/password", {
+      currentPassword: inputData.currentPW,
+      changePassword: inputData.password,
+      confirmPassword: inputData.passwordCheck,
+    });
+    return data;
+  },
+};
 
 export const mainApi = {
   read: async () => {
@@ -211,8 +220,9 @@ export const inviteApi = {
 // 채팅 API
 
 export const chattingApi = {
-  search: async (diaryId) => {
-    const { data } = await instance.get(`/api/chat/${diaryId}`);
-    return data.Chats;
+  search: async ({ diaryId, pageParam = 1 }) => {
+    const response = await instance.get(`/api/chat/${diaryId}/${pageParam}`);
+    const { Chats, isLast } = response.data;
+    return { Chats, nextPage: pageParam + 1, isLast };
   },
 };
