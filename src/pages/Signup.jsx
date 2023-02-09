@@ -139,7 +139,7 @@ const Signup = () => {
                 {...register("passwordCheck", {
                   required: true,
                   validate: (val) => {
-                    if (watch("password") != val) {
+                    if (watch("password") !== val) {
                       return "비밀번호가 다릅니다.";
                     }
                   },

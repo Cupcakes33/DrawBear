@@ -6,7 +6,6 @@ import { postsApi } from "../apis/axios";
 
 import Canvas from "../components/common/canvas/Canvas";
 import HashTagInput from "../components/common/HashTagInput";
-import NavigateBtn from "../components/common/NavigateBtn";
 import TextEditor from "../components/common/TextEditor";
 import WeatherPicker from "../components/write/WeatherPicker";
 

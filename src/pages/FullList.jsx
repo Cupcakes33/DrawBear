@@ -29,7 +29,7 @@ const DiaryList = memo(() => {
   const sectionRef = useRef(null);
 
   const diaryId = useParams().id;
-  const { data, error, isError, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
+  const { data, isLoading } = useQuery(["Allposts"], () => diaryApi.get(diaryId));
 
   const orderPostsByDate = (data) => {
     const orderedPosts = {};
