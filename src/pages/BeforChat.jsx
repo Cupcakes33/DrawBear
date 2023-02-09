@@ -38,6 +38,7 @@ const BeforChat = ({ diaryId, userId }) => {
       getPreviousPageParam: (firstPage) => {
         return !!firstPage.isLast ? firstPage.nextPage : undefined;
       },
+      refetchOnWindowFocus: false,
     },
     {
       staleTime: 1000,
