@@ -27,7 +27,8 @@ const ChatList = () => {
     },
   });
   const chattingOnclickHandle = (userId, diaryId, invitedNickname) => {
-    dispatch(viewChatList({ userId, diaryId, invitedNickname }));
+    localStorage.setItem("chattingId", JSON.stringify({diaryId, userId, invitedNickname}))
+    // dispatch(viewChatList({ userId, diaryId, invitedNickname }));
     navigate("/chat");
   };
   return (
