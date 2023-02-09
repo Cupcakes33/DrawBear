@@ -62,7 +62,7 @@ const BeforChat = ({ diaryId, userId }) => {
                     chatInfo={chatInfo}
                     bgcolor="#3CC7A6"
                     rowreverse="row-reverse"
-                    key={index}
+                    key={`chatIten${index}`}
                   ></ChatItem>
                 );
               } else if (chatInfo.userId === 99999) {
@@ -71,7 +71,7 @@ const BeforChat = ({ diaryId, userId }) => {
                 return (
                   <ChatItem
                     chatInfo={chatInfo}
-                    key={index}
+                    key={`chatIten${index}`}
                     bgcolor="#ffffff"
                   ></ChatItem>
                 );

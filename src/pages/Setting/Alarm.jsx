@@ -8,7 +8,7 @@ import { alarmApi } from "../../apis/axios";
 import Buttons from "../../components/common/Button/Buttons";
 import NavigateBtn from "../../components/common/NavigateBtn";
 import { useNavigate } from "react-router-dom";
-import {Header} from "../../components/common/header/Header";
+import { Header } from "../../components/common/header/Header";
 
 const Alarm = () => {
   timeAgo.register("ko", ko);
@@ -72,7 +72,7 @@ const Alarm = () => {
             return (
               <>
                 {code === 1 ? (
-                  <AlarmContainer key={index}>
+                  <AlarmContainer key={`AlarmContainer${index}`}>
                     <AlarmTxtContainer>
                       <div className="txt_container">
                         {audienceNickname}님이 {nickname} 님께 공유다이어리에
@@ -99,7 +99,7 @@ const Alarm = () => {
                     </AlarmBtnContainer>
                   </AlarmContainer>
                 ) : (
-                  <AlarmContainer key={index}>
+                  <AlarmContainer key={`AlarmContainer${index}`}>
                     <AlarmTxtContainer
                       onClick={() =>
                         alarmMoveOnClickHandle(

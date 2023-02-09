@@ -27,7 +27,10 @@ const ChatList = () => {
     },
   });
   const chattingOnclickHandle = (userId, diaryId, invitedNickname) => {
-    localStorage.setItem("chattingId", JSON.stringify({diaryId, userId, invitedNickname}))
+    localStorage.setItem(
+      "chattingId",
+      JSON.stringify({ diaryId, userId, invitedNickname })
+    );
     // dispatch(viewChatList({ userId, diaryId, invitedNickname }));
     navigate("/chat");
   };
@@ -42,9 +45,20 @@ const ChatList = () => {
         ) : (
           <>
             {chatList.map((chat, index) => {
-              const { invitedNickname, lastChat, invitedProfileImg, diaryId, time } = chat;
+              const {
+                invitedNickname,
+                lastChat,
+                invitedProfileImg,
+                diaryId,
+                time,
+              } = chat;
               return (
-                <ChatContainer key={index} onClick={() => chattingOnclickHandle(userId, diaryId, invitedNickname)}>
+                <ChatContainer
+                  key={`ChatContainer${index}`}
+                  onClick={() =>
+                    chattingOnclickHandle(userId, diaryId, invitedNickname)
+                  }
+                >
                   <ChatWrapper>
                     <div>
                       <img src={invitedProfileImg} />
@@ -53,7 +67,13 @@ const ChatList = () => {
                       <ChatNickName>{invitedNickname}</ChatNickName>
                       <ChatLastTxt>{lastChat}</ChatLastTxt>
                     </div>
-                    <ChatTime>{time ? new Date(time).toLocaleString().substr(12, 7) : <></>}</ChatTime>
+                    <ChatTime>
+                      {time ? (
+                        new Date(time).toLocaleString().substr(12, 7)
+                      ) : (
+                        <></>
+                      )}
+                    </ChatTime>
                   </ChatWrapper>
                 </ChatContainer>
               );
