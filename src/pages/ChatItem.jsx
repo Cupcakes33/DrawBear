@@ -26,11 +26,9 @@ const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
               {chatInfo.chat}
             </ChatContext>
 
-            {bgcolor === "#3CC7A6" ? null : (
-              <ChatTime>
-                {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
-              </ChatTime>
-            )}
+            <ChatTime>
+              {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
+            </ChatTime>
           </ChatContentBox>
         </div>
       </div>
@@ -67,6 +65,7 @@ const ChatContentBox = styled.div`
   gap: 1rem;
   flex-direction: row;
   justify-content: flex-start;
+  flex-direction: row-reverse;
 `;
 const ChatTime = styled.div`
   font-size: 1rem;

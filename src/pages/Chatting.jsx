@@ -24,6 +24,7 @@ const Chatting = () => {
     message,
     diaryId,
     userId,
+    time: new Date().toISOString(),
   };
   const [btnColor, setBtnColor] = useState("button_icon");
   const [infi, setInfi] = useState({
@@ -56,7 +57,6 @@ const Chatting = () => {
       setMessage("");
     }
   };
-
   const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery(
       ["chattings"],
