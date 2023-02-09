@@ -9,17 +9,9 @@ import styled from "styled-components";
 import { backgrounds } from "polished";
 import { useRef } from "react";
 const BeforChat = ({ diaryId, userId }) => {
-  // const [infi, setInfi] = useState({
-  //   diaryId,
-  //   pageParam: 1,
-  // });
   const scrollRef = useRef();
 
   const { ref, inView } = useInView();
-  //   {
-  //   threshold: 0,
-  //   triggerOnce: true,
-  // }
 
   const {
     data,
@@ -63,15 +55,26 @@ const BeforChat = ({ diaryId, userId }) => {
         <div ref={ref}></div>
         <InfiniteScroll hasMore={hasPreviousPage} loadMore={fetchPreviousPage}>
           {data?.pages?.map((page) => {
-            // console.log(page);
             return page?.Chats?.map((chatInfo, index) => {
-              console.log(chatInfo);
               if (userId === chatInfo.userId) {
-                return <ChatItem chatInfo={chatInfo} bgcolor="#3CC7A6" rowreverse="row-reverse" key={index}></ChatItem>;
+                return (
+                  <ChatItem
+                    chatInfo={chatInfo}
+                    bgcolor="#3CC7A6"
+                    rowreverse="row-reverse"
+                    key={index}
+                  ></ChatItem>
+                );
               } else if (chatInfo.userId === 99999) {
                 return <TimeLine>ㅡ {chatInfo.chat} ㅡ</TimeLine>;
               } else {
-                return <ChatItem chatInfo={chatInfo} key={index} bgcolor="#ffffff"></ChatItem>;
+                return (
+                  <ChatItem
+                    chatInfo={chatInfo}
+                    key={index}
+                    bgcolor="#ffffff"
+                  ></ChatItem>
+                );
               }
             });
           })}

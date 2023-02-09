@@ -6,32 +6,33 @@ const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
       <ChatImg>
         {bgcolor === "#3CC7A6" ? <></> : <img src={chatInfo.User.profileImg} />}
       </ChatImg>
-      <div className="chatWrappper">
-        {bgcolor === "#3CC7A6" ? (
-          <></>
-        ) : (
-          <div className="chatnickname">{chatInfo.User.nickname}</div>
-        )}
-        <ChatContext
-          bgcolor={bgcolor}
-          btrr="0.5rem"
-          bbrr="0.5rem"
-          bblr="0.5rem"
-          maxWidth="19rem"
-          boxShadow=".2rem .2rem #e8e8e8"
-          wordBreak="break-word"
-        >
-          {chatInfo.chat}
-        </ChatContext>
-      </div>
       <div>
-        {bgcolor === "#3CC7A6" ? (
-          <></>
-        ) : (
-          <ChatTime fontsize="1rem" padding="10rem 0rem 0rem 0rem">
-            {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
-          </ChatTime>
-        )}
+        <div className="chatWrappper">
+          {bgcolor === "#3CC7A6" ? (
+            <></>
+          ) : (
+            <div className="chatnickname">{chatInfo.User.nickname}</div>
+          )}
+          <ChatContentBox>
+            <ChatContext
+              bgcolor={bgcolor}
+              btrr="0.5rem"
+              bbrr="0.5rem"
+              bblr="0.5rem"
+              maxWidth="19rem"
+              boxShadow=".2rem .2rem #e8e8e8"
+              wordBreak="break-word"
+            >
+              {chatInfo.chat}
+            </ChatContext>
+
+            {bgcolor === "#3CC7A6" ? null : (
+              <ChatTime>
+                {new Date(chatInfo.createdAt).toLocaleString().substr(12, 7)}
+              </ChatTime>
+            )}
+          </ChatContentBox>
+        </div>
       </div>
     </StSpeechContainer>
   );
@@ -60,9 +61,17 @@ const ChatImg = styled.div`
     border-radius: 50%;
   }
 `;
+const ChatContentBox = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  justify-content: flex-start;
+`;
 const ChatTime = styled.div`
-  font-size: ${(props) => props.fontsize};
-  padding: ${(props) => props.padding};
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column-reverse;
 `;
 
 const ChatContext = styled.div`
