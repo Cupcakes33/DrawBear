@@ -1,24 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isModal: false,
-  content: "",
-  move: "",
-  diaryId: ""
+  errorModal: {
+    isModal: false,
+    bigTxt: "",
+    smallTxt: "",
+    move: "",
+    diaryId: "",
+  },
+  loginModal: false,
+  tutorialModal: false,
 };
 
 const UISlice = createSlice({
   name: "INTERFACE",
   initialState,
   reducers: {
-    showModal: (state, action) => {
-      state.isModal = action.payload.isModal
-      state.content = action.payload.content
-      state.move = action.payload.move
-      state.diaryId = action.payload
+    __ErrorModal: (state, action) => {
+      state.errorModal = action.payload
+    },
+    __LoginModal: (state, action) => {
+      state.loginModal = action.payload
+    },
+    __TutorialModal: (state, action) => {
+      state.tutorialModal = action.payload
     },
   }
 })
 
-export const { showModal } = UISlice.actions
+export const { __ErrorModal, __LoginModal, __TutorialModal } = UISlice.actions
 export default UISlice.reducer

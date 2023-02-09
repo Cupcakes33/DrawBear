@@ -1,37 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  holiday: [],
   diaryTypes: {
+    icon: "solo",
     couple: 0,
     bookmark: 0
   },
-  diary: {
-    isModal: false,
+  diaryData: {
+    diaryName: "",
     diaryId: 0
   },
   couple: 0,
-  result: "",
-  isLoading: ""
 };
 
 const diarySlice = createSlice({
   name: "DIARY",
   initialState,
   reducers: {
-    diaryType: (state, action) => {
+    __diaryType: (state, action) => {
+      state.diaryTypes.icon = action.payload.icon
       state.diaryTypes.couple = action.payload.couple
       state.diaryTypes.bookmark = action.payload.bookmark
     },
-    addDiary: (state, action) => {
+    __addDiary: (state, action) => {
       state.couple = action.payload
     },
-    diaryModal: (state, action) => {
-      
-      state.diary = action.payload
-    }
+    __diaryData: (state, action) => {
+      state.diaryData = action.payload
+    },
   },
 })
 
-export const { diaryType, addDiary, diaryModal } = diarySlice.actions
+export const { __diaryType, __addDiary, __diaryData } = diarySlice.actions
 export default diarySlice.reducer;

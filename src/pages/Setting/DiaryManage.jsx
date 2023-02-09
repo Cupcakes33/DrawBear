@@ -1,42 +1,43 @@
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import NavigateBtn from "../../components/common/NavigateBtn";
-import { DisplayDiv, StContainer, StHeader, StSection } from "../../UI/common";
-import Button from "../../components/common/Button";
+import { StSection } from "../../UI/common";
+import { mainApi } from "../../apis/axios";
+import DiaryManageCard from "../../components/Setting/DiaryManageCard";
+import useDispatchHook from "../../hooks/useDispatchHook";
+import Loading from "../../components/common/Loading";
+import { Header } from "../../components/common/header/Header";
 
 const DiaryManage = () => {
+  const { openAlertModal } = useDispatchHook();
+
+  const {
+    data = [],
+    isError,
+    isLoading,
+    error,
+  } = useQuery(["main"], mainApi.read, {
+    onError: (error) => {
+      const { status } = error?.response.request;
+      if (status === 400) openAlertModal({ bigTxt: "일기장 조회에 실패했습니다.", move: "/login" });
+    },
+  });
+
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="flex-start">
-          <NavigateBtn prev sizeType="header" />
-          <h3>일기 설정</h3>
-        </StHeader>
-        <DiaryManagementSection flex derection="column" justify="flex-start">
-          <CoupleDiary>
-            <h1>D조 3조팀 다여리</h1>
-            <DisplayDiv flex justify="space-between">
-              <div>
-                <img src="" alt="프사" />
-                <span>{"닉네임"}님과 함께써요</span>
-              </div>
-              <div>
-                <Button size="small">탈퇴하기</Button>
-              </div>
-            </DisplayDiv>
-          </CoupleDiary>
-          <SoloDiary>
-            <h1>데일리 그림일기</h1>
-            <DisplayDiv flex justify="space-between">
-              <div>
-                <span>나만의 그림일기!</span>
-              </div>
-              <div>
-                <Button size="small">삭제하기</Button>
-              </div>
-            </DisplayDiv>
-          </SoloDiary>
-        </DiaryManagementSection>
-      </StContainer>
+      {isLoading ? (
+        <Loading />
+      ) : isError ? (
+        <h2>{`${error?.response.status} ERROR`}</h2>
+      ) : (
+        <>
+          <Header>
+            <Header.Back link="/setting/">일기 설정</Header.Back>
+          </Header>
+          <DiaryManagementSection flex derection="column" justify="flex-start">
+            <DiaryManageCard data={data} />
+          </DiaryManagementSection>
+        </>
+      )}
     </>
   );
 };
@@ -44,26 +45,14 @@ const DiaryManage = () => {
 export default DiaryManage;
 
 const DiaryManagementSection = styled(StSection)`
-  margin-top: 2.1rem;
+  position: absolute;
+  margin-top: 1.5rem;
   overflow-x: hidden;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   span {
     margin-left: 0.8rem;
     font-weight: 700;
   }
 `;
-
-const Diary = styled.div`
-  width: 100%;
-  height: 10.2rem;
-  padding: 2rem;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  margin-bottom: 2rem;
-  button {
-    color: #ff7070;
-  }
-`;
-
-const CoupleDiary = styled(Diary)``;
-
-const SoloDiary = styled(Diary)``;

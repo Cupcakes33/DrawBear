@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { flex } from "../../UI/common";
 
 const ToggleBtn = ({ isChecked, ToggleBtnChangehandler }) => {
   return (
@@ -24,9 +25,7 @@ const StToggleBtnContainer = styled.div`
   }
   /* Switch Body */
   label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    ${flex("space-between", "")}
     cursor: pointer;
     width: 3.5rem;
     height: 2rem;

@@ -1,3 +1,33 @@
+:root {
+  --black: #242424;
+  --white: #ffffff;
+  --main_bg: #f8f8f8;
+  --login_bg: #eef3e3;
+  --login_font_main: #5f4c36;
+  --login_font_sub: #a4a28e;
+  --positive: #3cc7a6;
+  --positive_2: #b3e9dc;
+  --negative: #ff5656;
+  --negative_2: #ffb4b4;
+  --grayscale_1: #fafafa;
+  --grayscale_2: #f5f5f5;
+  --grayscale_3: #e8e8e8;
+  --grayscale_4: #d9d9d9;
+  --grayscale_5: #cccccc;
+  --grayscale_6: #b3b3b3;
+  --grayscale_7: #939393;
+  --grayscale_8: #4b4b4b;
+}
+
+@font-face {
+  font-family: "ZigleTTFBold";
+  src: url("./assets/fonts/UhBee_ZIGLE_Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ZigleTTF";
+  src: url("./assets/fonts/UhBee_ZIGLE.ttf") format("truetype");
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -9,4 +39,31 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(./assets/images/background.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@keyframes jello-horizontal {
+  0% {
+    transform: scale3d(1, 1, 1) scale(1.5);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1) scale(1.5);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1 scale(1.5));
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1) scale(1.5);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1) scale(1.5);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1) scale(1.5);
+  }
+  100% {
+    transform: scale3d(1, 1, 1) scale(1.5);
+  }
 }

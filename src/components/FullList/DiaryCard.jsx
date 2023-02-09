@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Card";
 import { useNavigate } from "react-router";
-import Button from "../common/Button";
-import { BsBookmark } from "react-icons/bs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postsApi } from "../../apis/axios";
+import Buttons from "../common/Button/Buttons";
+import { flex } from "../../UI/common";
 
 const DiaryCard = ({ postData }) => {
+  const queryClient = useQueryClient();
   const naigate = useNavigate();
   const {
     postId,
@@ -17,14 +19,37 @@ const DiaryCard = ({ postData }) => {
     commentsCount,
   } = postData;
 
+  const { mutate: bookmarkMutate } = useMutation({
+    mutationFn: () => postsApi.bookmark(postId),
+    onSuccess: () => {
+      const allPosts = queryClient.getQueryData(["Allposts"]);
+      const post = allPosts.filter((e) => e.postId === postId)[0];
+
+      queryClient.setQueryData(
+        ["Allposts"],
+        allPosts.map((e) =>
+          e === post ? { ...post, bookmark: !post.bookmark } : e
+        )
+      );
+    },
+  });
+
+  const bookmarkHandler = (postId) => {
+    bookmarkMutate(postId);
+  };
+
   const redirectDetailpage = () => {
     naigate(`/detail/${postId}`);
   };
 
+  
+
   return (
     <StDiaryCardContainer>
       <StTitleWrapper>
-        <h4 onClick={redirectDetailpage}>{title}</h4>
+        <div className="postOptionbox">
+          <h4 onClick={redirectDetailpage}>{title}</h4>
+        </div>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />
           <span>{nickname}</span>
@@ -38,11 +63,12 @@ const DiaryCard = ({ postData }) => {
           <span>댓글 {commentsCount}</span>
         </div>
         <div>
-          <Button size="mini" icon={<BsBookmark />} />
-          <Button size="small">수정</Button>
-          <Button size="small" fontColor="red">
-            삭제
-          </Button>
+          <Buttons.Bookmark
+            isBookmarked={bookmark}
+            onClick={() => {
+              bookmarkHandler(postId);
+            }}
+          />
         </div>
       </StConfigWrapper>
     </StDiaryCardContainer>
@@ -59,15 +85,21 @@ const StDiaryCardContainer = styled.div`
 `;
 const StTitleWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  .writerInfoBox {
+  ${flex("space-between", "", "row")}
+  .postOptionbox {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    gap: 1.2rem;
+    h4 {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 15rem;
+    }
+  }
+  .writerInfoBox {
+    ${flex("space-between", "", "row")}
     gap: 1rem;
     img {
       width: 3rem;
@@ -87,10 +119,7 @@ const StImageWrapper = styled.div`
 
 const StConfigWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  ${flex("space-between", "", "row")}
   div:last-child {
     display: flex;
     flex-direction: row;

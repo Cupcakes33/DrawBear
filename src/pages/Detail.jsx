@@ -1,39 +1,26 @@
 import styled from "styled-components";
 import Comment from "../components/detail/Comment";
-
-import HeaderText from "../components/header/HeaderText";
-import { StHeader, StContainer, StSection, StFooter } from "../UI/common";
-
+import { StSection, StFooter, flex } from "../UI/common";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { commentsApi, postsApi } from "../apis/axios";
-import { useParams } from "react-router-dom";
-import NavigateBtn from "../components/common/NavigateBtn";
-import Button from "../components/common/Button";
-import { StWeatherIconMini } from "../components/write/WeatherPicker";
-import { BsBookmark } from "react-icons/bs";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import { useNavigate, useParams } from "react-router-dom";
+import borderLine from "../assets/images/borderLine.png";
+import { weatherIcon } from "../assets/images/weather";
+import AlertModal from "../components/common/modal/AlertModal";
+import Buttons from "../components/common/Button/Buttons";
+import { Header } from "../components/common/header/Header";
 
 const Detail = () => {
-  const diaryId = useParams().id;
+  const navigate = useNavigate();
+  const params = useParams().id;
   const diaryName = localStorage.getItem("diaryName");
   const queryClient = useQueryClient();
 
-  const {
-    data = {},
-    error,
-    isError,
-    isLoading,
-  } = useQuery(["posts"], () => postsApi.get(diaryId));
-
-  const { mutate: postMutate } = useMutation({
-    mutationFn: (comments) => commentsApi.post(comments),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
-    },
-  });
+  const { data = {}, error, isError, isLoading } = useQuery(["posts"], () => postsApi.get(params));
 
   const {
     postId,
+    diaryId,
     title,
     createdAt,
     content,
@@ -44,12 +31,37 @@ const Detail = () => {
     nickname,
     commentsCount,
     comments,
+    bookmark,
   } = data;
+
+  const { mutate: postMutate } = useMutation({
+    mutationFn: (comments) => commentsApi.post(comments),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
+  const { mutate: postDeleteMutate } = useMutation({
+    mutationFn: () => postsApi.delete(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["Allposts"]);
+      navigate(`/list/${diaryId}`);
+    },
+  });
+
+  const { mutate: postBookmarkMutate } = useMutation({
+    mutationFn: () => postsApi.bookmark(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
 
   const commentsSubmitHandler = (event) => {
     event.preventDefault();
-    let comment = new FormData(event.target).get("comments");
+    const comment = event.target.children.comment.value.trim();
+    if (comment === "") return;
     postMutate({ comment, postId });
+    event.target.children.comment.value = "";
   };
 
   const locailDate = (date) => {
@@ -57,14 +69,26 @@ const Detail = () => {
     const temp = date.slice(0, 10);
     return new Date(temp).toLocaleDateString("ko-KR");
   };
+
+  const postBookmarkHandler = () => {
+    postBookmarkMutate();
+  };
+
+  const postDeleteHandler = () => {
+    postDeleteMutate();
+  };
+
+  const postUpdateHandler = () => {
+    navigate(`/detail/${postId}/update`);
+  };
+
   if (isLoading) return <div>isLoading...</div>;
   if (isError) return console.error(error);
   return (
-    <StContainer>
-      <StHeader>
-        <NavigateBtn prev />
-        <HeaderText>{diaryName}</HeaderText>
-      </StHeader>
+    <>
+      <Header>
+        <Header.Back link={`/list/${diaryId}`}>{diaryName}</Header.Back>
+      </Header>
 
       <StDetailPageSection>
         <div className="detailPageTitleInfoWrapper">
@@ -75,11 +99,11 @@ const Detail = () => {
             </div>
             <h3>{title}</h3>
           </div>
-          <StWeatherIconMini weatherTypeMini={weather} />
+          <img src={weatherIcon[weather]} alt="날씨" />
         </div>
         <div className="detailPageProfileInfoWrapper">
           <div className="tagBox">
-            {tag?.split(",").map((tag,n) => {
+            {tag?.split(",").map((tag, n) => {
               return <span key={`tag${n}`}>{tag}</span>;
             })}
           </div>
@@ -92,22 +116,27 @@ const Detail = () => {
           <img src={image} alt="그림" />
         </div>
         <div className="detailPageContentWrapper">
-          <div dangerouslySetInnerHTML={{ __html: content }} />
+          <div dangerouslySetInnerHTML={{ __html: content }} className="content" />
         </div>
 
         <div className="detailPageButtonWrapper">
-          <Button icon={<BsBookmark />} fs="2rem">
+          <Buttons.Bookmark isBookmarked={bookmark} onClick={postBookmarkHandler} />
+          <Buttons.Option
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
             목록
-          </Button>
-          <Button size="small" fs="2rem">
-            목록
-          </Button>
-          <Button size="small" fs="2rem">
-            수정
-          </Button>
-          <Button size="small" fs="2rem" fontColor="#FF7070">
-            삭제
-          </Button>
+          </Buttons.Option>
+          <Buttons.Option onClick={postUpdateHandler}>수정</Buttons.Option>
+          <AlertModal
+            select
+            bigTxt={"정말 일기를 삭제할까요?"}
+            smallTxt={"삭제한 일기는 복구할 수 없어요"}
+            onClick={postDeleteHandler}
+          >
+            <Buttons.Option negative>삭제</Buttons.Option>
+          </AlertModal>
         </div>
         <CommentBox>
           <h3>댓글 {commentsCount}</h3>
@@ -117,16 +146,11 @@ const Detail = () => {
       </StDetailPageSection>
       <DetailPageFooter>
         <form onSubmit={commentsSubmitHandler}>
-          <input name="comments" placeholder="댓글 작성하기" />
-          <Button
-            size="mini"
-            color="button_icon"
-            icon={<AiOutlineArrowUp />}
-            round
-          />
+          <input id="comment" placeholder="댓글 작성하기" />
+          <Buttons.AddComment />
         </form>
       </DetailPageFooter>
-    </StContainer>
+    </>
   );
 };
 
@@ -136,9 +160,11 @@ const StDetailPageSection = styled(StSection)`
   font-family: ZigleTTF;
 
   .detailPageTitleInfoWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "")}
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
   }
 
   .TitleInfoBox {
@@ -167,15 +193,10 @@ const StDetailPageSection = styled(StSection)`
     }
   }
   .detailPageProfileInfoWrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    ${flex("space-between", "", "row")}
     margin-bottom: 1rem;
     .tagBox {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      ${flex("flex-start", "")}
       gap: 0.5rem;
 
       span {
@@ -195,7 +216,6 @@ const StDetailPageSection = styled(StSection)`
         width: 2.4rem;
         height: 2.4rem;
         border-radius: 50%;
-        object-fit: cover;
       }
     }
   }
@@ -209,7 +229,28 @@ const StDetailPageSection = styled(StSection)`
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+    }
+  }
+
+  .detailPageContentWrapper {
+    .content {
+      p {
+        position: relative;
+        margin-bottom: 2rem;
+        padding: 0 1.5rem;
+      }
+
+      p::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -1rem;
+        width: 100%;
+        height: 1.5rem;
+        background-image: url(${borderLine});
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
     }
   }
 
