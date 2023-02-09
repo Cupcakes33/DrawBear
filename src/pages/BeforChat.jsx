@@ -26,7 +26,6 @@ const BeforChat = ({ diaryId, userId }) => {
     error,
     status,
     isLoading,
-    isFetching,
     fetchNextPage,
     fetchPreviousPage,
     isFetchingNextPage,

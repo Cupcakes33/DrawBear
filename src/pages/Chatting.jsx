@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Button from "../components/common/Button";
-import NavigateBtn from "../components/common/NavigateBtn";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useRef } from "react";
@@ -11,7 +10,7 @@ import ChatItem from "./ChatItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { chattingApi } from "../apis/axios";
 import { useInView } from "react-intersection-observer";
-import { useCallback } from "react";
+import {Header} from "../components/common/header/Header"
 
 const Chatting = () => {
   const socket = useRef(null);
@@ -19,7 +18,6 @@ const Chatting = () => {
   const { diaryId, userId, invitedNickname } = useSelector((state) => state.chatSlice);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-  const [scrollRef , setScrollRef ] = useState(0);
   const socketData = { message, diaryId, userId };
   const [btnColor, setBtnColor] = useState("button_icon");
   const [infi, setInfi] = useState({
@@ -88,12 +86,9 @@ const Chatting = () => {
 
   return (
     <>
-      <ChatHeader>
-        <div>
-          <NavigateBtn prev link={"/chatlist"} sizeType="header" />
-        </div>
-        <div>{invitedNickname}</div>
-      </ChatHeader>
+    <Header>
+      <Header.Back link={"/chatlist"}>{invitedNickname}</Header.Back>
+    </Header>
       <ChatContent>
         <ChatWrapper ref={ref}>
           <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
@@ -144,30 +139,6 @@ const Chatting = () => {
   );
 };
 export default Chatting;
-const ChatHeader = styled.div`
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 7.2rem;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: white;
-  border-radius: 20px 20px 0px 0px;
-  & div {
-    left: 1rem;
-    position: absolute;
-  }
-  & div:last-child {
-    left: 5rem;
-    position: absolute;
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.7rem;
-    color: #242424;
-  }
-`;
 
 const ChatWrapper = styled.div`
   display: flex;
