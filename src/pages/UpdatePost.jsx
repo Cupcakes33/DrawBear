@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import { StSection } from "../UI/common";
+import { flex, StSection } from "../UI/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../apis/axios";
 
@@ -76,11 +76,8 @@ const UpdatePost = () => {
   const defaultHeader = () => {
     return (
       <>
-        <StHeaderTextWrapper>
-          <NavigateBtn prev link={`/detail/${params}`} />
-          <span>다이어리 수정</span>
-        </StHeaderTextWrapper>
-        <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</span>
+        <Header.Back link={`/detail/${params}`}>다이어리 수정</Header.Back>
+        <Header.OnClickBtn onClick={() => setIsDrawingEnd(!isDrawingEnd)}>다음</Header.OnClickBtn>
       </>
     );
   };
@@ -89,8 +86,8 @@ const UpdatePost = () => {
     return (
       <>
         <StHeaderTextWrapper>
-          <GrPrevious onClick={() => setIsDrawingEnd(!isDrawingEnd)} />
-          <span>다이어리 수정</span>
+          <GrPrevious className="drawingStateBtn" onClick={() => setIsDrawingEnd(!isDrawingEnd)} />
+          <h3>다이어리 수정</h3>
         </StHeaderTextWrapper>
         <span>
           <StWriteFormSubmitBtn type="submit" form="writeForm">
@@ -105,8 +102,10 @@ const UpdatePost = () => {
   if (isError) return <div>에러</div>;
   return (
     <>
-        <Header flex justify="space-between" aline="center">
-          {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
+        <Header>
+          <Header.SpaceBetween>
+            {isDrawingEnd ? drawingEndHeader() : defaultHeader()}
+          </Header.SpaceBetween>
         </Header>
         <StSlideWrapper isDrawingEnd={isDrawingEnd}>
           <StTextSection>
@@ -234,11 +233,14 @@ const StWriteFormSubmitBtn = styled.button`
   cursor: pointer;
   border: none;
   background-color: transparent;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
 `;
 
 const StHeaderTextWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  ${flex}
+  margin-top: 0.1rem;
+  gap: 0.6rem;
+  .drawingStateBtn {
+    font-size: 2.4rem;
+  }
 `;

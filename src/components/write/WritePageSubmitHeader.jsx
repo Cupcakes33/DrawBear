@@ -4,6 +4,7 @@ import { BsQuestionLg } from "react-icons/bs";
 
 const WritePageSubmitHeader = ({ setIsDrawingEnd, isDrawingEnd }) => {
   return (
+
     <StDrawindEndHeaderOptionBox>
       <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
       <div className="submit-header-wrap">
