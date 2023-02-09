@@ -46,7 +46,7 @@ export const loginApi = {
 
 export const passwordApi = {
   update: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/password", {
+    const { data } = await instance.put("/api/userInfo/password", {
       currentPassword: inputData.currentPW,
       changePassword: inputData.password,
       confirmPassword: inputData.passwordCheck,
@@ -69,7 +69,7 @@ export const mainApi = {
     return data;
   },
   update: async (updateData) => {
-    const { data } = await instance.patch(`/api/diary/${updateData.id}`, {
+    const { data } = await instance.put(`/api/diary/${updateData.id}`, {
       couple: updateData.couple,
       diaryName: updateData.diaryName,
       outsideColor: updateData.selectedColor,
@@ -125,7 +125,7 @@ export const postsApi = {
     await instance.delete(`/api/post/${postId}`);
   },
   patch: async ({ formData, postId }) => {
-    await instance.patch(`/api/post/${postId}`, formData);
+    await instance.put(`/api/post/${postId}`, formData);
   },
 
   bookmark: async (postId) => {
@@ -142,7 +142,7 @@ export const commentsApi = {
   },
 
   patch: async ({ comment, commentId }) => {
-    await instance.patch(`/api/comment/${commentId}`, { comment: comment });
+    await instance.put(`/api/comment/${commentId}`, { comment: comment });
   },
 
   delete: async (commentId) => {
@@ -158,17 +158,17 @@ export const mypageApi = {
     return data;
   },
   update: async (formData) => {
-    const { data } = await instance.patch("/api/userInfo/profile", formData);
+    const { data } = await instance.put("/api/userInfo/profile", formData);
     return data;
   },
   patch: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/unregister", {
+    const { data } = await instance.put("/api/userInfo/unregister", {
       currentPassword: inputData.password,
     });
     return data;
   },
   PWupdate: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/password", {
+    const { data } = await instance.put("/api/userInfo/password", {
       currentPassword: inputData.currentPW,
       changePassword: inputData.password,
       confirmPassword: inputData.passwordCheck,
@@ -189,7 +189,7 @@ export const alarmApi = {
     return data;
   },
   patch: async ({ diaryId, notificationId }) => {
-    const { data } = await instance.patch(
+    const { data } = await instance.put(
       `/api/diary/inviteAccept/${diaryId}/${notificationId}`
     );
     return data;
@@ -210,7 +210,7 @@ export const inviteApi = {
     return data;
   },
   invite: async ({ diaryId, invitedId }) => {
-    const { data } = await instance.patch(
+    const { data } = await instance.put(
       `/api/diary/invite/${diaryId}/${invitedId}`
     );
     return data;
