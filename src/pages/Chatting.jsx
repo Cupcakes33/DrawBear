@@ -20,7 +20,11 @@ const Chatting = () => {
   const { diaryId, userId, invitedNickname } = JSON.parse(
     localStorage.getItem("chattingId")
   );
-  const socketData = { message, diaryId, userId };
+  const socketData = {
+    message,
+    diaryId,
+    userId,
+  };
   const [btnColor, setBtnColor] = useState("button_icon");
   const [infi, setInfi] = useState({
     diaryId,
@@ -98,10 +102,7 @@ const Chatting = () => {
       <ChatContent>
         <ChatWrapper ref={ref}>
           <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
-          {/* <div
-            style={{ height: "100px", backgroundColor: "red" }}
-            ref={inViewref}
-          ></div> */}
+
           {messageList.map((msg, index) => {
             const {
               message,
