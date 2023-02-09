@@ -3,9 +3,9 @@ import styled from "styled-components";
 const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
   return (
     <StSpeechContainer rowreverse={rowreverse}>
-      <div>
+      <ChatImg>
         {bgcolor === "#3CC7A6" ? <></> : <img src={chatInfo.User.profileImg} />}
-      </div>
+      </ChatImg>
       <div className="chatWrappper">
         {bgcolor === "#3CC7A6" ? (
           <></>
@@ -51,6 +51,13 @@ const StSpeechContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+`;
+const ChatImg = styled.div`
+  width: 50px;
+  height: 50px;
+  & img {
+    border-radius: 50%;
   }
 `;
 const ChatTime = styled.div`
