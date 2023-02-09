@@ -65,9 +65,11 @@ const BeforChat = ({ diaryId, userId }) => {
           {data?.pages?.map((page) => {
             // console.log(page);
             return page?.Chats?.map((chatInfo, index) => {
-              // console.log(chatInfo);
+              console.log(chatInfo);
               if (userId === chatInfo.userId) {
                 return <ChatItem chatInfo={chatInfo} bgcolor="#3CC7A6" rowreverse="row-reverse" key={index}></ChatItem>;
+              } else if (chatInfo.userId === 99999) {
+                return <TimeLine>ㅡ {chatInfo.chat} ㅡ</TimeLine>;
               } else {
                 return <ChatItem chatInfo={chatInfo} key={index} bgcolor="#ffffff"></ChatItem>;
               }
@@ -79,3 +81,8 @@ const BeforChat = ({ diaryId, userId }) => {
   );
 };
 export default BeforChat;
+
+const TimeLine = styled.div`
+  display: block;
+  text-align: center;
+`;
