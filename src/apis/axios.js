@@ -24,8 +24,8 @@ instance.interceptors.response.use(
     if (unauthorization?.indexOf("로그인") >= 0) {
       localStorage.removeItem("token");
       alert("로그인 후 이용가능합니다.");
-      return window.location.replace("http://localhost:3000/login");
-      // return window.location.replace("https://finale-omega.vercel.app/login");
+      // return window.location.replace("http://localhost:3000/login");
+      return window.location.replace("https://drawbear.site/login");
     } else return Promise.reject(error);
   }
 );
@@ -96,7 +96,7 @@ export const diaryApi = {
 
   holiday: async (selectedYear) => {
     const { data } = await axios.get(
-      `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
+      `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo?solYear=${selectedYear}&ServiceKey=${process.env.REACT_APP_HOLIDAY_AUTH_KEY}&numOfRows=25`
     );
     return data.response.body.items.item;
   },

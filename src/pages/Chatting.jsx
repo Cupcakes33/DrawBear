@@ -83,6 +83,7 @@ const Chatting = () => {
       socket.current.disconnect();
     };
   }, []);
+  
   useEffect(() => {
     socket.current._callbacks = {};
     socket.current.on("receiveMessage", (message) => {

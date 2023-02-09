@@ -4,7 +4,7 @@ const ChatItem = ({ chatInfo, bgcolor, rowreverse }) => {
   return (
     <StSpeechContainer rowreverse={rowreverse}>
       <ChatImg>
-        {bgcolor === "#3CC7A6" ? <></> : <img src={chatInfo.User.profileImg} />}
+        {bgcolor === "#3CC7A6" ? <></> : <img src={chatInfo.User.profileImg} alt="유저 프로필 이미지"/>}
       </ChatImg>
       <div>
         <div className="chatWrappper">
