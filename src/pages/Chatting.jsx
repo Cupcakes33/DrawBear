@@ -15,9 +15,9 @@ import {Header} from "../components/common/header/Header"
 const Chatting = () => {
   const socket = useRef(null);
   const ref = useRef();
-  const { diaryId, userId, invitedNickname } = useSelector((state) => state.chatSlice);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const {diaryId, userId, invitedNickname} = JSON.parse(localStorage.getItem("chattingId"))
   const socketData = { message, diaryId, userId };
   const [btnColor, setBtnColor] = useState("button_icon");
   const [infi, setInfi] = useState({
