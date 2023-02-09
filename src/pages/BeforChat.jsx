@@ -1,12 +1,10 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { chattingApi } from "../apis/axios";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import ChatItem from "./ChatItem";
 import styled from "styled-components";
-import { backgrounds } from "polished";
 import { useRef } from "react";
 const BeforChat = ({ diaryId, userId }) => {
   const scrollRef = useRef();
@@ -18,10 +16,7 @@ const BeforChat = ({ diaryId, userId }) => {
     error,
     status,
     isLoading,
-    fetchNextPage,
     fetchPreviousPage,
-    isFetchingNextPage,
-    hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
     ["chattings", diaryId],

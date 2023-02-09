@@ -5,14 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { alarmApi, mypageApi } from "../apis/axios";
 import { useDispatch } from "react-redux";
 import NoChatList from "./NoChatList";
-import useDispatchHook from "../hooks/useDispatchHook";
-import { viewChatList } from "../redux/modules/chatSlice";
+
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/common/header/Header";
 
 const ChatList = () => {
   const [chatList, setChatList] = useState([]);
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const userInfo = useQuery(["read"], mypageApi.read, {
@@ -27,7 +26,10 @@ const ChatList = () => {
     },
   });
   const chattingOnclickHandle = (userId, diaryId, invitedNickname) => {
-    localStorage.setItem("chattingId", JSON.stringify({diaryId, userId, invitedNickname}))
+    localStorage.setItem(
+      "chattingId",
+      JSON.stringify({ diaryId, userId, invitedNickname })
+    );
     // dispatch(viewChatList({ userId, diaryId, invitedNickname }));
     navigate("/chat");
   };
@@ -42,9 +44,20 @@ const ChatList = () => {
         ) : (
           <>
             {chatList.map((chat, index) => {
-              const { invitedNickname, lastChat, invitedProfileImg, diaryId, time } = chat;
+              const {
+                invitedNickname,
+                lastChat,
+                invitedProfileImg,
+                diaryId,
+                time,
+              } = chat;
               return (
-                <ChatContainer key={index} onClick={() => chattingOnclickHandle(userId, diaryId, invitedNickname)}>
+                <ChatContainer
+                  key={index}
+                  onClick={() =>
+                    chattingOnclickHandle(userId, diaryId, invitedNickname)
+                  }
+                >
                   <ChatWrapper>
                     <div>
                       <img src={invitedProfileImg} />
@@ -53,7 +66,13 @@ const ChatList = () => {
                       <ChatNickName>{invitedNickname}</ChatNickName>
                       <ChatLastTxt>{lastChat}</ChatLastTxt>
                     </div>
-                    <ChatTime>{time ? new Date(time).toLocaleString().substr(12, 7) : <></>}</ChatTime>
+                    <ChatTime>
+                      {time ? (
+                        new Date(time).toLocaleString().substr(12, 7)
+                      ) : (
+                        <></>
+                      )}
+                    </ChatTime>
                   </ChatWrapper>
                 </ChatContainer>
               );
