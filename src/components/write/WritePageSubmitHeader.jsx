@@ -4,26 +4,38 @@ import { BsQuestionLg } from "react-icons/bs";
 
 const WritePageSubmitHeader = ({ setIsDrawingEnd, isDrawingEnd }) => {
   return (
-    <>
-      <h3 onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</h3>
-      <StDrawindEndHeaderOptionBox>
+
+    <StDrawindEndHeaderOptionBox>
+      <span onClick={() => setIsDrawingEnd(!isDrawingEnd)}>뒤로가기</span>
+      <div className="submit-header-wrap">
         <WritePageTutorialModal>
           <StQuestionIcon />
         </WritePageTutorialModal>
-
         <StWriteFormSubmitBtn type="submit" form="writeForm">
           완성
         </StWriteFormSubmitBtn>
-      </StDrawindEndHeaderOptionBox>
-    </>
+      </div>
+    </StDrawindEndHeaderOptionBox>
   );
 };
 
 export default WritePageSubmitHeader;
 
 const StDrawindEndHeaderOptionBox = styled.div`
+  width: 100%;
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+
+  .submit-header-wrap {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+
+  span {
+    cursor: pointer;
+  }
 `;
 
 const StQuestionIcon = styled(BsQuestionLg)`
