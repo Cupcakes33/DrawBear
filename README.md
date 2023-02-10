@@ -25,7 +25,8 @@
 </summary>
 <div>
 
-![화면 캡처 2023-02-06 182627](https://user-images.githubusercontent.com/108935568/216936861-e8d86e65-1812-42c4-8146-a5ecf905fe75.png)</div>
+![Untitled (1)](https://user-images.githubusercontent.com/108935568/216936874-02ad7a22-5f3e-4eb9-b670-fe9243041fb3.png)
+
 
 </details>
 
@@ -35,7 +36,7 @@
 </summary>
 <div>
 
-![화면 캡처 2023-02-06 182202](https://user-images.githubusercontent.com/108935568/216936863-828a0d0d-6b5d-4c74-95f4-28d68643ec68.png)
+![Untitled (2)](https://user-images.githubusercontent.com/108935568/216936871-60de17a6-8048-4fb3-b8ad-574d69934bb9.png)
 
 </details>
 
@@ -55,7 +56,9 @@
 </summary>
 <div>
 
-![Untitled (2)](https://user-images.githubusercontent.com/108935568/216936871-60de17a6-8048-4fb3-b8ad-574d69934bb9.png)
+![화면 캡처 2023-02-06 182202](https://user-images.githubusercontent.com/108935568/216936863-828a0d0d-6b5d-4c74-95f4-28d68643ec68.png)
+
+
 ![화면 캡처 2023-02-06 182515](https://user-images.githubusercontent.com/108935568/216937252-39f8abd2-91f9-435c-81d0-bb59458ade7b.png)
 
 </details>
@@ -66,7 +69,8 @@
 </summary>
 <div>
 
-![Untitled (1)](https://user-images.githubusercontent.com/108935568/216936874-02ad7a22-5f3e-4eb9-b670-fe9243041fb3.png)
+![216936861-e8d86e65-1812-42c4-8146-a5ecf905fe75](https://user-images.githubusercontent.com/108935568/217804481-dc7536c2-4aca-4817-b1f7-af6f08b005d6.png)
+
 
 </details>
 
@@ -124,7 +128,140 @@
 
 ## 🔆 트러블슈팅
 
-  <br>
+  <details>
+<summary>
+최적화에 대한 고찰
+</summary>
+<div>
+
+## - 최적화-
+
+![Untitled (6)](https://user-images.githubusercontent.com/108935568/217805916-23bc418e-c9d1-4060-9e96-e2514403755f.png)
+
+1. **최적화에 대한 필요성 인지**
+
+  진단 결과, 사용하지 않는 자바스크립트가 너무 많다고 나옴.<br>
+무분별하게 재사용되고 있는 함수들과 컴포넌트, 달력의 무거운 로직으로 인해<br>
+프로젝트의 렌더링 성능이 떨어진다는 판단을 내림.
+
+2. **메모라이징 작업 실시**
+
+컴포넌트를 분리하여 불필요한 렌더링을 방지하고자 React.memo를 사용하였고,<br> 재사용되는 값과 함수들은 useMemo와 useCallback을 사용하여 필요할 때만 읽히도록 조치.<br>
+그럼에도 유의미하다고 할 수 있는 결과를 얻지 못함.
+
+3. **컴포넌트 리팩토링**
+
+여러 함수들과 컴포넌트들이 재사용되고 있음에도<br> 그것들을 하나로 묶어 사용하지 않고 있다는 것을 인지하고 있었기에 작업에 돌입.<br>
+자주 쓰이는 모달, 버튼, 인풋 등을 재사용 가능하도록 컴포넌트화 하고 레이아웃과 헤더,<br> 함수들은 훅으로 정리하였다.
+
+![Untitled (7)](https://user-images.githubusercontent.com/108935568/217805915-2f3be677-e088-4fb1-a702-e0fcc01f6f29.png)
+
+미미한 효과를 얻을 수 있었다.
+
+4. **코드 스플리팅**
+
+여러 최적화 작업을 거쳤음에도 사용하지 않는 자바스크립트가 여전히 많다는 진단에 의문을 가짐.
+bundle.js가 비상식적으로 컸기에 검색 결과 코드 스플리팅이라는 개념을 접했고, 적용해보기 함.
+
+![Untitled (8)](https://user-images.githubusercontent.com/108935568/217805912-14d2d660-1692-4576-9952-0a2c36057a7f.png)
+
+![Untitled (9)](https://user-images.githubusercontent.com/108935568/217805908-f45cf7d1-be42-496c-8487-369caa6dbc0a.png)
+
+
+적용 후, 사용하지 않는 자바스크립트가 2.3초에서 0.6초대로 줄며<br>
+성능이 유의미하게 상승하는 결과를 얻을 수 있었음
+
+
+</details>
+
+<details>
+<summary>
+리액트 쿼리로 모든 전역상태관리를 할 수 있을까 ?
+</summary>
+<div>
+
+1. **리팩토링**
+
+전역으로 사용해야 하는 값들에 어떤 것은 dispatch를 날리고 있고,<br>
+어떤 것은 setQueryData를 사용하고 있고, 또 어떤 것은 로컬스토리에 사용하고 있다는 것을 알게 됨.<br>
+리팩토링 과정에서 이것을 일관성 있게 하나로 통일해야 할 필요성을 느낌.
+
+2. **useSelector와 getQueryData의 차이점 의문**
+
+전역 상태값들이 중구난방으로 관리되고 있는 데 프로젝트의 기능상에는 전혀 문제가 없었음.<br>
+‘리액트 쿼리만 써도 전역 상태가 관리되는 거면 리덕스는 필요없겠는데?’<br>
+프로젝트에 리덕스는 쓰지 않아도 되겠다는 판단을 내림.
+
+3. **예상치 못한 문제 발생**
+
+![Untitled (10)](https://user-images.githubusercontent.com/108935568/217807334-69c75cd7-15a6-402a-9089-046dda2694ad.png)
+
+리덕스 로직들을 리액트 쿼리로 변경.
+그러나 예상치 못한 문제가 발생하였다.
+
+![Untitled (11)](https://user-images.githubusercontent.com/108935568/217807332-ec568f72-b75e-4e56-8d47-3e10bf668db8.png)
+
+뷰가 바뀌었는데도 다이어리의 렌더링이 일어나지 않는 것.
+
+![Untitled (12)](https://user-images.githubusercontent.com/108935568/217807329-12156e82-3e42-42ef-a7a9-e12728f50323.png)
+
+캐싱된 데이터의 값은 분명 바뀌엇는데 렌더링이 일어나지 않았다.
+
+![Untitled (13)](https://user-images.githubusercontent.com/108935568/217807327-6c86ee68-5d9b-472a-ad28-7ad9e1521331.png)
+
+더 의아했던 것은 푸터의 아이콘은 놀리듯 렌더링이 아주 잘 일어나고 있었다.
+
+4. **가설 설정**
+
+분명 값은 같은 곳에서 똑같이 바뀌고 있는데 왜 Footer는 렌더링이 일어나고<br>
+왜 Main은 렌더링이 일어나지 않는 것일까 의문이 생김.<br>
+같은 상태값을 사용하고 있는 둘의 차이점을 찾다가 상태값의 변화가<br>
+Footer에서만 일어나고 있다는 것에 주목.
+
+![Untitled (14)](https://user-images.githubusercontent.com/108935568/217807322-ccf1bd9c-bef4-4e88-bd54-1155bd84994d.png)
+
+렌더링이 일어나고 있는 Footer 컴포넌트에 콘솔을 찍어보니 당연하게도 잘 찍히고 있었다.
+
+5. **결론**
+
+리액트 쿼리를 사용하면 상태값이 바뀌는 컴포넌트에서만 상태값 변경으로 인한<br>
+리렌더링이 일어나고, 그 외 불러오기만 하는 곳들에선 상태값 변화에 따른 리렌더링이<br> 일어나지 않는다는 것을 확인.
+
+즉, setQueryData가 발동되는 그 해당 컴포넌트에서는 바뀐 상태값에 따라<br>
+리렌더링이 일어나지만, 그 외의 곳은 캐싱된 상태값이 바뀌었다 하더라도<br>
+리렌더링이 일어나지 않아서 리덕스나 리코일 같은 라이브러리 없이<br> 
+리액트 쿼리만을 온전히 전역 상태 관리로 사용하기엔 부적합하다는 결론을 내림
+
+
+</div>
+</details>
+
+<details>
+<summary>
+교차 출처 이미지 보안 문제
+</summary>
+<div>
+
+1. **상황**
+
+캔버스에서 그림을 수정 후 서버에 데이터를 보내는 과정에서<br>
+<strong>교차 출처 이미지 보안 문제</strong>로 toDataURL 메소드를 사용할 수 없는 문제 발생
+
+2. **해결**
+
+관련 내용의 레퍼런스를 MDN과 StackOverFlow에서 확인<br>
+[MDN 문서](https://developer.mozilla.org/ko/docs/Web/HTML/CORS_enabled_image)<br>
+
+클라리언트 측에서 불러온 이미지의 CrossOrigin 속성을 anonymous 로 변경
+서버 측에서 S3의 버킷 권한을 수정
+
+![1](https://user-images.githubusercontent.com/108935568/217809726-34da741d-f036-4b46-b806-0a821985b8a4.png)
+
+![12](https://user-images.githubusercontent.com/108935568/217809732-fbbedb93-ccdf-40d7-a998-407c60213f4b.png)
+
+</div>
+</details>
+
 
 ## 👻 쓰곰 그리곰의 팀원들
 

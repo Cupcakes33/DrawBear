@@ -14,7 +14,7 @@ const MyPassword = () => {
     register,
     handleSubmit,
     watch,
-    formState: { isSubmitting, isDirty, errors },
+    formState: { isDirty, errors },
   } = useForm({ mode: "onChange" });
 
   const { mutate } = useMutation((formData) => mypageApi.PWupdate(formData), {
@@ -89,7 +89,7 @@ const MyPassword = () => {
               {...register("passwordCheck", {
                 required: true,
                 validate: (val) => {
-                  if (watch("password") != val) {
+                  if (watch("password") !== val) {
                     return "비밀번호가 다릅니다.";
                   }
                 },

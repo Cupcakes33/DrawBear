@@ -31,9 +31,14 @@ const Setting = () => {
       <Header>
         <Header.SpaceBetween>
           <Header.Back notBack>더보기</Header.Back>
-          <Header.OnClickBtn color="#242424" onClick={() => navigate("/setting/alarm")}>
+          <Header.OnClickBtn
+            color="#242424"
+            onClick={() => navigate("/setting/alarm")}
+          >
             <AlarmDiv>
-              {alarmData?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
+              {alarmData?.Notifications?.length ? (
+                <BsDot className="alarm-dot" />
+              ) : null}
               <VscBell className="alarm" />
             </AlarmDiv>
           </Header.OnClickBtn>
@@ -86,6 +91,7 @@ const StMypageSection = styled(StSection)`
       width: 10rem;
       height: 10rem;
       border-radius: 50%;
+      object-fit: cover;
     }
     .pencilIcon-box {
       width: 3.4rem;

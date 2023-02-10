@@ -7,8 +7,7 @@ import Toast from "./Toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { inviteApi, mypageApi } from "../apis/axios";
 import { useQueryClient } from "@tanstack/react-query";
-import io from "socket.io-client";
-import { useEffect } from "react";
+
 import { useParams } from "react-router-dom";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Buttons from "../components/common/Button/Buttons";
@@ -57,7 +56,7 @@ const Invite = () => {
         if (status === 401)
           openAlertModal({ bigTxt: "이미 공유하고있는 다이어리 입니다." });
       },
-      onSuccess: (success) => {
+      onSuccess: () => {
         setIsInvite(!isInvite);
         setPopup(!popup);
       },

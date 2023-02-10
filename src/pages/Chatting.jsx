@@ -10,15 +10,21 @@ import ChatItem from "./ChatItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { chattingApi } from "../apis/axios";
 import { useInView } from "react-intersection-observer";
-import {Header} from "../components/common/header/Header"
+import { Header } from "../components/common/header/Header";
 
 const Chatting = () => {
   const socket = useRef(null);
   const ref = useRef();
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
-  const {diaryId, userId, invitedNickname} = JSON.parse(localStorage.getItem("chattingId"))
-  const socketData = { message, diaryId, userId };
+  const { diaryId, userId, invitedNickname } = JSON.parse(
+    localStorage.getItem("chattingId")
+  );
+  const socketData = {
+    message,
+    diaryId,
+    userId,
+  };
   const [btnColor, setBtnColor] = useState("button_icon");
   const [infi, setInfi] = useState({
     diaryId,
@@ -43,23 +49,27 @@ const Chatting = () => {
     setMessage(txt);
   };
   const messageSendOnclick = () => {
-    socket.current.emit("chat_message", socketData, () => {
-      setMessageList((prev) => [...prev, socketData]);
-    });
-    setMessage("");
+    if (message.trim().length !== 0) {
+      socket.current.emit("chat_message", socketData, () => {
+        setMessageList((prev) => [...prev, socketData]);
+      });
+      setMessage("");
+    }
   };
 
-  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    ["chattings"],
-    () => chattingApi.search(infi),
+  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["chattings"],
+      () => chattingApi.search(infi),
 
-    {
-      getNextPageParam: (lastPage) => (!lastPage.isLast ? lastPage.nextPage : undefined),
-    },
-    {
-      staleTime: 1000,
-    }
-  );
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.isLast ? lastPage.nextPage : undefined,
+      },
+      {
+        staleTime: 1000,
+      }
+    );
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -73,6 +83,7 @@ const Chatting = () => {
       socket.current.disconnect();
     };
   }, []);
+  
   useEffect(() => {
     socket.current._callbacks = {};
     socket.current.on("receiveMessage", (message) => {
@@ -86,18 +97,21 @@ const Chatting = () => {
 
   return (
     <>
-    <Header>
-      <Header.Back link={"/chatlist"}>{invitedNickname}</Header.Back>
-    </Header>
+      <Header>
+        <Header.Back link={"/chatlist"}>{invitedNickname}</Header.Back>
+      </Header>
       <ChatContent>
         <ChatWrapper ref={ref}>
           <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
-          {/* <div
-            style={{ height: "100px", backgroundColor: "red" }}
-            ref={inViewref}
-          ></div> */}
+
           {messageList.map((msg, index) => {
-            const { message, nickname, profileImg, time, userId: msg_userId } = msg;
+            const {
+              message,
+              nickname,
+              profileImg,
+              time,
+              userId: msg_userId,
+            } = msg;
             const chatInfo = {
               User: {
                 profileImg,
@@ -117,7 +131,13 @@ const Chatting = () => {
                 ></ChatItem>
               );
             } else {
-              return <ChatItem key={`messageList${index}`} chatInfo={chatInfo} bgcolor="#ffffff"></ChatItem>;
+              return (
+                <ChatItem
+                  key={`messageList${index}`}
+                  chatInfo={chatInfo}
+                  bgcolor="#ffffff"
+                ></ChatItem>
+              );
             }
           })}
         </ChatWrapper>
@@ -132,7 +152,12 @@ const Chatting = () => {
           />
         </div>
         <div onClick={messageSendOnclick}>
-          <Button size="mini" color={btnColor} icon={<AiOutlineArrowUp />} round />
+          <Button
+            size="mini"
+            color={btnColor}
+            icon={<AiOutlineArrowUp />}
+            round
+          />
         </div>
       </ChatFooter>
     </>
@@ -151,15 +176,6 @@ const ChatContent = styled.div`
   flex-direction: column;
   height: calc(100vh - 7.2rem);
   padding-bottom: 7.2rem;
-`;
-const ChatBubble = styled.div`
-  display: flex;
-  padding: ${(props) => props.padding};
-`;
-const SpeeckPoint = styled.div`
-  border-top: ${(props) => props.borderTop};
-  border-right: ${(props) => props.borderRight};
-  border-left: ${(props) => props.borderLeft};
 `;
 const ChatFooter = styled.div`
   position: absolute;
@@ -180,18 +196,4 @@ const ChatFooter = styled.div`
     border-radius: 3.3rem;
     padding: 1rem;
   }
-`;
-
-// const ChatImg = styled.img`
-//   width: 50px;
-//   height: 50px;
-//   position: absolute;
-// `;
-const ChatUser = styled.div`
-  display: flex;
-  justify-content: ${(props) => props.justifyContent};
-  padding: ${(props) => props.padding};
-`;
-const ChatTime = styled.div`
-  font-size: 0.1rem;
 `;
