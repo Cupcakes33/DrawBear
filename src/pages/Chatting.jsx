@@ -1,171 +1,157 @@
 import styled from "styled-components";
-import { StContainer } from "../UI/common";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Button from "../components/common/Button";
-import NavigateBtn from "../components/common/NavigateBtn";
-import { useState } from "react";
-import InviteSpeechbubble from "./InviteSpeechbubble";
-const InviteUserImgData = {
-  id: 2,
-  nickname: "아이유",
-  profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-};
-const chatData = [
-  {
-    id: 1,
-    nickname: "김철수",
-    txt: "ㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzz뭐해",
-    profile: "",
-    time: "10시30분",
-  },
-  {
-    id: 2,
-    nickname: "아이유",
-    txt: "ㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzzㅋㅋㅋㅋżzzzzz",
-    profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-    time: "10시31분",
-  },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "무슨노래 부르는데요?",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "왜요?",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "궁금해서요",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "잔소리요",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "아.. 네",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "좋아하는 노래 있으신가요?",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋ비밀입니다.",
-  //   profile: "",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "ㅋㅋㅋㅋ뭐해",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "노래불러요",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "무슨노래 부르는데요?",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "왜요?",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "궁금해서요",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "잔소리요",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "아.. 네",
-  //   profile: "",
-  // },
-  // {
-  //   id: 2,
-  //   nickname: "아이유",
-  //   txt: "좋아하는 노래 있으신가요?",
-  //   profile: "https://cdn-icons-png.flaticon.com/512/5312/5312933.png",
-  // },
-  // {
-  //   id: 1,
-  //   nickname: "김철수",
-  //   txt: "ㅋㅋㅋㅋㅋㅋㅋㅋ비밀입니다.",
-  //   profile: "",
-  // },
-];
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
+import { useRef } from "react";
+import { useSelector } from "react-redux";
+import BeforChat from "./BeforChat";
+import ChatItem from "./ChatItem";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { chattingApi } from "../apis/axios";
+import { useInView } from "react-intersection-observer";
+import { Header } from "../components/common/header/Header";
+
 const Chatting = () => {
-  const [chatTxt, setChatTxt] = useState("");
+  const socket = useRef(null);
+  const ref = useRef();
+  const [message, setMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
+  const { diaryId, userId, invitedNickname } = JSON.parse(
+    localStorage.getItem("chattingId")
+  );
+  const socketData = {
+    message,
+    diaryId,
+    userId,
+  };
   const [btnColor, setBtnColor] = useState("button_icon");
-  const chatTxtOnChageHandle = (event) => {
+  const [infi, setInfi] = useState({
+    diaryId,
+    pageParam: 1,
+  });
+  const { inViewref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+  });
+  const onKeyPressEventHandle = (event) => {
+    if (event.key === "Enter") {
+      messageSendOnclick();
+    }
+  };
+  const messageOnChangeHandle = (event) => {
     let txt = event.target.value;
     if (txt.length === 0) {
       setBtnColor("button_icon");
     } else {
       setBtnColor("button_primary");
     }
-    setChatTxt(txt);
+    setMessage(txt);
   };
+  const messageSendOnclick = () => {
+    if (message.trim().length !== 0) {
+      socket.current.emit("chat_message", socketData, () => {
+        setMessageList((prev) => [...prev, socketData]);
+      });
+      setMessage("");
+    }
+  };
+
+  const { data, error, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      ["chattings"],
+      () => chattingApi.search(infi),
+
+      {
+        getNextPageParam: (lastPage) =>
+          !lastPage.isLast ? lastPage.nextPage : undefined,
+      },
+      {
+        staleTime: 1000,
+      }
+    );
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    socket.current = io.connect(process.env.REACT_APP_MY_API);
+    socket.current.emit("join", diaryId);
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+  
+  useEffect(() => {
+    socket.current._callbacks = {};
+    socket.current.on("receiveMessage", (message) => {
+      setMessageList((prev) => [...prev, message]);
+    });
+  }, [socket.current]);
+
+  useEffect(() => {
+    ref.current.scrollTo(0, ref.current.scrollHeight);
+  }, [messageList]);
+
   return (
-    <StContainer bgColor="#F8F8F8">
-      <ChatHeader>
-        <div>
-          <NavigateBtn prev link={"/chatlist"} sizeType="header" />
-        </div>
-        <div>{InviteUserImgData.nickname}</div>
-      </ChatHeader>
-      <div style={{ height: "500px" }}>
-        <InviteSpeechbubble />
-      </div>
+    <>
+      <Header>
+        <Header.Back link={"/chatlist"}>{invitedNickname}</Header.Back>
+      </Header>
+      <ChatContent>
+        <ChatWrapper ref={ref}>
+          <BeforChat diaryId={diaryId} userId={userId}></BeforChat>
+
+          {messageList.map((msg, index) => {
+            const {
+              message,
+              nickname,
+              profileImg,
+              time,
+              userId: msg_userId,
+            } = msg;
+            const chatInfo = {
+              User: {
+                profileImg,
+                nickname,
+              },
+              chat: message,
+              createdAt: time,
+              msg_userId,
+            };
+            if (userId === msg_userId) {
+              return (
+                <ChatItem
+                  key={`messageList${index}`}
+                  chatInfo={chatInfo}
+                  bgcolor="#3CC7A6"
+                  rowreverse="row-reverse"
+                ></ChatItem>
+              );
+            } else {
+              return (
+                <ChatItem
+                  key={`messageList${index}`}
+                  chatInfo={chatInfo}
+                  bgcolor="#ffffff"
+                ></ChatItem>
+              );
+            }
+          })}
+        </ChatWrapper>
+      </ChatContent>
       <ChatFooter>
         <div>
           <input
-            value={chatTxt}
-            onChange={chatTxtOnChageHandle}
+            value={message}
+            onKeyPress={onKeyPressEventHandle}
+            onChange={messageOnChangeHandle}
             placeholder="채팅입력.."
           />
         </div>
-        <div>
+        <div onClick={messageSendOnclick}>
           <Button
             size="mini"
             color={btnColor}
@@ -174,45 +160,25 @@ const Chatting = () => {
           />
         </div>
       </ChatFooter>
-    </StContainer>
+    </>
   );
 };
 export default Chatting;
-const ChatHeader = styled.div`
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 7.2rem;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: white;
-  border-radius: 20px 20px 0px 0px;
-  & div {
-    left: 1rem;
-    position: absolute;
-  }
-  & div:last-child {
-    left: 5rem;
-    position: absolute;
-    font-family: "Noto Sans KR";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.7rem;
-    color: #242424;
-  }
-`;
 
-const ChatBubble = styled.div`
+const ChatWrapper = styled.div`
   display: flex;
-  padding: ${(props) => props.padding};
+  flex-direction: column;
+  height: calc(100vh - 7.2rem);
+  overflow: auto;
 `;
-const SpeeckPoint = styled.div`
-  border-top: ${(props) => props.borderTop};
-  border-right: ${(props) => props.borderRight};
-  border-left: ${(props) => props.borderLeft};
+const ChatContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 7.2rem);
+  padding-bottom: 7.2rem;
 `;
 const ChatFooter = styled.div`
+  position: absolute;
   bottom: 0rem;
   left: 0rem;
   width: 100%;
@@ -230,21 +196,4 @@ const ChatFooter = styled.div`
     border-radius: 3.3rem;
     padding: 1rem;
   }
-`;
-
-// const ChatImg = styled.img`
-//   width: 50px;
-//   height: 50px;
-//   position: absolute;
-// `;
-const ChatUser = styled.div`
-  display: flex;
-  justify-content: ${(props) => props.justifyContent};
-  padding: ${(props) => props.padding};
-`;
-const ChatTime = styled.div`
-  font-size: 0.1rem;
-`;
-const ChatWrapper = styled.div`
-  display: "flex";
 `;

@@ -4,6 +4,12 @@
   padding-top: 40%;
 }
 
+.tutorial-swiper {
+  width: 30rem;
+  height: 30rem;
+  padding-top: 0;
+}
+
 .swiper-slide {
   text-align: center;
   font-size: 18px;
@@ -29,6 +35,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .swiper-pagination-bullet {
@@ -38,4 +45,11 @@
 
 .swiper-pagination-bullet-active {
     opacity: 1;
+}
+
+.swiper-button-prev {
+  color: #CCCCCC;
+}
+.swiper-button-next {
+  color: #CCCCCC;
 }

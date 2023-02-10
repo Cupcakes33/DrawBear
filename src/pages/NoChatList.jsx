@@ -1,22 +1,15 @@
 import styled from "styled-components";
-import { flex, StContainer, StHeader } from "../UI/common";
-import NoDiaryBear from "../assets/images/noDiaryBear.webp";
-import Footer from "../components/common/Footer";
+import { flex } from "../UI/common";
+import noChatListBear from "../assets/images/noChatListBear.webp"; //혜민님 그림 이거 쓰세요
 const NoChatList = ({ h3txt = "아직 연결된 다이어리가 없어요" }) => {
   return (
     <>
-      <StContainer bgColor="#F8F8F8">
-        <StHeader flex>
-          <h1>LOGO</h1>
-        </StHeader>
-        <StNoChatContainer>
-          <StWrapper>
-            <h3>{h3txt}</h3>
-            <img src={NoDiaryBear} alt="다이어리 없을 때 곰돌이 그림" />
-          </StWrapper>
-        </StNoChatContainer>
-        <Footer />
-      </StContainer>
+      <StNoChatContainer>
+        <StWrapper>
+          <h3>{h3txt}</h3>
+          <img src={noChatListBear} alt="다이어리 없을 때 곰돌이 그림" />
+        </StWrapper>
+      </StNoChatContainer>
     </>
   );
 };

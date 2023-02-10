@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { StContainer, StHeader } from "../UI/common";
+import { flex } from "../UI/common";
 import defaultImg from "../assets/images/default_image.png";
 import { GrPrevious } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Button from "../components/common/Button";
-import { AiOutlineSetting } from "react-icons/ai";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "../apis/axios";
 import { Input, WorningWord } from "../components/common/Input";
 import useDispatchHook from "../hooks/useDispatchHook";
+import Buttons from "../components/common/Button/Buttons";
+import { Header } from "../components/common/header/Header";
 
 const Signup = () => {
   const [screenChange, setScreenChange] = useState("");
@@ -68,160 +68,153 @@ const Signup = () => {
 
   return (
     <>
-      <StContainer bgColor="#EEF3E3;">
-        <StHeader>
-          <BackButtonDiv>
-            {screenChange ? (
-              <GrPrevious onClick={onScreenChangeHandler} />
-            ) : (
-              <GrPrevious onClick={() => navigate("/login")} />
-            )}
-          </BackButtonDiv>
-        </StHeader>
-        <SlideContainerForm
-          screenChange={screenChange}
-          onSubmit={handleSubmit((data) => {
-            data.image = image.image_file;
-            const formData = new FormData();
-            formData.append("email", data.email);
-            formData.append("nickname", data.nickname);
-            formData.append("password", data.password);
-            formData.append("image", data.image);
-            mutate(formData);
-          })}
-        >
-          <PasswordSection>
-            <section>
-              <h2>회원가입</h2>
-              <div>
-                <label htmlFor="email">이메일</label>
-                <input
-                  className={errors.email ? "fail" : "pass"}
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="이메일을 입력해주세요"
-                  aria-invalid={!isDirty ? undefined : errors.email ? false : true}
-                  {...register("email", {
-                    required: "이메일은 필수 입력 값입니다.",
-                    pattern: {
-                      value: /\S+@\S+\.\S+/,
-                      message: "이메일 형식에 맞지 않습니다.",
-                    },
-                  })}
-                />
-              </div>
-              <WorningWord color={errors.email}>{errors.email?.message}</WorningWord>
-              <div>
-                <label htmlFor="password">비밀번호</label>
-                <input
-                  className={errors.password ? "fail" : "pass"}
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="*영문,숫자 조합 8자리 이상"
-                  aria-invalid={!isDirty ? undefined : errors.password ? false : true}
-                  {...register("password", {
-                    required: "필수 응답 항목입니다.",
-                    pattern: {
-                      value: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
-                      message: "영문, 숫자 조합 8자리 이상",
-                    },
-                  })}
-                />
-                <WorningWord color={errors.password}>{errors.password?.message}</WorningWord>
-                <input
-                  className={errors.passwordCheck ? "fail" : "pass"}
-                  id="passwordCheck"
-                  type="password"
-                  name="passwordCheck"
-                  placeholder="비밀번호재입력"
-                  aria-invalid={!isDirty ? undefined : errors.passwordCheck ? false : true}
-                  {...register("passwordCheck", {
-                    required: true,
-                    validate: (val) => {
-                      if (watch("password") != val) {
-                        return "비밀번호가 다릅니다.";
-                      }
-                    },
-                  })}
-                />
-              </div>
-              <WorningWord color={errors.passwordCheck}>{errors.passwordCheck?.message}</WorningWord>
+      <Header bgColor="#eef3e3">
+        <BackButtonDiv>
+          {screenChange ? (
+            <GrPrevious onClick={onScreenChangeHandler} />
+          ) : (
+            <GrPrevious onClick={() => navigate("/login")} />
+          )}
+        </BackButtonDiv>
+      </Header>
+      <SlideContainerForm
+        screenChange={screenChange}
+        onSubmit={handleSubmit((data) => {
+          data.image = image.image_file;
+          const formData = new FormData();
+          formData.append("email", data.email);
+          formData.append("nickname", data.nickname);
+          formData.append("password", data.password);
+          formData.append("image", data.image);
+          mutate(formData);
+        })}
+      >
+        <PasswordSection>
+          <section>
+            <h2>회원가입</h2>
+            <div>
+              <label htmlFor="email">이메일</label>
+              <input
+                className={errors.email ? "fail" : "pass"}
+                id="email"
+                type="email"
+                name="email"
+                placeholder="이메일을 입력해주세요"
+                aria-invalid={!isDirty ? undefined : errors.email ? false : true}
+                {...register("email", {
+                  required: "이메일은 필수 입력 값입니다.",
+                  pattern: {
+                    value: /\S+@\S+\.\S+/,
+                    message: "이메일 형식에 맞지 않습니다.",
+                  },
+                })}
+              />
+            </div>
+            <WorningWord color={errors.email}>{errors.email?.message}</WorningWord>
+            <div>
+              <label htmlFor="password">비밀번호</label>
+              <input
+                className={errors.password ? "fail" : "pass"}
+                id="password"
+                type="password"
+                name="password"
+                placeholder="*영문,숫자 조합 8자리 이상"
+                aria-invalid={!isDirty ? undefined : errors.password ? false : true}
+                {...register("password", {
+                  required: "필수 응답 항목입니다.",
+                  pattern: {
+                    value: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
+                    message: "영문, 숫자 조합 8자리 이상",
+                  },
+                })}
+              />
+              <WorningWord color={errors.password}>{errors.password?.message}</WorningWord>
+              <input
+                className={errors.passwordCheck ? "fail" : "pass"}
+                id="passwordCheck"
+                type="password"
+                name="passwordCheck"
+                placeholder="비밀번호재입력"
+                aria-invalid={!isDirty ? undefined : errors.passwordCheck ? false : true}
+                {...register("passwordCheck", {
+                  required: true,
+                  validate: (val) => {
+                    if (watch("password") !== val) {
+                      return "비밀번호가 다릅니다.";
+                    }
+                  },
+                })}
+              />
+            </div>
+            <WorningWord color={errors.passwordCheck}>{errors.passwordCheck?.message}</WorningWord>
 
-              <SignupButtonBox>
-                <button
-                  disabled={
-                    errors.email?.type === undefined &&
-                    errors.password?.type === undefined &&
-                    errors.passwordCheck?.type === undefined
-                      ? false
-                      : true
-                  }
-                  type="button"
-                  onClick={onScreenChangeHandler}
-                >
+            <SignupButtonBox>
+              {isDirty &&
+              watch("email") !== "" &&
+              watch("password") !== "" &&
+              watch("passwordCheck") !== "" &&
+              !errors.email &&
+              !errors.password &&
+              !errors.passwordCheck ? (
+                <button type="button" onClick={onScreenChangeHandler}>
                   다음
                 </button>
-              </SignupButtonBox>
-            </section>
-          </PasswordSection>
-          <ProfileSection>
-            <section>
-              <div>
-                <h2>나를 표현할</h2>
-                <h2>프로필을 꾸며보세요</h2>
-              </div>
-              <div className="profileImg-box">
-                <input
-                  {...register("image")}
-                  id="profileImg"
-                  type="file"
-                  name="profileImg"
-                  accept="image/*"
-                  onChange={imgOnChnageHandler}
-                  onClick={(e) => (e.target.value = null)}
-                  ref={(refParam) => (inputRef = refParam)}
-                ></input>
-                <img src={image.preview_URL} alt="프사" onClick={() => inputRef.click()} />
-                <Button
-                  className="profile-setting"
-                  type="button"
-                  onClick={() => inputRef.click()}
-                  icon={<AiOutlineSetting />}
-                  round
-                >
-                  파일
-                </Button>
-              </div>
-              <div className="nickInput-box">
-                <label>닉네임</label>
-                <input
-                  className={errors.nickname ? "fail" : "pass"}
-                  id="nickname"
-                  type="text"
-                  name="nickname"
-                  placeholder="닉네임을 입력해주세요"
-                  aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
-                  {...register("nickname", {
-                    required: "닉네임은 필수 입력 입니다.",
-                    minLength: {
-                      value: 2,
-                      message: "2자리 이상 닉네임을 사용하세요.",
-                    },
-                  })}
-                />
-              </div>
-              <WorningWord color={errors.nickname}>{errors.nickname?.message}</WorningWord>
-              <SignupButtonBox>
-                <button type="submit" disabled={isSubmitting}>
-                  회원가입
-                </button>
-              </SignupButtonBox>
-            </section>
-          </ProfileSection>
-        </SlideContainerForm>
-      </StContainer>
+              ) : (
+                <button disabled>다음</button>
+              )}
+            </SignupButtonBox>
+          </section>
+        </PasswordSection>
+        <ProfileSection>
+          <section>
+            <div>
+              <h2>나를 표현할</h2>
+              <h2>프로필을 꾸며보세요</h2>
+            </div>
+            <div className="profileImg-box">
+              <input
+                {...register("image")}
+                id="profileImg"
+                type="file"
+                name="profileImg"
+                accept="image/*"
+                onChange={imgOnChnageHandler}
+                onClick={(e) => (e.target.value = null)}
+                ref={(refParam) => (inputRef = refParam)}
+              ></input>
+              <img src={image.preview_URL} alt="프사" onClick={() => inputRef.click()} />
+
+              <Buttons.ProfileSetting className="profile-setting" onClick={() => inputRef.click()} />
+            </div>
+            <div className="nickInput-box">
+              <label>닉네임</label>
+              <input
+                className={errors.nickname ? "fail" : "pass"}
+                id="nickname"
+                type="text"
+                name="nickname"
+                placeholder="닉네임을 입력해주세요"
+                aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
+                {...register("nickname", {
+                  required: "닉네임은 필수 입력 입니다.",
+                  minLength: {
+                    value: 2,
+                  },
+                  maxLength: {
+                    value: 7,
+                  },
+                })}
+              />
+            </div>
+            <WorningWord color={errors.nickname}>2~7자리 닉네임을 사용하세요.</WorningWord>
+            <SignupButtonBox>
+              <button type="submit" disabled={isSubmitting}>
+                회원가입
+              </button>
+            </SignupButtonBox>
+          </section>
+        </ProfileSection>
+      </SlideContainerForm>
     </>
   );
 };
@@ -303,9 +296,7 @@ const ProfileSection = styled.section`
     padding-top: 10%;
   }
   .profileImg-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${flex("", "")}
     padding-top: 20%;
     cursor: pointer;
     #profileImg {

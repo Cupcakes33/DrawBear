@@ -7,19 +7,26 @@ const initialState = {
     smallTxt: "",
     move: "",
     diaryId: "",
-    onClick: ""
   },
+  loginModal: false,
+  tutorialModal: false,
 };
 
 const UISlice = createSlice({
   name: "INTERFACE",
   initialState,
   reducers: {
-    ErrorModal: (state, action) => {
+    __ErrorModal: (state, action) => {
       state.errorModal = action.payload
+    },
+    __LoginModal: (state, action) => {
+      state.loginModal = action.payload
+    },
+    __TutorialModal: (state, action) => {
+      state.tutorialModal = action.payload
     },
   }
 })
 
-export const { ErrorModal } = UISlice.actions
+export const { __ErrorModal, __LoginModal, __TutorialModal } = UISlice.actions
 export default UISlice.reducer

@@ -1,40 +1,28 @@
 import styled from "styled-components";
 import NavigateBtn from "../../components/common/NavigateBtn";
-import { StContainer, StHeader, StSection } from "../../UI/common";
+import { flex, StSection } from "../../UI/common";
 import { useNavigate } from "react-router-dom";
-import AlertModal from "../../components/common/modal/AlertModal";
+import { Header } from "../../components/common/header/Header";
 
 const InfoEdit = () => {
   const navigate = useNavigate();
 
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="flex-start">
-          <NavigateBtn prev sizeType="header" link="/setting" />
-          <h3>개인정보 수정</h3>
-        </StHeader>
-        <EditProfileSection flex derection="column" justify="flex-start">
-          <div className="editProfileWrapper">
-            <div onClick={() => navigate("/setting/infoEdit/password")}>
-              비밀번호 변경
-              <NavigateBtn />
-            </div>
-            <AlertModal
-              select
-              bigTxt={"로그아웃하시겠어요?"}
-              smallTxt={"다시 로그인해서 이용할 수 있어요."}
-              move={"/login"}
-              onClick={() => window.location.replace("https://finale-omega.vercel.app/login")}
-            >
-              <div>로그아웃</div>
-            </AlertModal>
-            <div onClick={() => navigate("/setting/delete")}>
-              <span>회원 탈퇴</span>
-            </div>
+      <Header>
+        <Header.Back link="/setting">개인정보 수정</Header.Back>
+      </Header>
+      <EditProfileSection flex derection="column" justify="flex-start">
+        <div className="editProfileWrapper">
+          <div onClick={() => navigate("/setting/infoEdit/password")}>
+            비밀번호 변경
+            <NavigateBtn />
           </div>
-        </EditProfileSection>
-      </StContainer>
+          <div onClick={() => navigate("/setting/delete")}>
+            <span>회원 탈퇴</span>
+          </div>
+        </div>
+      </EditProfileSection>
     </>
   );
 };
@@ -51,9 +39,7 @@ const EditProfileSection = styled(StSection)`
     font-size: 1.7rem;
     font-weight: 700;
     div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      ${flex("space-between", "")}
       cursor: pointer;
     }
     span {

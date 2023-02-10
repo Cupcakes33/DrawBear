@@ -17,21 +17,20 @@ instance.interceptors.request.use((config) => {
 
 instance.interceptors.response.use(
   (res) => {
-    res.headers["Authorization"] = getToken();
-    res.status === 401 && localStorage.removeItem("token");
     return res;
   },
   (error) => {
     const unauthorization = error.response.data.error;
     if (unauthorization?.indexOf("로그인") >= 0) {
+      localStorage.removeItem("token");
       alert("로그인 후 이용가능합니다.");
       // return window.location.replace("http://localhost:3000/login");
-      return window.location.replace("https://finale-omega.vercel.app/login");
-    }
-
-    else return Promise.reject(error);
+      return window.location.replace("https://drawbear.site/login");
+    } else return Promise.reject(error);
   }
 );
+
+// 로그인 API
 
 export const loginApi = {
   login: (inputData) =>
@@ -45,52 +44,9 @@ export const loginApi = {
   },
 };
 
-export const mypageApi = {
-  read: async () => {
-    const { data } = await instance.get("/api/userInfo");
-    return data;
-  },
-  update: async (formData) => {
-    const { data } = await instance.patch("/api/userInfo/profile", formData);
-    return data;
-  },
-  patch: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/unregister", {
-      currentPassword: inputData.password,
-    });
-    return data;
-  },
-};
-
-export const alarmApi = {
-  read: async () => {
-    const { data } = await instance.get("/api/notification/");
-    return data;
-  },
-  patch: async ({ diaryId, notificationId }) => {
-    const { data } = await instance.patch(
-      `/api/diary/invite/${diaryId}/${notificationId}`
-    );
-    return data;
-  },
-  delete: async (notificationId) => {
-    const { data } = await instance.delete(
-      `/api/notification/${notificationId}`
-    );
-    return data;
-  },
-};
-
-export const inviteApi = {
-  search: async (nickName) => {
-    const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
-    return data;
-  },
-};
-
 export const passwordApi = {
   update: async (inputData) => {
-    const { data } = await instance.patch("/api/userInfo/password", {
+    const { data } = await instance.put("/api/userInfo/password", {
       currentPassword: inputData.currentPW,
       changePassword: inputData.password,
       confirmPassword: inputData.passwordCheck,
@@ -113,7 +69,7 @@ export const mainApi = {
     return data;
   },
   update: async (updateData) => {
-    const { data } = await instance.patch(`/api/diary/${updateData.id}`, {
+    const { data } = await instance.put(`/api/diary/${updateData.id}`, {
       couple: updateData.couple,
       diaryName: updateData.diaryName,
       outsideColor: updateData.selectedColor,
@@ -129,6 +85,8 @@ export const mainApi = {
     return data;
   },
 };
+
+// 일기 조회 API
 
 export const diaryApi = {
   get: async (diaryId) => {
@@ -152,6 +110,8 @@ export const diaryApi = {
   },
 };
 
+// 일기 상세 조회 API
+
 export const postsApi = {
   post: async ({ formData, diaryId }) => {
     await instance.post(`api/post/${diaryId}`, formData);
@@ -165,7 +125,7 @@ export const postsApi = {
     await instance.delete(`/api/post/${postId}`);
   },
   patch: async ({ formData, postId }) => {
-    await instance.patch(`/api/post/${postId}`, formData);
+    await instance.put(`/api/post/${postId}`, formData);
   },
 
   bookmark: async (postId) => {
@@ -174,16 +134,95 @@ export const postsApi = {
   },
 };
 
+// 댓글 API
+
 export const commentsApi = {
   post: async ({ comment, postId }) => {
     await instance.post(`/api/comment/${postId}`, { comment: comment });
   },
 
   patch: async ({ comment, commentId }) => {
-    await instance.patch(`/api/comment/${commentId}`, { comment: comment });
+    await instance.put(`/api/comment/${commentId}`, { comment: comment });
   },
 
   delete: async (commentId) => {
     await instance.delete(`/api/comment/${commentId}`);
+  },
+};
+
+// 더보기 페이지 API
+
+export const mypageApi = {
+  read: async () => {
+    const { data } = await instance.get("/api/userInfo");
+    return data;
+  },
+  update: async (formData) => {
+    const { data } = await instance.put("/api/userInfo/profile", formData);
+    return data;
+  },
+  patch: async (inputData) => {
+    const { data } = await instance.put("/api/userInfo/unregister", {
+      currentPassword: inputData.password,
+    });
+    return data;
+  },
+  PWupdate: async (inputData) => {
+    const { data } = await instance.put("/api/userInfo/password", {
+      currentPassword: inputData.currentPW,
+      changePassword: inputData.password,
+      confirmPassword: inputData.passwordCheck,
+    });
+    return data;
+  },
+};
+
+// 알람 API
+
+export const alarmApi = {
+  read: async () => {
+    const { data } = await instance.get("/api/notification/");
+    return data;
+  },
+  chatlist: async () => {
+    const { data } = await instance.get("/api/diary/share");
+    return data;
+  },
+  patch: async ({ diaryId, notificationId }) => {
+    const { data } = await instance.put(
+      `/api/diary/inviteAccept/${diaryId}/${notificationId}`
+    );
+    return data;
+  },
+  delete: async (notificationId) => {
+    const { data } = await instance.delete(
+      `/api/notification/${notificationId}`
+    );
+    return data;
+  },
+};
+
+// 초대 API
+
+export const inviteApi = {
+  search: async (nickName) => {
+    const { data } = await instance.get(`/api/userInfo/nickname/${nickName}`);
+    return data;
+  },
+  invite: async ({ diaryId, invitedId }) => {
+    const { data } = await instance.put(
+      `/api/diary/invite/${diaryId}/${invitedId}`
+    );
+    return data;
+  },
+};
+
+// 채팅 API
+
+export const chattingApi = {
+  search: async ({ diaryId, pageParam = 1 }) => {
+    const response = await instance.get(`/api/chat/${diaryId}/${pageParam}`);
+    const { Chats, isLast } = response.data;
+    return { Chats, nextPage: pageParam + 1, isLast };
   },
 };

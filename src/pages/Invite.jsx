@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StContainer, StHeader, StSection } from "../UI/common";
+import { flex, StSection } from "../UI/common";
 import { BsSearch } from "react-icons/bs";
 import NavigateBtn from "../components/common/NavigateBtn";
 import { useRef, useState } from "react";
@@ -7,11 +7,11 @@ import Toast from "./Toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { inviteApi, mypageApi } from "../apis/axios";
 import { useQueryClient } from "@tanstack/react-query";
-import io from "socket.io-client";
-import { useEffect } from "react";
+
 import { useParams } from "react-router-dom";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Buttons from "../components/common/Button/Buttons";
+import {Header} from "../components/common/header/Header";
 
 const Invite = () => {
   const [name, setName] = useState("");
@@ -27,59 +27,70 @@ const Invite = () => {
   const nameChangeHandle = (event) => {
     setName(event.target.value);
   };
-  const { mutate } = useMutation((name) => inviteApi.search(name), {
-    onError: (error) => {
-      const status = error?.response.status;
-      if (status === 404) {
-        openAlertModal({ isModal: true, bigTxt: "닉네임을 입력해주세요" });
-      }
-      if (status === 500) {
-        openAlertModal({
-          bigTxt: "다른 사람의 닉네임을 입력해주세요",
-        });
-        setName("");
-      }
-    },
-    onSuccess: ({ userInfo }) => {
-      setInviteUserInfo({ ...userInfo });
-      queryClient.setQueryData(["searchNickname"], userInfo);
-    },
-  });
+  const { mutate: inviteSearchMutate } = useMutation(
+    (name) => inviteApi.search(name),
+    {
+      onError: (error) => {
+        const status = error?.response.status;
+        if (status === 404) {
+          openAlertModal({ isModal: true, bigTxt: "닉네임을 입력해주세요" });
+        }
+        if (status === 500) {
+          openAlertModal({
+            bigTxt: "다른 사람의 닉네임을 입력해주세요",
+          });
+          setName("");
+        }
+      },
+      onSuccess: ({ userInfo }) => {
+        setInviteUserInfo({ ...userInfo });
+        queryClient.setQueryData(["searchNickname"], userInfo);
+      },
+    }
+  );
+  const { mutate: inviteMutate } = useMutation(
+    (inviteData) => inviteApi.invite(inviteData),
+    {
+      onError: (error) => {
+        const status = error.response.status;
+        if (status === 401)
+          openAlertModal({ bigTxt: "이미 공유하고있는 다이어리 입니다." });
+      },
+      onSuccess: () => {
+        setIsInvite(!isInvite);
+        setPopup(!popup);
+      },
+    }
+  );
+
   const userSearchOnclickHandle = () => {
-    mutate(name);
+    inviteSearchMutate(name);
     setHostUserInfo({ ...data.userInfo });
   };
   const userInviteOnClickHandle = () => {
-    setIsInvite(!isInvite);
-    setPopup(!popup);
     const inviteData = {
       diaryId: Number(id),
-      hostUserId: hostUserInfo.userId,
-      invitedUserId: inviteUserInfo.userId,
+      invitedId: inviteUserInfo.userId,
     };
-    socket.current.emit("invited", inviteData);
+    inviteMutate(inviteData);
   };
 
-  useEffect(() => {
-    socket.current = io.connect(process.env.REACT_APP_MY_API);
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
   return (
-    <StContainer>
-      <StHeader flex justify="flex-start">
+    <>
+      <Header flex justify="flex-start">
         <NavigateBtn prev sizeType="header" link="/" />
         <h3>같이 쓰는 멤버 초대</h3>
-      </StHeader>
+      </Header>
       <StInviteSection>
         <StSearchInputWrapper>
-          <input
-            type="text"
-            onChange={nameChangeHandle}
-            value={name}
-            placeholder="초대 할 멤버의 닉네임을 입력해주세요."
-          ></input>
+          <div>
+            <input
+              type="text"
+              onChange={nameChangeHandle}
+              value={name}
+              placeholder="초대 할 멤버의 닉네임을 입력해주세요."
+            ></input>
+          </div>
           <Buttons.Small onClick={userSearchOnclickHandle}>검색</Buttons.Small>
         </StSearchInputWrapper>
         {Object.keys(inviteUserInfo).length !== 0 && (
@@ -109,7 +120,7 @@ const Invite = () => {
           </StSearchUserInfoWrapper>
         )}
       </StInviteSection>
-    </StContainer>
+    </>
   );
 };
 
@@ -118,12 +129,15 @@ export default Invite;
 const StInviteSection = styled(StSection)``;
 
 const StSearchInputWrapper = styled.div`
-  display: flex;
+  ${flex("", "")}
   position: relative;
-  justify-content: center;
-  align-items: center;
+  gap: 1rem;
   width: 100%;
   height: 5rem;
+  & div {
+    width: 100%;
+    height: 100%;
+  }
   input {
     width: 100%;
     height: 100%;
@@ -159,9 +173,7 @@ const StSearchUserInfoWrapper = styled.div`
 `;
 
 const StSearchUserInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${flex("space-between", "")}
   width: 100%;
   height: 5rem;
   padding: 0 1rem;
@@ -174,10 +186,7 @@ const StSearchUserInfo = styled.div`
     margin-right: 1rem;
   }
   div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    ${flex("", "flex-start", "column")}
     width: 100%;
     height: 100%;
     span {

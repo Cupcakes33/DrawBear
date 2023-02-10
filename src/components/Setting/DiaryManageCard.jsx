@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { diaryData } from "../../redux/modules/diarySlice";
-import { DisplayDiv, flex } from "../../UI/common";
-import Button from "../common/Button";
+import { __diaryData } from "../../redux/modules/diarySlice";
+import { flex } from "../../UI/common";
+import Buttons from "../common/Button/Buttons";
 import DiaryDeleteModal from "./DiaryDeleteModal";
 
 const DiaryManageCard = ({ data }) => {
@@ -22,9 +22,7 @@ const DiaryManageCard = ({ data }) => {
               </div>
               <div>
                 <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`}>
-                  <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
-                    삭제하기
-                  </Button>
+                  <Buttons.Invite onClick={() => dispatch(__diaryData(diaryId))}>삭제하기</Buttons.Invite>
                 </DiaryDeleteModal>
               </div>
             </DisplayDiv>
@@ -35,7 +33,7 @@ const DiaryManageCard = ({ data }) => {
             <DisplayDiv flex justify="space-between">
               <div>
                 {invitedNickname === null ? (
-                  <span>수락 대기중...</span>
+                  <span>아직 상대방이 없어요!</span>
                 ) : (
                   <ConnectedUserProfile>
                     <img src={invitedProfileImg} alt="프사" />
@@ -45,9 +43,7 @@ const DiaryManageCard = ({ data }) => {
               </div>
               <div>
                 <DiaryDeleteModal bigTxt={`${diaryName}을(를) 삭제하시겠어요?`} diaryId={diaryId}>
-                  <Button size="small" onClick={() => dispatch(diaryData(diaryId))}>
-                    탈퇴하기
-                  </Button>
+                  <Buttons.Invite onClick={() => dispatch(__diaryData(diaryId))}>연결끊기</Buttons.Invite>
                 </DiaryDeleteModal>
               </div>
             </DisplayDiv>
@@ -79,4 +75,8 @@ const ConnectedUserProfile = styled.div`
   img {
     width: 3rem;
   }
+`;
+
+const DisplayDiv = styled.div`
+  ${flex("space-between", "")}
 `;

@@ -1,18 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-
-import ListPageDropdown from "../common/dropdown/ListPageDropdown";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postsApi } from "../../apis/axios";
 import Buttons from "../common/Button/Buttons";
+import { flex } from "../../UI/common";
 
 const DiaryCard = ({ postData }) => {
   const queryClient = useQueryClient();
   const naigate = useNavigate();
   const {
     postId,
-    diaryId,
     nickname,
     title,
     image,
@@ -44,12 +42,13 @@ const DiaryCard = ({ postData }) => {
     naigate(`/detail/${postId}`);
   };
 
+  
+
   return (
     <StDiaryCardContainer>
       <StTitleWrapper>
         <div className="postOptionbox">
           <h4 onClick={redirectDetailpage}>{title}</h4>
-          <ListPageDropdown postId={postId} diaryId={diaryId} />
         </div>
         <div className="writerInfoBox">
           <img src={profileImg} alt="프사" />
@@ -86,21 +85,21 @@ const StDiaryCardContainer = styled.div`
 `;
 const StTitleWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  ${flex("space-between", "", "row")}
   .postOptionbox {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1.2rem;
+    h4 {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 15rem;
+    }
   }
   .writerInfoBox {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    ${flex("space-between", "", "row")}
     gap: 1rem;
     img {
       width: 3rem;
@@ -120,10 +119,7 @@ const StImageWrapper = styled.div`
 
 const StConfigWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  ${flex("space-between", "", "row")}
   div:last-child {
     display: flex;
     flex-direction: row;

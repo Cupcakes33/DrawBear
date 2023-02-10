@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { TiPencil } from "react-icons/ti";
 import { VscBell } from "react-icons/vsc";
 import { BsDot } from "react-icons/bs";
-import { StContainer, StSection, StHeader } from "../../UI/common";
+import { StSection, flex } from "../../UI/common";
 import { alarmApi, mypageApi } from "../../apis/axios";
-import NavigateBtn from "../../components/common/NavigateBtn";
 import Footer from "../../components/common/Footer";
-import AlertModal from "../../components/common/modal/AlertModal";
+import Buttons from "../../components/common/Button/Buttons";
+import { Header } from "../../components/common/header/Header";
+import SettingMenu from "../../components/Setting/SettingMenu";
 
 const Setting = () => {
   const [myProfileData, setMyProfileData] = useState({});
@@ -20,57 +20,45 @@ const Setting = () => {
   });
   const { data } = useQuery(["setting"], mypageApi.read);
   const [profileImg, setProfileImg] = useState("");
+
   useEffect(() => {
     setProfileImg(data?.userInfo.profileImg);
     setMyProfileData(data?.userInfo);
   }, [data]);
 
   return (
-    <StContainer>
-      <StHeader flex justify="space-between">
-        <h3>더보기</h3>
-        <AlarmDiv onClick={() => navigate("/setting/alarm")}>
-          {alarmData?.Notifications?.length ? <BsDot className="alarm-dot" /> : null}
-          <VscBell className="alarm" />
-        </AlarmDiv>
-      </StHeader>
+    <>
+      <Header>
+        <Header.SpaceBetween>
+          <Header.Back notBack>더보기</Header.Back>
+          <Header.OnClickBtn
+            color="#242424"
+            onClick={() => navigate("/setting/alarm")}
+          >
+            <AlarmDiv>
+              {alarmData?.Notifications?.length ? (
+                <BsDot className="alarm-dot" />
+              ) : null}
+              <VscBell className="alarm" />
+            </AlarmDiv>
+          </Header.OnClickBtn>
+        </Header.SpaceBetween>
+      </Header>
       <StMypageSection flex derection="column" justify="flex-start">
         <div className="myProfileInfoWrapper">
           <div onClick={() => navigate("/setting/profileEdit")}>
             <img src={profileImg} alt="myProfileImg" />
             <div className="pencilIcon-box">
-              <TiPencil />
+              <Buttons.ProfileSetting />
             </div>
           </div>
           <span>{myProfileData?.nickname}</span>
           <span>{myProfileData?.email}</span>
         </div>
-        <ConfigOptionWrapper>
-          <div>
-            일기 설정
-            <NavigateBtn link={"/setting/diaryManage"} />
-          </div>
-          <div>
-            개인정보 수정
-            <NavigateBtn link={"/setting/infoEdit"} />
-          </div>
-          <div></div>
-          <div>
-            공지사항
-            <AlertModal bigTxt={"공지사항이 없어요!"} smallTxt={"그냥 허전해서 달아놓아보았어요!"}>
-              <NavigateBtn link={""} />
-            </AlertModal>
-          </div>
-          <div>
-            문의하기
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScZLlTNYpVAHXxnPFuSYZytsVJXl9SD_Cv6q48BUD507rxJ9A/viewform">
-              <NavigateBtn link={""} />
-            </a>
-          </div>
-        </ConfigOptionWrapper>
+        <SettingMenu />
       </StMypageSection>
       <Footer />
-    </StContainer>
+    </>
   );
 };
 
@@ -91,7 +79,6 @@ const AlarmDiv = styled.div`
 `;
 
 const StMypageSection = styled(StSection)`
-  background-color: var(--main_bg);
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {
@@ -104,6 +91,7 @@ const StMypageSection = styled(StSection)`
       width: 10rem;
       height: 10rem;
       border-radius: 50%;
+      object-fit: cover;
     }
     .pencilIcon-box {
       width: 3.4rem;
@@ -114,9 +102,7 @@ const StMypageSection = styled(StSection)`
       position: absolute;
       top: 14rem;
       left: 55%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      ${flex}
     }
     div {
       cursor: pointer;
@@ -130,20 +116,5 @@ const StMypageSection = styled(StSection)`
         color: #8c8c8c;
       }
     }
-  }
-`;
-
-const ConfigOptionWrapper = styled.div`
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2rem;
-  div {
-    font-size: 1.7rem;
-    font-weight: 700;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 `;

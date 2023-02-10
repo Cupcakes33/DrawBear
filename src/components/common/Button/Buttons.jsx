@@ -1,10 +1,11 @@
 import Button from "./Button";
-import { BsPlus, BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { BsPlus, BsStar, BsStarFill } from "react-icons/bs";
 import { TiPencil } from "react-icons/ti";
 import { FaArrowUp } from "react-icons/fa";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { AiOutlineSetting } from "react-icons/ai";
 const AddDiary = ({ ...rest }) => {
   return (
     <Button
@@ -48,6 +49,36 @@ const AddComment = ({ ...rest }) => {
       {...rest}
     >
       <FaArrowUp />
+    </Button>
+  );
+};
+
+const ProfileSetting = ({ ...rest }) => {
+  return (
+    <Button
+      fs="2rem"
+      bc="#cccccc"
+      color="#f8f8f8"
+      innerPadding=".8rem"
+      round
+      {...rest}
+    >
+      <AiOutlineSetting />
+    </Button>
+  );
+};
+
+const CommentDropdownSwitch = ({ ...rest }) => {
+  return (
+    <Button
+      fs="2rem"
+      bc="white"
+      color="#cccccc"
+      innerPadding=".8rem"
+      round
+      {...rest}
+    >
+      <BiDotsVerticalRounded />
     </Button>
   );
 };
@@ -110,7 +141,7 @@ const Invite = ({ children, isInvited, ...rest }) => {
 const Bookmark = ({ isBookmarked, ...rest }) => {
   const customProps = {};
   isBookmarked
-    ? (customProps.color = "#3cc7a6")
+    ? (customProps.color = "#FFd88D")
     : (customProps.color = "#cccccc");
   return (
     <Button
@@ -120,7 +151,7 @@ const Bookmark = ({ isBookmarked, ...rest }) => {
       {...customProps}
       {...rest}
     >
-      {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
+      {isBookmarked ? <BsStarFill /> : <BsStar />}
     </Button>
   );
 };
@@ -174,6 +205,8 @@ const Buttons = {
   AddDiary,
   AddComment,
   AddPost,
+  CommentDropdownSwitch,
+  ProfileSetting,
   Medium,
   Small,
   Invite,

@@ -27,12 +27,14 @@ const BookmarkTab = ({ diaryData }) => {
             ></Diary>
             {couple === 1 ? (
               invitedNickname === null ? (
-                null
+                <div className="unConnected-user">
+                  <span>아직 상대방이 없어요!</span>
+                </div>
               ) : (
-                <ConnectedUserProfile>
+                <div className="connected-user">
                   <img src={invitedProfileImg} alt="상대방 프사" />
                   <span>{`${invitedNickname}님과 함께써요`}</span>
-                </ConnectedUserProfile>
+                </div>
               )
             ) : null}
           </DiaryCardBox>
@@ -45,10 +47,11 @@ const BookmarkTab = ({ diaryData }) => {
 export default BookmarkTab;
 
 const BookmarkSection = styled.section`
+  position: absolute;
   display: flex;
   flex-wrap: wrap;
   gap: 2.4rem;
-  padding: 3rem;
+  padding: 3rem 3rem 10.6rem 3rem;
 `;
 
 const DiaryCardBox = styled.div`
@@ -61,18 +64,17 @@ const DiaryCardBox = styled.div`
   span {
     font-size: 1rem;
   }
-  .not-couple {
-    /* margin: -2rem 0 ; */
-    display: flex;
-    
+  .unConnected-user {
+    display: block;
+    text-align: center;
+    margin-top: -1.5rem;
+  }
+  .connected-user {
+    ${flex}
+    margin-top: -1rem;
   }
   img {
     width: 1.8rem;
     height: 1.8rem;
   }
-`;
-
-const ConnectedUserProfile = styled.div`
-  ${flex}
-  margin-top: -1rem;
 `;

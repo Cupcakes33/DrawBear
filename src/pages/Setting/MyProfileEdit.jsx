@@ -1,15 +1,14 @@
-import { StContainer, StSection, StHeader, DisplayDiv } from "../../UI/common";
+import { StSection, flex } from "../../UI/common";
 import styled from "styled-components";
 import Footer from "../../components/common/Footer";
-import NavigateBtn from "../../components/common/NavigateBtn";
-import { TiPencil } from "react-icons/ti";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { mypageApi } from "../../apis/axios";
 import { useEffect, useState } from "react";
-import Button from "../../components/common/Button";
 import { useForm } from "react-hook-form";
 import useDispatchHook from "../../hooks/useDispatchHook";
 import { Input, WorningWord } from "../../components/common/Input";
+import Buttons from "../../components/common/Button/Buttons";
+import { Header } from "../../components/common/header/Header";
 
 const MyProfileEdit = () => {
   const { openAlertModal } = useDispatchHook();
@@ -70,71 +69,69 @@ const MyProfileEdit = () => {
 
   return (
     <>
-      <StContainer>
-        <StHeader flex justify="space-between">
-          <DisplayDiv flex>
-            <NavigateBtn prev sizeType="header" link="/setting" />
-            <h3>프로필 수정</h3>
-          </DisplayDiv>
-          <span onClick={handleSubmit(onSubmit)}>수정</span>
-        </StHeader>
-        <form>
-          <MyProfileSection flex derection="column" justify="flex-start">
+      <Header>
+        <Header.SpaceBetween>
+          <Header.Back link="/setting">프로필 수정</Header.Back>
+          <Header.OnClickBtn onClick={handleSubmit(onSubmit)}>수정</Header.OnClickBtn>
+        </Header.SpaceBetween>
+      </Header>
+      <form>
+        <MyProfileSection flex derection="column" justify="flex-start">
+          <div>
+            <input
+              {...register("image")}
+              id="profileImg"
+              type="file"
+              name="profileImg"
+              accept="image/*"
+              onChange={imgOnChnageHandler}
+              onClick={(e) => (e.target.value = null)}
+              ref={(refParam) => (inputRef = refParam)}
+              style={{ display: "none " }}
+            ></input>
+            <div className="myProfileInfoWrapper">
+              <img src={image.preview_URL} alt="" onClick={() => inputRef.click()} />
+
+              <Buttons.ProfileSetting className="profile-edit" onClick={() => inputRef.click()} />
+            </div>
+          </div>
+          <AccountInfoBox>
             <div>
-              <input
-                {...register("image")}
-                id="profileImg"
-                type="file"
-                name="profileImg"
-                accept="image/*"
-                onChange={imgOnChnageHandler}
-                onClick={(e) => (e.target.value = null)}
-                ref={(refParam) => (inputRef = refParam)}
-                style={{ display: "none " }}
-              ></input>
-              <div className="myProfileInfoWrapper">
-                <img src={image.preview_URL} alt="" onClick={() => inputRef.click()} />
-                <div className="pencilIcon-box">
-                  <Button type="button" onClick={() => inputRef.click()} icon={<TiPencil />} round></Button>
-                </div>
+              <label>이메일</label>
+              <span>{data?.userInfo.email}</span>
+            </div>
+            <div>
+              <label>닉네임</label>
+              <div className="nickName_container" style={{ flexDirection: "column" }}>
+                <input
+                  className={errors.nickname ? "fail" : "pass"}
+                  id="nickname"
+                  type="text"
+                  name="nickname"
+                  placeholder="닉네임을 입력해주세요"
+                  defaultValue={nick}
+                  onChange={nickChangeHandle}
+                  aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
+                  {...register("nickname", {
+                    minLength: {
+                      value: 2,
+                    },
+                    maxLength: {
+                      value: 7,
+                    },
+                  })}
+                />
               </div>
             </div>
-            <AccountInfoBox>
-              <div>
-                <label>이메일</label>
-                <span>{data?.userInfo.email}</span>
-              </div>
-              <div>
-                <span className="nickName_txt">닉네임</span>
-                <div className="nickName_container" style={{ flexDirection: "column" }}>
-                  <input
-                    className={errors.nickname ? "fail" : "pass"}
-                    id="nickname"
-                    type="text"
-                    name="nickname"
-                    placeholder="닉네임을 입력해주세요"
-                    defaultValue={nick}
-                    onChange={nickChangeHandle}
-                    aria-invalid={!isDirty ? undefined : errors.nickname ? "true" : "false"}
-                    {...register("nickname", {
-                      minLength: {
-                        value: 2,
-                        message: "2자리 이상 닉네임을 사용하세요.",
-                      },
-                    })}
-                  />
-                </div>
-              </div>
-              <div>
-                <WorningWord color={errors?.nickname?.type} margin="-3rem 0 0 6.5rem">
-                  {errors.nickname?.message}
-                </WorningWord>
-              </div>
-            </AccountInfoBox>
-          </MyProfileSection>
-        </form>
-        <Footer />
-      </StContainer>
+            <div>
+              <WorningWord color={errors?.nickname?.type} margin="-3rem 0 0 6.5rem">
+                2~7자리 닉네임을 사용하세요.
+              </WorningWord>
+            </div>
+          </AccountInfoBox>
+        </MyProfileSection>
+      </form>
+      <Footer />
     </>
   );
 };
@@ -145,24 +142,18 @@ const MyProfileSection = styled(StSection)`
   padding-top: 20%;
   overflow-x: hidden;
   .myProfileInfoWrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     margin-bottom: 2rem;
   }
-  .pencilIcon-box {
-    width: 3.4rem;
-    height: 3.4rem;
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
-    background-color: white;
-    border-radius: 50%;
+  .profile-edit {
     position: absolute;
-    top: 17%;
-    left: 55%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    bottom: 0;
+    right: 0;
+    ${flex("", "")}
   }
   .nickName-box {
     padding: 10%;
@@ -185,15 +176,15 @@ const AccountInfoBox = styled.div`
   div {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.3rem;
   }
   label {
-    font-size: 2.6rem;
+    font-size: 2rem;
     font-weight: 700;
   }
   span {
     font-size: 1.4rem;
     color: #8c8c8c;
   }
-  ${Input("#F5F5F5", "105%", "0 0 0 1.4rem")}
+  ${Input("#F5F5F5", "105%", "0 0 0 0.3rem")}
 `;

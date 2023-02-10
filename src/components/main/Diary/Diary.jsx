@@ -35,7 +35,7 @@ const Diary = (props) => {
 
   return (
     <DiaryIcon size={size} bgcolor={bgColor ? bgColor : "#E9E9E9"} onClick={onClick}>
-      {bookmark === 0 ? (
+      {bookmark === 0 || bookmark === undefined ? (
         <img src={unbookmarked} alt="노북마크" className="bookmark" onClick={bookmarkHandler} />
       ) : (
         <img src={bookmarked} alt="북마크" className="bookmark" onClick={bookmarkHandler} />

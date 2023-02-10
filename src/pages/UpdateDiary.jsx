@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { mainApi } from "../apis/axios";
-import NavigateBtn from "../components/common/NavigateBtn";
 import Diary from "../components/main/Diary/Diary";
-import { DisplayDiv, StHeader } from "../UI/common";
 import { TiPencil } from "react-icons/ti";
 import soloDiaryBear from "../assets/images/soloDiaryBear.webp";
 import coupleDiaryBear from "../assets/images/coupleDiaryBear.webp";
 import useDispatchHook from "../hooks/useDispatchHook";
 import Loading from "../components/common/Loading";
+import { Header } from "../components/common/header/Header";
+import { ColorPicker, CreateDiaryBox, CreateLogoBear, Footer } from "./CreateDiary";
 
 const color = ["#FF8181", "#FFCA7A", "#FFE99A", "#A4F5A3", "#9CDBF7", "#BB9EFA"];
 
@@ -56,16 +56,13 @@ const UpdateDiary = () => {
       {updateDiaryData === undefined ? (
         <Loading>알 수 없는 에러! 3초 뒤 메인화면으로 이동합니다...</Loading>
       ) : (
-        <Container>
-          <StHeader flex justify="space-between">
-            <DisplayDiv flex>
-              <NavigateBtn prev sizeType="header" link="/" />
-              <h3>다이어리 수정</h3>
-            </DisplayDiv>
-            <div>
-              <span onClick={onUpdateDiaryHandler}>완성</span>
-            </div>
-          </StHeader>
+        <>
+          <Header>
+            <Header.SpaceBetween>
+              <Header.Back link="/">다이어리 수정</Header.Back>
+              <Header.OnClickBtn onClick={onUpdateDiaryHandler}>완성</Header.OnClickBtn>
+            </Header.SpaceBetween>
+          </Header>
           <UpdateDiaryBox>
             <UpdateLogoBear>
               <img src={couple === 0 ? soloDiaryBear : coupleDiaryBear} alt="다이어리 생성 곰돌이 그림" />
@@ -76,19 +73,19 @@ const UpdateDiary = () => {
             </div>
             <input type="text" defaultValue={updateDiaryData[0].diaryName} ref={diaryTitleInputRef} />
             <Diary bgColor={selectedColor} />
+            <UpdateDiaryFooter>
+              {color.map((color, i) => {
+                return (
+                  <UpdateDiaryColorPicker
+                    key={`updateDiaryColorPicker${i}`}
+                    color={color}
+                    onClick={() => setSelectedColor(color)}
+                  ></UpdateDiaryColorPicker>
+                );
+              })}
+            </UpdateDiaryFooter>
           </UpdateDiaryBox>
-          <Footer>
-            {color.map((color, i) => {
-              return (
-                <ColorPicker
-                  key={`updateDiaryColorPicker${i}`}
-                  color={color}
-                  onClick={() => setSelectedColor(color)}
-                ></ColorPicker>
-              );
-            })}
-          </Footer>
-        </Container>
+        </>
       )}
     </>
   );
@@ -96,81 +93,10 @@ const UpdateDiary = () => {
 
 export default UpdateDiary;
 
-const Container = styled.div`
-  width: 36rem;
-  height: 100vh;
-  border: 1px solid black;
-  background-color: white;
-  position: relative;
-`;
+const UpdateDiaryBox = styled(CreateDiaryBox)``;
 
-const UpdateDiaryBox = styled.section`
-  width: 100%;
-  height: calc(100% - 16.2rem);
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  input {
-    margin-bottom: 2rem;
-    width: 20.3rem;
-    height: 4.3rem;
-    background: #fafafa;
-    border-radius: 6px;
-    border: none;
-    padding: 0 3rem 0 1rem;
-  }
-  .pencilIcon-box {
-    position: absolute;
-    top: calc(50% - 18.75rem);
-    left: calc(50% + 7.5rem);
-  }
-`;
+const UpdateLogoBear = styled(CreateLogoBear)``;
 
-const UpdateLogoBear = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 10%;
-  left: calc(50% - 15rem);
-  cursor: pointer;
-  img {
-    width: 4.2rem;
-    height: 4.2rem;
-  }
-  span {
-    font-size: 1rem;
-    margin-top: 0.6rem;
-  }
-`;
+const UpdateDiaryFooter = styled(Footer)``;
 
-const Footer = styled.footer`
-  position: absolute;
-  bottom: 2%;
-  left: 0;
-  width: 100%;
-  height: 7.2rem;
-  background-color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-`;
-
-const ColorPicker = styled.button`
-  width: 3.6rem;
-  height: 3.6rem;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  background-color: ${(props) => props.color};
-  transition: all 0.3s;
-  :hover {
-    transform: scale(1.1);
-  }
-  :focus {
-    transform: scale(1.1);
-  }
-`;
+const UpdateDiaryColorPicker = styled(ColorPicker)``;
