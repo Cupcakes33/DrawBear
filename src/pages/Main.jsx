@@ -44,21 +44,15 @@ const Main = () => {
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
+      <LogoHeader />
+      {diaryType(data?.diaries)?.length === 0 ? (
+        <NoDiary />
+      ) : diaryTypes.bookmark ? (
+        <BookmarkTab diaryData={diaryType(data?.diaries)} />
       ) : (
-        <>
-          <LogoHeader />
-          {diaryType(data?.diaries)?.length === 0 ? (
-            <NoDiary />
-          ) : diaryTypes.bookmark ? (
-            <BookmarkTab diaryData={diaryType(data?.diaries)} />
-          ) : (
-            <DiaryList diaryData={diaryType(data?.diaries)} />
-          )}
-          <Footer />
-        </>
+        <DiaryList diaryData={diaryType(data?.diaries)} />
       )}
+      <Footer />
     </>
   );
 };
