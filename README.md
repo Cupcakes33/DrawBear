@@ -10,7 +10,7 @@
 
 ✨ 너와 내가 그리는 우리의 그림일기. 쓰곰 그리곰 입니다 🥰
 
-👉🏻[쓰곰 그리곰 이용해보기!](https://www.drawbear.site/) <br>
+👉🏻[쓰곰 그리곰 이용해보기!](https://drawbear.site/) <br>
 👉🏻[쓰곰 그리곰 팀 노션!](https://www.notion.so/jinsoldev/560f3f7c6acf451d9d21c5f309e73921)
 
 <br>
